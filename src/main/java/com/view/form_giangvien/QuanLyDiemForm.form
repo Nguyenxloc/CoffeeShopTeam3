@@ -1,0 +1,488 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Form version="1.3" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JPanelFormInfo">
+  <AuxValues>
+    <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
+    <AuxValue name="FormSettings_autoSetComponentName" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_generateFQN" type="java.lang.Boolean" value="true"/>
+    <AuxValue name="FormSettings_generateMnemonicsCode" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_i18nAutoMode" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_layoutCodeTarget" type="java.lang.Integer" value="1"/>
+    <AuxValue name="FormSettings_listenerGenerationStyle" type="java.lang.Integer" value="0"/>
+    <AuxValue name="FormSettings_variablesLocal" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_variablesModifier" type="java.lang.Integer" value="2"/>
+  </AuxValues>
+
+  <Layout>
+    <DimensionLayout dim="0">
+      <Group type="103" groupAlignment="0" attributes="0">
+          <Component id="jTabbedPane1" alignment="0" max="32767" attributes="0"/>
+      </Group>
+    </DimensionLayout>
+    <DimensionLayout dim="1">
+      <Group type="103" groupAlignment="0" attributes="0">
+          <Component id="jTabbedPane1" alignment="0" max="32767" attributes="0"/>
+      </Group>
+    </DimensionLayout>
+  </Layout>
+  <SubComponents>
+    <Container class="javax.swing.JTabbedPane" name="jTabbedPane1">
+
+      <Layout class="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout"/>
+      <SubComponents>
+        <Container class="javax.swing.JPanel" name="jPanel1">
+          <Constraints>
+            <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout" value="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout$JTabbedPaneConstraintsDescription">
+              <JTabbedPaneConstraints tabName="Nh&#x1ead;p &#x111;i&#x1ec3;m">
+                <Property name="tabTitle" type="java.lang.String" value="Nh&#x1ead;p &#x111;i&#x1ec3;m"/>
+              </JTabbedPaneConstraints>
+            </Constraint>
+          </Constraints>
+
+          <Layout>
+            <DimensionLayout dim="0">
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" attributes="0">
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Component id="jPanel4" max="32767" attributes="0"/>
+                          <Component id="jPanel9" max="32767" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="jPanel5" max="32767" attributes="0"/>
+                  </Group>
+              </Group>
+            </DimensionLayout>
+            <DimensionLayout dim="1">
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" attributes="0">
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" attributes="0">
+                              <Component id="jPanel4" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="jPanel9" max="32767" attributes="0"/>
+                          </Group>
+                          <Component id="jPanel5" max="32767" attributes="0"/>
+                      </Group>
+                      <EmptySpace max="-2" attributes="0"/>
+                  </Group>
+              </Group>
+            </DimensionLayout>
+          </Layout>
+          <SubComponents>
+            <Container class="javax.swing.JPanel" name="jPanel4">
+              <Properties>
+                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="ff" green="ff" red="ff" type="rgb"/>
+                </Property>
+              </Properties>
+
+              <Layout>
+                <DimensionLayout dim="0">
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" attributes="0">
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="lblMaSinhVien" linkSize="2" alignment="0" max="32767" attributes="0"/>
+                              <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
+                                  <Component id="lblMonHoc" linkSize="2" alignment="0" pref="86" max="32767" attributes="0"/>
+                                  <Component id="lblLopHoc" linkSize="2" alignment="0" pref="86" max="32767" attributes="0"/>
+                                  <Component id="lblMuaHoc" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="lblChuyenNganh" linkSize="2" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="lblNamHoc" alignment="0" max="32767" attributes="0"/>
+                              </Group>
+                          </Group>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="cbbMonHoc" linkSize="16" min="-2" pref="140" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                                  <Component id="cbbChuyenNganh" linkSize="16" pref="193" max="32767" attributes="0"/>
+                                  <Component id="cbbMuaHoc" linkSize="16" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="cbbLopHoc" linkSize="16" alignment="0" min="-2" pref="180" max="-2" attributes="0"/>
+                                  <Component id="cbbNamHoc" linkSize="16" alignment="0" max="32767" attributes="0"/>
+                              </Group>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <Component id="txtMaSV" min="-2" pref="116" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="btnTim" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
+                          <EmptySpace max="32767" attributes="0"/>
+                      </Group>
+                  </Group>
+                </DimensionLayout>
+                <DimensionLayout dim="1">
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" attributes="0">
+                          <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="lblMaSinhVien" linkSize="1" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
+                              <Component id="txtMaSV" linkSize="14" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
+                              <Component id="btnTim" linkSize="14" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                              <Component id="lblNamHoc" linkSize="1" min="-2" pref="25" max="-2" attributes="0"/>
+                              <Group type="102" attributes="0">
+                                  <EmptySpace min="2" pref="2" max="-2" attributes="0"/>
+                                  <Component id="cbbNamHoc" linkSize="14" max="32767" attributes="0"/>
+                              </Group>
+                          </Group>
+                          <EmptySpace max="32767" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="cbbMuaHoc" linkSize="14" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
+                              <Component id="lblMuaHoc" linkSize="1" alignment="3" min="-2" pref="25" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="lblChuyenNganh" linkSize="1" alignment="3" min="-2" pref="25" max="-2" attributes="0"/>
+                              <Component id="cbbChuyenNganh" linkSize="14" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="lblMonHoc" linkSize="1" alignment="3" min="-2" pref="25" max="-2" attributes="0"/>
+                              <Component id="cbbMonHoc" linkSize="14" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="lblLopHoc" linkSize="1" alignment="3" min="-2" pref="25" max="-2" attributes="0"/>
+                              <Component id="cbbLopHoc" linkSize="14" alignment="3" min="-2" pref="26" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace max="-2" attributes="0"/>
+                      </Group>
+                  </Group>
+                </DimensionLayout>
+              </Layout>
+              <SubComponents>
+                <Component class="javax.swing.JLabel" name="lblMaSinhVien">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="M&#xe3; sinh vi&#xea;n: "/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JTextField" name="txtMaSV">
+                </Component>
+                <Component class="javax.swing.JLabel" name="lblChuyenNganh">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Chuy&#xea;n ng&#xe0;nh: "/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JLabel" name="lblMonHoc">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="M&#xf4;n h&#x1ecd;c"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JLabel" name="lblLopHoc">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="L&#x1edb;p h&#x1ecd;c: "/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JLabel" name="lblMuaHoc">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="M&#xf9;a h&#x1ecd;c: "/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JComboBox" name="cbbChuyenNganh">
+                  <Properties>
+                    <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                      <StringArray count="0"/>
+                    </Property>
+                  </Properties>
+                  <AuxValues>
+                    <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+                  </AuxValues>
+                </Component>
+                <Component class="javax.swing.JComboBox" name="cbbMuaHoc">
+                  <Properties>
+                    <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                      <StringArray count="0"/>
+                    </Property>
+                  </Properties>
+                  <AuxValues>
+                    <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+                  </AuxValues>
+                </Component>
+                <Component class="javax.swing.JComboBox" name="cbbMonHoc">
+                  <Properties>
+                    <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                      <StringArray count="0"/>
+                    </Property>
+                  </Properties>
+                  <AuxValues>
+                    <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+                  </AuxValues>
+                </Component>
+                <Component class="javax.swing.JComboBox" name="cbbLopHoc">
+                  <Properties>
+                    <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                      <StringArray count="0"/>
+                    </Property>
+                  </Properties>
+                  <AuxValues>
+                    <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+                  </AuxValues>
+                </Component>
+                <Component class="javax.swing.JButton" name="btnTim">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="T&#xec;m"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnTimActionPerformed"/>
+                  </Events>
+                </Component>
+                <Component class="javax.swing.JLabel" name="lblNamHoc">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="N&#x103;m h&#x1ecd;c: "/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JComboBox" name="cbbNamHoc">
+                  <Properties>
+                    <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                      <StringArray count="3">
+                        <StringItem index="0" value="2021"/>
+                        <StringItem index="1" value="2022"/>
+                        <StringItem index="2" value="2023"/>
+                      </StringArray>
+                    </Property>
+                  </Properties>
+                  <AuxValues>
+                    <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+                  </AuxValues>
+                </Component>
+              </SubComponents>
+            </Container>
+            <Container class="javax.swing.JPanel" name="jPanel9">
+              <Properties>
+                <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                  <Color blue="ff" green="ff" red="ff" type="rgb"/>
+                </Property>
+              </Properties>
+
+              <Layout>
+                <DimensionLayout dim="0">
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" attributes="0">
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="1" attributes="0">
+                              <Component id="btnNhapDiem" linkSize="17" min="-2" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                  <Component id="lblAssignment" linkSize="3" alignment="0" min="-2" pref="78" max="-2" attributes="0"/>
+                                  <Component id="lblLab3" linkSize="3" alignment="0" min="-2" pref="47" max="-2" attributes="0"/>
+                                  <Component id="lblLab1" linkSize="3" alignment="0" min="-2" pref="47" max="-2" attributes="0"/>
+                                  <Component id="lblLab2" linkSize="3" alignment="0" min="-2" pref="53" max="-2" attributes="0"/>
+                                  <Component id="lblLab4" linkSize="3" alignment="0" min="-2" pref="47" max="-2" attributes="0"/>
+                                  <Component id="lblDiemThi" linkSize="3" alignment="0" min="-2" pref="78" max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="102" attributes="0">
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="txtLab1" linkSize="18" alignment="0" min="-2" pref="190" max="-2" attributes="0"/>
+                                      <Component id="txtLab4" linkSize="18" alignment="0" min="-2" pref="190" max="-2" attributes="0"/>
+                                      <Component id="jLabel10" alignment="0" min="-2" pref="97" max="-2" attributes="0"/>
+                                      <Component id="txtAssignment" linkSize="18" alignment="0" max="32767" attributes="0"/>
+                                      <Component id="txtDiemThi" linkSize="18" alignment="0" max="32767" attributes="0"/>
+                                      <Group type="102" alignment="0" attributes="0">
+                                          <EmptySpace min="-2" pref="6" max="-2" attributes="0"/>
+                                          <Component id="btnSuaDiem" linkSize="17" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                          <Component id="btnLamMoi" linkSize="17" min="-2" max="-2" attributes="0"/>
+                                      </Group>
+                                  </Group>
+                                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                              </Group>
+                              <Group type="102" alignment="1" attributes="0">
+                                  <Component id="txtLab3" linkSize="18" min="-2" pref="190" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
+                              </Group>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <Component id="txtLab2" linkSize="18" min="-2" pref="190" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
+                      </Group>
+                  </Group>
+                </DimensionLayout>
+                <DimensionLayout dim="1">
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" alignment="0" attributes="0">
+                          <Component id="jLabel10" min="-2" pref="32" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="19" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="102" attributes="0">
+                                  <Component id="txtLab1" linkSize="4" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
+                                  <Component id="txtLab3" linkSize="4" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="txtLab4" linkSize="4" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="txtAssignment" linkSize="4" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <Group type="102" attributes="0">
+                                  <Component id="lblLab1" linkSize="4" min="-2" pref="24" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="3" attributes="0">
+                                      <Component id="lblLab2" linkSize="4" alignment="3" min="-2" pref="24" max="-2" attributes="0"/>
+                                      <Component id="txtLab2" linkSize="4" alignment="3" min="-2" max="-2" attributes="0"/>
+                                  </Group>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="lblLab3" linkSize="4" min="-2" pref="24" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="lblLab4" linkSize="4" min="-2" pref="24" max="-2" attributes="0"/>
+                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="lblAssignment" linkSize="4" min="-2" pref="24" max="-2" attributes="0"/>
+                              </Group>
+                          </Group>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="lblDiemThi" linkSize="4" alignment="0" min="-2" pref="24" max="-2" attributes="0"/>
+                              <Component id="txtDiemThi" linkSize="4" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace pref="39" max="32767" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="btnNhapDiem" linkSize="6" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="btnLamMoi" linkSize="6" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="btnSuaDiem" linkSize="6" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace min="-2" pref="45" max="-2" attributes="0"/>
+                      </Group>
+                  </Group>
+                </DimensionLayout>
+              </Layout>
+              <SubComponents>
+                <Component class="javax.swing.JLabel" name="jLabel10">
+                  <Properties>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                      <Font name="Segoe UI" size="15" style="1"/>
+                    </Property>
+                    <Property name="text" type="java.lang.String" value="Nh&#x1ead;p &#x111;i&#x1ec3;m: "/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JLabel" name="lblLab1">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Lab 1:"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JTextField" name="txtLab1">
+                </Component>
+                <Component class="javax.swing.JLabel" name="lblLab2">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Lab 2: "/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JTextField" name="txtLab2">
+                </Component>
+                <Component class="javax.swing.JLabel" name="lblLab3">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Lab 3: "/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JTextField" name="txtLab3">
+                </Component>
+                <Component class="javax.swing.JLabel" name="lblLab4">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Lab 4: "/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JTextField" name="txtLab4">
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="txtLab4ActionPerformed"/>
+                  </Events>
+                </Component>
+                <Component class="javax.swing.JTextField" name="txtAssignment">
+                </Component>
+                <Component class="javax.swing.JLabel" name="lblAssignment">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Assignment: "/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JLabel" name="lblDiemThi">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="&#x110;i&#x1ec3;m thi: "/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JTextField" name="txtDiemThi">
+                </Component>
+                <Component class="javax.swing.JButton" name="btnNhapDiem">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Nh&#x1ead;p &#x111;i&#x1ec3;m"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnNhapDiemActionPerformed"/>
+                  </Events>
+                </Component>
+                <Component class="javax.swing.JButton" name="btnLamMoi">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="L&#xe0;m m&#x1edb;i"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnLamMoiActionPerformed"/>
+                  </Events>
+                </Component>
+                <Component class="javax.swing.JButton" name="btnSuaDiem">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="S&#x1eed;a &#x111;i&#x1ec3;m"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnSuaDiemActionPerformed"/>
+                  </Events>
+                </Component>
+              </SubComponents>
+            </Container>
+            <Container class="javax.swing.JPanel" name="jPanel5">
+
+              <Layout>
+                <DimensionLayout dim="0">
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" alignment="0" attributes="0">
+                          <Component id="jScrollPane2" pref="626" max="32767" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                      </Group>
+                  </Group>
+                </DimensionLayout>
+                <DimensionLayout dim="1">
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" alignment="0" attributes="0">
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="jScrollPane2" max="32767" attributes="0"/>
+                      </Group>
+                  </Group>
+                </DimensionLayout>
+              </Layout>
+              <SubComponents>
+                <Container class="javax.swing.JScrollPane" name="jScrollPane2">
+                  <AuxValues>
+                    <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
+                  </AuxValues>
+
+                  <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
+                  <SubComponents>
+                    <Component class="javax.swing.JTable" name="tblNhapDiem">
+                      <Properties>
+                        <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
+                          <Table columnCount="9" rowCount="0">
+                            <Column editable="false" title="M&#xe3; sinh vi&#xea;n" type="java.lang.Object"/>
+                            <Column editable="false" title="Lab 1" type="java.lang.Object"/>
+                            <Column editable="false" title="Lab 2" type="java.lang.Object"/>
+                            <Column editable="false" title="Lab 3" type="java.lang.Object"/>
+                            <Column editable="false" title="Lab 4" type="java.lang.Object"/>
+                            <Column editable="false" title="Assignment" type="java.lang.Object"/>
+                            <Column editable="false" title="&#x110;i&#x1ec3;m thi" type="java.lang.Object"/>
+                            <Column editable="false" title="&#x110;i&#x1ec3;m t&#x1ed5;ng k&#x1ebf;t" type="java.lang.Object"/>
+                            <Column editable="false" title="Tr&#x1ea1;ng th&#xe1;i" type="java.lang.Object"/>
+                          </Table>
+                        </Property>
+                      </Properties>
+                      <Events>
+                        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="tblNhapDiemMouseClicked"/>
+                      </Events>
+                    </Component>
+                  </SubComponents>
+                </Container>
+              </SubComponents>
+            </Container>
+          </SubComponents>
+        </Container>
+      </SubComponents>
+    </Container>
+  </SubComponents>
+</Form>
