@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
-package com.view.form_canbo;
+package com.view.form_Template;
 
 import java.util.ArrayList;
 import javax.swing.DefaultComboBoxModel;
@@ -10,50 +10,22 @@ import javax.swing.JOptionPane;
 import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
-import model.ChuyenNganh;
-import model.ThongTinSV;
-import service.CanBoService;
-import service.SinhVienService;
 
-/**
- *
- * @author Lê Chấn Khang
- */
 public class Form_QlThongTinSV extends javax.swing.JPanel {
-    SinhVienService  svSerVice = new SinhVienService();
-    private CanBoService cbService = new CanBoService();
     private DefaultTableModel defaultTableModel = new DefaultTableModel();
     /**
      * Creates new form Form_QlThongTinSV
      */
     public Form_QlThongTinSV() {
         initComponents();
-        loadToChuyenNganhCBO();
-        loadData();
+
     }
     
     private void loadData() {
-          ArrayList<ThongTinSV> lit = cbService.getAllTTSV();
-          defaultTableModel = (DefaultTableModel) tblForm.getModel();
-          defaultTableModel.setRowCount(0);
-          for (ThongTinSV sv : lit) {
-              defaultTableModel.addRow(new Object[]{
-                  sv.getMaSV(),sv.getHoTen(),sv.getHienThiGioiTinh(),sv.getNgaySinh(),sv.getEmail(),
-                  sv.getSoDienThoai(),sv.getDiaChi(),sv.getTrangThai(),sv.getNienKhoa(),sv.getMaChuyenNganh()
-              });
-        }
     }
     
     ////////////////////////svfunc//////////////////////////////////////
     public void loadToChuyenNganhCBO(){
-        ArrayList<ChuyenNganh> lstTenCN = new ArrayList<>();
-        DefaultComboBoxModel cnCBOModel = new DefaultComboBoxModel();
-        cnCBOModel = (DefaultComboBoxModel) cnCBO.getModel();
-        //cnCBOModel.removeAllElements();
-        lstTenCN = cbService.selectChuyenNganh();
-        for (ChuyenNganh cnOB : lstTenCN) {
-           cnCBOModel.addElement(cnOB);
-        }
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -322,103 +294,22 @@ public class Form_QlThongTinSV extends javax.swing.JPanel {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        String ma = txtMa.getText();
-        String ten = txtTen.getText();
-        Integer gioiTinh;
-        if(rdoNam.isSelected()){
-            gioiTinh=1;
-        }else{
-            gioiTinh=0;
-        }
-        String ngaySinh = txtNgaySinh.getText();
-        String email = txtEmail.getText();
-        String sdt = txtSDT.getText();
-        String diaChi = txtDiaChi.getText();
-        String trangThai = txtTrangThai.getText();
-        Integer nienKhoa = Integer.parseInt(txtNienKhoa.getText());
-        
-        ChuyenNganh cn = (ChuyenNganh) cnCBO.getSelectedItem();
-        String maCN = cn.getMaChuyenNganh();
-        
-        ThongTinSV sV = new ThongTinSV(maCN, ten, gioiTinh, ngaySinh, email, 
-                sdt, diaChi, trangThai, nienKhoa, maCN);
-        JOptionPane.showMessageDialog(this, cbService.addTTSV(sV));
-        loadData();
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void tblFormMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblFormMouseClicked
         // TODO add your handling code here:
-        int index = tblForm.getSelectedRow();
-        String ma = tblForm.getValueAt(index, 0).toString();
-        String ten = tblForm.getValueAt(index, 1).toString();
-        String gioiTinh = tblForm.getValueAt(index, 2).toString();
-        String ngaySinh = tblForm.getValueAt(index, 3).toString();
-        String email = tblForm.getValueAt(index, 4).toString();
-        String sdt = tblForm.getValueAt(index, 5).toString();
-        String diaChi = tblForm.getValueAt(index, 6).toString();
-        String trangThai = tblForm.getValueAt(index, 7).toString();
-        String nienKhoa = tblForm.getValueAt(index, 8).toString();
-        String maCN = tblForm.getValueAt(index, 9).toString();
-        
-        txtMa.setText(ma);
-        txtTen.setText(ten);
-        if(gioiTinh.equalsIgnoreCase("Nam")){
-            rdoNam.setSelected(true);
-        }else{
-            rdoNu.setSelected(true);
-        }
-        txtNgaySinh.setText(ngaySinh);
-        txtEmail.setText(email);
-        txtSDT.setText(sdt);
-        txtDiaChi.setText(diaChi);
-        txtTrangThai.setText(trangThai);
-        txtNienKhoa.setText(nienKhoa);
-        
-        int i=0;
-        while (true) {            
-            String tenCN = cnCBO.getItemAt(i).toString();
-            if(tenCN.equalsIgnoreCase(maCN)){
-                cnCBO.setSelectedIndex(i);
-                break;
-            }
-            i++;
-        }
+   
         
     }//GEN-LAST:event_tblFormMouseClicked
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-         String ma = txtMa.getText();
-        String ten = txtTen.getText();
-        Integer gioiTinh;
-        if(rdoNam.isSelected()){
-            gioiTinh=1;
-        }else{
-            gioiTinh=0;
-        }
-        String ngaySinh = txtNgaySinh.getText();
-        String email = txtEmail.getText();
-        String sdt = txtSDT.getText();
-        String diaChi = txtDiaChi.getText();
-        String trangThai = txtTrangThai.getText();
-        Integer nienKhoa = Integer.parseInt(txtNienKhoa.getText());
-        
-        ChuyenNganh cn = (ChuyenNganh) cnCBO.getSelectedItem();
-        String maCN = cn.getMaChuyenNganh();
-        
-        ThongTinSV sV = new ThongTinSV("", ten, gioiTinh, ngaySinh, email, 
-                sdt, diaChi, trangThai, nienKhoa, maCN);
-        
-        JOptionPane.showMessageDialog(this, cbService.suaTTSV(ma, sV));
-        loadData();
+
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void txtSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyReleased
         // TODO add your handling code here:
-         DefaultTableModel ab = (DefaultTableModel) tblForm.getModel();
-        TableRowSorter<DefaultTableModel> ob =  new TableRowSorter<>(ab);
-        tblForm.setRowSorter(ob);
-        ob.setRowFilter(RowFilter.regexFilter(txtSearch.getText()));
     }//GEN-LAST:event_txtSearchKeyReleased
 
 

@@ -2,14 +2,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
-package com.view.form_canbo;
+package com.view.form_Template;
 
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import model.DVDangKy;
-import model.DichVu;
-import service.CanBoService;
+
 
 /**
  *
@@ -17,41 +15,14 @@ import service.CanBoService;
  */
 public class Form_DKDichVu extends javax.swing.JPanel {
 
-    private CanBoService service = new CanBoService();
     private DefaultTableModel defaultTableModel = new DefaultTableModel();
     
     public Form_DKDichVu() {
         initComponents();
-        
-        loadData();
-        loadData2();
     }
 
     
-    private void loadData2() {
-         ArrayList<DVDangKy> list = service.getAll3();
-         defaultTableModel = (DefaultTableModel) tblForm2.getModel();
-         defaultTableModel.setRowCount(0);
-         for (DVDangKy o : list) {
-             defaultTableModel.addRow(new Object[]{
-                 o.getMasv(),o.getHoten(),o.getTenDV(),o.getMoTa(),o.getTrangThai()
-             });
-        }
-    }
-    
-    
-    private void loadData() {
-         ArrayList<DichVu> list = service.getAllDV2023();
-         defaultTableModel = (DefaultTableModel) tblForm.getModel();
-         defaultTableModel.setRowCount(0);
-         for (DichVu dichVu : list) {
-             defaultTableModel.addRow(new Object[]{
-                dichVu.getMaDV(),dichVu.getTenDV(),dichVu.getPhongBanPhuTrach()
-             });
-        }
-    }
-    
-    
+   
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -313,66 +284,28 @@ public class Form_DKDichVu extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-        String ma = txtMa.getText();
-        String ten = txtTen.getText();
-        String phong = txtPhongBan.getText();
-        
-        DichVu dichVu = new DichVu(ma, ten, phong);
-        JOptionPane.showMessageDialog(this, service.themDV2023(dichVu));
-        loadData();
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void tblFormMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblFormMouseClicked
         // TODO add your handling code here:
-        int index = tblForm.getSelectedRow();
-        String ma = tblForm.getValueAt(index, 0).toString();
-        String ten = tblForm.getValueAt(index, 1).toString();
-        String phong = tblForm.getValueAt(index, 2).toString();
-        
-        txtMa.setText(ma);
-        txtTen.setText(ten);
-        txtPhongBan.setText(phong);
+
     }//GEN-LAST:event_tblFormMouseClicked
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-        String ma = txtMa.getText();
-        String ten = txtTen.getText();
-        String phong = txtPhongBan.getText();
-        
-        DichVu dichVu = new DichVu("", ten, phong);
-        JOptionPane.showMessageDialog(this, service.suaDV2023(ma, dichVu));
-        loadData();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
-        int hoi = JOptionPane.showConfirmDialog(this, "Bạn có muốn xóa không");
-        if(hoi!=JOptionPane.YES_OPTION){
-            return;
-        }
-         String ma = txtMa.getText();
-          JOptionPane.showMessageDialog(this, service.xoaDV2023(ma));
-        loadData();
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
-        String ma2 = txtMaSV2.getText();
-        String trangThai = txtTrangThai.getText();
-        DVDangKy dVDangKy = new DVDangKy(ma2, trangThai);
-        JOptionPane.showMessageDialog(this, service.suaTT3(ma2, dVDangKy));
-        loadData2();
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void tblForm2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblForm2MouseClicked
         // TODO add your handling code here:
-        int row= tblForm2.getSelectedRow();
-        String ma2 = tblForm2.getValueAt(row, 0).toString();
-        String tthai = tblForm2.getValueAt(row, 4).toString();
-        txtMaSV2.setText(ma2);
-        txtTrangThai.setText(tthai);
     }//GEN-LAST:event_tblForm2MouseClicked
 
 

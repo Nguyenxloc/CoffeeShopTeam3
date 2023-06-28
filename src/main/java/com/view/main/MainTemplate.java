@@ -11,14 +11,6 @@ import com.view.form.ThongBaoForm;
 import com.view.form.LichHocForm;
 import com.view.form.DiemForm;
 import com.view.form.WalletForm;
-import com.view.form_canbo.FormLichHoc;
-import com.view.form_canbo.Form_BaoCao;
-import com.view.form_canbo.Form_DKDichVu;
-import com.view.form_canbo.Form_Diem;
-import com.view.form_canbo.Form_LopHoc;
-import com.view.form_canbo.Form_MonHoc;
-import com.view.form_canbo.Form_QlThongTinSV;
-import com.view.form_canbo.Form_ThongBaoCB;
 import java.awt.Color;
 import static java.awt.SystemColor.menu;
 import java.awt.event.ActionEvent;
@@ -30,7 +22,7 @@ import javax.swing.JOptionPane;
  *
  * @author RAVEN
  */
-public class MainOfCB extends javax.swing.JFrame {
+public class MainTemplate extends javax.swing.JFrame {
 
     /**
      * Creates new form Main
@@ -40,53 +32,38 @@ public class MainOfCB extends javax.swing.JFrame {
     private LichHocForm formLichHoc;
     private DiemForm formDiem;
     private DangKyDVForm form4;
-    private FormLichHoc formQLLHoc;
-    private Form_Diem formQLDiem;
-    private Form_QlThongTinSV formQLTin;
-    private Form_DKDichVu fromDKDV;
-    private Form_BaoCao formBaoCao;
-    private Form_ThongBaoCB formQLTbao;
-    private Form_MonHoc formMonHoc;
-    private Form_LopHoc formLopHoc;
 
 
-    public MainOfCB() {
+    public MainTemplate() {
         initComponents();
         setBackground(new Color(0, 0, 0, 0));
         home = new WalletForm();
         formThongbao = new ThongBaoForm();
         formLichHoc = new LichHocForm();
         formDiem = new DiemForm();
-        formQLLHoc = new FormLichHoc();
-        formQLDiem = new Form_Diem();
-        formQLTin = new Form_QlThongTinSV();
-        fromDKDV = new Form_DKDichVu();
-        formBaoCao = new Form_BaoCao();
-        formMonHoc = new Form_MonHoc();
-        formLopHoc = new Form_LopHoc();
 
-        menuOfCB1.initMoving(MainOfCB.this);
+        menuOfCB1.initMoving(MainTemplate.this);
         menuOfCB1.addEventMenuSelected(new EventMenuSelected() {
             @Override
             public void selected(int index) {
                 if (index == 5) {
-                    setForm(fromDKDV);
+//                    setForm(fromDKDV);
                 } else if (index == 6) {
-                    setForm(formBaoCao);
+//                    setForm(formBaoCao);
                 } else if (index == 0) {
                     setForm(formThongbao);
                 } else if (index == 1) {
-                    setForm(formQLLHoc);
+//                    setForm(formQLLHoc);
                 }   else if (index == 7) {
-                    setForm(formMonHoc);
+//                    setForm(formMonHoc);
                 }
                 else if (index == 8) {
-                    setForm(formLopHoc);
+//                    setForm(formLopHoc);
                 }
                 else if (index == 2) {
-                    setForm(formQLDiem);
+//                    setForm(formQLDiem);
                 } else if (index == 3) {
-                    setForm(formQLTin);
+//                    setForm(formQLTin);
                 } else if (index == 4) {
                     setForm(home);
                 } else if (index == 9) {
@@ -142,8 +119,6 @@ public class MainOfCB extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
-
-        panelBorder1.setBackground(new java.awt.Color(242, 242, 242));
 
         header2.setFont(new java.awt.Font("sansserif", 0, 14)); // NOI18N
 

@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
-package com.view.form_canbo;
+package com.view.form_Template;
 
 import java.util.ArrayList;
 import javax.swing.DefaultComboBoxModel;
@@ -10,10 +10,6 @@ import javax.swing.JOptionPane;
 import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
-import model.ChuyenNganh;
-import model.LopHoc;
-import model.MonHoc;
-import service.CanBoService;
 
 /**
  *
@@ -21,46 +17,12 @@ import service.CanBoService;
  */
 public class Form_MonHoc extends javax.swing.JPanel {
 
-    private CanBoService service = new CanBoService();
-    private DefaultTableModel defaultTableModel = new DefaultTableModel();
-    private DefaultComboBoxModel comboBoxModel = new DefaultComboBoxModel();
     
     public Form_MonHoc() {
         initComponents();
-        
-        loadData();
-        loadCN();
-        loadLop();
+       
     }
 
-    
-    private void loadCN() {
-          ArrayList<ChuyenNganh> lit = service.selectChuyenNganh();
-          comboBoxModel = (DefaultComboBoxModel) cboMaCN.getModel();
-          for (ChuyenNganh cn : lit) {
-            comboBoxModel.addElement(cn.getMaChuyenNganh());
-        }
-    }
-
-    private void loadLop() {
-           ArrayList<LopHoc> lit = service.selectLopHoc();
-          comboBoxModel = (DefaultComboBoxModel) cboMaLop.getModel();
-          for (LopHoc cn : lit) {
-            comboBoxModel.addElement(cn.getMaLopHoc());
-        }    }
-    
-    private void loadData() {
-         ArrayList<MonHoc> list = service.selectMonHoc();
-         defaultTableModel = (DefaultTableModel) tblQLMH.getModel();
-         defaultTableModel.setRowCount(0);
-         for (MonHoc monHoc : list) {
-            defaultTableModel.addRow(new Object[]{
-                monHoc.getMaMonHoc(),monHoc.getMaChuyenNganh(),monHoc.getMaLopHoc(),monHoc.getTenMonHoc(),
-                monHoc.getSoTinChi(),monHoc.getMua()
-            });
-        }
-    }
-    
     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -257,63 +219,23 @@ public class Form_MonHoc extends javax.swing.JPanel {
 
     private void tblQLMHMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblQLMHMouseClicked
         // TODO add your handling code here:
-        int index = tblQLMH.getSelectedRow();
-        
-        MonHoc monHoc = service.selectMonHoc().get(index);
-        txtMaMon.setText(monHoc.getMaMonHoc());
-        cboMaCN.setSelectedItem(monHoc.getMaChuyenNganh());
-        cboMaLop.setSelectedItem(monHoc.getMaLopHoc());
-        txtTenMH.setText(monHoc.getTenMonHoc());
-        txtSoTC.setText(monHoc.getSoTinChi()+"");
-        txtMua.setText(monHoc.getMua());
         
     }//GEN-LAST:event_tblQLMHMouseClicked
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-        String maMH = txtMaMon.getText();
-        String maCN = cboMaCN.getSelectedItem().toString();
-        String maLH = cboMaLop.getSelectedItem().toString();
-        String ten = txtTenMH.getText();
-        Integer soTC = Integer.parseInt(txtSoTC.getText());
-        String mua = txtMua.getText();
-        
-        MonHoc mh = new MonHoc(maMH, maCN, maLH, ten, soTC, mua);
-        JOptionPane.showMessageDialog(this, service.saveMonHoc2(mh));
-        loadData();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
-        String maMH = txtMaMon.getText();
-        String maCN = cboMaCN.getSelectedItem().toString();
-        String maLH = cboMaLop.getSelectedItem().toString();
-        String ten = txtTenMH.getText();
-        Integer soTC = Integer.parseInt(txtSoTC.getText());
-        String mua = txtMua.getText();
-        
-        MonHoc mh = new MonHoc("", maCN, maLH, ten, soTC, mua);
-        JOptionPane.showMessageDialog(this, service.updateMonHoc2(mua, mh));
-        loadData();
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
-        int hoi = JOptionPane.showConfirmDialog(this, "Bạn có muốn xóa không");
-        if(hoi!=JOptionPane.YES_OPTION){
-            return;
-        }
-        String maMH = txtMaMon.getText();
-        JOptionPane.showMessageDialog(this, service.deleteMonHoc(maMH));
-        loadData();
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void txtSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyReleased
         // TODO add your handling code here:
-        DefaultTableModel ab = (DefaultTableModel) tblQLMH.getModel();
-        TableRowSorter<DefaultTableModel> ob =  new TableRowSorter<>(ab);
-        tblQLMH.setRowSorter(ob);
-        ob.setRowFilter(RowFilter.regexFilter(txtSearch.getText()));
     }//GEN-LAST:event_txtSearchKeyReleased
 
 

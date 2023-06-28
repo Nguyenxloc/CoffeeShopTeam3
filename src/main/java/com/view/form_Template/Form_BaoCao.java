@@ -2,12 +2,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
-package com.view.form_canbo;
+package com.view.form_Template;
 
 import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
-import model.BaoCao22;
-
 /**
  *
  * @author Lê Chấn Khang
@@ -18,77 +16,7 @@ public class Form_BaoCao extends javax.swing.JPanel {
     
     public Form_BaoCao() {
         initComponents();
-        
-        loadData();
-        loadData2();
     }
-    
-    
-     private void loadData() {
-         ArrayList<BaoCao22> list = new ArrayList<>();
-         BaoCao22 a = new BaoCao22("BC1", "Đánh giá chật lượng dạy giảng viên", "Giảng viên dạy dễ hiểu,luôn trả lời câu hỏi sinh viên ngay trong buổi học", "MH01", "LH03", "sv1");
-         BaoCao22 b = new BaoCao22("BC2", "Đánh giá chật lượng dạy giảng viên", "Giảng viên dạy dễ hiểu,giảng viên hay vào muộn", "MH02", "LH01", "sv1");
-         BaoCao22 c = new BaoCao22("BC3", "Đánh giá chật lượng dạy giảng viên", "Giảng viên dạy hơi nhanh,luôn trả lời câu hỏi sinh viên ngay trong buổi học", "MH05", "LH02", "sv3");
-         BaoCao22 d = new BaoCao22("BC4", "Đánh giá chật lượng dạy giảng viên", "Giảng viên dạy dễ hiểu,luôn trả lời câu hỏi sinh viên ngay trong buổi học", "MH03", "LH09", "sv2");
-         BaoCao22 e = new BaoCao22("BC5", "Đánh giá chật lượng dạy giảng viên", "Giảng viên dạy dễ hiểu,luôn trả lời câu hỏi sinh viên ngay trong buổi học", "MH04", "LH04", "sv11");
-         BaoCao22 f = new BaoCao22("BC6", "Đánh giá chật lượng dạy giảng viên", "Giảng viên dạy dễ hiểu,luôn trả lời câu hỏi sinh viên ngay trong buổi học", "MH02", "LH05", "sv20");
-         BaoCao22 g = new BaoCao22("BC7", "Đánh giá chật lượng dạy giảng viên", "Giảng viên dạy dễ hiểu,luôn trả lời câu hỏi sinh viên ngay trong buổi học", "MH06", "LH08", "sv6");
-         BaoCao22 h = new BaoCao22("BC8", "Đánh giá chật lượng dạy giảng viên", "Giảng viên dạy dễ hiểu,luôn trả lời câu hỏi sinh viên ngay trong buổi học", "MH07", "LH04", "sv7");
-         BaoCao22 j = new BaoCao22("BC9", "Đánh giá chật lượng dạy giảng viên", "Giảng viên dạy dễ hiểu,luôn trả lời câu hỏi sinh viên ngay trong buổi học", "MH08", "LH07", "sv9");
-         BaoCao22 y = new BaoCao22("BC10", "Đánh giá chật lượng dạy giảng viên", "Giảng viên dạy dễ hiểu,luôn trả lời câu hỏi sinh viên ngay trong buổi học", "MH10", "LH01", "sv4");
-    
-      list.add(a);
-      list.add(b);
-      list.add(c);
-      list.add(d);
-      list.add(e);
-      list.add(f);
-      list.add(g);
-      list.add(h);
-      list.add(j);
-      list.add(y);
-      
-      defaultTableModel = (DefaultTableModel) tblFormSV.getModel();
-      defaultTableModel.setRowCount(0);
-         for (BaoCao22 bc : list) {
-             defaultTableModel.addRow(new Object[]{
-                 bc.getMaBaoCao(),bc.getTieuDe(),bc.getNoiDung(),bc.getMaMH(),bc.getMaLop(),bc.getMaSV()
-             });
-         }
-     }
-    
-    private void loadData2() {
-         ArrayList<BaoCao22> list = new ArrayList<>();
-         BaoCao22 a = new BaoCao22("BC1", "Đánh giá chật lượng lớp học", "Lóp ngoan chịu khó học", "MH01", "LH03", "gv1");
-         BaoCao22 b = new BaoCao22("BC2", "Đánh giá chật lượng lớp học", "Lớp không chú ý nghe bài và nói chuyện nhiều", "MH02", "LH01", "gv2");
-         BaoCao22 c = new BaoCao22("BC3", "Đánh giá chật lượng lớp học", "Lớp ồn không nghe giảng", "MH05", "LH02", "gv4");
-         BaoCao22 d = new BaoCao22("BC4", "Đánh giá chật lượng lớp học", "Lóp chăm chú nghe giảng", "MH03", "LH09", "gv7");
-         BaoCao22 e = new BaoCao22("BC5", "Đánh giá chật lượng lớp học", "Lớp nhiều học sinh khá giỏi", "MH04", "LH04", "gv6");
-         BaoCao22 f = new BaoCao22("BC6", "Đánh giá chật lượng lớp học", "Một số chú ý nghe giảng còn lại chơi game trong giờ", "MH02", "LH05", "gv5");
-         BaoCao22 g = new BaoCao22("BC7", "Đánh giá chật lượng lớp học", "Lớp tốt", "MH06", "LH08", "gv4");
-         BaoCao22 h = new BaoCao22("BC8", "Đánh giá chật lượng lớp học", "Lớp ồn không nghe giảng", "MH07", "LH04", "gv9");
-         BaoCao22 j = new BaoCao22("BC9", "Đánh giá chật lượng lớp học", "Lóp ngoan chịu khó học", "MH08", "LH07", "gv12");
-         BaoCao22 y = new BaoCao22("BC10", "Đánh giá chật lượng lớp học", "Lóp chăm chú nghe giảng", "MH10", "LH01", "gv2");
-    
-      list.add(a);
-      list.add(b);
-      list.add(c);
-      list.add(d);
-      list.add(e);
-      list.add(f);
-      list.add(g);
-      list.add(h);
-      list.add(j);
-      list.add(y);
-      
-      defaultTableModel = (DefaultTableModel) tblFormGV.getModel();
-      defaultTableModel.setRowCount(0);
-         for (BaoCao22 bc : list) {
-             defaultTableModel.addRow(new Object[]{
-                 bc.getMaBaoCao(),bc.getTieuDe(),bc.getNoiDung(),bc.getMaMH(),bc.getMaLop(),bc.getMaSV()
-             });
-         }    }
-    
     
     
 

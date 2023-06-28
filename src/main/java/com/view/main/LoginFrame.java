@@ -5,23 +5,12 @@
 package com.view.main;
 
 import java.io.File;
-import model.CanBo;
-import model.GiangVien;
-import model.SinhVien;
-import service.CanBoService;
-import service.GiangVienService;
-import service.SinhVienService;
-import ultilities.UserInfo;
-
 /**
  *
  * @author 84374
  */
 public class LoginFrame extends javax.swing.JFrame {
 
-    CanBoService canBoService = new CanBoService();
-    GiangVienService giangVienService = new GiangVienService();
-    SinhVienService sinhVienService = new SinhVienService();
     private String dir = null;
 
     ////// query sql -- get vaiTro
@@ -202,65 +191,8 @@ public class LoginFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
-        try {
-            CanBo canBo = new CanBo(); //Lấy dữ liệu người dùng nhập
-            canBo.setMaCB(txtUser.getText());
-            canBo.setMatKhau(txtPassword.getText());
-            int ketQuaCB = canBoService.xacThucTaiKhoanCanBo(canBo); // so sánh dữ liệu người dùng nhập với db
-            if(ketQuaCB == 0){
-                lblMessUser.setText(" ( * ) Tên tài khoản không tồn tại !");
-                txtUser.requestFocus();
-            }else if(ketQuaCB == -1){
-                lblMessUser.setText("");
-                lblMessPass.setText(" ( * ) Sai mật khẩu !");
-                txtPassword.requestFocus();
-            }else if(ketQuaCB == 1){
-                lblMessPass.setText("");
-                lblMessUser.setText("");
-                this.dispose();
-                new MainOfCB().setVisible(true);
-            }
-            
-            GiangVien giangVien = new GiangVien();
-            giangVien.setMaGV(txtUser.getText());
-            giangVien.setMatKhau(txtPassword.getText());
-            int ketQuaGV = giangVienService.xacThucTaiKhoanGiangVien(giangVien);
-            if(ketQuaGV == 0 && ketQuaCB == 1){
-                lblMessUser.setText(" ( * ) Tên tài khoản không tồn tại !");
-                txtUser.requestFocus();
-            }else if(ketQuaGV == -1){
-                lblMessUser.setText("");
-                lblMessPass.setText(" ( * ) Sai mật khẩu !");
-                txtPassword.requestFocus();
-            }else if(ketQuaGV == 1){
-                lblMessPass.setText("");
-                lblMessUser.setText("");
-                UserInfo.maGV = txtUser.getText();
-                this.dispose();
-                new MainOfGV().setVisible(true);
-            }
-            
-            SinhVien sinhVien = new SinhVien();
-            sinhVien.setMaSV(txtUser.getText());
-            sinhVien.setMatKhau(txtPassword.getText());
-            int ketQuaSV = sinhVienService.xacThucTaiKhoanSinhVien(sinhVien);
-            if(ketQuaSV == 0 && ketQuaCB == 0 && ketQuaGV == 0){
-                lblMessUser.setText(" ( * ) Tên tài khoản không tồn tại !");
-                txtUser.requestFocus();
-            }else if(ketQuaSV == -1){
-                lblMessUser.setText("");
-                lblMessPass.setText(" ( * ) Sai mật khẩu !");
-                txtPassword.requestFocus();
-            }else if(ketQuaSV == 1){
-                lblMessPass.setText("");
-                lblMessUser.setText("");
-                UserInfo.maSV = txtUser.getText();
-                this.dispose();
-                new MainOfSV().setVisible(true);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+         MainTemplate view = new MainTemplate();
+         view.setVisible(true);
     }//GEN-LAST:event_btnLoginActionPerformed
 
     /**

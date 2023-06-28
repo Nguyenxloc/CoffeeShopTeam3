@@ -37,18 +37,19 @@ public class MenuOfCB extends javax.swing.JPanel {
     }
 
     private void init() {
-        listMenu1.addItem(new Model_Menu("2", "Thông báo và tin tức", Model_Menu.MenuType.MENU));
-        listMenu1.addItem(new Model_Menu("3", "Lịch học", Model_Menu.MenuType.MENU));
-        listMenu1.addItem(new Model_Menu("4", "Điểm", Model_Menu.MenuType.MENU));
-        listMenu1.addItem(new Model_Menu("5", "Thông tin sinh viên", Model_Menu.MenuType.MENU));
+        
+        listMenu1.addItem(new Model_Menu("2", "Cafe", Model_Menu.MenuType.MENU));
+        listMenu1.addItem(new Model_Menu("3", "Nước ép", Model_Menu.MenuType.MENU));
+        listMenu1.addItem(new Model_Menu("4", "Trà", Model_Menu.MenuType.MENU));
+        listMenu1.addItem(new Model_Menu("5", "Đồ ăn vặt", Model_Menu.MenuType.MENU));
         //listMenu1.addItem(new Model_Menu("6", "Icons", Model_Menu.MenuType.MENU));
-        listMenu1.addItem(new Model_Menu("1", "Học phí", Model_Menu.MenuType.MENU));
-        listMenu1.addItem(new Model_Menu("7", "Đăng ký dịch vụ", Model_Menu.MenuType.MENU));
-        listMenu1.addItem(new Model_Menu("8", "Báo  cáo", Model_Menu.MenuType.MENU));
-        listMenu1.addItem(new Model_Menu("6", "Môn học", Model_Menu.MenuType.MENU));
-        listMenu1.addItem(new Model_Menu("9", "Lớp học", Model_Menu.MenuType.MENU));
-        listMenu1.addItem(new Model_Menu("10", "Đăng xuất", Model_Menu.MenuType.MENU));
-        listMenu1.addItem(new Model_Menu("", "", Model_Menu.MenuType.EMPTY));
+        listMenu1.addItem(new Model_Menu("1", "Kem", Model_Menu.MenuType.MENU));
+        listMenu1.addItem(new Model_Menu("7", "Sữa chua", Model_Menu.MenuType.MENU));
+        listMenu1.addItem(new Model_Menu("8", "Quản lý hóa đơn", Model_Menu.MenuType.MENU));
+        listMenu1.addItem(new Model_Menu("6", "Quản lý doanh thu", Model_Menu.MenuType.MENU));
+        listMenu1.addItem(new Model_Menu("9", "Quản lý v..v", Model_Menu.MenuType.MENU));
+        listMenu1.addItem(new Model_Menu("10", "Quản lý V..v", Model_Menu.MenuType.MENU));
+        listMenu1.addItem(new Model_Menu("", "cetera cetera ", Model_Menu.MenuType.EMPTY));
 
 
     }
