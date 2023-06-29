@@ -53,7 +53,7 @@ public class MainTemplate extends javax.swing.JFrame {
                 } else if (index == 0) {
                     setForm(formThongbao);
                 } else if (index == 1) {
-//                    setForm(formQLLHoc);
+                    setForm(formLichHoc);
                 }   else if (index == 7) {
 //                    setForm(formMonHoc);
                 }
