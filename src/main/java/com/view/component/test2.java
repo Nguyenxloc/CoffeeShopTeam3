@@ -5,21 +5,23 @@
 package com.view.component;
 
 import java.awt.BorderLayout;
-import java.awt.Component;
-import java.util.ArrayList;
-import javax.swing.JFrame;
-import javax.swing.JInternalFrame;
 import javax.swing.JScrollPane;
 
 /**
  *
  * @author 84374
  */
-public class testFrame extends JFrame {
-    public testFrame() {
+public class test2 extends javax.swing.JFrame {
+
+    /**
+     * Creates new form test2
+     */
+    public test2() {
         initComponents();
         setLayout(new BorderLayout());
-        add(BorderLayout.WEST, new JScrollPane(paneOfProduct1));
+//        add(BorderLayout.WEST,form_BanHang1.getPaneOfProduct2());
+        setLayout(new BorderLayout());
+        
     }
 
     /**
@@ -31,19 +33,17 @@ public class testFrame extends JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        paneOfProduct1 = new com.view.component.paneOfProduct();
-
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 302, Short.MAX_VALUE)
+            .addGap(0, 813, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 342, Short.MAX_VALUE)
+            .addGap(0, 10733, Short.MAX_VALUE)
         );
 
         pack();
@@ -66,25 +66,24 @@ public class testFrame extends JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(testFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(test2.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(testFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(test2.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(testFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(test2.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(testFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(test2.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new testFrame().setVisible(true);
+                new test2().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private com.view.component.paneOfProduct paneOfProduct1;
     // End of variables declaration//GEN-END:variables
 }

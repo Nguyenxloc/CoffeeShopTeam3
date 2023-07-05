@@ -16,19 +16,15 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" attributes="0">
+          <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="lblmgProduct" min="-2" pref="176" max="-2" attributes="0"/>
-              <EmptySpace max="32767" attributes="0"/>
-          </Group>
-          <Group type="102" alignment="1" attributes="0">
-              <EmptySpace max="32767" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="lblDes" min="-2" max="-2" attributes="0"/>
-                  <Component id="lblPriceProduct" min="-2" max="-2" attributes="0"/>
-                  <Component id="lblNameProduct" min="-2" pref="104" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                  <Component id="lblNameProduct" alignment="0" pref="104" max="32767" attributes="0"/>
+                  <Component id="lblPriceProduct" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Component id="lblDes" alignment="0" min="-2" max="-2" attributes="0"/>
+                  <Component id="lblmgProduct" alignment="0" max="32767" attributes="0"/>
               </Group>
-              <EmptySpace min="-2" pref="39" max="-2" attributes="0"/>
+              <EmptySpace max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -36,14 +32,14 @@
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="1" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="lblmgProduct" min="-2" pref="159" max="-2" attributes="0"/>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Component id="lblNameProduct" min="-2" max="-2" attributes="0"/>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Component id="lblPriceProduct" min="-2" max="-2" attributes="0"/>
+              <Component id="lblmgProduct" min="-2" pref="79" max="-2" attributes="0"/>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <Component id="lblNameProduct" min="-2" max="-2" attributes="0"/>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <Component id="lblPriceProduct" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
               <Component id="lblDes" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="16" max="32767" attributes="0"/>
+              <EmptySpace pref="12" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -55,9 +51,9 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="lblmgProduct">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="#ImgHere"/>
-      </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_InitCodePre" type="java.lang.String" value="ImageIcon imageIcon = new ImageIcon(dir); // load the image to a imageIcon&#xa;        Image image = imageIcon.getImage(); // transform it&#xa;        Image newimg = image.getScaledInstance(79,104,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way&#xa;        imageIcon = new ImageIcon(newimg);&#xa;        lblmgProduct.setIcon(imageIcon);"/>
+      </AuxValues>
     </Component>
     <Component class="javax.swing.JLabel" name="lblPriceProduct">
       <Properties>

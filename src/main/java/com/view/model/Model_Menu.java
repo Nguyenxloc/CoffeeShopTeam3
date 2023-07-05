@@ -51,7 +51,6 @@ public class Model_Menu {
     private MenuType type;
 
     public Icon toIcon() {
-        System.out.println(dir+"\\"+icon+".png");
         return new ImageIcon(dir+"\\"+icon+".png");
     }
 

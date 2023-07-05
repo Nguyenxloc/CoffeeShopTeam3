@@ -11,12 +11,17 @@ import com.view.form.ThongBaoForm;
 import com.view.form.LichHocForm;
 import com.view.form.DiemForm;
 import com.view.form.WalletForm;
+import com.view.form_Template.Form_BanHang;
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
 import static java.awt.SystemColor.menu;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JComponent;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
 
 /**
  *
@@ -32,16 +37,21 @@ public class MainTemplate extends javax.swing.JFrame {
     private LichHocForm formLichHoc;
     private DiemForm formDiem;
     private DangKyDVForm form4;
-
+    private Form_BanHang formBanHang;
+    private com.view.component.paneOfProduct paneOfProduct2;
 
     public MainTemplate() {
         initComponents();
-        setBackground(new Color(0, 0, 0, 0));
+
         home = new WalletForm();
         formThongbao = new ThongBaoForm();
         formLichHoc = new LichHocForm();
         formDiem = new DiemForm();
+        formBanHang = new Form_BanHang();
+        JScrollPane scroll = new JScrollPane();
+        Component[] com = formBanHang.getComponents();
 
+        setBackground(new Color(0, 0, 0, 0));
         menuOfCB1.initMoving(MainTemplate.this);
         menuOfCB1.addEventMenuSelected(new EventMenuSelected() {
             @Override
@@ -52,15 +62,16 @@ public class MainTemplate extends javax.swing.JFrame {
 //                    setForm(formBaoCao);
                 } else if (index == 0) {
                     setForm(formThongbao);
+
                 } else if (index == 1) {
-                    setForm(formLichHoc);
-                }   else if (index == 7) {
+                    setForm(formBanHang);
+//                    setLayout(new BorderLayout());
+//                    add(BorderLayout.LINE_END, new JScrollPane(mainPanel));
+                } else if (index == 7) {
 //                    setForm(formMonHoc);
-                }
-                else if (index == 8) {
+                } else if (index == 8) {
 //                    setForm(formLopHoc);
-                }
-                else if (index == 2) {
+                } else if (index == 2) {
 //                    setForm(formQLDiem);
                 } else if (index == 3) {
 //                    setForm(formQLTin);
@@ -91,6 +102,7 @@ public class MainTemplate extends javax.swing.JFrame {
 
         //  set when system open start with home form
         setForm(new ThongBaoForm());
+
     }
 
     private void setForm(JComponent com) {

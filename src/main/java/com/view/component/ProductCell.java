@@ -25,7 +25,7 @@ public class ProductCell extends javax.swing.JPanel {
     private String dir = null;
     private int index = 0;
     public ProductCell(byte[] img, String nameOfProduct, Double priceOfProduct, String des ) {
-        String path = "C:\\Users\\84374\\Documents\\NetBeansProjects\\test\\src\\main\\java\\img\\coffe.png";
+        String path = "C:\\Users\\84374\\Documents\\NetBeansProjects\\CoffeeShop\\src\\main\\java\\com\\view\\icon\\coffe.png";
         File file = new File(path);
         String absolutePath = file.getAbsolutePath();
         dir = absolutePath;
@@ -124,7 +124,11 @@ public class ProductCell extends javax.swing.JPanel {
 
         lblNameProduct.setText("#NameOfProduct");
 
-        lblmgProduct.setText("#ImgHere");
+        ImageIcon imageIcon = new ImageIcon(dir); // load the image to a imageIcon
+        Image image = imageIcon.getImage(); // transform it
+        Image newimg = image.getScaledInstance(79,104,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
+        imageIcon = new ImageIcon(newimg);
+        lblmgProduct.setIcon(imageIcon);
 
         lblPriceProduct.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lblPriceProduct.setText("#PriceOfProduct");
@@ -139,28 +143,25 @@ public class ProductCell extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(lblmgProduct, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblDes)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(lblNameProduct, javax.swing.GroupLayout.DEFAULT_SIZE, 104, Short.MAX_VALUE)
                     .addComponent(lblPriceProduct)
-                    .addComponent(lblNameProduct, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(39, 39, 39))
+                    .addComponent(lblDes)
+                    .addComponent(lblmgProduct, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(lblmgProduct, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(lblNameProduct)
-                .addGap(18, 18, 18)
-                .addComponent(lblPriceProduct)
+                .addComponent(lblmgProduct, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(lblNameProduct)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(lblPriceProduct)
+                .addGap(18, 18, 18)
                 .addComponent(lblDes)
-                .addContainerGap(16, Short.MAX_VALUE))
+                .addContainerGap(12, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
