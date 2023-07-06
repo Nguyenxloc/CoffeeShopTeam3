@@ -29,8 +29,8 @@ public class paneOfProduct extends JPanel {
     static ArrayList<ProductCell> lstCell = new ArrayList<>();
 
     public paneOfProduct() {
-        lstPerson.add(new Person("John111111111111111", "DEV1"));
-        lstPerson.add(new Person("John2111111111111", "DEV2"));
+        lstPerson.add(new Person("John1", "DEV1"));
+        lstPerson.add(new Person("John2", "DEV2"));
         lstPerson.add(new Person("John3", "DEV3"));
         lstPerson.add(new Person("John4", "DEV4"));
         lstPerson.add(new Person("John5", "DEV5"));
@@ -66,12 +66,9 @@ public class paneOfProduct extends JPanel {
         lstPerson.add(new Person("John8", "DEV8"));
         lstPerson.add(new Person("John8", "DEV8"));
         lstPerson.add(new Person("John8", "DEV8"));
-        System.out.println("original number: " + lstPerson.size() / 3);
-        System.out.println("ceil: " + Math.ceil(lstPerson.size() / 3));
-        System.out.println("num of row: "+(Integer.valueOf(lstPerson.size() / 2)));
         GridLayout grid = new GridLayout(Integer.valueOf(lstPerson.size() /3)+1, 3);
-        grid.setVgap(2);
-        grid.setHgap(2);
+        grid.setVgap(-5);
+        grid.setHgap(-5);
         this.setLayout(grid);
         for (int i = 0; i < lstPerson.size(); i++) {
             ProductCell cell = new ProductCell(null, lstPerson.get(i).getName(), 25.50, lstPerson.get(i).getJob());

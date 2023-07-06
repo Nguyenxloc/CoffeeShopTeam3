@@ -4,6 +4,8 @@
  */
 package com.view.form_Template;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
@@ -12,21 +14,33 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 
 public class Form_BanHang extends javax.swing.JPanel {
+
     private DefaultTableModel defaultTableModel = new DefaultTableModel();
+
     /**
      * Creates new form Form_QlThongTinSV
      */
     public Form_BanHang() {
         initComponents();
+        jScrollPane1.setBorder(null);
+        this.setBorder(null);
+        cboLoaiDoUong.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("test select");
+                paneOfProduct1.revalidate();
+                 paneOfProduct1.repaint();
+            }
+        });
 
     }
-    
+
     private void loadData() {
     }
-    
+
     ////////////////////////svfunc//////////////////////////////////////
-    public void loadToChuyenNganhCBO(){
+    public void loadToChuyenNganhCBO() {
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -39,35 +53,65 @@ public class Form_BanHang extends javax.swing.JPanel {
         buttonGroup1 = new javax.swing.ButtonGroup();
         jScrollPane1 = new javax.swing.JScrollPane();
         paneOfProduct1 = new com.view.component.paneOfProduct();
+        jLabel1 = new javax.swing.JLabel();
+        cboLoaiDoUong = new javax.swing.JComboBox<>();
 
+        setBackground(new java.awt.Color(255, 255, 255));
         setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(51, 153, 255)));
 
+        paneOfProduct1.setBackground(new java.awt.Color(255, 255, 255));
+        paneOfProduct1.setForeground(new java.awt.Color(255, 255, 255));
         jScrollPane1.setViewportView(paneOfProduct1);
+
+        jLabel1.setText("Loại đồ uống: ");
+
+        cboLoaiDoUong.setBackground(new java.awt.Color(255, 255, 255));
+        cboLoaiDoUong.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cboLoaiDoUong.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                cboLoaiDoUongMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(24, 24, 24)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 455, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(457, Short.MAX_VALUE))
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 399, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(8, 8, 8)
+                        .addComponent(jLabel1)
+                        .addGap(24, 24, 24)
+                        .addComponent(cboLoaiDoUong, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addContainerGap(531, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(27, 27, 27)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 384, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(204, Short.MAX_VALUE))
+                .addGap(4, 4, 4)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(cboLoaiDoUong, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 381, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(202, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void cboLoaiDoUongMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cboLoaiDoUongMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cboLoaiDoUongMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JComboBox<String> cboLoaiDoUong;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private com.view.component.paneOfProduct paneOfProduct1;
     // End of variables declaration//GEN-END:variables
 
-    
 }

@@ -65,8 +65,6 @@ public class MainTemplate extends javax.swing.JFrame {
 
                 } else if (index == 1) {
                     setForm(formBanHang);
-//                    setLayout(new BorderLayout());
-//                    add(BorderLayout.LINE_END, new JScrollPane(mainPanel));
                 } else if (index == 7) {
 //                    setForm(formMonHoc);
                 } else if (index == 8) {

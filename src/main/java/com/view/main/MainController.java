@@ -23,8 +23,8 @@ public class MainController {
         System.out.println("=============================================");
 //        int triggerNum = 1;/// example that parament must be change follow up actor
 //        //// tạo ra những biến để chuyển tab
-//        if(triggerNum==0){
 //             java.awt.EventQueue.invokeLater(new Runnable() {cbc
+//        if(triggerNum==0){
 //            public void run() {
 //                new MainOfSV().setVisible(true);
 //            }

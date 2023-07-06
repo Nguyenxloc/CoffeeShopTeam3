@@ -122,6 +122,8 @@ public class ProductCell extends javax.swing.JPanel {
         lblPriceProduct = new javax.swing.JLabel();
         lblDes = new javax.swing.JLabel();
 
+        setBackground(new java.awt.Color(255, 255, 255));
+
         lblNameProduct.setText("#NameOfProduct");
 
         ImageIcon imageIcon = new ImageIcon(dir); // load the image to a imageIcon
