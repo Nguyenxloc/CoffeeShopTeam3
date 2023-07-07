@@ -4,6 +4,7 @@
  */
 package com.view.component;
 
+import model.DoUong;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridLayout;
@@ -25,53 +26,16 @@ public class paneOfProduct extends JPanel {
 //        add(BorderLayout.WEST, new JScrollPane(paneOfProduct1));
 //        paneOfProduct1.setVisible(true);
 
-    static ArrayList<Person> lstPerson = new ArrayList<>();
     static ArrayList<ProductCell> lstCell = new ArrayList<>();
 
-    public paneOfProduct() {
-        lstPerson.add(new Person("John1", "DEV1"));
-        lstPerson.add(new Person("John2", "DEV2"));
-        lstPerson.add(new Person("John3", "DEV3"));
-        lstPerson.add(new Person("John4", "DEV4"));
-        lstPerson.add(new Person("John5", "DEV5"));
-        lstPerson.add(new Person("John6", "DEV6"));
-        lstPerson.add(new Person("John7", "DEV7"));
-        lstPerson.add(new Person("John8", "DEV8"));
-        lstPerson.add(new Person("John8", "DEV8"));
-        lstPerson.add(new Person("John8", "DEV8"));
-        lstPerson.add(new Person("John8", "DEV8"));
-        lstPerson.add(new Person("John8", "DEV8"));
-        lstPerson.add(new Person("John8", "DEV8"));
-        lstPerson.add(new Person("John8", "DEV8"));
-        lstPerson.add(new Person("John8", "DEV8"));
-        lstPerson.add(new Person("John8", "DEV8"));
-        lstPerson.add(new Person("John8", "DEV8"));
-        lstPerson.add(new Person("John8", "DEV8"));
-        lstPerson.add(new Person("John8", "DEV8"));
-        lstPerson.add(new Person("John8", "DEV8"));
-        lstPerson.add(new Person("John8", "DEV8"));
-        lstPerson.add(new Person("John8", "DEV8"));
-        lstPerson.add(new Person("John8", "DEV8"));
-        lstPerson.add(new Person("John8", "DEV8"));
-        lstPerson.add(new Person("John8", "DEV8"));
-        lstPerson.add(new Person("John8", "DEV8"));
-        lstPerson.add(new Person("John8", "DEV8"));
-        lstPerson.add(new Person("John8", "DEV8"));
-        lstPerson.add(new Person("John8", "DEV8"));
-        lstPerson.add(new Person("John8", "DEV8"));
-        lstPerson.add(new Person("John8", "DEV8"));
-        lstPerson.add(new Person("John8", "DEV8"));
-        lstPerson.add(new Person("John8", "DEV8"));
-        lstPerson.add(new Person("John8", "DEV8"));
-        lstPerson.add(new Person("John8", "DEV8"));
-        lstPerson.add(new Person("John8", "DEV8"));
-        lstPerson.add(new Person("John8", "DEV8"));
-        GridLayout grid = new GridLayout(Integer.valueOf(lstPerson.size() /3)+1, 3);
+    public paneOfProduct(ArrayList<DoUong> lstPerson) {
+        
+        GridLayout grid = new GridLayout(Integer.valueOf(lstPerson.size() / 3) + 1, 3);
         grid.setVgap(-5);
-        grid.setHgap(-5);
+        grid.setHgap(0);
         this.setLayout(grid);
         for (int i = 0; i < lstPerson.size(); i++) {
-            ProductCell cell = new ProductCell(null, lstPerson.get(i).getName(), 25.50, lstPerson.get(i).getJob());
+            ProductCell cell = new ProductCell(lstPerson.get(i).getImg(), lstPerson.get(i).getTen(), lstPerson.get(i).getGiaCa(), lstPerson.get(i).getMoTa());
             lstCell.add(cell);
             lstCell.get(i).setName(String.valueOf(i));
             lstCell.get(i).addMouseListener(new MouseListener() {
@@ -128,10 +92,9 @@ public class paneOfProduct extends JPanel {
         }
     }
 
-    public static Person getFromSelectedProduct(int count) {
-        return lstPerson.get(count);
-    }
-
+//    public static Person getFromSelectedProduct(int count) {
+//        return lstPerson.get(count);
+//    }
     public static void MoveToHDChiTiet(int count) {
         //////lấy id sản phẩm rồi chuyển sang hóa đơn chi tiết;
     }

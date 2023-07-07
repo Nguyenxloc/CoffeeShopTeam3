@@ -4,9 +4,13 @@
  */
 package com.view.form_Template;
 
+import model.DoUong;
+import com.view.component.paneOfProduct;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Arrays;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.RowFilter;
@@ -16,6 +20,8 @@ import javax.swing.table.TableRowSorter;
 public class Form_BanHang extends javax.swing.JPanel {
 
     private DefaultTableModel defaultTableModel = new DefaultTableModel();
+    private paneOfProduct paneProduct;
+    private ArrayList<DoUong> lstPerson = new ArrayList<>();
 
     /**
      * Creates new form Form_QlThongTinSV
@@ -24,18 +30,61 @@ public class Form_BanHang extends javax.swing.JPanel {
         initComponents();
         jScrollPane1.setBorder(null);
         this.setBorder(null);
-        cboLoaiDoUong.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                System.out.println("test select");
-                paneOfProduct1.revalidate();
-                 paneOfProduct1.repaint();
-            }
-        });
-
+        LoadlstProduct();
+        //Truyền biến vào panel productOfPane
+//      paneProduct.setVisible(true);
     }
 
-    private void loadData() {
+    private void reLoadProduct() {
+        paneProduct = new paneOfProduct(lstPerson);
+        jScrollPane1.setViewportView(paneProduct);
+        jScrollPane1.getViewport().repaint();
+        jScrollPane1.getViewport().revalidate();
     }
+//gọi từ service list sản phầm theo order by desc để sql trả về danh sách từng loại đồ uống
+    public void LoadlstProduct() {
+        lstPerson.clear();
+        System.out.println(lstPerson);
+        lstPerson.add(new DoUong("Coffe egg1","Coffe",25000.0,"Cafe+Trứng",null));
+        lstPerson.add(new DoUong("Coffe egg2", "Coffe",25000.0,"Cafe+Trứng",null));
+        lstPerson.add(new DoUong("Coffe egg3", "Coffe",25000.0,"Cafe+Trứng",null));
+        lstPerson.add(new DoUong("Coffe egg4", "Coffe",25000.0,"Cafe+Trứng",null));
+        lstPerson.add(new DoUong("Coffe egg5", "Coffe",25000.0,"Cafe+Trứng",null));
+        lstPerson.add(new DoUong("Coffe egg6", "Coffe",25000.0,"Cafe+Trứng",null));
+        lstPerson.add(new DoUong("Coffe egg7", "Coffe",25000.0,"Cafe+Trứng",null));
+        lstPerson.add(new DoUong("Coffe egg8", "Coffe",25000.0,"Cafe+Trứng",null));
+        lstPerson.add(new DoUong("Coffe egg9", "Coffe",25000.0,"Cafe+Trứng",null));
+        lstPerson.add(new DoUong("Coffe egg10", "Coffe",25000.0,"Cafe+Trứng",null));
+        lstPerson.add(new DoUong("Coffe egg11", "Coffe",25000.0,"Cafe+Trứng",null));
+        lstPerson.add(new DoUong("Coffe egg12", "Trà",25000.0,"Trà truyền thống",null));
+        lstPerson.add(new DoUong("Tea break1",  "Trà",25000.0,"Trà truyền thống",null));
+        lstPerson.add(new DoUong("Tea break2",  "Trà",25000.0,"Trà truyền thống",null));
+        lstPerson.add(new DoUong("Tea break3",  "Trà",25000.0,"Trà truyền thống",null));
+        lstPerson.add(new DoUong("Tea break4",  "Trà",25000.0,"Trà truyền thống",null));
+        lstPerson.add(new DoUong("Tea break5",  "Trà",25000.0,"Trà truyền thống",null));
+        lstPerson.add(new DoUong("Tea break6",  "Trà",25000.0,"Trà truyền thống",null));
+        lstPerson.add(new DoUong("Tea break7",  "Trà",25000.0,"Trà truyền thống",null));
+        lstPerson.add(new DoUong("Tea break8",  "Trà",25000.0,"Trà truyền thống",null));
+        lstPerson.add(new DoUong("Tea break9",  "Trà",25000.0,"Trà truyền thống",null));
+        lstPerson.add(new DoUong("Tea break10",  "Trà",25000.0,"Trà truyền thống",null));
+        lstPerson.add(new DoUong("Tea break11",  "Trà",25000.0,"Trà truyền thống",null));
+        lstPerson.add(new DoUong("Tea break12",  "Trà",25000.0,"Trà truyền thống",null));
+        lstPerson.add(new DoUong("Tea break13",  "Trà",25000.0,"Trà truyền thống",null));
+        lstPerson.add(new DoUong("Tea break14",  "Trà",25000.0,"Trà truyền thống",null));
+        lstPerson.add(new DoUong("Tea Milk1",  "Trà sữa",25000.0,"Trà mix sữa",null));
+        lstPerson.add(new DoUong("Tea Milk2",   "Trà sữa",25000.0,"Trà mix sữa",null));
+        lstPerson.add(new DoUong("Tea Milk3",   "Trà sữa",25000.0,"Trà mix sữa",null));
+        lstPerson.add(new DoUong("Tea Milk4",   "Trà sữa",25000.0,"Trà mix sữa",null));
+        lstPerson.add(new DoUong("Tea Milk5",   "Trà sữa",25000.0,"Trà mix sữa",null));
+        lstPerson.add(new DoUong("Tea Milk6",   "Trà sữa",25000.0,"Trà mix sữa",null));
+        lstPerson.add(new DoUong("Tea Milk7",   "Trà sữa",25000.0,"Trà mix sữa",null));
+        lstPerson.add(new DoUong("Tea Milk8",   "Trà sữa",25000.0,"Trà mix sữa",null));
+        lstPerson.add(new DoUong("Tea Milk9",   "Trà sữa",25000.0,"Trà mix sữa",null));
+        lstPerson.add(new DoUong("Tea Milk10",   "Trà sữa",25000.0,"Trà mix sữa",null));
+        lstPerson.add(new DoUong("Tea Milk11",   "Trà sữa",25000.0,"Trà mix sữa",null));
+        reLoadProduct();
+    }
+
 
     ////////////////////////svfunc//////////////////////////////////////
     public void loadToChuyenNganhCBO() {
@@ -52,26 +101,11 @@ public class Form_BanHang extends javax.swing.JPanel {
 
         buttonGroup1 = new javax.swing.ButtonGroup();
         jScrollPane1 = new javax.swing.JScrollPane();
-        paneOfProduct1 = new com.view.component.paneOfProduct();
-        jLabel1 = new javax.swing.JLabel();
-        cboLoaiDoUong = new javax.swing.JComboBox<>();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(51, 153, 255)));
 
-        paneOfProduct1.setBackground(new java.awt.Color(255, 255, 255));
-        paneOfProduct1.setForeground(new java.awt.Color(255, 255, 255));
-        jScrollPane1.setViewportView(paneOfProduct1);
-
-        jLabel1.setText("Loại đồ uống: ");
-
-        cboLoaiDoUong.setBackground(new java.awt.Color(255, 255, 255));
-        cboLoaiDoUong.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        cboLoaiDoUong.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                cboLoaiDoUongMouseClicked(evt);
-            }
-        });
+        jScrollPane1.setBackground(new java.awt.Color(255, 255, 255));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -79,39 +113,22 @@ public class Form_BanHang extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 399, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(8, 8, 8)
-                        .addComponent(jLabel1)
-                        .addGap(24, 24, 24)
-                        .addComponent(cboLoaiDoUong, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 399, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(531, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(4, 4, 4)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(cboLoaiDoUong, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(16, 16, 16)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 381, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(202, Short.MAX_VALUE))
+                .addContainerGap(218, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
-
-    private void cboLoaiDoUongMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cboLoaiDoUongMouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_cboLoaiDoUongMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
-    private javax.swing.JComboBox<String> cboLoaiDoUong;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private com.view.component.paneOfProduct paneOfProduct1;
     // End of variables declaration//GEN-END:variables
 
 }
