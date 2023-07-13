@@ -39,9 +39,9 @@ public class MenuOfCB extends javax.swing.JPanel {
     private void init() {
         
         listMenu1.addItem(new Model_Menu("2", "Cafe", Model_Menu.MenuType.MENU));
-        listMenu1.addItem(new Model_Menu("3", "Bán hàng", Model_Menu.MenuType.MENU));
+        listMenu1.addItem(new Model_Menu("3", "Kem", Model_Menu.MenuType.MENU));
         listMenu1.addItem(new Model_Menu("4", "Trà", Model_Menu.MenuType.MENU));
-        listMenu1.addItem(new Model_Menu("5", "Đồ ăn vặt", Model_Menu.MenuType.MENU));
+        listMenu1.addItem(new Model_Menu("5", "QL_Đồ uống", Model_Menu.MenuType.MENU));
         //listMenu1.addItem(new Model_Menu("6", "Icons", Model_Menu.MenuType.MENU));
         listMenu1.addItem(new Model_Menu("1", "Kem", Model_Menu.MenuType.MENU));
         listMenu1.addItem(new Model_Menu("7", "Sữa chua", Model_Menu.MenuType.MENU));
