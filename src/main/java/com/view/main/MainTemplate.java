@@ -11,7 +11,10 @@ import com.view.form.ThongBaoForm;
 import com.view.form.LichHocForm;
 import com.view.form.DiemForm;
 import com.view.form.WalletForm;
+import com.view.form_Template.FormLichHoc;
 import com.view.form_Template.Form_BanHang;
+import com.view.form_Template.Form_LopHoc;
+import com.view.form_Template.Form_TaoTaiKhoan;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -38,11 +41,12 @@ public class MainTemplate extends javax.swing.JFrame {
     private DiemForm formDiem;
     private DangKyDVForm form4;
     private Form_BanHang formBanHang;
+    private FormLichHoc formLH;
     private com.view.component.paneOfProduct paneOfProduct2;
 
     public MainTemplate() {
         initComponents();
-
+        formLH = new FormLichHoc();
         home = new WalletForm();
         formThongbao = new ThongBaoForm();
         formLichHoc = new LichHocForm();
@@ -66,13 +70,13 @@ public class MainTemplate extends javax.swing.JFrame {
                 } else if (index == 1) {
                     setForm(formBanHang);
                 } else if (index == 7) {
-//                    setForm(formMonHoc);
+                    setForm(formLH);
                 } else if (index == 8) {
-//                    setForm(formLopHoc);
+                    setForm(new Form_TaoTaiKhoan());
                 } else if (index == 2) {
 //                    setForm(formQLDiem);
                 } else if (index == 3) {
-//                    setForm(formQLTin);
+//                    setForm();
                 } else if (index == 4) {
                     setForm(home);
                 } else if (index == 9) {
