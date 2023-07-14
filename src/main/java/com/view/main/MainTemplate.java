@@ -42,6 +42,7 @@ public class MainTemplate extends javax.swing.JFrame {
     private DangKyDVForm form4;
     private Form_BanHang formBanHang;
     private FormLichHoc formLH;
+    private Form_TaoTaiKhoan form_TaoTaiKhoan;
     private com.view.component.paneOfProduct paneOfProduct2;
 
     public MainTemplate() {
@@ -52,6 +53,7 @@ public class MainTemplate extends javax.swing.JFrame {
         formLichHoc = new LichHocForm();
         formDiem = new DiemForm();
         formBanHang = new Form_BanHang();
+        form_TaoTaiKhoan = new Form_TaoTaiKhoan();
         JScrollPane scroll = new JScrollPane();
         Component[] com = formBanHang.getComponents();
 
@@ -72,7 +74,7 @@ public class MainTemplate extends javax.swing.JFrame {
                 } else if (index == 7) {
                     setForm(formLH);
                 } else if (index == 8) {
-                    setForm(new Form_TaoTaiKhoan());
+                    setForm(form_TaoTaiKhoan);
                 } else if (index == 2) {
 //                    setForm(formQLDiem);
                 } else if (index == 3) {

@@ -49,6 +49,11 @@ public class TaoTaiKhoanService {
         return listCapBac;
     }
 
+    public ArrayList<String> getAllPhoneNumbers() {
+        ArrayList<String> listPhones = repositoryTK.getAllPhoneNumbers();
+        return listPhones;
+    }
+
     public void save(TaiKhoan acount) {
         repositoryTK.save(acount);
     }

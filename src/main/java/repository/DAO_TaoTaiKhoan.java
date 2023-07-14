@@ -22,6 +22,7 @@ public class DAO_TaoTaiKhoan {
     final String INSERT_SQL = "INSERT INTO NhanVien(Ma,Ho,TenDem,Ten,GioiTinh,NgaySinh,DiaChi,Sdt,MatKhau,IdCB)\n"
             + "VALUES (?,?,?,?,?,?,?,?,?,?)";
     final String SELECT_CAPBAC_SQL = "SELECT id, Ten FROM CapBac";
+    final String SELECT_PHONE_SQL = "SELECT Sdt FROM NhanVien";
     final String SELECT_BY_SQL = "SELECT COUNT(*) FROM nhanvien WHERE ma = ?";
     final String SELECT_ALL_SQL = "SELECT NhanVien.Ma, NhanVien.Ho + ' ' + NhanVien.TenDem + ' ' + NhanVien.Ten as TENNHANVIEN, GioiTinh,NgaySinh,DiaChi,Sdt,MatKhau,CapBac.Id,TrangThai  FROM NhanVien JOIN \n"
             + "CapBac ON NhanVien.IdCB = CapBac.Id";
@@ -58,6 +59,23 @@ public class DAO_TaoTaiKhoan {
         }
 
         return listAcount;
+    }
+
+    // LẤY SỐ ĐIỆN THOẠI CỦA NHÂN VIÊN
+    public ArrayList<String> getAllPhoneNumbers() {
+        ArrayList<String> listPhones = new ArrayList<>();
+        try {
+            PreparedStatement ps = connection.prepareStatement(SELECT_PHONE_SQL);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                String phone = rs.getString("Sdt");
+                listPhones.add(phone);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return listPhones;
     }
 
     // Lấy dữ liệu theo mã Nhân viên
