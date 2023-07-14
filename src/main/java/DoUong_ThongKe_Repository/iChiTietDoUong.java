@@ -21,6 +21,6 @@ public interface iChiTietDoUong {
 
     void update(ChiTietDoUong chiTietDoUong);
 
-    void delete(String id);
+    void delete(String tenDoUong);
 
 }

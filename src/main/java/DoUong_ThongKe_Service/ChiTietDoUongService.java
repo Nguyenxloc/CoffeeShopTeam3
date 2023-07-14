@@ -44,7 +44,7 @@ public class ChiTietDoUongService {
         dAO_ChiTietDoUong.update(chiTietDoUong);
     }
     
-    public void deleteChiTietDoUong(String  id){
-        dAO_ChiTietDoUong.delete(id);
+    public void deleteChiTietDoUong(String  tenDoUong){
+        dAO_ChiTietDoUong.delete(tenDoUong);
     }
 }

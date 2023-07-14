@@ -17,7 +17,9 @@ import javax.imageio.ImageIO;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
+import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 
 public class Form_QLDoUong extends javax.swing.JPanel {
 
@@ -93,22 +95,22 @@ public class Form_QLDoUong extends javax.swing.JPanel {
 
     }
 
-    public void delete() {
+    public void delete(String tenDoUong) {
         try {
-            index = tblDanhSachDoUong.getSelectedRow();
-            chiTietDoUongService.deleteChiTietDoUong(lstChiTietDoUong.get(index).getId());
+            chiTietDoUongService.deleteChiTietDoUong(tenDoUong);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-//    public void loadHinhAnh(){
-//        ImageIcon  oriImgIcon = new ImageIcon(lstChiTietDoUong.get(index).getHinhAnh());
-//        Image image = oriImgIcon.getImage(); // transform it
-//        Image newimg = image.getScaledInstance(79,120,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
-//        ImageIcon imageIcon = new ImageIcon(newimg);
-//        lblHinhAnh.setIcon(imageIcon);
-//    }
+    public void clearForm() {
+        txtTenDoUong.setText("");
+        cboDanhMucDoUong.setSelectedItem(0);
+        txtGiaNhapDoUong.setText("");
+        txtGiaBanDoUong.setText("");
+        taraMota.setText("");
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -231,13 +233,13 @@ public class Form_QLDoUong extends javax.swing.JPanel {
                             .addComponent(txtGiaNhapDoUong)
                             .addComponent(cboDanhMucDoUong, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(txtTenDoUong)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 275, Short.MAX_VALUE)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(14, 14, 14)
-                                .addComponent(lblHinhAnh, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btnChonAnh)
-                                .addGap(3, 3, 3)))))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 275, Short.MAX_VALUE)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(121, 121, 121)
+                        .addComponent(lblHinhAnh, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnChonAnh)
+                        .addGap(3, 3, 3)))
                 .addContainerGap(26, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -250,7 +252,7 @@ public class Form_QLDoUong extends javax.swing.JPanel {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(17, 17, 17)
                         .addComponent(lblHinhAnh, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(51, 51, 51)
+                .addGap(49, 49, 49)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(txtTenDoUong, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -277,7 +279,7 @@ public class Form_QLDoUong extends javax.swing.JPanel {
                     .addComponent(btnThem, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnSua, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnXoa, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(107, Short.MAX_VALUE))
         );
 
         jPanel1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {cboDanhMucDoUong, txtGiaBanDoUong, txtGiaNhapDoUong, txtTenDoUong});
@@ -289,6 +291,12 @@ public class Form_QLDoUong extends javax.swing.JPanel {
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(0, 0, 0));
         jLabel4.setText("Tên đồ uống: ");
+
+        txtTimKiemTenDoUong.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtTimKiemTenDoUongKeyReleased(evt);
+            }
+        });
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(0, 0, 0));
@@ -396,6 +404,12 @@ public class Form_QLDoUong extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
+        for (int i = 0; i < chiTietDoUongService.getListChiTietDoUong().size(); i++) {
+            if (txtTenDoUong.getText().equalsIgnoreCase(chiTietDoUongService.getListChiTietDoUong().get(i).getTenDoUong())) {
+                JOptionPane.showMessageDialog(this, "Đồ uống đã tồn tại");
+                return;
+            }
+        }
         int count = cboDanhMucDoUong.getSelectedIndex();
         LoaiDoUong loaiDoUong = lstLoaiDoUong.get(count);
 
@@ -429,9 +443,23 @@ public class Form_QLDoUong extends javax.swing.JPanel {
     }//GEN-LAST:event_btnSuaActionPerformed
 
     private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
-        delete();
-        loadData();
+        String tenDoUong = txtTenDoUong.getText();
+        int hoi = JOptionPane.showConfirmDialog(this, "Bạn có muốn xóa không ?");
+        if (hoi == JOptionPane.YES_NO_OPTION) {
+            chiTietDoUongService.deleteChiTietDoUong(tenDoUong);
+            JOptionPane.showMessageDialog(this, "Xóa thành công");
+            clearForm();
+            loadData();
+        }
+
     }//GEN-LAST:event_btnXoaActionPerformed
+
+    private void txtTimKiemTenDoUongKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTimKiemTenDoUongKeyReleased
+        DefaultTableModel model = (DefaultTableModel) tblDanhSachDoUong.getModel();
+        TableRowSorter<DefaultTableModel> ob = new TableRowSorter<>(model);
+        tblDanhSachDoUong.setRowSorter(ob);
+        ob.setRowFilter(RowFilter.regexFilter(txtTimKiemTenDoUong.getText()));
+    }//GEN-LAST:event_txtTimKiemTenDoUongKeyReleased
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

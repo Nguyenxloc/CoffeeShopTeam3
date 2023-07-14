@@ -19,7 +19,7 @@ public class DAO_ChiTietDoUong implements iChiTietDoUong{
     
     final String INSERT_SQL = "INSERT INTO dbo.ChiTietDoUong(idLoaiDoUong,TenDoUong,GiaNhap,GiaBan,MoTa)VALUES(?,?,?,?,?)";
     final String UPDATE_SQL = "UPDATE dbo.ChiTietDoUong SET GiaNhap=?,GiaBan=?,MoTa=? WHERE TenDoUong=?";
-    final String DELETE_SQL = "DELETE FROM [dbo].[ChiTietDoUong] WHERE [Id] = ?";
+    final String DELETE_SQL = "DELETE FROM [dbo].[ChiTietDoUong] WHERE [TenDoUong] = ?";
     final String SELECT_BY_SQL = "SELECT * FROM [dbo].[ChiTietDoUong] WHERE [Id] = ?";
     final String SELECT_ALL_SQL = "SELECT * FROM [dbo].[ChiTietDoUong] order by TenDoUong";
     final String SELECT_BY_UNIID = "SELECT * FROM [dbo].[ChiTietDoUong] WHERE [Id] = ?";
@@ -87,10 +87,10 @@ public class DAO_ChiTietDoUong implements iChiTietDoUong{
     }
 
     @Override
-    public void delete(String id) {
+    public void delete(String tenDoUong) {
         DBConnection1 dbConn = new DBConnection1();
         try {
-            dbConn.ExcuteSQL(DELETE_SQL,id);
+            dbConn.ExcuteSQL(DELETE_SQL,tenDoUong);
         } catch (Exception e) {
             e.printStackTrace();
         }
