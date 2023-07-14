@@ -9,5 +9,7 @@ package testGit;
  * @author 84374
  */
 public class hellohaha {
-    
+    public static void main(String[] args) {
+        System.out.println("hello");
+    }
 }
