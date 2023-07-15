@@ -35,6 +35,13 @@ public class ChiTietDoUongService {
         lstChiTietDoUong = dAO_ChiTietDoUong.selectALl();
         return lstChiTietDoUong;
     }
+     
+     public ArrayList<ChiTietDoUong> getTimKiem(String tenDoUong,String idLoaiDoUong,double giaBatDau,double giaKetThuc ){
+        ArrayList<ChiTietDoUong> lstChiTietDoUong  = new ArrayList<>();
+        lstChiTietDoUong = dAO_ChiTietDoUong.selectByFlexibleCondition(tenDoUong, idLoaiDoUong,giaBatDau,giaKetThuc);
+        return lstChiTietDoUong;
+    }
+     
     
     public void saveChiTietDoUong(ChiTietDoUong chiTietDoUong){
         dAO_ChiTietDoUong.save(chiTietDoUong);

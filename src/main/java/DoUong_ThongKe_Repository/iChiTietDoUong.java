@@ -14,8 +14,10 @@ import java.util.ArrayList;
 public interface iChiTietDoUong {
 
     ArrayList<ChiTietDoUong> selectALl();
-
+    
+    ArrayList<ChiTietDoUong> selectByFlexibleCondition(String tenDoUong, String idLoaiDoUong,double giaBatDau,double giaKetThuc);
     ChiTietDoUong selectByID(String id);
+    
 
     void save(ChiTietDoUong chiTietDoUong);
 

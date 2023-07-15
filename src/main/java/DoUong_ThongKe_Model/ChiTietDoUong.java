@@ -22,28 +22,20 @@ public class ChiTietDoUong {
     
     private String moTa;
     
-//    private byte[] hinhAnh;
+    private byte[] hinhAnh;
     
     private LoaiDoUong loaiDoUong;
 
     public ChiTietDoUong() {
     }
 
-    public ChiTietDoUong(String tenDoUong, double giaNhap, double giaBan, String moTa) {
-        this.tenDoUong = tenDoUong;
-        this.giaNhap = giaNhap;
-        this.giaBan = giaBan;
-        this.moTa = moTa;
-    }
-    
-    
-
-    public ChiTietDoUong(String id, String tenDoUong, double giaNhap, double giaBan, String moTa, LoaiDoUong loaiDoUong) {
+    public ChiTietDoUong(String id, String tenDoUong, double giaNhap, double giaBan, String moTa, byte[] hinhAnh, LoaiDoUong loaiDoUong) {
         this.id = id;
         this.tenDoUong = tenDoUong;
         this.giaNhap = giaNhap;
         this.giaBan = giaBan;
         this.moTa = moTa;
+        this.hinhAnh = hinhAnh;
         this.loaiDoUong = loaiDoUong;
     }
 
@@ -87,6 +79,14 @@ public class ChiTietDoUong {
         this.moTa = moTa;
     }
 
+    public byte[] getHinhAnh() {
+        return hinhAnh;
+    }
+
+    public void setHinhAnh(byte[] hinhAnh) {
+        this.hinhAnh = hinhAnh;
+    }
+
     public LoaiDoUong getLoaiDoUong() {
         return loaiDoUong;
     }
@@ -97,10 +97,8 @@ public class ChiTietDoUong {
 
     @Override
     public String toString() {
-        return "ChiTietDoUong{" + "id=" + id + ", tenDoUong=" + tenDoUong + ", giaNhap=" + giaNhap + ", giaBan=" + giaBan + ", moTa=" + moTa + ", loaiDoUong=" + loaiDoUong + '}';
+        return "ChiTietDoUong{" + "id=" + id + ", tenDoUong=" + tenDoUong + ", giaNhap=" + giaNhap + ", giaBan=" + giaBan + ", moTa=" + moTa + ", hinhAnh=" + hinhAnh + ", loaiDoUong=" + loaiDoUong + '}';
     }
-
-    
 
     
 }

@@ -138,7 +138,6 @@
                   <Color blue="33" green="33" red="ff" type="rgb"/>
                 </Property>
                 <Property name="horizontalAlignment" type="int" value="0"/>
-                <Property name="text" type="java.lang.String" value="C&#xe1;n b&#x1ed9;"/>
               </Properties>
             </Component>
           </SubComponents>

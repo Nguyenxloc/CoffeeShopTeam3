@@ -165,14 +165,14 @@ public class LoginFrame extends javax.swing.JFrame {
         kGradientPanel1.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 70, 410, 520));
 
         jLabel1.setIcon(new javax.swing.ImageIcon(dir+"\\baomat1.png"));
-        System.out.println("Test link: "+dir+"\\baomat1.png");
-        kGradientPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 230, 520, 340));
+        //dir+"\\login1.jpg"
+        kGradientPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 70, 620, 520));
 
         jLabel6.setFont(new java.awt.Font("Segoe UI Semibold", 1, 24)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel6.setText("<html>\nNEVER STOP LEARNING\n<br>\nBECAUSE LIFE NEVER STOPS TEACHING\n");
-        kGradientPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 60, 500, 110));
+        jLabel6.setText("<html> <br>");
+        kGradientPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, 500, 20));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);

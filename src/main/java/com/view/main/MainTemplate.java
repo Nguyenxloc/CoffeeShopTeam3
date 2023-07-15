@@ -69,7 +69,6 @@ public class MainTemplate extends javax.swing.JFrame {
 //                    setForm(formBaoCao);
                 } else if (index == 0) {
                     setForm(formThongbao);
-
                 } else if (index == 1) {
                     setForm(formBanHang);
                 } else if (index == 7) {
@@ -151,7 +150,6 @@ public class MainTemplate extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 13)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 51, 51));
         jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setText("Cán bộ");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
