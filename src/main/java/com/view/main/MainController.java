@@ -4,7 +4,7 @@
  */
 package com.view.main;
 
-import ultilities.DBConnection;
+import ultilities.Utilitys;
 
 /**
  *
@@ -15,11 +15,11 @@ public class MainController {
     public static void main(String[] args) {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new LoginFrame().setVisible(true);
+                new DangNhapFrame().setVisible(true);
             }
         });
         System.out.println("===================Test jdbc=================");
-        DBConnection dbconn = new DBConnection();
+        Utilitys dbconn = new Utilitys();
         System.out.println(dbconn.openDbConnection());
         System.out.println("=============================================");
 //        int triggerNum = 1;/// example that parament must be change follow up actor

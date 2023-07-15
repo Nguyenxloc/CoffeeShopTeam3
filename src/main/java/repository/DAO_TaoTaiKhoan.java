@@ -8,7 +8,7 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import model.CapBac;
 import model.TaiKhoan;
-import ultilities.DBConnection;
+import ultilities.Utilitys;
 import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -32,7 +32,7 @@ public class DAO_TaoTaiKhoan {
     private Connection connection;
 
     public DAO_TaoTaiKhoan() throws Exception {
-        connection = DBConnection.getConnection();
+        connection = Utilitys.getConnection();
     }
 
     // Lấy dữ liệu tài khỏan
@@ -80,7 +80,7 @@ public class DAO_TaoTaiKhoan {
 
     // Lấy dữ liệu theo mã Nhân viên
     public int selectByID(String id) {
-        DBConnection dbConn = new DBConnection();
+        Utilitys dbConn = new Utilitys();
         ArrayList<TaiKhoan> listAcount = new ArrayList<>();
         TaiKhoan tk = new TaiKhoan();
         try {
@@ -118,6 +118,7 @@ public class DAO_TaoTaiKhoan {
     }
 
     public void save(TaiKhoan acount) {
+        String hashPasString = Utilitys.hashPassword(acount.getMatKhau());
         try {
             PreparedStatement ps = connection.prepareStatement(INSERT_SQL);
             ps.setString(1, acount.getMaNV());
@@ -128,7 +129,7 @@ public class DAO_TaoTaiKhoan {
             ps.setDate(6, new java.sql.Date(acount.getNgaySinh().getTime()));
             ps.setString(7, acount.getDiaChi());
             ps.setString(8, acount.getSoDT());
-            ps.setString(9, acount.getMatKhau());
+            ps.setString(9, hashPasString);
             ps.setString(10, acount.getCapBac().getIdCB());
             int resualt = ps.executeUpdate();
             System.out.println(resualt);
