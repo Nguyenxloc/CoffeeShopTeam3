@@ -8,7 +8,7 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import model.CapBac;
 import model.TaiKhoan;
-import ultilities.DBConnection;
+import ultilities.Utilitys;
 import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -22,6 +22,7 @@ public class DAO_TaoTaiKhoan {
     final String INSERT_SQL = "INSERT INTO NhanVien(Ma,Ho,TenDem,Ten,GioiTinh,NgaySinh,DiaChi,Sdt,MatKhau,IdCB)\n"
             + "VALUES (?,?,?,?,?,?,?,?,?,?)";
     final String SELECT_CAPBAC_SQL = "SELECT id, Ten FROM CapBac";
+    final String SELECT_PHONE_SQL = "SELECT Sdt FROM NhanVien";
     final String SELECT_BY_SQL = "SELECT COUNT(*) FROM nhanvien WHERE ma = ?";
     final String SELECT_ALL_SQL = "SELECT NhanVien.Ma, NhanVien.Ho + ' ' + NhanVien.TenDem + ' ' + NhanVien.Ten as TENNHANVIEN, GioiTinh,NgaySinh,DiaChi,Sdt,MatKhau,CapBac.Id,TrangThai  FROM NhanVien JOIN \n"
             + "CapBac ON NhanVien.IdCB = CapBac.Id";
@@ -31,7 +32,7 @@ public class DAO_TaoTaiKhoan {
     private Connection connection;
 
     public DAO_TaoTaiKhoan() throws Exception {
-        connection = DBConnection.getConnection();
+        connection = Utilitys.getConnection();
     }
 
     // Lấy dữ liệu tài khỏan
@@ -60,9 +61,26 @@ public class DAO_TaoTaiKhoan {
         return listAcount;
     }
 
+    // LẤY SỐ ĐIỆN THOẠI CỦA NHÂN VIÊN
+    public ArrayList<String> getAllPhoneNumbers() {
+        ArrayList<String> listPhones = new ArrayList<>();
+        try {
+            PreparedStatement ps = connection.prepareStatement(SELECT_PHONE_SQL);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                String phone = rs.getString("Sdt");
+                listPhones.add(phone);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return listPhones;
+    }
+
     // Lấy dữ liệu theo mã Nhân viên
     public int selectByID(String id) {
-        DBConnection dbConn = new DBConnection();
+        Utilitys dbConn = new Utilitys();
         ArrayList<TaiKhoan> listAcount = new ArrayList<>();
         TaiKhoan tk = new TaiKhoan();
         try {
@@ -100,6 +118,7 @@ public class DAO_TaoTaiKhoan {
     }
 
     public void save(TaiKhoan acount) {
+        String hashPasString = Utilitys.hashPassword(acount.getMatKhau());
         try {
             PreparedStatement ps = connection.prepareStatement(INSERT_SQL);
             ps.setString(1, acount.getMaNV());
@@ -110,7 +129,7 @@ public class DAO_TaoTaiKhoan {
             ps.setDate(6, new java.sql.Date(acount.getNgaySinh().getTime()));
             ps.setString(7, acount.getDiaChi());
             ps.setString(8, acount.getSoDT());
-            ps.setString(9, acount.getMatKhau());
+            ps.setString(9, hashPasString);
             ps.setString(10, acount.getCapBac().getIdCB());
             int resualt = ps.executeUpdate();
             System.out.println(resualt);
