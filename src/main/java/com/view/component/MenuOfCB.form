@@ -68,7 +68,7 @@
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
               <Connection code="new javax.swing.ImageIcon(dir)" type="code"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="&lt;html&gt;&#xa;Qu&#x1ea3;n l&#xfd;&#xa;&lt;br&gt;&#xa;_sinh vi&#xea;n"/>
+            <Property name="text" type="java.lang.String" value="&lt;html&gt; Coffee &lt;br&gt; coder"/>
           </Properties>
         </Component>
       </SubComponents>
