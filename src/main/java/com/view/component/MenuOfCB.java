@@ -47,18 +47,17 @@ public class MenuOfCB extends javax.swing.JPanel {
         listMenu1.addItem(new Model_Menu("7", "Sữa chua", Model_Menu.MenuType.MENU));
         listMenu1.addItem(new Model_Menu("8", "Quản lý hóa đơn", Model_Menu.MenuType.MENU));
         listMenu1.addItem(new Model_Menu("6", "Quản lý nhân viên", Model_Menu.MenuType.MENU));
-        listMenu1.addItem(new Model_Menu("9", "Quản lý nhân viên", Model_Menu.MenuType.MENU));
-        listMenu1.addItem(new Model_Menu("10", "Quản lý V..v", Model_Menu.MenuType.MENU));
-        listMenu1.addItem(new Model_Menu("", "cetera cetera ", Model_Menu.MenuType.EMPTY));
-
-        listMenu1.addItem(new Model_Menu("1", "QL somethingelse", Model_Menu.MenuType.MENU));
-        listMenu1.addItem(new Model_Menu("7", "QL somethingelse", Model_Menu.MenuType.MENU));
-        listMenu1.addItem(new Model_Menu("8", "QL somethingelse", Model_Menu.MenuType.MENU));
-        listMenu1.addItem(new Model_Menu("6", "QL somethingelse", Model_Menu.MenuType.MENU));
         listMenu1.addItem(new Model_Menu("9", "Tạo tài khoản", Model_Menu.MenuType.MENU));
         listMenu1.addItem(new Model_Menu("10", "Đăng xuất", Model_Menu.MenuType.MENU));
-        listMenu1.addItem(new Model_Menu("", "Đăng xuất ", Model_Menu.MenuType.EMPTY));
- master
+        listMenu1.addItem(new Model_Menu("", "cetera cetera ", Model_Menu.MenuType.EMPTY));
+
+//        listMenu1.addItem(new Model_Menu("11", "QL somethingelse", Model_Menu.MenuType.MENU));
+//        listMenu1.addItem(new Model_Menu("12", "QL somethingelse", Model_Menu.MenuType.MENU));
+//        listMenu1.addItem(new Model_Menu("13", "QL somethingelse", Model_Menu.MenuType.MENU));
+//        listMenu1.addItem(new Model_Menu("14", "QL somethingelse", Model_Menu.MenuType.MENU));
+//        listMenu1.addItem(new Model_Menu("15", "Tạo tài khoản", Model_Menu.MenuType.MENU));
+//        listMenu1.addItem(new Model_Menu("16", "Đăng xuất", Model_Menu.MenuType.MENU));
+//        listMenu1.addItem(new Model_Menu("17", "Đăng xuất ", Model_Menu.MenuType.EMPTY));
 
 
     }

@@ -17,7 +17,7 @@ import ultilities.DBConnection1;
 
 
 public class LoginFrame extends javax.swing.JFrame {
-      private DBConnection1 dbconection = new DBConnection1();
+     private DBConnection1 dbconection = new DBConnection1();
     private NhanVienDao dao = new NhanVienDao();
     private String dir = null;
 
@@ -208,75 +208,75 @@ public class LoginFrame extends javax.swing.JFrame {
         String ps = txtPassword.getText();
 
         String sql = "	select * from NhanVien where TaiKhoan =? and MatKhau = ?";
-        try ( Connection con = dbconection.getConnection();  
-                PreparedStatement st = con.prepareStatement(sql)) {
-            st.setString(1, us);
-            st.setString(2, ps);
-            ResultSet rs = st.executeQuery();
-            if (rs.next()) {
-                
-                
-                if (us.equals("son") && ps.equals("12345")) {
-                    JOptionPane.showMessageDialog(null, "Đăng nhập quyền quản lý");
-                            MainTemplate view = new MainTemplate();
-                            view.setVisible(true);
-                            setVisible(false);                  
-                }
-                else if (us.equals("hung") && ps.equals("12345")) {
-                   JOptionPane.showMessageDialog(null, "Đăng nhập quyền nhân viên");
-                            MainTemplate view = new MainTemplate();
-                            view.setVisible(true);
-                            setVisible(false);  
-                } 
-                 
-            } else {
-               // JOptionPane.showMessageDialog(null, "Username or Password không chính xác");
-                
-                String manv = txtUser.getText().trim();
-                String matKhau = new String(txtPassword.getPassword()).trim();
-                NhanVien nhanVien = dao.selectByAccount(manv);
-                Pattern regex = Pattern.compile("[^A-Za-z0-9]");
-        if (txtUser.getText().equals("") && txtPassword.getPassword().length == 0) {
-
-            JOptionPane.showMessageDialog(this, "Chưa nhập thông tin đăng nhập!");
-            txtUser.requestFocus();
-            return ;
-
-        } else if (txtUser.getText().equals("")) {
-            JOptionPane.showMessageDialog(this, "Vui lòng nhập tài khoản!");
-            txtUser.requestFocus();
-            return;}
-        else if(regex.matcher(manv).find()){
-            JOptionPane.showMessageDialog(this, "Tài khoản chứa ký tự đặc biệt!");
-            txtUser.setText("");
-            txtUser.requestFocus();
-            return;
-        }
-        else if (txtPassword.getPassword().length == 0) {
-            JOptionPane.showMessageDialog(this, "Vui lòng nhập mật khẩu!");
-            txtPassword.requestFocus();
-            return;
-        }else if(regex.matcher(matKhau).find()){
-             JOptionPane.showMessageDialog(this, "Mật khẩu chứa ký tự đặc biệt!");
-             txtPassword.setText("");
-             txtPassword.requestFocus();
-            return;
-        }
-        else if(nhanVien == null){
-                JOptionPane.showMessageDialog(this, "Sai tài khoản");
-                return;
-            }
-        else if (!ps.equals("12345")) {
-            JOptionPane.showMessageDialog(this, " Sai mật khẩu");
-            txtPassword.requestFocus();
-            return;
-        }
-       
-            }
-
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, e);
-        }
+//        try ( Connection con = dbconection.getConnection();  
+//                PreparedStatement st = con.prepareStatement(sql)) {
+//            st.setString(1, us);
+//            st.setString(2, ps);
+//            ResultSet rs = st.executeQuery();
+//            if (rs.next()) {
+//                
+//                
+//                if (us.equals("son") && ps.equals("12345")) {
+//                    JOptionPane.showMessageDialog(null, "Đăng nhập quyền quản lý");
+//                            MainTemplate view = new MainTemplate();
+//                            view.setVisible(true);
+//                            setVisible(false);                  
+//                }
+//                else if (us.equals("hung") && ps.equals("12345")) {
+//                   JOptionPane.showMessageDialog(null, "Đăng nhập quyền nhân viên");
+//                            MainTemplate view = new MainTemplate();
+//                            view.setVisible(true);
+//                            setVisible(false);  
+//                } 
+//                 
+//            } else {
+//               // JOptionPane.showMessageDialog(null, "Username or Password không chính xác");
+//                
+//                String manv = txtUser.getText().trim();
+//                String matKhau = new String(txtPassword.getPassword()).trim();
+//                NhanVien nhanVien = dao.selectByAccount(manv);
+//                Pattern regex = Pattern.compile("[^A-Za-z0-9]");
+//        if (txtUser.getText().equals("") && txtPassword.getPassword().length == 0) {
+//
+//            JOptionPane.showMessageDialog(this, "Chưa nhập thông tin đăng nhập!");
+//            txtUser.requestFocus();
+//            return ;
+//
+//        } else if (txtUser.getText().equals("")) {
+//            JOptionPane.showMessageDialog(this, "Vui lòng nhập tài khoản!");
+//            txtUser.requestFocus();
+//            return;}
+//        else if(regex.matcher(manv).find()){
+//            JOptionPane.showMessageDialog(this, "Tài khoản chứa ký tự đặc biệt!");
+//            txtUser.setText("");
+//            txtUser.requestFocus();
+//            return;
+//        }
+//        else if (txtPassword.getPassword().length == 0) {
+//            JOptionPane.showMessageDialog(this, "Vui lòng nhập mật khẩu!");
+//            txtPassword.requestFocus();
+//            return;
+//        }else if(regex.matcher(matKhau).find()){
+//             JOptionPane.showMessageDialog(this, "Mật khẩu chứa ký tự đặc biệt!");
+//             txtPassword.setText("");
+//             txtPassword.requestFocus();
+//            return;
+//        }
+//        else if(nhanVien == null){
+//                JOptionPane.showMessageDialog(this, "Sai tài khoản");
+//                return;
+//            }
+//        else if (!ps.equals("12345")) {
+//            JOptionPane.showMessageDialog(this, " Sai mật khẩu");
+//            txtPassword.requestFocus();
+//            return;
+//        }
+//       
+//            }
+//
+//        } catch (Exception e) {
+//            JOptionPane.showMessageDialog(null, e);
+//        }
     }//GEN-LAST:event_btnLoginActionPerformed
 
     /**

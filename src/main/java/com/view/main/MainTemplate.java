@@ -82,11 +82,7 @@ public class MainTemplate extends javax.swing.JFrame {
                 } else if (index == 7) {
 
                     setForm(formQLNhanVien);
-                } else if (index == 8) {
-                   // setForm(formQLNhanVien);
-
-                    setForm(formLH);
-                } else if (index == 8) {
+                }  else if (index == 8) {
                     setForm(form_TaoTaiKhoan);
 
                 } else if (index == 2) {
