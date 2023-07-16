@@ -5,6 +5,12 @@
 package com.view.main;
 
 import java.io.File;
+import javax.swing.JOptionPane;
+import model.TaiKhoan;
+import repository.DAO_TaoTaiKhoan;
+import service.AccountService;
+import service.TaoTaiKhoanService;
+
 /**
  *
  * @author 84374
@@ -31,6 +37,7 @@ public class LoginFrame extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         btnLogin.setkBorderRadius(30);
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -99,8 +106,28 @@ public class LoginFrame extends javax.swing.JFrame {
         });
 
         txtUser.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 0, 0)));
+        txtUser.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                txtUserMouseClicked(evt);
+            }
+        });
+        txtUser.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtUserKeyPressed(evt);
+            }
+        });
 
         txtPassword.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 0, 0)));
+        txtPassword.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                txtPasswordMouseClicked(evt);
+            }
+        });
+        txtPassword.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtPasswordKeyPressed(evt);
+            }
+        });
 
         jLabel7.setIcon(new javax.swing.ImageIcon(dir+"\\baomat2.png"));
 
@@ -193,9 +220,30 @@ public class LoginFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
-         MainTemplate view = new MainTemplate();
-         view.setVisible(true);
+        LoginForm();
     }//GEN-LAST:event_btnLoginActionPerformed
+    // Sự kiện Mount CLick vào txt UserName
+    private void txtUserMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtUserMouseClicked
+        lblMessUser.setText("");
+    }//GEN-LAST:event_txtUserMouseClicked
+
+    // Sự kiện Mount CLick vào txtPassword
+    private void txtPasswordMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtPasswordMouseClicked
+        lblMessPass.setText("");
+
+    }//GEN-LAST:event_txtPasswordMouseClicked
+
+    // Sự kiện KeyPressed của txtUser
+    private void txtUserKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtUserKeyPressed
+        // TODO add your handling code here:
+        lblMessUser.setText("");
+    }//GEN-LAST:event_txtUserKeyPressed
+    // Sự kiện KeyPressed của txtPass
+    private void txtPasswordKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPasswordKeyPressed
+        // TODO add your handling code here:
+        lblMessPass.setText("");
+
+    }//GEN-LAST:event_txtPasswordKeyPressed
 
     /**
      * @param args the command line arguments
@@ -226,6 +274,72 @@ public class LoginFrame extends javax.swing.JFrame {
 
         /* Create and display the form */
     }
+
+    // Chức năng Login 
+    private void LoginForm() {
+        try {
+            if (validateForm()) {
+                AccountService service = new AccountService();
+                TaiKhoan account = new TaiKhoan(); //Lấy dữ liệu người dùng nhập
+                account.setMaNV(txtUser.getText());
+                account.setMatKhau(String.valueOf(txtPassword.getPassword()));
+
+                int ketQuaCB = service.xacThucTaiKhoan(account); // so sánh dữ liệu người dùng nhập với db
+                if (ketQuaCB == 0) {
+                    lblMessUser.setText(" ( * ) Tên tài khoản không tồn tại !");
+                    txtUser.requestFocus();
+                } else if (ketQuaCB == -1) {
+                    lblMessUser.setText("");
+                    lblMessPass.setText(" ( * ) Mật khẩu không chính xác !");
+                    txtPassword.requestFocus();
+                } else if (ketQuaCB == 1) {
+                    lblMessPass.setText("");
+                    lblMessUser.setText("");
+                    JOptionPane.showMessageDialog(this, "Đăng nhập thành công");
+                    this.dispose();
+                    new MainTemplate().setVisible(true);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private boolean validateForm() {
+        if (txtUser.getText().trim().equals("")) {
+            lblMessUser.setText("Vui lòng nhập vào Username!");
+//            lblMessPass.setText("");
+            txtUser.requestFocus();
+            return false;
+        }
+
+        if (String.valueOf(txtPassword.getPassword()).trim().equals("")) {
+
+            lblMessPass.setText("Vui lòng nhập Password!");
+            txtPassword.requestFocus();
+            return false;
+        }
+
+        // Validate Tên nhân viên đúng định dạng không chứa ký tự đặc biệt hoặc số
+        if (!isValidEmployeeName(txtUser.getText().trim())) {
+            lblMessUser.setText("Username không hợp lệ, vui lòng nhập lại");
+            return false;
+        }
+
+        if (txtPassword.getPassword().length < 6) {
+            lblMessPass.setText("Mặt khẩu phải lớn hơn 6 ký tự");
+            return false;
+        }
+
+        return true;
+    }
+
+    // Regex Name Employee in Java
+    private boolean isValidEmployeeName(String employeeName) {
+        String usernameRegex = "^[a-zA-Z0-9_]+$";
+        return employeeName.matches(usernameRegex);
+    }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private com.k33ptoo.components.KButton btnLogin;
