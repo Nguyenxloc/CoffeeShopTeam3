@@ -10,6 +10,7 @@ import com.view.form.DangKyDVForm;
 import com.view.form.ThongBaoForm;
 import com.view.form.LichHocForm;
 import com.view.form.DiemForm;
+import com.view.form.QuanLyNhanVien;
 import com.view.form.WalletForm;
 import com.view.form_Template.FormLichHoc;
 import com.view.form_Template.Form_BanHang;
@@ -46,6 +47,7 @@ public class MainTemplate extends javax.swing.JFrame {
     private Form_TaoTaiKhoan form_TaoTaiKhoan;
     private Form_QLDoUong form_QLDoUong;
     private com.view.component.paneOfProduct paneOfProduct2;
+    private QuanLyNhanVien formQLNhanVien;
 
     public MainTemplate() {
         initComponents();
@@ -55,8 +57,12 @@ public class MainTemplate extends javax.swing.JFrame {
         formLichHoc = new LichHocForm();
         formDiem = new DiemForm();
         formBanHang = new Form_BanHang();
+
+        formQLNhanVien = new QuanLyNhanVien();
+
         form_TaoTaiKhoan = new Form_TaoTaiKhoan();
         form_QLDoUong = new Form_QLDoUong();
+
         JScrollPane scroll = new JScrollPane();
         Component[] com = formBanHang.getComponents();
 
@@ -74,9 +80,15 @@ public class MainTemplate extends javax.swing.JFrame {
                 } else if (index == 1) {
                     setForm(formBanHang);
                 } else if (index == 7) {
+
+                    setForm(formQLNhanVien);
+                } else if (index == 8) {
+                   // setForm(formQLNhanVien);
+
                     setForm(formLH);
                 } else if (index == 8) {
                     setForm(form_TaoTaiKhoan);
+
                 } else if (index == 2) {
 //                    setForm(formQLDiem);
                 } else if (index == 3) {

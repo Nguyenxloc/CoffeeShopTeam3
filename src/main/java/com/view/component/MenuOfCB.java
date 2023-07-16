@@ -42,7 +42,15 @@ public class MenuOfCB extends javax.swing.JPanel {
         listMenu1.addItem(new Model_Menu("3", "Bán hàng", Model_Menu.MenuType.MENU));
         listMenu1.addItem(new Model_Menu("4", "QL Giao ca", Model_Menu.MenuType.MENU));
         listMenu1.addItem(new Model_Menu("5", "QL Menu", Model_Menu.MenuType.MENU));
-        //listMenu1.addItem(new Model_Menu("6", "Icons", Model_Menu.MenuType.MENU));
+        //listMenu1.addItem(new Model_Menu("6", "Icons", Model_Menu.MenuType.MENU)); Khang
+        listMenu1.addItem(new Model_Menu("1", "Kem", Model_Menu.MenuType.MENU));
+        listMenu1.addItem(new Model_Menu("7", "Sữa chua", Model_Menu.MenuType.MENU));
+        listMenu1.addItem(new Model_Menu("8", "Quản lý hóa đơn", Model_Menu.MenuType.MENU));
+        listMenu1.addItem(new Model_Menu("6", "Quản lý nhân viên", Model_Menu.MenuType.MENU));
+        listMenu1.addItem(new Model_Menu("9", "Quản lý nhân viên", Model_Menu.MenuType.MENU));
+        listMenu1.addItem(new Model_Menu("10", "Quản lý V..v", Model_Menu.MenuType.MENU));
+        listMenu1.addItem(new Model_Menu("", "cetera cetera ", Model_Menu.MenuType.EMPTY));
+
         listMenu1.addItem(new Model_Menu("1", "QL somethingelse", Model_Menu.MenuType.MENU));
         listMenu1.addItem(new Model_Menu("7", "QL somethingelse", Model_Menu.MenuType.MENU));
         listMenu1.addItem(new Model_Menu("8", "QL somethingelse", Model_Menu.MenuType.MENU));
@@ -50,6 +58,7 @@ public class MenuOfCB extends javax.swing.JPanel {
         listMenu1.addItem(new Model_Menu("9", "Tạo tài khoản", Model_Menu.MenuType.MENU));
         listMenu1.addItem(new Model_Menu("10", "Đăng xuất", Model_Menu.MenuType.MENU));
         listMenu1.addItem(new Model_Menu("", "Đăng xuất ", Model_Menu.MenuType.EMPTY));
+ master
 
 
     }

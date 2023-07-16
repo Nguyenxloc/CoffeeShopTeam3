@@ -4,6 +4,10 @@
  */
 package com.view.main;
 
+Khang
+import ultilities.DBConnection;
+import ultilities.DBConnection1;
+
 import ultilities.Utilitys;
 
 /**
@@ -19,8 +23,13 @@ public class MainController {
             }
         });
         System.out.println("===================Test jdbc=================");
+
+        DBConnection dbconn  = new DBConnection();
+        //System.out.println(dbconn.openDbConnection());
+
         Utilitys dbconn = new Utilitys();
         System.out.println(dbconn.openDbConnection());
+
         System.out.println("=============================================");
 //        int triggerNum = 1;/// example that parament must be change follow up actor
 //        //// tạo ra những biến để chuyển tab
