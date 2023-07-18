@@ -4,8 +4,8 @@
  */
 package com.view.form;
 
-import com.view.DAO1.NhanVienDao;
-import com.view.DAO1.NhanVienService;
+import Repository1.NhanVienDao;
+import Repository1.NhanVienService;
 import com.view.Helper.Ximage;
 import com.view.model.CapBac;
 import com.view.model.NhanVien;

@@ -4,12 +4,14 @@
  */
 package com.view.component;
 
+import java.awt.Color;
 import java.awt.Image;
 import java.awt.Label;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import javax.imageio.ImageIO;
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
@@ -22,21 +24,22 @@ public class ChooseFileFrame extends javax.swing.JFrame {
     /**
      * Creates new form ChooseFile
      */
-    private  String localURL = null;
-    JLabel localLbl = new JLabel();
+    private String localURL = null;
+    private javax.swing.JLabel localLbl = new JLabel();
     JLabel localLblURL = new JLabel();
     byte[] imgBytes = new byte[5000];
 
     public ChooseFileFrame(JLabel lblurl, JLabel lbl) {
         initComponents();
         localLblURL = lblurl;
-        localLbl = lbl;
+        localLbl = lbl; 
+        
     }
 
     public void hitToLocalURL() {
-        localURL=fileChooser.getSelectedFile().toString();
+        localURL = fileChooser.getSelectedFile().toString();
         localLblURL.setText(localURL);
-        System.out.println("Choosefile"+ localURL);
+        System.out.println("Choosefile" + localURL);
     }
 
     public void hitToLocalLbl() {
@@ -49,13 +52,12 @@ public class ChooseFileFrame extends javax.swing.JFrame {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        localLbl.setText("");
-        ImageIcon oriImgIcon = new ImageIcon(imgBytes);
+        localLbl.setText("");        ImageIcon oriImgIcon = new ImageIcon(imgBytes);
         Image image = oriImgIcon.getImage(); // transform it
         Image newimg = image.getScaledInstance(145, 140, java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
         ImageIcon imageIcon = new ImageIcon(newimg);
         localLbl.setIcon(imageIcon);
+
     }
 
     /**
@@ -101,6 +103,7 @@ public class ChooseFileFrame extends javax.swing.JFrame {
 
     private void fileChooserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fileChooserActionPerformed
         // TODO add your handling code here:
+        localLbl.setIcon(null);
         hitToLocalURL();
         hitToLocalLbl();
         this.dispose();

@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Main.java to edit this template
  */
-package com.view.DAO1;
+package Repository1;
 
 import com.view.model.CapBac;
 import com.view.model.NhanVien;
@@ -72,7 +72,7 @@ public class NhanVienDao {
     
     public ArrayList<NhanVien> getList(){
         ArrayList<NhanVien> list = new ArrayList<>();
-        String sql = "select NhanVien.Ma,NhanVien.Ten,TenDem,Ho,GioiTinh,NgaySinh,DiaChi,Sdt,TaiKhoan,MatKhau,CapBac.Ten,TrangThai,IMG from NhanVien join CapBac on NhanVien.IdCB=CapBac.Id";
+        String sql = "select NhanVien.Ma,NhanVien.Ten,TenDem,Ho,GioiTinh,NgaySinh,DiaChi,Sdt,TaiKhoan,MatKhau,CapBac.Ten,TrangThai,HinhAnh from NhanVien join CapBac on NhanVien.IdCB=CapBac.Id";
         try(Connection con = connection1.getConnection();
                 PreparedStatement st = con.prepareStatement(sql)) {
                 ResultSet rs = st.executeQuery();

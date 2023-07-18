@@ -4,7 +4,7 @@
  */
 package com.view.main;
 
-import com.view.DAO1.NhanVienDao;
+import Repository1.NhanVienDao;
 import com.view.model.NhanVien;
 import java.io.File;
 import java.sql.Connection;

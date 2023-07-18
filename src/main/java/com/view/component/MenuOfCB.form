@@ -16,8 +16,12 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Component id="panelMoving" max="32767" attributes="0"/>
-          <Component id="listMenu1" alignment="0" max="32767" attributes="0"/>
+          <Component id="listMenu1" alignment="0" pref="215" max="32767" attributes="0"/>
+          <Group type="102" alignment="0" attributes="0">
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="panelMoving" max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+          </Group>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
@@ -25,7 +29,7 @@
           <Group type="102" alignment="0" attributes="0">
               <Component id="panelMoving" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
-              <Component id="listMenu1" pref="418" max="32767" attributes="0"/>
+              <Component id="listMenu1" pref="464" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -41,7 +45,7 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jLabel1" pref="203" max="32767" attributes="0"/>
+                  <Component id="jLabel1" pref="191" max="32767" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
@@ -62,13 +66,12 @@
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="sansserif" size="17" style="1"/>
             </Property>
-            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor" postCode="ImageIcon imgIcon  = new javax.swing.ImageIcon(dir);&#xa;Image image = imgIcon.getImage(); // transform it&#xa;Image newimg = image.getScaledInstance(150, 46, java.awt.Image.SCALE_SMOOTH); // scale it the smooth way&#xa;ImageIcon imageIcon = new ImageIcon(newimg);">
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
             </Property>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-              <Connection code="new javax.swing.ImageIcon(dir)" type="code"/>
+              <Connection code="imageIcon" type="code"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="&lt;html&gt; Coffee &lt;br&gt; coder"/>
           </Properties>
         </Component>
       </SubComponents>
