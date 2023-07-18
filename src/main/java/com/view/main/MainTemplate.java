@@ -15,6 +15,7 @@ import com.view.form_Template.FormLichHoc;
 import com.view.form_Template.Form_BanHang;
 import com.view.form_Template.Form_QLDoUong;
 import com.view.form_Template.Form_LopHoc;
+import com.view.form_Template.Form_QLHoaDon;
 import com.view.form_Template.Form_TaoTaiKhoan;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -44,6 +45,7 @@ public class MainTemplate extends javax.swing.JFrame {
     private Form_BanHang formBanHang;
     private Form_QLDoUong form_QLDoUong;
     private FormLichHoc formLH;
+    private Form_QLHoaDon form_QLHoaDon;
     private com.view.component.paneOfProduct paneOfProduct2;
 
     public MainTemplate() {
@@ -55,6 +57,7 @@ public class MainTemplate extends javax.swing.JFrame {
         formDiem = new DiemForm();
         formBanHang = new Form_BanHang();
         form_QLDoUong = new Form_QLDoUong();
+        form_QLHoaDon = new Form_QLHoaDon();
         JScrollPane scroll = new JScrollPane();
         Component[] com = formBanHang.getComponents();
 
@@ -81,7 +84,7 @@ public class MainTemplate extends javax.swing.JFrame {
                     setForm(form_QLDoUong);
 //                    setForm();
                 } else if (index == 4) {
-                    setForm(home);
+                    setForm(form_QLHoaDon);
                 } else if (index == 9) {
                     MessageFrame messageFrame = new MessageFrame();
                     messageFrame.show();

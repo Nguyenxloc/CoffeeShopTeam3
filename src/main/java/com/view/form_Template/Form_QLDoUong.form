@@ -78,9 +78,9 @@
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
+                  <EmptySpace min="19" pref="19" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace min="-2" pref="19" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="btnThem" linkSize="3" min="-2" pref="107" max="-2" attributes="0"/>
                               <Component id="btnXuatFileExcel" linkSize="3" min="-2" max="-2" attributes="0"/>
@@ -96,7 +96,6 @@
                           </Group>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
-                          <EmptySpace min="-2" pref="19" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Component id="jLabel2" alignment="1" min="-2" max="-2" attributes="0"/>
                               <Component id="jLabel7" alignment="0" min="-2" max="-2" attributes="0"/>
@@ -335,6 +334,9 @@
         </Component>
         <Component class="javax.swing.JLabel" name="lblUrl">
           <Properties>
+            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="ff" green="ff" red="ff" type="rgb"/>
+            </Property>
             <Property name="text" type="java.lang.String" value="#url"/>
           </Properties>
         </Component>
@@ -425,6 +427,9 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JTextField" name="txtTimKiemTenDoUong">
+          <Events>
+            <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="txtTimKiemTenDoUongKeyReleased"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JComboBox" name="cboTimKiemDanhMucDoUong">
           <Properties>
