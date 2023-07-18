@@ -4,6 +4,7 @@
  */
 package com.view.component;
 
+import SingletonClass.LstChiTietDoUong_singleton;
 import model.ChiTietDoUong;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -27,9 +28,9 @@ public class paneOfProduct extends JPanel {
 //        paneOfProduct1.setVisible(true);
 
     static ArrayList<ProductCell> lstCell = new ArrayList<>();
-
+    static ChiTietDoUong drinkDetail = new ChiTietDoUong();
     public paneOfProduct(ArrayList<ChiTietDoUong> lstPerson) {
-        
+
         GridLayout grid = new GridLayout(Integer.valueOf(lstPerson.size() / 3) + 1, 3);
         grid.setVgap(-5);
         grid.setHgap(0);
@@ -45,6 +46,12 @@ public class paneOfProduct extends JPanel {
                     int index = Integer.valueOf(e.getComponent().getName());
                     //
                     System.out.println("index: " + index);
+                    drinkDetail = LstChiTietDoUong_singleton.getInstance().lstChiTietDoUongs.get(index);
+                    java.awt.EventQueue.invokeLater(new Runnable() {
+                        public void run() {
+                            new EnterAmountFrame(drinkDetail).setVisible(true);
+                        }
+                    });
 //////////////////////handling  folow old style, too much risk                    
 //                    System.out.println("source: "+ e.getSource());
 //                    System.out.println(e.getComponent().getX());
@@ -64,6 +71,7 @@ public class paneOfProduct extends JPanel {
                     cell.getLblNameProduct().setForeground(Color.blue);
                     cell.getLblPriceProduct().setForeground(Color.blue);
                     cell.getLblDes().setForeground(Color.blue);
+
                 }
 
                 @Override

@@ -13,9 +13,9 @@ import java.util.Properties;
  *
  * @author 84374
  */
-public class CountProduct {
+public class CountProduct_singleton {
 
-    private static CountProduct single_instance = null;
+    private static CountProduct_singleton single_instance = null;
 
     // Declaring a variable of type String
     public int count = 0;
@@ -23,15 +23,15 @@ public class CountProduct {
     // Constructor
     // Here we will be creating private constructor
     // restricted to this class itself
-    private CountProduct() {
+    private CountProduct_singleton() {
         count = 0;
     }
 
     // Static method
     // Static method to create instance of Singleton class
-    public static synchronized CountProduct getInstance() {
+    public static synchronized CountProduct_singleton getInstance() {
         if (single_instance == null) {
-            single_instance = new CountProduct();
+            single_instance = new CountProduct_singleton();
         }
         return single_instance;
     }
