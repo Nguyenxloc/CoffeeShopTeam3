@@ -38,7 +38,13 @@
             <artifactId>jbcrypt</artifactId>
             <version>0.4</version>
         </dependency>
-
+        <!-- https://mvnrepository.com/artifact/com.toedter/jcalendar -->
+<!--        <dependency>
+            <groupId>com.toedter</groupId>
+            <artifactId>jcalendar</artifactId>
+            <version>1.4</version>
+        </dependency>-->
+        
         <dependency>
             <groupId>unknown.binary</groupId>
             <artifactId>KControls-2.0</artifactId>
@@ -53,6 +59,11 @@
             <groupId>unknown.binary</groupId>
             <artifactId>AbsoluteLayout</artifactId>
             <version>SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.toedter</groupId>
+            <artifactId>jcalendar</artifactId>
+            <version>1.4</version>
         </dependency>
     </dependencies>
     <build>

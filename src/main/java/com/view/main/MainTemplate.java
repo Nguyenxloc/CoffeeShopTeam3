@@ -13,6 +13,7 @@ import com.view.form.DiemForm;
 import com.view.form.WalletForm;
 import com.view.form_Template.FormLichHoc;
 import com.view.form_Template.Form_BanHang;
+import com.view.form_Template.Form_KhuyenMai;
 import com.view.form_Template.Form_LopHoc;
 import com.view.form_Template.Form_TaoTaiKhoan;
 import java.awt.BorderLayout;
@@ -43,6 +44,7 @@ public class MainTemplate extends javax.swing.JFrame {
     private Form_BanHang formBanHang;
     private FormLichHoc formLH;
     private Form_TaoTaiKhoan form_TaoTaiKhoan;
+    private Form_KhuyenMai form_KhuyenMai;
     private com.view.component.paneOfProduct paneOfProduct2;
 
     public MainTemplate() {
@@ -54,6 +56,7 @@ public class MainTemplate extends javax.swing.JFrame {
         formDiem = new DiemForm();
         formBanHang = new Form_BanHang();
         form_TaoTaiKhoan = new Form_TaoTaiKhoan();
+        form_KhuyenMai = new Form_KhuyenMai();
         JScrollPane scroll = new JScrollPane();
         Component[] com = formBanHang.getComponents();
 
@@ -65,7 +68,7 @@ public class MainTemplate extends javax.swing.JFrame {
                 if (index == 5) {
 //                    setForm(fromDKDV);
                 } else if (index == 6) {
-//                    setForm(formBaoCao);
+                    
                 } else if (index == 0) {
                     setForm(formThongbao);
 
@@ -78,7 +81,7 @@ public class MainTemplate extends javax.swing.JFrame {
                 } else if (index == 2) {
 //                    setForm(formQLDiem);
                 } else if (index == 3) {
-//                    setForm();
+                   setForm(form_KhuyenMai);
                 } else if (index == 4) {
                     setForm(home);
                 } else if (index == 9) {
@@ -180,7 +183,7 @@ public class MainTemplate extends javax.swing.JFrame {
                 .addGroup(panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelBorder1Layout.createSequentialGroup()
                         .addGap(12, 12, 12)
-                        .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 947, Short.MAX_VALUE)
+                        .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 980, Short.MAX_VALUE)
                         .addContainerGap())
                     .addGroup(panelBorder1Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)

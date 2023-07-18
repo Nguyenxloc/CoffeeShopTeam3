@@ -330,6 +330,10 @@ public class LoginFrame extends javax.swing.JFrame {
             lblMessPass.setText("Mặt khẩu phải lớn hơn 6 ký tự");
             return false;
         }
+        if (!isValidPassword(String.valueOf(txtPassword.getPassword()))) {
+            lblMessPass.setText("Mật khẩu không đủ mạnh. Vui lòng sử dụng ít nhất 8 ký tự và bao gồm cả chữ hoa, chữ thường và số");
+            return false;
+        }
 
         return true;
     }
@@ -338,6 +342,12 @@ public class LoginFrame extends javax.swing.JFrame {
     private boolean isValidEmployeeName(String employeeName) {
         String usernameRegex = "^[a-zA-Z0-9_]+$";
         return employeeName.matches(usernameRegex);
+    }
+
+    // Regex Password in Java, isValidPassword
+    private boolean isValidPassword(String password) {
+        String regex = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{8,}$";
+        return password.matches(regex);
     }
 
 
