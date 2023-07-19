@@ -16,7 +16,9 @@ import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.ScrollPaneConstants;
+import model.HoaDon;
 
 /**
  *
@@ -29,12 +31,16 @@ public class paneOfProduct extends JPanel {
 
     static ArrayList<ProductCell> lstCell = new ArrayList<>();
     static ChiTietDoUong drinkDetail = new ChiTietDoUong();
-    public paneOfProduct(ArrayList<ChiTietDoUong> lstPerson) {
-
+    static HoaDon localHoaDon = new HoaDon();
+    static JTable localTbl = new JTable();
+    public paneOfProduct(ArrayList<ChiTietDoUong> lstPerson,JTable tbl,HoaDon hoaDon) {
+      
         GridLayout grid = new GridLayout(Integer.valueOf(lstPerson.size() / 3) + 1, 3);
         grid.setVgap(-5);
         grid.setHgap(0);
         this.setLayout(grid);
+        localHoaDon  = hoaDon;
+        localTbl =  tbl;
         for (int i = 0; i < lstPerson.size(); i++) {
             ProductCell cell = new ProductCell(lstPerson.get(i).getHinhAnh(), lstPerson.get(i).getTenDoUong(), lstPerson.get(i).getGiaBan(), lstPerson.get(i).getMoTa());
             lstCell.add(cell);
@@ -46,10 +52,11 @@ public class paneOfProduct extends JPanel {
                     int index = Integer.valueOf(e.getComponent().getName());
                     //
                     System.out.println("index: " + index);
+                    System.out.println("test localHoaDon: "+localHoaDon.getId());
                     drinkDetail = LstChiTietDoUong_singleton.getInstance().lstChiTietDoUongs.get(index);
                     java.awt.EventQueue.invokeLater(new Runnable() {
                         public void run() {
-                            new EnterAmountFrame(drinkDetail).setVisible(true);
+                            new EnterAmountFrame(drinkDetail,localHoaDon).setVisible(true);
                         }
                     });
 //////////////////////handling  folow old style, too much risk                    

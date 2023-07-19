@@ -4,6 +4,7 @@
  */
 package com.view.form_Template;
 
+import SingletonClass.LstChiTietDoUong_singleton;
 import com.view.component.CreateBillPane;
 import model.ChiTietDoUong;
 import com.view.component.paneOfProduct;
@@ -17,6 +18,7 @@ import javax.swing.JOptionPane;
 import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
+import model.HoaDon;
 import service.ChiTietDoUongService_Master;
 
 public class Form_BanHang extends javax.swing.JPanel {
@@ -24,8 +26,7 @@ public class Form_BanHang extends javax.swing.JPanel {
     private DefaultTableModel defaultTableModel = new DefaultTableModel();
     private paneOfProduct paneProduct;
     private ArrayList<ChiTietDoUong> lstChiTietDoUongs = new ArrayList<>();
-    private ChiTietDoUongService_Master service = new ChiTietDoUongService_Master();
-
+    private HoaDon localHoaDon = new HoaDon();
     /**
      * Creates new form Form_QlThongTinSV
      */
@@ -34,12 +35,13 @@ public class Form_BanHang extends javax.swing.JPanel {
         jScrollPane1.setBorder(null);
         this.setBorder(null);
         LoadlstProduct();
+        localHoaDon.setId("#idHoaDon");
         //Truyền biến vào panel productOfPane
 //      paneProduct.setVisible(true);
     }
 
     private void reLoadProduct() {
-        paneProduct = new paneOfProduct(lstChiTietDoUongs);
+        paneProduct = new paneOfProduct(lstChiTietDoUongs,tblDrinkDetail,localHoaDon);
         jScrollPane1.setViewportView(paneProduct);
         jScrollPane1.getViewport().repaint();
         jScrollPane1.getViewport().revalidate();
@@ -48,7 +50,7 @@ public class Form_BanHang extends javax.swing.JPanel {
 
     public void LoadlstProduct() {
         lstChiTietDoUongs.clear();
-        lstChiTietDoUongs = service.getListChiTietDoUong();
+        lstChiTietDoUongs = LstChiTietDoUong_singleton.getInstance().lstChiTietDoUongs ;
 //        lstPerson.add(new DoUong("Coffe egg1","Coffe",25000.0,"Cafe+Trứng",null));
 //        lstPerson.add(new DoUong("Coffe egg2", "Coffe",25000.0,"Cafe+Trứng",null));
 //        lstPerson.add(new DoUong("Coffe egg3", "Coffe",25000.0,"Cafe+Trứng",null));
@@ -120,7 +122,7 @@ public class Form_BanHang extends javax.swing.JPanel {
         jButton19 = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        tblDrinkDetail = new javax.swing.JTable();
         jButton18 = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
@@ -207,7 +209,7 @@ public class Form_BanHang extends javax.swing.JPanel {
 
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        tblDrinkDetail.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -218,7 +220,7 @@ public class Form_BanHang extends javax.swing.JPanel {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane3.setViewportView(jTable2);
+        jScrollPane3.setViewportView(tblDrinkDetail);
 
         jButton18.setText("Thanh toán");
 
@@ -453,9 +455,9 @@ public class Form_BanHang extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable2;
     private javax.swing.JTable jTable3;
     private javax.swing.JTable jTable4;
+    private javax.swing.JTable tblDrinkDetail;
     // End of variables declaration//GEN-END:variables
 
 }
