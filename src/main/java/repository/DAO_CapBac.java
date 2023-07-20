@@ -67,7 +67,7 @@ public class DAO_CapBac {
 
     public void update(CapBac capBac) {
         DBConnection1 dbConn = new DBConnection1();
-        try 
+        try {
             dbConn.ExcuteSQL(UPDATE_SQL, capBac.getMaCB(),capBac.getTenCB(),capBac.getLuongPastTime(),capBac.getIdCB());
         } catch (Exception e) {
             e.printStackTrace();

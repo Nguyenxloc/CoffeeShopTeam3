@@ -15,7 +15,7 @@ import ultilities.DBConnection1;
  */
 public class DAO_Ban {
 
-    final String INSERT_SQL = "INSERT INTO dbo.Ban(IdBan)VALUES(?)";
+    final String INSERT_SQL = "INSERT INTO dbo.Ban(IdBan,Ten)VALUES(?,?)";
     final String DELETE_SQL = "DELETE FROM [dbo].[Ban] WHERE [IdBan] = ?";
     final String SELECT_BY_SQL = "SELECT * FROM [dbo].[Ban] WHERE [IdBan] = ?";
     final String SELECT_ALL_SQL = "SELECT * FROM [dbo].[Ban]";
@@ -26,7 +26,7 @@ public class DAO_Ban {
         try {
             ResultSet rs = dbConn.getDataFromQuery(SELECT_ALL_SQL);
             while (rs.next()) {
-                lstBan.add(new Ban(rs.getNString("IdBan"),rs.getString("NgayTao")));
+                lstBan.add(new Ban(rs.getInt("IdBan"),rs.getNString("Ten"),rs.getString("NgayTao")));
             }
 
         } catch (Exception e) {
@@ -35,14 +35,14 @@ public class DAO_Ban {
         return lstBan;
     }
 
-    public Ban selectByID(String id) {
+    public Ban selectByID(int idBan) {
         DBConnection1 dbConn = new DBConnection1();
         Ban ban = new Ban();
         ArrayList<Ban> lstBan = new ArrayList<>();
         try {
-            ResultSet rs = dbConn.getDataFromQuery(SELECT_BY_SQL, id);
+            ResultSet rs = dbConn.getDataFromQuery(SELECT_BY_SQL, idBan);
             while (rs.next()) {
-                lstBan.add(new Ban(rs.getNString("IdBan"),rs.getString("NgayTao")));
+                lstBan.add(new Ban(rs.getInt("IdBan"),rs.getNString("Ten"),rs.getString("NgayTao")));
                 ban = lstBan.get(0);
                 break;
             }
@@ -63,8 +63,13 @@ public class DAO_Ban {
         }
     }
 
-    public void delete(String idBan) {
-         
+   public void delete(int idBan) {
+        DBConnection1 dbConn = new DBConnection1();
+        try {
+            dbConn.ExcuteSQL(DELETE_SQL,idBan);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }

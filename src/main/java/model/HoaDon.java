@@ -12,22 +12,23 @@ import java.sql.Date;
  */
 public class HoaDon {
     private String id;
-    private String idBan;
+    private Ban ban;
     private KhachHang khachHang;
     private NhanVien nhanVien;
     private String ma;
-    private Date ngayTao;
-    private Date ngayThanhToan;
+    private String ngayTao;
+    private String ngayThanhToan;
     private int  tinhTrangThanhToan;
     private int  trangThaiPhaChe;
     private GiamGia maGiamGia;
+    private int stt;
 
     public HoaDon() {
     }
 
-    public HoaDon(String id, String idBan, KhachHang khachHang, NhanVien nhanVien, String ma, Date ngayTao, Date ngayThanhToan, int tinhTrangThanhToan, int trangThaiPhaChe, GiamGia maGiamGia) {
+    public HoaDon(String id, Ban ban, KhachHang khachHang, NhanVien nhanVien, String ma, String ngayTao, String ngayThanhToan, int tinhTrangThanhToan, int trangThaiPhaChe, GiamGia maGiamGia, int stt) {
         this.id = id;
-        this.idBan = idBan;
+        this.ban = ban;
         this.khachHang = khachHang;
         this.nhanVien = nhanVien;
         this.ma = ma;
@@ -36,6 +37,7 @@ public class HoaDon {
         this.tinhTrangThanhToan = tinhTrangThanhToan;
         this.trangThaiPhaChe = trangThaiPhaChe;
         this.maGiamGia = maGiamGia;
+        this.stt = stt;
     }
 
     public String getId() {
@@ -46,12 +48,12 @@ public class HoaDon {
         this.id = id;
     }
 
-    public String getIdBan() {
-        return idBan;
+    public Ban getBan() {
+        return ban;
     }
 
-    public void setIdBan(String idBan) {
-        this.idBan = idBan;
+    public void setBan(Ban ban) {
+        this.ban = ban;
     }
 
     public KhachHang getKhachHang() {
@@ -78,19 +80,19 @@ public class HoaDon {
         this.ma = ma;
     }
 
-    public Date getNgayTao() {
+    public String getNgayTao() {
         return ngayTao;
     }
 
-    public void setNgayTao(Date ngayTao) {
+    public void setNgayTao(String ngayTao) {
         this.ngayTao = ngayTao;
     }
 
-    public Date getNgayThanhToan() {
+    public String getNgayThanhToan() {
         return ngayThanhToan;
     }
 
-    public void setNgayThanhToan(Date ngayThanhToan) {
+    public void setNgayThanhToan(String ngayThanhToan) {
         this.ngayThanhToan = ngayThanhToan;
     }
 
@@ -118,9 +120,17 @@ public class HoaDon {
         this.maGiamGia = maGiamGia;
     }
 
-    @Override
-    public String toString() {
-        return "HoaDon{" + "id=" + id + ", idBan=" + idBan + ", khachHang=" + khachHang + ", nhanVien=" + nhanVien + ", ma=" + ma + ", ngayTao=" + ngayTao + ", ngayThanhToan=" + ngayThanhToan + ", tinhTrangThanhToan=" + tinhTrangThanhToan + ", trangThaiPhaChe=" + trangThaiPhaChe + ", maGiamGia=" + maGiamGia + '}';
+    public int getStt() {
+        return stt;
     }
 
+    public void setStt(int stt) {
+        this.stt = stt;
+    }
+
+    @Override
+    public String toString() {
+        return "HoaDon{" + "id=" + id + ", ban=" + ban + ", khachHang=" + khachHang + ", nhanVien=" + nhanVien + ", ma=" + ma + ", ngayTao=" + ngayTao + ", ngayThanhToan=" + ngayThanhToan + ", tinhTrangThanhToan=" + tinhTrangThanhToan + ", trangThaiPhaChe=" + trangThaiPhaChe + ", maGiamGia=" + maGiamGia + ", stt=" + stt + '}';
+    }
+  
 }

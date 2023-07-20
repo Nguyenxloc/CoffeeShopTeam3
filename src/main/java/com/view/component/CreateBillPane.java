@@ -4,6 +4,14 @@
  */
 package com.view.component;
 
+import java.util.ArrayList;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+import model.Ban;
+import model.HoaDon;
+import service.BanService;
+import service.HoaDonService;
+
 /**
  *
  * @author 84374
@@ -13,11 +21,49 @@ public class CreateBillPane extends javax.swing.JFrame {
     /**
      * Creates new form CreateBillPane
      */
-    public CreateBillPane() {
+    HoaDonService hoaDonService = new HoaDonService();
+    BanService banService = new BanService();
+    JTable localTbl = new JTable();
+    ArrayList<HoaDon> lstHoaDon = new ArrayList<>();
+
+    public CreateBillPane(JTable tbl) {
         initComponents();
         this.pack();
         this.setLocationRelativeTo(null);
         this.setVisible(true);
+        localTbl = tbl;
+    }
+
+    public void save() {
+        int idBan = Integer.valueOf(txtBan.getText());
+        Ban ban = banService.getBanByID(idBan);
+        HoaDon hoaDon = new HoaDon(null, ban, null, null, null, null, null, 0, 0, null,1); 
+        hoaDonService.saveHoaDon(hoaDon);
+    }
+
+    public void reLoadParentTbl() {
+        int stt = 0;
+        lstHoaDon = hoaDonService.getListHoaDon();
+        DefaultTableModel model = new DefaultTableModel();
+        model = (DefaultTableModel) localTbl.getModel();
+        model.setRowCount(0);
+        String thanhToanStt;
+        String phaCheStt;
+        for (HoaDon hoaDon : lstHoaDon) {
+            stt++;
+            if (hoaDon.getTinhTrangThanhToan() == 0) {
+                thanhToanStt = "Chưa TT";
+            } else {
+                thanhToanStt = "Đã TT";
+            }
+            if (hoaDon.getTrangThaiPhaChe() == 0) {
+                phaCheStt = "Chưa pha";
+            } else {
+                phaCheStt = "Đã pha";
+            }
+
+            model.addRow(new Object[]{stt, hoaDon.getMa(), hoaDon.getBan().getTen(), thanhToanStt, phaCheStt});
+        }
     }
 
     /**
@@ -31,7 +77,7 @@ public class CreateBillPane extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        txtBan = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -66,6 +112,11 @@ public class CreateBillPane extends javax.swing.JFrame {
         jLabel7.setText("#getTime");
 
         jButton1.setText("Thêm");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setText("Hủy");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
@@ -91,7 +142,7 @@ public class CreateBillPane extends javax.swing.JFrame {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLabel2)
                                 .addGap(18, 18, 18)
-                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(txtBan, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 67, Short.MAX_VALUE)
                                 .addComponent(jLabel4))
                             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -112,7 +163,7 @@ public class CreateBillPane extends javax.swing.JFrame {
                 .addGap(35, 35, 35)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtBan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4)
                     .addComponent(jLabel7))
                 .addGap(33, 33, 33)
@@ -145,6 +196,13 @@ public class CreateBillPane extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        save();
+        reLoadParentTbl();
+        this.dispose();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -159,6 +217,6 @@ public class CreateBillPane extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField txtBan;
     // End of variables declaration//GEN-END:variables
 }

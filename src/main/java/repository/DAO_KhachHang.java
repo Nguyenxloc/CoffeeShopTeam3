@@ -45,7 +45,7 @@ public class DAO_KhachHang {
         KhachHang khachHang = new KhachHang();
         ArrayList<KhachHang> lstKhachHang = new ArrayList<>();
         try {
-            ResultSet rs = dbConn.getDataFromQuery(SELECT_ALL_SQL, id);
+            ResultSet rs = dbConn.getDataFromQuery(SELECT_BY_SQL, id);
             while (rs.next()) {
                 lstKhachHang.add(new KhachHang(rs.getString("Id"), rs.getString("Ma"), rs.getNString("Ten"), rs.getNString("TenDem"),rs.getNString("Ho"),rs.getDate("NgaySinh"),rs.getString("Sđt"),rs.getString("DiaChi"),rs.getString("NgayTao")));
                 khachHang = lstKhachHang.get(0);

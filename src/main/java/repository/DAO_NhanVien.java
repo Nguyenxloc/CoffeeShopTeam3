@@ -6,6 +6,7 @@ package repository;
 
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import model.CapBac;
 import model.NhanVien;
 import ultilities.DBConnection1;
 
@@ -29,9 +30,11 @@ public class DAO_NhanVien {
         DBConnection1 dbConn = new DBConnection1();
         ArrayList<NhanVien> lstNhanVien = new ArrayList<>();
         //get capBac obj
+        DAO_CapBac dao_capBac = new DAO_CapBac();
         try {
             ResultSet rs = dbConn.getDataFromQuery(SELECT_ALL_SQL);
             while (rs.next()) {
+                CapBac capBac = dao_capBac.selectByID(rs.getString("IdCB"));
                 lstNhanVien.add(new NhanVien(rs.getString("Id"), rs.getString("Ma"), rs.getNString("Ten"), rs.getNString("TenDem"), rs.getNString("Ho"), rs.getNString("GioiTinh"), rs.getDate("NgaySinh"), rs.getString("DiaChi"), rs.getString("Sdt"), rs.getString("TaiKhoan"), rs.getString("MatKhau"), capBac, rs.getInt("TrangThai"), rs.getBytes("HinhAnh"), rs.getString("NgayTao")));
             }
         } catch (Exception e) {
@@ -44,9 +47,11 @@ public class DAO_NhanVien {
         DBConnection1 dbConn = new DBConnection1();
         NhanVien nhanVien = new NhanVien();
         ArrayList<NhanVien> lstNhanVien = new ArrayList<>();
+        DAO_CapBac dao_capBac = new DAO_CapBac();
         try {
             ResultSet rs = dbConn.getDataFromQuery(SELECT_ALL_SQL, id);
             while (rs.next()) {
+                CapBac capBac = dao_capBac.selectByID(rs.getString("IdCB"));
                 lstNhanVien.add(new NhanVien(rs.getString("Id"), rs.getString("Ma"), rs.getNString("Ten"), rs.getNString("TenDem"), rs.getNString("Ho"), rs.getNString("GioiTinh"), rs.getDate("NgaySinh"), rs.getString("DiaChi"), rs.getString("Sdt"), rs.getString("TaiKhoan"), rs.getString("MatKhau"), capBac, rs.getInt("TrangThai"), rs.getBytes("HinhAnh"), rs.getString("NgayTao")));
 
                 nhanVien = lstNhanVien.get(0);
@@ -62,8 +67,8 @@ public class DAO_NhanVien {
     public void save(NhanVien nhanVien) {
         DBConnection1 dbConn = new DBConnection1();
         try {
-            dbConn.ExcuteSQL(INSERT_SQL, nhanVien.getMa(),nhanVien.getTen(),nhanVien.getTenDem(),nhanVien.getHo(),nhanVien.getGioiTinh(),nhanVien.getDob(),nhanVien.getDiaChi(),
-                      nhanVien.getSdt(),nhanVien.getTaiKhoan(),nhanVien.getMatKhau(),nhanVien.getCapBac().getIdCB(),nhanVien.getTrangThai(),nhanVien.getImg());
+            dbConn.ExcuteSQL(INSERT_SQL, nhanVien.getMa(), nhanVien.getTen(), nhanVien.getTenDem(), nhanVien.getHo(), nhanVien.getGioiTinh(), nhanVien.getDob(), nhanVien.getDiaChi(),
+                    nhanVien.getSdt(), nhanVien.getTaiKhoan(), nhanVien.getMatKhau(), nhanVien.getCapBac().getIdCB(), nhanVien.getTrangThai(), nhanVien.getImg());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -72,8 +77,8 @@ public class DAO_NhanVien {
     public void update(NhanVien nhanVien) {
         DBConnection1 dbConn = new DBConnection1();
         try {
-            dbConn.ExcuteSQL(UPDATE_SQL, nhanVien.getTen(), nhanVien.getTenDem(), nhanVien.getHo(),nhanVien.getGioiTinh(),nhanVien.getDob(),
-                    nhanVien.getDiaChi(),nhanVien.getSdt(),nhanVien.getTaiKhoan(),nhanVien.getMatKhau(),nhanVien.getCapBac(),nhanVien.getTrangThai(),nhanVien.getImg(), nhanVien.getId());
+            dbConn.ExcuteSQL(UPDATE_SQL, nhanVien.getTen(), nhanVien.getTenDem(), nhanVien.getHo(), nhanVien.getGioiTinh(), nhanVien.getDob(),
+                    nhanVien.getDiaChi(), nhanVien.getSdt(), nhanVien.getTaiKhoan(), nhanVien.getMatKhau(), nhanVien.getCapBac(), nhanVien.getTrangThai(), nhanVien.getImg(), nhanVien.getId());
         } catch (Exception e) {
             e.printStackTrace();
         }
