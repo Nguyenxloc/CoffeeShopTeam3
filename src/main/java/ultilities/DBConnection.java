@@ -9,13 +9,12 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import org.mindrot.jbcrypt.BCrypt;
 
 /**
  *
  * @author 84374
  */
-public class Utilitys {//Lớp này giải quyết kết nối xử lý truy vấn
+public class DBConnection {//Lớp này giải quyết kết nối xử lý truy vấn
 
     private static String hostName = "localhost";
     private static String acc = "sa";
@@ -33,6 +32,8 @@ public class Utilitys {//Lớp này giải quyết kết nối xử lý truy v�
             System.out.println("Lỗi Driver");
         }
     }
+    
+   
 
     //1. Mở kết nối
     public static Connection openDbConnection() {
@@ -82,24 +83,23 @@ public class Utilitys {//Lớp này giải quyết kết nối xử lý truy v�
         }
     }
 
-    // Phương thức để hash mật khẩu
-    public static String hashPassword(String password) {
-        return BCrypt.hashpw(password, BCrypt.gensalt(12));
-
-    }
-
-    // Kiểm tra tính hợp lệ của mật khẩu đã hash bằng thư viện bcrypt.
-    public static boolean checkPwd(String pwdRaw, String pwdHash) {
-        return BCrypt.checkpw(pwdRaw, pwdHash);
-
-    }
-
     public synchronized static Connection getConnection() throws Exception {
         return DriverManager.getConnection(connectionSql);
     }
 
     public static void main(String[] args) throws Exception {
-        String version = Utilitys.getConnection().getMetaData().getDatabaseProductVersion();
+        String version = DBConnection.getConnection().getMetaData().getDatabaseProductVersion();
         System.out.println(version);
     }
+
+    public void ExcuteSQL(String INSERT_SQL, String id, String tenLoaiDoUong, String tenDoUong, int i, double giaBan) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    public void ExcuteSQL(String INSERT_SQL, String ma, String tenLoaiDoUong) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+    
+    
+  
 }

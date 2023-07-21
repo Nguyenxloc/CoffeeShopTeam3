@@ -24,11 +24,13 @@ public class ProductCell extends javax.swing.JPanel {
      */
     private String dir = null;
     private int index = 0;
+    private static byte[] localImg = new byte[5000];
     public ProductCell(byte[] img, String nameOfProduct, Double priceOfProduct, String des ) {
-        String path = "C:\\Users\\84374\\Documents\\NetBeansProjects\\CoffeeShop\\src\\main\\java\\com\\view\\icon\\coffe.png";
-        File file = new File(path);
-        String absolutePath = file.getAbsolutePath();
-        dir = absolutePath;
+//        String path = "C:\\Users\\84374\\Documents\\NetBeansProjects\\CoffeeShop\\src\\main\\java\\com\\view\\icon\\coffe.png";
+//        File file = new File(path);
+//        String absolutePath = file.getAbsolutePath();
+//        dir = absolutePath;
+        localImg = img;
         initComponents();
         lblNameProduct.setText(nameOfProduct);
         lblPriceProduct.setText(priceOfProduct+"VNĐ");
@@ -126,11 +128,17 @@ public class ProductCell extends javax.swing.JPanel {
 
         lblNameProduct.setText("#NameOfProduct");
 
-        ImageIcon imageIcon = new ImageIcon(dir); // load the image to a imageIcon
-        Image image = imageIcon.getImage(); // transform it
-        Image newimg = image.getScaledInstance(79,120,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
-        imageIcon = new ImageIcon(newimg);
+        ImageIcon oriImgIcon = new ImageIcon(localImg);
+        Image image = oriImgIcon.getImage(); // transform it
+        Image newimg = image.getScaledInstance(79, 120, java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
+        ImageIcon imageIcon = new ImageIcon(newimg);
         lblmgProduct.setIcon(imageIcon);
+
+        //ImageIcon imageIcon = new ImageIcon(img); // load the image to a imageIcon
+        //Image image = imageIcon.getImage(); // transform it
+        //Image newimg = image.getScaledInstance(79,120,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
+        //imageIcon = new ImageIcon(newimg);
+        //lblmgProduct.setIcon(imageIcon);
 
         lblPriceProduct.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lblPriceProduct.setText("#PriceOfProduct");

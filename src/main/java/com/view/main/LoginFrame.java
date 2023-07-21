@@ -4,19 +4,21 @@
  */
 package com.view.main;
 
+import Repository1.NhanVienDao;
+import com.view.model.NhanVien;
 import java.io.File;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
-import model.TaiKhoan;
-import repository.DAO_TaoTaiKhoan;
-import service.AccountService;
-import service.TaoTaiKhoanService;
+import ultilities.DBConnection1;
 
-/**
- *
- * @author 84374
- */
+
+
 public class LoginFrame extends javax.swing.JFrame {
-
+     private DBConnection1 dbconection = new DBConnection1();
+    private NhanVienDao dao = new NhanVienDao();
     private String dir = null;
 
     ////// query sql -- get vaiTro
@@ -37,7 +39,6 @@ public class LoginFrame extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         btnLogin.setkBorderRadius(30);
     }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -106,28 +107,8 @@ public class LoginFrame extends javax.swing.JFrame {
         });
 
         txtUser.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 0, 0)));
-        txtUser.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                txtUserMouseClicked(evt);
-            }
-        });
-        txtUser.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                txtUserKeyPressed(evt);
-            }
-        });
 
         txtPassword.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 0, 0)));
-        txtPassword.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                txtPasswordMouseClicked(evt);
-            }
-        });
-        txtPassword.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                txtPasswordKeyPressed(evt);
-            }
-        });
 
         jLabel7.setIcon(new javax.swing.ImageIcon(dir+"\\baomat2.png"));
 
@@ -220,30 +201,83 @@ public class LoginFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
-        LoginForm();
+//         MainTemplate view = new MainTemplate();
+//         view.setVisible(true);
+      
+         String us = txtUser.getText();
+        String ps = txtPassword.getText();
+
+        String sql = "	select * from NhanVien where TaiKhoan =? and MatKhau = ?";
+//        try ( Connection con = dbconection.getConnection();  
+//                PreparedStatement st = con.prepareStatement(sql)) {
+//            st.setString(1, us);
+//            st.setString(2, ps);
+//            ResultSet rs = st.executeQuery();
+//            if (rs.next()) {
+//                
+//                
+//                if (us.equals("son") && ps.equals("12345")) {
+//                    JOptionPane.showMessageDialog(null, "Đăng nhập quyền quản lý");
+//                            MainTemplate view = new MainTemplate();
+//                            view.setVisible(true);
+//                            setVisible(false);                  
+//                }
+//                else if (us.equals("hung") && ps.equals("12345")) {
+//                   JOptionPane.showMessageDialog(null, "Đăng nhập quyền nhân viên");
+//                            MainTemplate view = new MainTemplate();
+//                            view.setVisible(true);
+//                            setVisible(false);  
+//                } 
+//                 
+//            } else {
+//               // JOptionPane.showMessageDialog(null, "Username or Password không chính xác");
+//                
+//                String manv = txtUser.getText().trim();
+//                String matKhau = new String(txtPassword.getPassword()).trim();
+//                NhanVien nhanVien = dao.selectByAccount(manv);
+//                Pattern regex = Pattern.compile("[^A-Za-z0-9]");
+//        if (txtUser.getText().equals("") && txtPassword.getPassword().length == 0) {
+//
+//            JOptionPane.showMessageDialog(this, "Chưa nhập thông tin đăng nhập!");
+//            txtUser.requestFocus();
+//            return ;
+//
+//        } else if (txtUser.getText().equals("")) {
+//            JOptionPane.showMessageDialog(this, "Vui lòng nhập tài khoản!");
+//            txtUser.requestFocus();
+//            return;}
+//        else if(regex.matcher(manv).find()){
+//            JOptionPane.showMessageDialog(this, "Tài khoản chứa ký tự đặc biệt!");
+//            txtUser.setText("");
+//            txtUser.requestFocus();
+//            return;
+//        }
+//        else if (txtPassword.getPassword().length == 0) {
+//            JOptionPane.showMessageDialog(this, "Vui lòng nhập mật khẩu!");
+//            txtPassword.requestFocus();
+//            return;
+//        }else if(regex.matcher(matKhau).find()){
+//             JOptionPane.showMessageDialog(this, "Mật khẩu chứa ký tự đặc biệt!");
+//             txtPassword.setText("");
+//             txtPassword.requestFocus();
+//            return;
+//        }
+//        else if(nhanVien == null){
+//                JOptionPane.showMessageDialog(this, "Sai tài khoản");
+//                return;
+//            }
+//        else if (!ps.equals("12345")) {
+//            JOptionPane.showMessageDialog(this, " Sai mật khẩu");
+//            txtPassword.requestFocus();
+//            return;
+//        }
+//       
+//            }
+//
+//        } catch (Exception e) {
+//            JOptionPane.showMessageDialog(null, e);
+//        }
     }//GEN-LAST:event_btnLoginActionPerformed
-    // Sự kiện Mount CLick vào txt UserName
-    private void txtUserMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtUserMouseClicked
-        lblMessUser.setText("");
-    }//GEN-LAST:event_txtUserMouseClicked
-
-    // Sự kiện Mount CLick vào txtPassword
-    private void txtPasswordMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtPasswordMouseClicked
-        lblMessPass.setText("");
-
-    }//GEN-LAST:event_txtPasswordMouseClicked
-
-    // Sự kiện KeyPressed của txtUser
-    private void txtUserKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtUserKeyPressed
-        // TODO add your handling code here:
-        lblMessUser.setText("");
-    }//GEN-LAST:event_txtUserKeyPressed
-    // Sự kiện KeyPressed của txtPass
-    private void txtPasswordKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPasswordKeyPressed
-        // TODO add your handling code here:
-        lblMessPass.setText("");
-
-    }//GEN-LAST:event_txtPasswordKeyPressed
 
     /**
      * @param args the command line arguments
@@ -272,84 +306,10 @@ public class LoginFrame extends javax.swing.JFrame {
         }
         //</editor-fold>
 
+        //</editor-fold>
+
         /* Create and display the form */
     }
-
-    // Chức năng Login 
-    private void LoginForm() {
-        try {
-            if (validateForm()) {
-                AccountService service = new AccountService();
-                TaiKhoan account = new TaiKhoan(); //Lấy dữ liệu người dùng nhập
-                account.setMaNV(txtUser.getText());
-                account.setMatKhau(String.valueOf(txtPassword.getPassword()));
-
-                int ketQuaCB = service.xacThucTaiKhoan(account); // so sánh dữ liệu người dùng nhập với db
-                if (ketQuaCB == 0) {
-                    lblMessUser.setText(" ( * ) Tên tài khoản không tồn tại !");
-                    txtUser.requestFocus();
-                } else if (ketQuaCB == -1) {
-                    lblMessUser.setText("");
-                    lblMessPass.setText(" ( * ) Mật khẩu không chính xác !");
-                    txtPassword.requestFocus();
-                } else if (ketQuaCB == 1) {
-                    lblMessPass.setText("");
-                    lblMessUser.setText("");
-                    JOptionPane.showMessageDialog(this, "Đăng nhập thành công");
-                    this.dispose();
-                    new MainTemplate().setVisible(true);
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    private boolean validateForm() {
-        if (txtUser.getText().trim().equals("")) {
-            lblMessUser.setText("Vui lòng nhập vào Username!");
-//            lblMessPass.setText("");
-            txtUser.requestFocus();
-            return false;
-        }
-
-        if (String.valueOf(txtPassword.getPassword()).trim().equals("")) {
-
-            lblMessPass.setText("Vui lòng nhập Password!");
-            txtPassword.requestFocus();
-            return false;
-        }
-
-        // Validate Tên nhân viên đúng định dạng không chứa ký tự đặc biệt hoặc số
-        if (!isValidEmployeeName(txtUser.getText().trim())) {
-            lblMessUser.setText("Username không hợp lệ, vui lòng nhập lại");
-            return false;
-        }
-
-        if (txtPassword.getPassword().length < 6) {
-            lblMessPass.setText("Mặt khẩu phải lớn hơn 6 ký tự");
-            return false;
-        }
-        if (!isValidPassword(String.valueOf(txtPassword.getPassword()))) {
-            lblMessPass.setText("Mật khẩu không đủ mạnh. Vui lòng sử dụng ít nhất 8 ký tự và bao gồm cả chữ hoa, chữ thường và số");
-            return false;
-        }
-
-        return true;
-    }
-
-    // Regex Name Employee in Java
-    private boolean isValidEmployeeName(String employeeName) {
-        String usernameRegex = "^[a-zA-Z0-9_]+$";
-        return employeeName.matches(usernameRegex);
-    }
-
-    // Regex Password in Java, isValidPassword
-    private boolean isValidPassword(String password) {
-        String regex = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)[a-zA-Z\\d]{8,}$";
-        return password.matches(regex);
-    }
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private com.k33ptoo.components.KButton btnLogin;
@@ -368,4 +328,81 @@ public class LoginFrame extends javax.swing.JFrame {
     private javax.swing.JPasswordField txtPassword;
     private javax.swing.JTextField txtUser;
     // End of variables declaration//GEN-END:variables
+
+
+
+    public boolean check(){
+        String manv = txtUser.getText().trim();
+        String matKhau = new String(txtPassword.getPassword()).trim();
+        NhanVien nhanVien = dao.selectByAccount(manv);
+        Pattern regex = Pattern.compile("[^A-Za-z0-9]");
+        if (txtUser.getText().equals("") && txtPassword.getPassword().length == 0) {
+
+            JOptionPane.showMessageDialog(this, "Chưa nhập thông tin đăng nhập!");
+            txtUser.requestFocus();
+            return true;
+
+        } else if (txtUser.getText().equals("")) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập tài khoản!");
+            txtUser.requestFocus();
+            return true;}
+//        else if(regex.matcher(manv).find()){
+//            JOptionPane.showMessageDialog(this, "Tài khoản chứa ký tự đặc biệt!");
+//            txtUser.setText("");
+//            txtUser.requestFocus();
+//            return true;
+//        }
+        else if (txtPassword.getPassword().length == 0) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập mật khẩu!");
+            txtPassword.requestFocus();
+            return true;
+        }else if(regex.matcher(matKhau).find()){
+             JOptionPane.showMessageDialog(this, "Mật khẩu chứa ký tự đặc biệt!");
+             txtPassword.setText("");
+             txtPassword.requestFocus();
+            return true;
+        }
+        else if(nhanVien == null){
+                JOptionPane.showMessageDialog(this, "Sai tài khoản");
+                return true;
+            }
+        else if (!matKhau.equals(nhanVien.getPass())) {
+            JOptionPane.showMessageDialog(this, " Sai mật khẩu");
+            txtPassword.requestFocus();
+            return true;
+        }
+       
+        return false;
+    }
+
+
+    private void login() {
+
+        String manv = txtUser.getText();
+        String matKhau = new String(txtPassword.getPassword());
+        try {
+            NhanVien User = dao.selectByAccount(manv);
+            if (User != null) {
+                String matKhau2 = User.getPassword();
+                if (matKhau.equals(matKhau2)) {
+                    //ShareHelper.USER = User;
+                   MainTemplate view = new MainTemplate();
+         view.setVisible(true);
+                    this.dispose();
+                } else {
+                    //alert("Sai mật khẩu!");
+                    JOptionPane.showMessageDialog(this, "Sai maatj khaau");
+
+                }
+            } else {
+                //alert("Tài khoản này không tồn tại");
+                JOptionPane.showMessageDialog(this,"ktt");
+
+            }
+        } catch (Exception e) {
+            //alert("Lỗi truy vấn dữ liệu!");
+            JOptionPane.showMessageDialog(this,"ktt");
+        }
+    }
+
 }
