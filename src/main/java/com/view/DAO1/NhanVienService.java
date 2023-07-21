@@ -22,4 +22,19 @@ public class NhanVienService {
         }
     }
     
+      public String xoaNhanVien(String ma){
+          if(repository.deleteNew(ma)){
+              return "Xóa thành công";
+          }else{
+              return "Xóa thất bại";
+          }
+      }
+      
+      public String doiMatKhau(String tk,NhanVien nhanVien){
+          if(repository.updatePass(tk, nhanVien)){
+              return "Đổi mật khẩu thành công";
+          }else{
+              return "Thất bại";
+          }
+      }
 }

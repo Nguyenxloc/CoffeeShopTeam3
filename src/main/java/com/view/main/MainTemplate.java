@@ -10,7 +10,9 @@ import com.view.form.DangKyDVForm;
 import com.view.form.ThongBaoForm;
 import com.view.form.LichHocForm;
 import com.view.form.DiemForm;
+import com.view.form.FormDEMo;
 import com.view.form.QuanLyNhanVien;
+
 import com.view.form.WalletForm;
 import com.view.form_Template.Form_BanHang;
 import java.awt.BorderLayout;
@@ -41,7 +43,11 @@ public class MainTemplate extends javax.swing.JFrame {
     private Form_BanHang formBanHang;
     private com.view.component.paneOfProduct paneOfProduct2;
     private QuanLyNhanVien formQLNhanVien;
+    
 
+    //private QuetMaQR maQR = new QuetMaQR();
+     private FormDEMo demo = new FormDEMo();
+    
     public MainTemplate() {
         initComponents();
 
@@ -54,6 +60,8 @@ public class MainTemplate extends javax.swing.JFrame {
         JScrollPane scroll = new JScrollPane();
         Component[] com = formBanHang.getComponents();
 
+      
+        
         setBackground(new Color(0, 0, 0, 0));
         menuOfCB1.initMoving(MainTemplate.this);
         menuOfCB1.addEventMenuSelected(new EventMenuSelected() {
@@ -70,8 +78,10 @@ public class MainTemplate extends javax.swing.JFrame {
                     setForm(formBanHang);
                 } else if (index == 7) {
                     setForm(formQLNhanVien);
+                  // quetQR.setVisible(true);
                 } else if (index == 8) {
-                   // setForm(formQLNhanVien);
+                 // maQR.setVisible(true);
+                 demo.setVisible(true);
                 } else if (index == 2) {
 //                    setForm(formQLDiem);
                 } else if (index == 3) {

@@ -69,6 +69,19 @@ public class NhanVienDao {
         return null;
     }
     
+    public Boolean updatePass(String tk,NhanVien nhanVien){
+        String sql = "update NhanVien set MatKhau=? where TaiKhoan=?";
+        try(Connection con = connection1.getConnection();
+                PreparedStatement st = con.prepareStatement(sql)) {
+                st.setObject(1, nhanVien.getMatKhau());
+                st.setObject(2, tk);
+                int result  = st.executeUpdate();
+                return result>0;
+        } catch (Exception e) {
+           e.printStackTrace();
+        }
+        return false;
+    }
     
     public ArrayList<NhanVien> getList(){
         ArrayList<NhanVien> list = new ArrayList<>();
@@ -136,6 +149,19 @@ public class NhanVienDao {
                 return result>0;
         } catch (Exception e) {
              e.printStackTrace();
+        }
+        return false;
+    }
+    
+    public Boolean deleteNew(String ma){
+        String sql = "delete NhanVien where Ma =?";
+        try(Connection con = connection1.getConnection();
+                PreparedStatement st = con.prepareStatement(sql)) {
+                st.setObject(1, ma);
+                int result = st.executeUpdate();
+                return result>0;
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return false;
     }

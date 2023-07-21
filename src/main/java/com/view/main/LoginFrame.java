@@ -382,7 +382,7 @@ public class LoginFrame extends javax.swing.JFrame {
                 if (matKhau.equals(matKhau2)) {
                     //ShareHelper.USER = User;
                    MainTemplate view = new MainTemplate();
-         view.setVisible(true);
+                   view.setVisible(true);
                     this.dispose();
                 } else {
                     //alert("Sai mật khẩu!");
