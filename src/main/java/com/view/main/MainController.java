@@ -4,8 +4,6 @@
  */
 package com.view.main;
 
-import ultilities.DBConnection;
-
 /**
  *
  * @author 84374
@@ -17,10 +15,16 @@ public class MainController {
                 new MainTemplate().setVisible(true);
             }
         });
-        System.out.println("===================Test jdbc=================");
-        DBConnection dbconn  = new DBConnection();
-        System.out.println(dbconn.openDbConnection());
-        System.out.println("=============================================");
+        
+//        System.out.println("===================Test jdbc=================");
+//
+//        DBConnection dbconn  = new DBConnection();
+//        //System.out.println(dbconn.openDbConnection());d
+//
+//        Utilitys dbconn = new Utilitys();
+//        System.out.println(dbconn.openDbConnection());
+//
+//        System.out.println("=============================================");
 //        int triggerNum = 1;/// example that parament must be change follow up actor
 //        //// tạo ra những biến để chuyển tab
 //             java.awt.EventQueue.invokeLater(new Runnable() {cbc

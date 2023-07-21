@@ -2,25 +2,26 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package DoUong_ThongKe_Repository;
+package repository;
 
-import DoUong_ThongKe_Model.ChiTietDoUong;
-import Model_DoUong_ThongKe.LoaiDoUong;
+
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import model.ChiTietDoUong;
+import model.LoaiDoUong;
 import ultilities.DBConnection1;
 
 /**
  *
  * @author ADMIN
  */
-public class DAO_ChiTietDoUong implements iChiTietDoUong {
+public class DAO_ChiTietDoUongMaster  {
 
     final String INSERT_SQL = "INSERT INTO dbo.ChiTietDoUong(idLoaiDoUong,TenDoUong,GiaNhap,GiaBan,HinhAnh,MoTa)VALUES(?,?,?,?,?,?)";
     final String UPDATE_SQL = "UPDATE dbo.ChiTietDoUong SET TenDoUong=?, GiaNhap=?,GiaBan=?,MoTa=?,HinhAnh=? WHERE Id=?";
     final String DELETE_SQL = "DELETE FROM [dbo].[ChiTietDoUong] WHERE [Id] = ?";
     final String SELECT_BY_SQL = "SELECT * FROM [dbo].[ChiTietDoUong] WHERE [Id] = ?";
-    final String SELECT_ALL_SQL = "SELECT * FROM [dbo].[ChiTietDoUong] order by TenDoUong";
+    final String SELECT_ALL_SQL = "SELECT * FROM [dbo].[ChiTietDoUong] ORDER BY IdLoaiDoUong;";
     final String SELECT_BY_UNIID = "SELECT * FROM [dbo].[ChiTietDoUong] WHERE [Id] = ?";
     final String SELECT_BY_MULIPLECONDITION = "DECLARE @tenDoUong AS NVARCHAR(50) = ?, @idLoaiDoUong AS uniqueidentifier =?,@giaBatDau as decimal(20, 0)=?,@giaKeThuc as decimal(20, 0)=?"
             + "SELECT*FROM dbo.ChiTietDoUong \n"
@@ -31,12 +32,12 @@ public class DAO_ChiTietDoUong implements iChiTietDoUong {
             + "WHERE (@tenDoUong IS NULL OR TenDoUong=@tenDoUong) AND (@IdLoaiDoUong IS NULL OR IdLoaiDoUong=@idLoaiDoUong)";
     
     
-    @Override
+
 
     public ArrayList<ChiTietDoUong> selectALl() {
         DBConnection1 dbConn = new DBConnection1();
         ArrayList<ChiTietDoUong> lstChiTietDoUong = new ArrayList<>();
-        DAO_LoaiDoUong dAO_LoaiDoUong = new DAO_LoaiDoUong();
+        DAO_LoaiDoUongMaster dAO_LoaiDoUong = new DAO_LoaiDoUongMaster();
         try {
             ResultSet rs = dbConn.getDataFromQuery(SELECT_ALL_SQL);
             while (rs.next()) {
@@ -49,12 +50,12 @@ public class DAO_ChiTietDoUong implements iChiTietDoUong {
         return lstChiTietDoUong;
     }
 
-    @Override
+
     public ChiTietDoUong selectByID(String id) {
         DBConnection1 dbConn = new DBConnection1();
         ChiTietDoUong chiTietDoUong = new ChiTietDoUong();
         ArrayList<ChiTietDoUong> lstChiTietDoUong = new ArrayList<>();
-        DAO_LoaiDoUong dAO_LoaiDoUong = new DAO_LoaiDoUong();
+        DAO_LoaiDoUongMaster dAO_LoaiDoUong = new DAO_LoaiDoUongMaster();
         try {
             ResultSet rs = dbConn.getDataFromQuery(SELECT_ALL_SQL, id);
             while (rs.next()) {
@@ -70,7 +71,7 @@ public class DAO_ChiTietDoUong implements iChiTietDoUong {
         return chiTietDoUong;
     }
 
-    @Override
+
     public void save(ChiTietDoUong chiTietDoUong) {
         DBConnection1 dbConn = new DBConnection1();
         try {
@@ -80,7 +81,7 @@ public class DAO_ChiTietDoUong implements iChiTietDoUong {
         }
     }
 
-    @Override
+
     public void update(ChiTietDoUong chiTietDoUong) {
         DBConnection1 dbConn = new DBConnection1();
         try {
@@ -90,7 +91,7 @@ public class DAO_ChiTietDoUong implements iChiTietDoUong {
         }
     }
 
-    @Override
+
     public void delete(String id) {
         DBConnection1 dbConn = new DBConnection1();
         try {
@@ -100,11 +101,11 @@ public class DAO_ChiTietDoUong implements iChiTietDoUong {
         }
     }
 
-    @Override
+
     public ArrayList<ChiTietDoUong> selectByFlexibleCondition(String tenDoUong, String idLoaiDoUong, double giaBatDau, double giaKetThuc) {
         DBConnection1 dbConn = new DBConnection1();
         ArrayList<ChiTietDoUong> lstChiTietDoUong = new ArrayList<>();
-        DAO_LoaiDoUong dAO_LoaiDoUong = new DAO_LoaiDoUong();
+        DAO_LoaiDoUongMaster dAO_LoaiDoUong = new DAO_LoaiDoUongMaster();
         try {
             System.out.println(idLoaiDoUong);
             ResultSet rs = dbConn.getDataFromQuery(SELECT_BY_MULIPLECONDITION2, tenDoUong, idLoaiDoUong);

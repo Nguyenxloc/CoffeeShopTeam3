@@ -2,17 +2,16 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package DoUong_ThongKe_Model;
+package model;
 
-import Model_DoUong_ThongKe.LoaiDoUong;
+
 
 /**
  *
- * @author ADMIN
+ * @author 84374
  */
 public class ChiTietDoUong {
-    
-    private String id;
+  private String id;
     
     private String tenDoUong;
     
@@ -100,5 +99,4 @@ public class ChiTietDoUong {
         return "ChiTietDoUong{" + "id=" + id + ", tenDoUong=" + tenDoUong + ", giaNhap=" + giaNhap + ", giaBan=" + giaBan + ", moTa=" + moTa + ", hinhAnh=" + hinhAnh + ", loaiDoUong=" + loaiDoUong + '}';
     }
 
-    
 }

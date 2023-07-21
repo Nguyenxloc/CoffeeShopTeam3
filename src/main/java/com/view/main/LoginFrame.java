@@ -4,13 +4,21 @@
  */
 package com.view.main;
 
+import Repository1.NhanVienDao;
+import com.view.model.NhanVien;
 import java.io.File;
-/**
- *
- * @author 84374
- */
-public class LoginFrame extends javax.swing.JFrame {
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.util.regex.Pattern;
+import javax.swing.JOptionPane;
+import ultilities.DBConnection1;
 
+
+
+public class LoginFrame extends javax.swing.JFrame {
+     private DBConnection1 dbconection = new DBConnection1();
+    private NhanVienDao dao = new NhanVienDao();
     private String dir = null;
 
     ////// query sql -- get vaiTro
@@ -54,6 +62,7 @@ public class LoginFrame extends javax.swing.JFrame {
         lblMessPass = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -165,14 +174,15 @@ public class LoginFrame extends javax.swing.JFrame {
         kGradientPanel1.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 70, 410, 520));
 
         jLabel1.setIcon(new javax.swing.ImageIcon(dir+"\\baomat1.png"));
-        //dir+"\\login1.jpg"
-        kGradientPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 70, 620, 520));
+        System.out.println("Test link: "+dir+"\\baomat1.png");
+        kGradientPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 230, 520, 340));
 
         jLabel6.setFont(new java.awt.Font("Segoe UI Semibold", 1, 24)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel6.setText("<html> <br>");
-        kGradientPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, 500, 20));
+        jLabel6.setText("<html>\nNEVER STOP LEARNING\n<br>\nBECAUSE LIFE NEVER STOPS TEACHING\n");
+        kGradientPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 60, 500, 110));
+        kGradientPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -191,8 +201,82 @@ public class LoginFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
-         MainTemplate view = new MainTemplate();
-         view.setVisible(true);
+//         MainTemplate view = new MainTemplate();
+//         view.setVisible(true);
+      
+         String us = txtUser.getText();
+        String ps = txtPassword.getText();
+
+        String sql = "	select * from NhanVien where TaiKhoan =? and MatKhau = ?";
+//        try ( Connection con = dbconection.getConnection();  
+//                PreparedStatement st = con.prepareStatement(sql)) {
+//            st.setString(1, us);
+//            st.setString(2, ps);
+//            ResultSet rs = st.executeQuery();
+//            if (rs.next()) {
+//                
+//                
+//                if (us.equals("son") && ps.equals("12345")) {
+//                    JOptionPane.showMessageDialog(null, "Đăng nhập quyền quản lý");
+//                            MainTemplate view = new MainTemplate();
+//                            view.setVisible(true);
+//                            setVisible(false);                  
+//                }
+//                else if (us.equals("hung") && ps.equals("12345")) {
+//                   JOptionPane.showMessageDialog(null, "Đăng nhập quyền nhân viên");
+//                            MainTemplate view = new MainTemplate();
+//                            view.setVisible(true);
+//                            setVisible(false);  
+//                } 
+//                 
+//            } else {
+//               // JOptionPane.showMessageDialog(null, "Username or Password không chính xác");
+//                
+//                String manv = txtUser.getText().trim();
+//                String matKhau = new String(txtPassword.getPassword()).trim();
+//                NhanVien nhanVien = dao.selectByAccount(manv);
+//                Pattern regex = Pattern.compile("[^A-Za-z0-9]");
+//        if (txtUser.getText().equals("") && txtPassword.getPassword().length == 0) {
+//
+//            JOptionPane.showMessageDialog(this, "Chưa nhập thông tin đăng nhập!");
+//            txtUser.requestFocus();
+//            return ;
+//
+//        } else if (txtUser.getText().equals("")) {
+//            JOptionPane.showMessageDialog(this, "Vui lòng nhập tài khoản!");
+//            txtUser.requestFocus();
+//            return;}
+//        else if(regex.matcher(manv).find()){
+//            JOptionPane.showMessageDialog(this, "Tài khoản chứa ký tự đặc biệt!");
+//            txtUser.setText("");
+//            txtUser.requestFocus();
+//            return;
+//        }
+//        else if (txtPassword.getPassword().length == 0) {
+//            JOptionPane.showMessageDialog(this, "Vui lòng nhập mật khẩu!");
+//            txtPassword.requestFocus();
+//            return;
+//        }else if(regex.matcher(matKhau).find()){
+//             JOptionPane.showMessageDialog(this, "Mật khẩu chứa ký tự đặc biệt!");
+//             txtPassword.setText("");
+//             txtPassword.requestFocus();
+//            return;
+//        }
+//        else if(nhanVien == null){
+//                JOptionPane.showMessageDialog(this, "Sai tài khoản");
+//                return;
+//            }
+//        else if (!ps.equals("12345")) {
+//            JOptionPane.showMessageDialog(this, " Sai mật khẩu");
+//            txtPassword.requestFocus();
+//            return;
+//        }
+//       
+//            }
+//
+//        } catch (Exception e) {
+//            JOptionPane.showMessageDialog(null, e);
+//        }
     }//GEN-LAST:event_btnLoginActionPerformed
 
     /**
@@ -230,6 +314,7 @@ public class LoginFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
@@ -241,4 +326,81 @@ public class LoginFrame extends javax.swing.JFrame {
     private javax.swing.JPasswordField txtPassword;
     private javax.swing.JTextField txtUser;
     // End of variables declaration//GEN-END:variables
+
+
+
+    public boolean check(){
+        String manv = txtUser.getText().trim();
+        String matKhau = new String(txtPassword.getPassword()).trim();
+        NhanVien nhanVien = dao.selectByAccount(manv);
+        Pattern regex = Pattern.compile("[^A-Za-z0-9]");
+        if (txtUser.getText().equals("") && txtPassword.getPassword().length == 0) {
+
+            JOptionPane.showMessageDialog(this, "Chưa nhập thông tin đăng nhập!");
+            txtUser.requestFocus();
+            return true;
+
+        } else if (txtUser.getText().equals("")) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập tài khoản!");
+            txtUser.requestFocus();
+            return true;}
+//        else if(regex.matcher(manv).find()){
+//            JOptionPane.showMessageDialog(this, "Tài khoản chứa ký tự đặc biệt!");
+//            txtUser.setText("");
+//            txtUser.requestFocus();
+//            return true;
+//        }
+        else if (txtPassword.getPassword().length == 0) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập mật khẩu!");
+            txtPassword.requestFocus();
+            return true;
+        }else if(regex.matcher(matKhau).find()){
+             JOptionPane.showMessageDialog(this, "Mật khẩu chứa ký tự đặc biệt!");
+             txtPassword.setText("");
+             txtPassword.requestFocus();
+            return true;
+        }
+        else if(nhanVien == null){
+                JOptionPane.showMessageDialog(this, "Sai tài khoản");
+                return true;
+            }
+        else if (!matKhau.equals(nhanVien.getPass())) {
+            JOptionPane.showMessageDialog(this, " Sai mật khẩu");
+            txtPassword.requestFocus();
+            return true;
+        }
+       
+        return false;
+    }
+
+
+    private void login() {
+
+        String manv = txtUser.getText();
+        String matKhau = new String(txtPassword.getPassword());
+        try {
+            NhanVien User = dao.selectByAccount(manv);
+            if (User != null) {
+                String matKhau2 = User.getPassword();
+                if (matKhau.equals(matKhau2)) {
+                    //ShareHelper.USER = User;
+                   MainTemplate view = new MainTemplate();
+         view.setVisible(true);
+                    this.dispose();
+                } else {
+                    //alert("Sai mật khẩu!");
+                    JOptionPane.showMessageDialog(this, "Sai maatj khaau");
+
+                }
+            } else {
+                //alert("Tài khoản này không tồn tại");
+                JOptionPane.showMessageDialog(this,"ktt");
+
+            }
+        } catch (Exception e) {
+            //alert("Lỗi truy vấn dữ liệu!");
+            JOptionPane.showMessageDialog(this,"ktt");
+        }
+    }
+
 }

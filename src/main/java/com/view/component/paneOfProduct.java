@@ -4,7 +4,7 @@
  */
 package com.view.component;
 
-import model.DoUong;
+import model.ChiTietDoUong;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridLayout;
@@ -28,14 +28,14 @@ public class paneOfProduct extends JPanel {
 
     static ArrayList<ProductCell> lstCell = new ArrayList<>();
 
-    public paneOfProduct(ArrayList<DoUong> lstPerson) {
+    public paneOfProduct(ArrayList<ChiTietDoUong> lstPerson) {
         
         GridLayout grid = new GridLayout(Integer.valueOf(lstPerson.size() / 3) + 1, 3);
         grid.setVgap(-5);
         grid.setHgap(0);
         this.setLayout(grid);
         for (int i = 0; i < lstPerson.size(); i++) {
-            ProductCell cell = new ProductCell(lstPerson.get(i).getImg(), lstPerson.get(i).getTen(), lstPerson.get(i).getGiaCa(), lstPerson.get(i).getMoTa());
+            ProductCell cell = new ProductCell(lstPerson.get(i).getHinhAnh(), lstPerson.get(i).getTenDoUong(), lstPerson.get(i).getGiaBan(), lstPerson.get(i).getMoTa());
             lstCell.add(cell);
             lstCell.get(i).setName(String.valueOf(i));
             lstCell.get(i).addMouseListener(new MouseListener() {

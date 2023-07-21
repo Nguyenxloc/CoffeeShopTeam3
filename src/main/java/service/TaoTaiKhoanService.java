@@ -11,6 +11,7 @@ import java.util.logging.Logger;
 import model.CapBac;
 import model.TaiKhoan;
 import repository.DAO_TaoTaiKhoan;
+import ultilities.Utilitys;
 
 /**
  *
@@ -49,7 +50,18 @@ public class TaoTaiKhoanService {
         return listCapBac;
     }
 
-    public void save(TaiKhoan acount) {
-        repositoryTK.save(acount);
+    public ArrayList<String> getAllPhoneNumbers() {
+        ArrayList<String> listPhones = repositoryTK.getAllPhoneNumbers();
+        return listPhones;
     }
+
+//    public void save(TaiKhoan acount) {
+//        repositoryTK.save(acount);
+//    }
+
+    // Hàm check Password đã Hash
+//    public boolean accountVerification(String pwdRaw, String pwdHash) {
+//        return Utilitys.checkPwd(pwdRaw, pwdHash);
+//    }
+
 }

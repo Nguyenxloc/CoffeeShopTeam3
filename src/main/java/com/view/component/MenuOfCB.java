@@ -6,11 +6,13 @@ import java.awt.Color;
 import java.awt.GradientPaint;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.RenderingHints;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.io.File;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 
 public class MenuOfCB extends javax.swing.JPanel {
@@ -25,7 +27,7 @@ public class MenuOfCB extends javax.swing.JPanel {
 
     public MenuOfCB() {
 
-        String path = "src\\main\\java\\com\\view\\icon\\team3.png";
+        String path = "src\\main\\java\\com\\view\\icon\\logoTeamResizedNoBac.png";
         File file = new File(path);
         String absolutePath = file.getAbsolutePath();
         dir = absolutePath;
@@ -42,14 +44,23 @@ public class MenuOfCB extends javax.swing.JPanel {
         listMenu1.addItem(new Model_Menu("3", "Bán hàng", Model_Menu.MenuType.MENU));
         listMenu1.addItem(new Model_Menu("4", "QL Giao ca", Model_Menu.MenuType.MENU));
         listMenu1.addItem(new Model_Menu("5", "QL Menu", Model_Menu.MenuType.MENU));
-        //listMenu1.addItem(new Model_Menu("6", "Icons", Model_Menu.MenuType.MENU));
-        listMenu1.addItem(new Model_Menu("1", "QL Hóa Đơn", Model_Menu.MenuType.MENU));
-        listMenu1.addItem(new Model_Menu("7", "QL somethingelse", Model_Menu.MenuType.MENU));
-        listMenu1.addItem(new Model_Menu("8", "QL somethingelse", Model_Menu.MenuType.MENU));
-        listMenu1.addItem(new Model_Menu("6", "QL somethingelse", Model_Menu.MenuType.MENU));
-        listMenu1.addItem(new Model_Menu("9", "QL somethingelse", Model_Menu.MenuType.MENU));
+        //listMenu1.addItem(new Model_Menu("6", "Icons", Model_Menu.MenuType.MENU)); Khang
+        listMenu1.addItem(new Model_Menu("1", "Kem", Model_Menu.MenuType.MENU));
+        listMenu1.addItem(new Model_Menu("7", "Sữa chua", Model_Menu.MenuType.MENU));
+        listMenu1.addItem(new Model_Menu("8", "QL Hóa Đơn", Model_Menu.MenuType.MENU));
+        listMenu1.addItem(new Model_Menu("6", "Quản lý nhân viên", Model_Menu.MenuType.MENU));
+        listMenu1.addItem(new Model_Menu("9", "Tạo tài khoản", Model_Menu.MenuType.MENU));
+
         listMenu1.addItem(new Model_Menu("10", "Đăng xuất", Model_Menu.MenuType.MENU));
-        listMenu1.addItem(new Model_Menu("", "Đăng xuất ", Model_Menu.MenuType.EMPTY));
+        listMenu1.addItem(new Model_Menu("", "cetera cetera ", Model_Menu.MenuType.EMPTY));
+
+//        listMenu1.addItem(new Model_Menu("11", "QL somethingelse", Model_Menu.MenuType.MENU));
+//        listMenu1.addItem(new Model_Menu("12", "QL somethingelse", Model_Menu.MenuType.MENU));
+//        listMenu1.addItem(new Model_Menu("13", "QL somethingelse", Model_Menu.MenuType.MENU));
+//        listMenu1.addItem(new Model_Menu("14", "QL somethingelse", Model_Menu.MenuType.MENU));
+//        listMenu1.addItem(new Model_Menu("15", "Tạo tài khoản", Model_Menu.MenuType.MENU));
+//        listMenu1.addItem(new Model_Menu("16", "Đăng xuất", Model_Menu.MenuType.MENU));
+//        listMenu1.addItem(new Model_Menu("17", "Đăng xuất ", Model_Menu.MenuType.EMPTY));
 
 
     }
@@ -66,8 +77,11 @@ public class MenuOfCB extends javax.swing.JPanel {
 
         jLabel1.setFont(new java.awt.Font("sansserif", 1, 17)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setIcon(new javax.swing.ImageIcon(dir));
-        jLabel1.setText("<html> Coffee <br> coder");
+        ImageIcon imgIcon  = new javax.swing.ImageIcon(dir);
+        Image image = imgIcon.getImage(); // transform it
+        Image newimg = image.getScaledInstance(150, 46, java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
+        ImageIcon imageIcon = new ImageIcon(newimg);
+        jLabel1.setIcon(imageIcon);
 
         javax.swing.GroupLayout panelMovingLayout = new javax.swing.GroupLayout(panelMoving);
         panelMoving.setLayout(panelMovingLayout);
@@ -75,14 +89,14 @@ public class MenuOfCB extends javax.swing.JPanel {
             panelMovingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelMovingLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 203, Short.MAX_VALUE)
+                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 191, Short.MAX_VALUE)
                 .addContainerGap())
         );
         panelMovingLayout.setVerticalGroup(
             panelMovingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelMovingLayout.createSequentialGroup()
                 .addGap(15, 15, 15)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jLabel1)
                 .addContainerGap())
         );
 
@@ -90,15 +104,18 @@ public class MenuOfCB extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panelMoving, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(listMenu1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(listMenu1, javax.swing.GroupLayout.DEFAULT_SIZE, 215, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(panelMoving, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(panelMoving, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(15, 15, 15)
-                .addComponent(listMenu1, javax.swing.GroupLayout.DEFAULT_SIZE, 418, Short.MAX_VALUE))
+                .addComponent(listMenu1, javax.swing.GroupLayout.DEFAULT_SIZE, 464, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 

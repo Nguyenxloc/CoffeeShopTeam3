@@ -2,11 +2,11 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package DoUong_ThongKe_Repository;
+package repository;
 
-import Model_DoUong_ThongKe.LoaiDoUong;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import model.LoaiDoUong;
 import ultilities.DBConnection;
 import ultilities.DBConnection1;
 
@@ -14,7 +14,7 @@ import ultilities.DBConnection1;
  *
  * @author ADMIN
  */
-public class DAO_LoaiDoUong implements iLoaiDoUong {
+public class DAO_LoaiDoUongMaster  {
 
     final String INSERT_SQL = "INSERT INTO [dbo].[LoaiDoUong](Ma,Ten)VALUES(?,?)";
     final String UPDATE_SQL = "UPDATE [dbo].[LoaiDoUong] SET Ma=?,Ten=? WHERE Id=?;";
@@ -23,7 +23,7 @@ public class DAO_LoaiDoUong implements iLoaiDoUong {
     final String SELECT_ALL_SQL = "SELECT * FROM [dbo].[LoaiDoUong]";
     final String SELECT_BY_UNIID = "SELECT * FROM [dbo].[LoaiDoUong] WHERE [Id] = ?";
 
-    @Override
+
     public ArrayList<LoaiDoUong> selectALl() {
         DBConnection1 dbConn = new DBConnection1();
         ArrayList<LoaiDoUong> lstLoaiDoUong = new ArrayList<>();
@@ -39,7 +39,7 @@ public class DAO_LoaiDoUong implements iLoaiDoUong {
         return lstLoaiDoUong;
     }
 
-    @Override
+
     public LoaiDoUong selectByID(String id) {
         DBConnection1 dbConn = new DBConnection1();
         LoaiDoUong loaiDoUong = new LoaiDoUong();
@@ -58,7 +58,7 @@ public class DAO_LoaiDoUong implements iLoaiDoUong {
         return loaiDoUong;
     }
 
-    @Override
+
     public void save(LoaiDoUong loaiDoUong) {
         DBConnection1 dbConn = new DBConnection1();
         ArrayList<LoaiDoUong> lstLoaiDoUong = new ArrayList<>();
@@ -69,12 +69,12 @@ public class DAO_LoaiDoUong implements iLoaiDoUong {
         }
     }
 
-    @Override
+
     public void update(LoaiDoUong loaiDoUong) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
-    @Override
+
     public void delete(String id) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
