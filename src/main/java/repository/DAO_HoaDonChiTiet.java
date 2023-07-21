@@ -20,7 +20,7 @@ public class DAO_HoaDonChiTiet {
     final String INSERT_SQL = "INSERT INTO dbo.HoaDonChiTiet(IdHoaDon,IdChiTietDoUong,SoLuong)VALUES(?,?,?)";
     final String UPDATE_SQL = "UPDATE dbo.HoaDonChiTiet SET SoLuong=? WHERE IdHoaDon=?,IdChiTietDoUong=?";
     final String DELETE_SQL = "DELETE FROM [dbo].[HoaDonChiTiet] WHERE IdHoaDon=?,IdChiTietDoUong=?";
-    final String SELECT_BY_SQL = "SELECT * FROM [dbo].[HoaDonChiTiet] WHERE IdHoaDon=?,IdChiTietDoUong=?";
+    final String SELECT_BY_SQL = "SELECT * FROM [dbo].[HoaDonChiTiet] WHERE IdHoaDon=?";
     final String SELECT_ALL_SQL = "SELECT * FROM [dbo].[HoaDonChiTiet];";
 
     public ArrayList<HoaDonChiTiet> selectALl() {
@@ -47,7 +47,7 @@ public class DAO_HoaDonChiTiet {
         return lstHoaDonChiTiet;
     }
 
-    public HoaDonChiTiet selectByID(String id) {
+    public ArrayList<HoaDonChiTiet> selectByID(String id) {
         DBConnection1 dbConn = new DBConnection1();
         HoaDonChiTiet hoaDonChiTiet = new HoaDonChiTiet();
         DAO_HoaDon dao_HoaDon = new DAO_HoaDon();
@@ -61,14 +61,12 @@ public class DAO_HoaDonChiTiet {
                 ChiTietDoUong chiTietDoUong = new ChiTietDoUong();
                 chiTietDoUong = dao_ChiTietDoUong.selectByID(rs.getString("IdChiTietDoUong"));
                 lstHoaDonChiTiet.add(new HoaDonChiTiet(hoaDon, chiTietDoUong, rs.getInt("SoLuong"), rs.getString("NgayTao")));
-                hoaDonChiTiet = lstHoaDonChiTiet.get(0);
-                break;
             }
 
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return hoaDonChiTiet;
+        return lstHoaDonChiTiet;
     }
 
     public void save(HoaDonChiTiet hoaDonChiTiet) {

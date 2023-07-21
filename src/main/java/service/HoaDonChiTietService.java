@@ -26,6 +26,12 @@ public class HoaDonChiTietService {
         return lstHoaDonChiTiet;
     }
 
+    public ArrayList<HoaDonChiTiet> getListHoaDonChiTietByID(String id) {
+        ArrayList<HoaDonChiTiet> lstHoaDonChiTiet = new ArrayList<>();
+        lstHoaDonChiTiet = dao_HoaDonChiTiet.selectByID(id);
+        return lstHoaDonChiTiet;
+    }
+
 //     public ArrayList<HoaDon> getTimKiem(String tenDoUong,String idLoaiDoUong,double giaBatDau,double giaKetThuc ){
 //        ArrayList<ChiTietDoUong> lstChiTietDoUong  = new ArrayList<>();
 //        lstChiTietDoUong = dAO_ChiTietDoUong.selectByFlexibleCondition(tenDoUong, idLoaiDoUong,giaBatDau,giaKetThuc);
@@ -35,7 +41,7 @@ public class HoaDonChiTietService {
         dao_HoaDonChiTiet.update(hoaDonChiTiet);
     }
 
-    public void deleteChiTietDoUong(HoaDonChiTiet hoaDonChiTiet){
+    public void deleteChiTietDoUong(HoaDonChiTiet hoaDonChiTiet) {
         dao_HoaDonChiTiet.delete(hoaDonChiTiet);
     }
 }

@@ -31,7 +31,7 @@ public class DBConnection1 {
     
     public static Connection openDbConnection() {
         try {
-            System.out.println(connectionSql);
+            System.out.println("Loading...");
             return DriverManager.getConnection(connectionSql, acc, pass);
         } catch (Exception e) {
             System.out.println("Trace error at OpenDbConnection function: ");

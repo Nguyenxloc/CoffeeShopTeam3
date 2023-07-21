@@ -57,7 +57,7 @@ public class DAO_LoaiDoUong implements iLoaiDoUong {
         }
         return loaiDoUong;
     }
-
+    
     @Override
     public void save(LoaiDoUong loaiDoUong) {
         DBConnection1 dbConn = new DBConnection1();

@@ -16,8 +16,8 @@ public class HoaDon {
     private KhachHang khachHang;
     private NhanVien nhanVien;
     private String ma;
-    private String ngayTao;
-    private String ngayThanhToan;
+    private Date ngayTao;
+    private String thoiGian;
     private int  tinhTrangThanhToan;
     private int  trangThaiPhaChe;
     private GiamGia maGiamGia;
@@ -26,14 +26,14 @@ public class HoaDon {
     public HoaDon() {
     }
 
-    public HoaDon(String id, Ban ban, KhachHang khachHang, NhanVien nhanVien, String ma, String ngayTao, String ngayThanhToan, int tinhTrangThanhToan, int trangThaiPhaChe, GiamGia maGiamGia, int stt) {
+    public HoaDon(String id, Ban ban, KhachHang khachHang, NhanVien nhanVien, String ma, Date ngayTao, String thoiGian, int tinhTrangThanhToan, int trangThaiPhaChe, GiamGia maGiamGia, int stt) {
         this.id = id;
         this.ban = ban;
         this.khachHang = khachHang;
         this.nhanVien = nhanVien;
         this.ma = ma;
         this.ngayTao = ngayTao;
-        this.ngayThanhToan = ngayThanhToan;
+        this.thoiGian = thoiGian;
         this.tinhTrangThanhToan = tinhTrangThanhToan;
         this.trangThaiPhaChe = trangThaiPhaChe;
         this.maGiamGia = maGiamGia;
@@ -80,20 +80,20 @@ public class HoaDon {
         this.ma = ma;
     }
 
-    public String getNgayTao() {
+    public Date getNgayTao() {
         return ngayTao;
     }
 
-    public void setNgayTao(String ngayTao) {
+    public void setNgayTao(Date ngayTao) {
         this.ngayTao = ngayTao;
     }
 
-    public String getNgayThanhToan() {
-        return ngayThanhToan;
+    public String getThoiGian() {
+        return thoiGian;
     }
 
-    public void setNgayThanhToan(String ngayThanhToan) {
-        this.ngayThanhToan = ngayThanhToan;
+    public void setThoiGian(String thoiGian) {
+        this.thoiGian = thoiGian;
     }
 
     public int getTinhTrangThanhToan() {
@@ -130,7 +130,8 @@ public class HoaDon {
 
     @Override
     public String toString() {
-        return "HoaDon{" + "id=" + id + ", ban=" + ban + ", khachHang=" + khachHang + ", nhanVien=" + nhanVien + ", ma=" + ma + ", ngayTao=" + ngayTao + ", ngayThanhToan=" + ngayThanhToan + ", tinhTrangThanhToan=" + tinhTrangThanhToan + ", trangThaiPhaChe=" + trangThaiPhaChe + ", maGiamGia=" + maGiamGia + ", stt=" + stt + '}';
+        return "HoaDon{" + "id=" + id + ", ban=" + ban + ", khachHang=" + khachHang + ", nhanVien=" + nhanVien + ", ma=" + ma + ", ngayTao=" + ngayTao + ", thoiGian=" + thoiGian + ", tinhTrangThanhToan=" + tinhTrangThanhToan + ", trangThaiPhaChe=" + trangThaiPhaChe + ", maGiamGia=" + maGiamGia + ", stt=" + stt + '}';
     }
+
   
 }

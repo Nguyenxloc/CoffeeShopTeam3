@@ -19,13 +19,15 @@ import ultilities.DBConnection1;
  */
 public class DAO_HoaDon {
 
-    final String INSERT_SQL = "INSERT INTO dbo.HoaDon(IdBan,IdKH,IdNV,NgayThanhToan,TinhTrangThanhToan,TrangThaiPhaChe,MaGiamGia,Stt)VALUES(?,?,?,?,0,0,?,?)";
+    final String INSERT_SQL = "INSERT INTO dbo.HoaDon(IdBan,IdKH,IdNV,TinhTrangThanhToan,TrangThaiPhaChe,MaGiamGia,Stt)VALUES(?,?,?,0,0,?,?)";
     final String UPDATE_SQL = "UPDATE dbo.HoaDon SET IdBan=?, IdKH=?,IdNV=?,Ma=?,TinhTrangThanhToan=?,TrangThaiPhaChe=?,MaGiamGia=? WHERE Id=?";
     final String DELETE_SQL = "DELETE FROM [dbo].[HoaDon] WHERE [Id] = ?";
     final String SELECT_BY_SQL = "SELECT * FROM [dbo].[HoaDon] WHERE [Id] = ?";
-    final String SELECT_ALL_SQL = "SELECT*FROM dbo.HoaDon where stt = 1;";
+    final String SELECT_ALL_SQL = "SELECT*FROM dbo.HoaDon where stt = 1 order by NumOrder;";
     final String SELECT_ALL_SQL_HOADONCHO = "SELECT*FROM dbo.HoaDon where stt = 0;";
+    final String SELECT_ALL_SQL_HOADONDANGPHACHE = "SELECT*FROM dbo.HoaDon where TrangThaiPhaChe = 0 and stt = 1;";
     final String UPDATE_STT = "UPDATE dbo.HoaDon SET stt=? WHERE Id=?";
+    final String UPDATE_TTPHACHE = "UPDATE dbo.HoaDon SET TrangThaiPhaChe=? WHERE Id=?";
     DAO_Ban dao_Ban = new DAO_Ban();
     DAO_KhachHang dao_KhachHang = new DAO_KhachHang();
     DAO_NhanVien dao_NhanVien = new DAO_NhanVien();
@@ -44,8 +46,8 @@ public class DAO_HoaDon {
                 KhachHang khachHang = null;
                 NhanVien nhanVien = null;
                 GiamGia giamGia = null;
-                lstHoaDon.add(new HoaDon(rs.getString("id"), ban, khachHang, nhanVien, rs.getString("Ma"), rs.getString("NgayTao"),
-                        rs.getString("NgayThanhToan"), rs.getInt("TinhTrangThanhToan"), rs.getInt("TrangThaiPhaChe"), giamGia,rs.getInt("Stt")));
+                lstHoaDon.add(new HoaDon(rs.getString("id"), ban, khachHang, nhanVien, rs.getString("Ma"), rs.getDate("NgayTao"),
+                        rs.getString("ThoiGian"), rs.getInt("TinhTrangThanhToan"), rs.getInt("TrangThaiPhaChe"), giamGia, rs.getInt("Stt")));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -66,8 +68,8 @@ public class DAO_HoaDon {
                 KhachHang khachHang = null;
                 NhanVien nhanVien = null;
                 GiamGia giamGia = null;
-                lstHoaDon.add(new HoaDon(rs.getString("id"), ban, khachHang, nhanVien, rs.getString("Ma"), rs.getString("NgayTao"),
-                        rs.getString("NgayThanhToan"), rs.getInt("TinhTrangThanhToan"), rs.getInt("TrangThaiPhaChe"), giamGia,rs.getInt("Stt")));
+                lstHoaDon.add(new HoaDon(rs.getString("id"), ban, khachHang, nhanVien, rs.getString("Ma"), rs.getDate("NgayTao"),
+                        rs.getString("ThoiGian"), rs.getInt("TinhTrangThanhToan"), rs.getInt("TrangThaiPhaChe"), giamGia, rs.getInt("Stt")));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -80,7 +82,7 @@ public class DAO_HoaDon {
         HoaDon hoaDon = new HoaDon();
         ArrayList<HoaDon> lstHoaDon = new ArrayList<>();
         try {
-            ResultSet rs = dbConn.getDataFromQuery(SELECT_ALL_SQL, id);
+            ResultSet rs = dbConn.getDataFromQuery(SELECT_BY_SQL, id);
             while (rs.next()) {
                 Ban ban = dao_Ban.selectByID(rs.getInt("IdBan"));
 //                KhachHang khachHang = dao_KhachHang.selectByID("IdKH");
@@ -89,8 +91,8 @@ public class DAO_HoaDon {
                 KhachHang khachHang = null;
                 NhanVien nhanVien = null;
                 GiamGia giamGia = null;
-                lstHoaDon.add(new HoaDon(rs.getString("id"), ban, khachHang, nhanVien, rs.getString("Ma"), rs.getString("NgayTao"),
-                        rs.getString("NgayThanhToan"), rs.getInt("TinhTrangThanhToan"), rs.getInt("TinhTrangPhaChe"), giamGia,rs.getInt("Stt")));
+                lstHoaDon.add(new HoaDon(rs.getString("id"), ban, khachHang, nhanVien, rs.getString("Ma"), rs.getDate("NgayTao"),
+                        rs.getString("ThoiGian"), rs.getInt("TinhTrangThanhToan"), rs.getInt("TrangThaiPhaChe"), giamGia, rs.getInt("Stt")));
                 hoaDon = lstHoaDon.get(0);
                 break;
             }
@@ -104,8 +106,7 @@ public class DAO_HoaDon {
     public void save(HoaDon hoaDon) {
         DBConnection1 dbConn = new DBConnection1();
         try {
-            dbConn.ExcuteSQL(INSERT_SQL, hoaDon.getBan().getIdBan(), null, null,
-                    hoaDon.getNgayThanhToan(),null,hoaDon.getStt());
+            dbConn.ExcuteSQL(INSERT_SQL, hoaDon.getBan().getIdBan(), null, null, null, hoaDon.getStt());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -156,4 +157,35 @@ public class DAO_HoaDon {
 //        return lstChiTietDoUong;
 //
 //    }
+    public ArrayList<HoaDon> selectHoaDonDangPhaChe() {
+        DBConnection1 dbConn = new DBConnection1();
+        ArrayList<HoaDon> lstHoaDonDangPhaChe = new ArrayList<>();
+        try {
+            ResultSet rs = dbConn.getDataFromQuery(SELECT_ALL_SQL_HOADONDANGPHACHE);
+            while (rs.next()) {
+                Ban ban = dao_Ban.selectByID(rs.getInt("IdBan"));
+//                KhachHang khachHang = dao_KhachHang.selectByID("IdKH");
+//                NhanVien nhanVien = dao_NhanVien.selectByID(rs.getString("IdNV"));
+//                GiamGia giamGia = dao_GiamGia.selectByID(rs.getString("MaGiamGia"));
+                KhachHang khachHang = null;
+                NhanVien nhanVien = null;
+                GiamGia giamGia = null;
+                lstHoaDonDangPhaChe.add(new HoaDon(rs.getString("id"), ban, khachHang, nhanVien, rs.getString("Ma"), rs.getDate("NgayTao"),
+                        rs.getString("ThoiGian"), rs.getInt("TinhTrangThanhToan"), rs.getInt("TrangThaiPhaChe"), giamGia, rs.getInt("Stt")));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return lstHoaDonDangPhaChe;
+
+    }
+
+    public void updateTTPhaChe(String id, int i) {
+        DBConnection1 dbConn = new DBConnection1();
+        try {
+            dbConn.ExcuteSQL(UPDATE_TTPHACHE, i  , id);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

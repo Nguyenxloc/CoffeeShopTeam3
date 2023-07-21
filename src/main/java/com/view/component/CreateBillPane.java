@@ -4,6 +4,8 @@
  */
 package com.view.component;
 
+import SingletonClass.LstHoaDon_singleton;
+import com.view.form_Template.Container;
 import java.util.ArrayList;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -24,14 +26,14 @@ public class CreateBillPane extends javax.swing.JFrame {
     HoaDonService hoaDonService = new HoaDonService();
     BanService banService = new BanService();
     JTable localTbl = new JTable();
-    ArrayList<HoaDon> lstHoaDon = new ArrayList<>();
-
+    ArrayList<HoaDon> localLstHoaDon = LstHoaDon_singleton.getInstance().lstHoaDon;
     public CreateBillPane(JTable tbl) {
         initComponents();
         this.pack();
         this.setLocationRelativeTo(null);
         this.setVisible(true);
         localTbl = tbl;
+
     }
 
     public void save() {
@@ -43,13 +45,13 @@ public class CreateBillPane extends javax.swing.JFrame {
 
     public void reLoadParentTbl() {
         int stt = 0;
-        lstHoaDon = hoaDonService.getListHoaDon();
+        LstHoaDon_singleton.getInstance().lstHoaDon = hoaDonService.getListHoaDon();
         DefaultTableModel model = new DefaultTableModel();
         model = (DefaultTableModel) localTbl.getModel();
         model.setRowCount(0);
         String thanhToanStt;
         String phaCheStt;
-        for (HoaDon hoaDon : lstHoaDon) {
+        for (HoaDon hoaDon : LstHoaDon_singleton.getInstance().lstHoaDon) {
             stt++;
             if (hoaDon.getTinhTrangThanhToan() == 0) {
                 thanhToanStt = "Chưa TT";
@@ -64,6 +66,7 @@ public class CreateBillPane extends javax.swing.JFrame {
 
             model.addRow(new Object[]{stt, hoaDon.getMa(), hoaDon.getBan().getTen(), thanhToanStt, phaCheStt});
         }
+        System.out.println("local: " + localLstHoaDon);
     }
 
     /**

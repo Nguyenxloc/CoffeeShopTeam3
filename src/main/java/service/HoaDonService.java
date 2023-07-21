@@ -35,8 +35,8 @@ public class HoaDonService {
     public void updateHoaDon(HoaDon hoaDon) {
         dao_HoaDon.update(hoaDon);
     }
-    
-    public void updateStt(int stt, String id){
+
+    public void updateStt(int stt, String id) {
         dao_HoaDon.updateStt(stt, id);
     }
 
@@ -48,4 +48,18 @@ public class HoaDonService {
 //        lstChiTietDoUong = dAO_ChiTietDoUong.selectByFlexibleCondition(tenDoUong, idLoaiDoUong,giaBatDau,giaKetThuc);
 //        return lstChiTietDoUong;
 //    }
+    public ArrayList<HoaDon> getHoaDonDangPhaChe() {
+        ArrayList<HoaDon> lstHoaDonDangPhaChe = new ArrayList<>();
+        lstHoaDonDangPhaChe = dao_HoaDon.selectHoaDonDangPhaChe();
+        return lstHoaDonDangPhaChe;
+    }
+
+    public void updateTTPhaChe(String id, int i) {
+         dao_HoaDon.updateTTPhaChe(id,i);
+    }
+
+    public HoaDon getHoaDonByID(String LocalId) {
+        return dao_HoaDon.selectByID(LocalId);
+
+    }
 }
