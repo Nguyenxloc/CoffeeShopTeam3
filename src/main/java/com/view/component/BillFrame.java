@@ -4,7 +4,12 @@
  */
 package com.view.component;
 
+import SingletonClass.LstHoaDonCho_SingLeTon;
+import SingletonClass.LstHoaDonDangPhaChe_singleton;
+import SingletonClass.LstHoaDon_singleton;
+import java.math.BigDecimal;
 import java.util.ArrayList;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import model.HoaDon;
 import model.HoaDonChiTiet;
@@ -23,17 +28,21 @@ public class BillFrame extends javax.swing.JFrame {
     private String LocalId;
     HoaDonService hoaDonService = new HoaDonService();
     HoaDonChiTietService hoaDonChiTietService = new HoaDonChiTietService();
-    double totalCheck = 0;
+    double totalCheck =0 ;
     double localMoneyTake = 0;
-
-    public BillFrame(String id) {
+    JTable localTblHoaDon;
+    JTable localTblHoaDonDangPhaChe;
+    JTable localTblHoaDonCho;
+    public BillFrame(String id,JTable tblHoaDon, JTable tblHoaDonDangPhaChe,JTable tblHoaDonCho) {
         initComponents();
         this.pack();
         this.setLocationRelativeTo(null);
         this.setVisible(true);
         LocalId = id;
+        localTblHoaDon=tblHoaDon;
+        localTblHoaDonDangPhaChe=tblHoaDonDangPhaChe;
+        localTblHoaDonCho = tblHoaDonCho;
         loadData();
-
     }
 
     public void loadData() {
@@ -63,7 +72,95 @@ public class BillFrame extends javax.swing.JFrame {
                 hoaDonChiTiet.getChiTietDoUong().getGiaBan(), cellCheck});
         }
         lblTotalCheck.setText(String.valueOf(totalCheck));
+        txtEnterMoney.setText(String.valueOf(hoaDon.getMoneyTake()));
+    }
+    public void updateMoneyTake(){
+          
+          hoaDonService.updateMoneyTake(LocalId,localMoneyTake);
+    }
+    
+    public void updateSttCheckBill(){
+          hoaDonService.updateSttCheckBill(1,LocalId);
+    }
+    
+      public void loadHoaDonTbl() {
+        int stt = 0;
+        LstHoaDon_singleton.getInstance().lstHoaDon = hoaDonService.getListHoaDon();
+        DefaultTableModel model = new DefaultTableModel();
+        model = (DefaultTableModel) localTblHoaDon.getModel();
+        model.setRowCount(0);
+        String thanhToanStt;
+        String phaCheStt;
+        for (HoaDon hoaDon : LstHoaDon_singleton.getInstance().lstHoaDon) {
+            stt++;
+            if (hoaDon.getTinhTrangThanhToan() == 0) {
+                thanhToanStt = "Chưa TT";
+            } else {
+                thanhToanStt = "Đã TT";
+            }
+            if (hoaDon.getTrangThaiPhaChe() == 0) {
+                phaCheStt = "Chưa pha";
+            } else {
+                phaCheStt = "Đã pha";
+            }
 
+            model.addRow(new Object[]{stt, hoaDon.getMa(), hoaDon.getBan().getTen(), thanhToanStt, phaCheStt});
+        }
+    }
+      public void loadHoaDonDangPhaChe() {
+        int stt = 0;
+        LstHoaDonDangPhaChe_singleton.getInstance().lstHoaDonDangPhaChe = hoaDonService.getHoaDonDangPhaChe();
+        DefaultTableModel model = new DefaultTableModel();
+        model = (DefaultTableModel) localTblHoaDonDangPhaChe.getModel();
+        model.setRowCount(0);
+        String thanhToanStt;
+        String phaCheStt;
+        for (HoaDon hoaDon : LstHoaDonDangPhaChe_singleton.getInstance().lstHoaDonDangPhaChe) {
+            stt++;
+            if (hoaDon.getTinhTrangThanhToan() == 0) {
+                thanhToanStt = "Chưa TT";
+            } else {
+                thanhToanStt = "Đã TT";
+            }
+            if (hoaDon.getTrangThaiPhaChe() == 0) {
+                phaCheStt = "Chưa pha";
+            } else {
+                phaCheStt = "Đã pha";
+            }
+
+            model.addRow(new Object[]{stt, hoaDon.getMa(), hoaDon.getBan().getTen(), thanhToanStt, phaCheStt});
+        }
+    }
+      public void loadHoaDonChoTbl() {
+        int stt = 0;
+        LstHoaDonCho_SingLeTon.getInstance().lstHoaDonCho = hoaDonService.getListHoaDonCho();
+        DefaultTableModel model = new DefaultTableModel();
+        model = (DefaultTableModel) localTblHoaDonCho.getModel();
+        model.setRowCount(0);
+        String thanhToanStt;
+        String phaCheStt;
+        for (HoaDon hoaDon : LstHoaDonCho_SingLeTon.getInstance().lstHoaDonCho) {
+            stt++;
+            if (hoaDon.getTinhTrangThanhToan() == 0) {
+                thanhToanStt = "Chưa TT";
+            } else {
+                thanhToanStt = "Đã TT";
+            }
+            if (hoaDon.getTrangThaiPhaChe() == 0) {
+                phaCheStt = "Chưa pha";
+            } else {
+                phaCheStt = "Đã pha";
+            }
+            model.addRow(new Object[]{stt, hoaDon.getMa(), hoaDon.getBan().getTen(), thanhToanStt, phaCheStt});
+        }
+    }
+      
+      
+      
+    public void reloadTbl(){
+         loadHoaDonTbl();
+         loadHoaDonDangPhaChe();
+         loadHoaDonChoTbl();
     }
 
     /**
@@ -294,11 +391,15 @@ public class BillFrame extends javax.swing.JFrame {
 
     private void btnCheckActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCheckActionPerformed
         // TODO add your handling code here:
+        localMoneyTake = Double.valueOf(txtEnterMoney.getText());
+        updateMoneyTake();
+        updateSttCheckBill();
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new BillFinishFrame(LocalId,localMoneyTake).setVisible(true);
+                new BillFinishFrame(LocalId).setVisible(true);
             }
         });
+        reloadTbl();
         this.dispose();
     }//GEN-LAST:event_btnCheckActionPerformed
 

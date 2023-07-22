@@ -25,14 +25,13 @@ public class BillFinishFrame extends javax.swing.JFrame {
     HoaDonChiTietService hoaDonChiTietService = new HoaDonChiTietService();
     double totalCheck = 0;
     double localMoneyTake;
-    public BillFinishFrame(String id,double moneyTake) {
+    public BillFinishFrame(String id) {
         initComponents();
         this.pack();
         this.setLocationRelativeTo(null);
         this.setVisible(true);
         LocalId = id;
         loadData();
-        localMoneyTake = moneyTake;
     }
 
     public void loadData() {
@@ -62,9 +61,9 @@ public class BillFinishFrame extends javax.swing.JFrame {
                 hoaDonChiTiet.getChiTietDoUong().getGiaBan(), cellCheck});
         }
         lblTotalCheck.setText(String.valueOf(totalCheck));
-        double moneyChange = localMoneyTake  - totalCheck;
+        double moneyChange = Double.parseDouble(String.valueOf(hoaDon.getMoneyTake())) - totalCheck;
+        System.out.println(totalCheck);
         lblMoneyChange.setText(String.valueOf(moneyChange));
-
     }
 
     /**

@@ -4,6 +4,7 @@
  */
 package com.view.form_Template;
 
+import SingletonClass.IdHD_singleton;
 import SingletonClass.LstChiTietDoUong_singleton;
 import SingletonClass.LstHoaDonCho_SingLeTon;
 import SingletonClass.LstHoaDonDangPhaChe_singleton;
@@ -20,12 +21,15 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import model.HoaDon;
+import model.HoaDonChiTiet;
 import service.ChiTietDoUongService_Master;
+import service.HoaDonChiTietService;
 import service.HoaDonService;
 
 public class Form_BanHang extends javax.swing.JPanel {
@@ -35,6 +39,7 @@ public class Form_BanHang extends javax.swing.JPanel {
     private ArrayList<ChiTietDoUong> lstChiTietDoUongs = new ArrayList<>();
     private HoaDon localHoaDon = new HoaDon();
     HoaDonService hoaDonService = new HoaDonService();
+    HoaDonChiTietService hoaDonChiTietService = new HoaDonChiTietService();
     ArrayList<HoaDon> lstHoaDon = new ArrayList<>();
     ArrayList<HoaDon> lstHoaDonCho = new ArrayList<>();
     Container.DefaultHoaDonModel localModel = new Container.DefaultHoaDonModel();
@@ -42,6 +47,7 @@ public class Form_BanHang extends javax.swing.JPanel {
     int countHoaDonTbl = -1;
     int countHoaDonChoTbl = -1;
     int countHoaDonDangPhaCheTbl = -1;
+    String localID;
 
     /**
      * Creates new form Form_QlThongTinSV
@@ -146,7 +152,7 @@ public class Form_BanHang extends javax.swing.JPanel {
     }
 
     private void reLoadProduct() {
-        paneProduct = new paneOfProduct(lstChiTietDoUongs, tblDrinkDetail, localHoaDon);
+        paneProduct = new paneOfProduct(lstChiTietDoUongs, tblDrinkDetail, localHoaDon, lblTotalCash);
         jScrollPane1.setViewportView(paneProduct);
         jScrollPane1.getViewport().repaint();
         jScrollPane1.getViewport().revalidate();
@@ -178,6 +184,8 @@ public class Form_BanHang extends javax.swing.JPanel {
         } else {
             lblStt.setText("Xử lý");
         }
+        IdHD_singleton.getInstance().id = LstHoaDon_singleton.getInstance().lstHoaDon.get(countHoaDonTbl).getId();
+        IdHD_singleton.getInstance().maHD = LstHoaDon_singleton.getInstance().lstHoaDon.get(countHoaDonTbl).getMa();
     }
 
     public void showDetailHoaDonTab_Waiting() {
@@ -199,6 +207,8 @@ public class Form_BanHang extends javax.swing.JPanel {
         } else {
             lblStt.setText("Xử lý");
         }
+        IdHD_singleton.getInstance().id = LstHoaDonCho_SingLeTon.getInstance().lstHoaDonCho.get(countHoaDonChoTbl).getId();
+        IdHD_singleton.getInstance().maHD = LstHoaDonCho_SingLeTon.getInstance().lstHoaDonCho.get(countHoaDonChoTbl).getMa();
     }
 
     public void showDetailHoaDonDangPhaCheTab() {
@@ -221,12 +231,34 @@ public class Form_BanHang extends javax.swing.JPanel {
         } else {
             lblStt.setText("Xử lý");
         }
+        IdHD_singleton.getInstance().id = LstHoaDon_singleton.getInstance().lstHoaDon.get(countHoaDonTbl).getId();
+        IdHD_singleton.getInstance().maHD = LstHoaDon_singleton.getInstance().lstHoaDon.get(countHoaDonTbl).getMa();
     }
-    
-    public void hoanThanhPhaChe(){
-          countHoaDonDangPhaCheTbl = tblDangPhaChe.getSelectedRow();
-          String id  = LstHoaDonDangPhaChe_singleton.getInstance().lstHoaDonDangPhaChe.get(countHoaDonDangPhaCheTbl).getId();
-          hoaDonService.updateTTPhaChe(id,1);
+
+    public void showLstDrink() {
+        double cellCheck = 0;
+        double totalCheck = 0;
+        int stt = 0;
+        DefaultTableModel model = new DefaultTableModel();
+        model = (DefaultTableModel) tblDrinkDetail.getModel();
+        model.setRowCount(0);
+        ArrayList<HoaDonChiTiet> lstHoaDonChiTiet = new ArrayList<>();
+        lstHoaDonChiTiet = hoaDonChiTietService.getListHoaDonChiTietByID(IdHD_singleton.getInstance().id);
+        for (HoaDonChiTiet hdChiTiet : lstHoaDonChiTiet) {
+            System.out.println("test");
+            stt++;
+            cellCheck = Double.valueOf(hdChiTiet.getSoLuong()) * Double.valueOf(hdChiTiet.getChiTietDoUong().getGiaBan());
+            totalCheck += cellCheck;
+            model.addRow(new Object[]{stt, hdChiTiet.getChiTietDoUong().getTenDoUong(), hdChiTiet.getSoLuong(),
+                hdChiTiet.getChiTietDoUong().getGiaBan(), cellCheck});
+        }
+        lblTotalCash.setText(String.valueOf(totalCheck));
+    }
+
+    public void hoanThanhPhaChe() {
+        countHoaDonDangPhaCheTbl = tblDangPhaChe.getSelectedRow();
+        String id = LstHoaDonDangPhaChe_singleton.getInstance().lstHoaDonDangPhaChe.get(countHoaDonDangPhaCheTbl).getId();
+        hoaDonService.updateTTPhaChe(id, 1);
     }
 
     /**
@@ -275,7 +307,6 @@ public class Form_BanHang extends javax.swing.JPanel {
         lblTotalCash = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         lblStt = new javax.swing.JLabel();
-        btnTest = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(51, 153, 255)));
@@ -459,8 +490,7 @@ public class Form_BanHang extends javax.swing.JPanel {
                                 .addGap(47, 47, 47)
                                 .addComponent(jLabel6)
                                 .addGap(36, 36, 36)
-                                .addComponent(lblStt, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                                .addComponent(lblStt, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(235, 235, 235)
                         .addComponent(btnUpdate)
@@ -521,13 +551,6 @@ public class Form_BanHang extends javax.swing.JPanel {
 
         jPanel1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnCheck, btnDelete, btnUpdate});
 
-        btnTest.setText("test");
-        btnTest.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnTestActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -561,17 +584,11 @@ public class Form_BanHang extends javax.swing.JPanel {
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(200, 200, 200)
                                 .addComponent(jLabel2)))
-                        .addGap(18, 18, 18)
+                        .addGap(18, 21, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(0, 3, Short.MAX_VALUE)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(btnWating, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(btnUse, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(btnAdd, javax.swing.GroupLayout.Alignment.TRAILING)))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(btnTest)
-                                .addGap(0, 0, Short.MAX_VALUE))))
+                            .addComponent(btnWating, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(btnUse, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(btnAdd, javax.swing.GroupLayout.Alignment.TRAILING)))
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -590,8 +607,6 @@ public class Form_BanHang extends javax.swing.JPanel {
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(btnTest)
-                                .addGap(18, 18, 18)
                                 .addComponent(btnAdd)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(btnWating))
@@ -627,6 +642,7 @@ public class Form_BanHang extends javax.swing.JPanel {
     private void tblHoaDonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblHoaDonMouseClicked
         // TODO add your handling code here:
         showDetailHoaDonTab();
+        showLstDrink();
 
     }//GEN-LAST:event_tblHoaDonMouseClicked
 
@@ -645,16 +661,13 @@ public class Form_BanHang extends javax.swing.JPanel {
     private void tblHoaDonChoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblHoaDonChoMouseClicked
         // TODO add your handling code here:
         showDetailHoaDonTab_Waiting();
+        showLstDrink();
     }//GEN-LAST:event_tblHoaDonChoMouseClicked
-
-    private void btnTestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTestActionPerformed
-        // TODO add your handling code here:
-        System.out.println("final" + lstHoaDon);
-    }//GEN-LAST:event_btnTestActionPerformed
 
     private void tblDangPhaCheMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblDangPhaCheMouseClicked
         // TODO add your handling code here:
         showDetailHoaDonDangPhaCheTab();
+        showLstDrink();
     }//GEN-LAST:event_tblDangPhaCheMouseClicked
 
     private void btnCompleteOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCompleteOrderActionPerformed
@@ -666,10 +679,10 @@ public class Form_BanHang extends javax.swing.JPanel {
 
     private void btnCheckActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCheckActionPerformed
         // TODO add your handling code here:
-          String id = LstHoaDon_singleton.getInstance().lstHoaDon.get(countHoaDonTbl).getId();
-                java.awt.EventQueue.invokeLater(new Runnable() {
+       
+        java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new BillFrame(id).setVisible(true);
+                new BillFrame(IdHD_singleton.getInstance().id,tblHoaDon,tblDangPhaChe,tblHoaDonCho).setVisible(true);
             }
         });
     }//GEN-LAST:event_btnCheckActionPerformed
@@ -680,7 +693,6 @@ public class Form_BanHang extends javax.swing.JPanel {
     private javax.swing.JButton btnCheck;
     private javax.swing.JButton btnCompleteOrder;
     private javax.swing.JButton btnDelete;
-    private javax.swing.JButton btnTest;
     private javax.swing.JButton btnUpdate;
     private javax.swing.JButton btnUse;
     private javax.swing.JButton btnWating;

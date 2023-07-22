@@ -4,6 +4,7 @@
  */
 package model;
 
+import java.math.BigDecimal;
 import java.sql.Date;
 
 /**
@@ -22,11 +23,12 @@ public class HoaDon {
     private int  trangThaiPhaChe;
     private GiamGia maGiamGia;
     private int stt;
+    private BigDecimal moneyTake;
 
     public HoaDon() {
     }
 
-    public HoaDon(String id, Ban ban, KhachHang khachHang, NhanVien nhanVien, String ma, Date ngayTao, String thoiGian, int tinhTrangThanhToan, int trangThaiPhaChe, GiamGia maGiamGia, int stt) {
+    public HoaDon(String id, Ban ban, KhachHang khachHang, NhanVien nhanVien, String ma, Date ngayTao, String thoiGian, int tinhTrangThanhToan, int trangThaiPhaChe, GiamGia maGiamGia, int stt, BigDecimal moneyTake) {
         this.id = id;
         this.ban = ban;
         this.khachHang = khachHang;
@@ -38,12 +40,18 @@ public class HoaDon {
         this.trangThaiPhaChe = trangThaiPhaChe;
         this.maGiamGia = maGiamGia;
         this.stt = stt;
+        this.moneyTake = moneyTake;
     }
 
+    
+    
+    
+    
     public String getId() {
         return id;
     }
 
+    
     public void setId(String id) {
         this.id = id;
     }
@@ -128,10 +136,17 @@ public class HoaDon {
         this.stt = stt;
     }
 
-    @Override
-    public String toString() {
-        return "HoaDon{" + "id=" + id + ", ban=" + ban + ", khachHang=" + khachHang + ", nhanVien=" + nhanVien + ", ma=" + ma + ", ngayTao=" + ngayTao + ", thoiGian=" + thoiGian + ", tinhTrangThanhToan=" + tinhTrangThanhToan + ", trangThaiPhaChe=" + trangThaiPhaChe + ", maGiamGia=" + maGiamGia + ", stt=" + stt + '}';
+    public BigDecimal getMoneyTake() {
+        return moneyTake;
     }
 
-  
+    public void setMoneyTake(BigDecimal moneyTake) {
+        this.moneyTake = moneyTake;
+    }
+
+    @Override
+    public String toString() {
+        return "HoaDon{" + "id=" + id + ", ban=" + ban + ", khachHang=" + khachHang + ", nhanVien=" + nhanVien + ", ma=" + ma + ", ngayTao=" + ngayTao + ", thoiGian=" + thoiGian + ", tinhTrangThanhToan=" + tinhTrangThanhToan + ", trangThaiPhaChe=" + trangThaiPhaChe + ", maGiamGia=" + maGiamGia + ", stt=" + stt + ", moneyTake=" + moneyTake + '}';
+    }
+
 }

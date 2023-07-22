@@ -4,6 +4,7 @@
  */
 package repository;
 
+import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import model.Ban;
@@ -28,6 +29,8 @@ public class DAO_HoaDon {
     final String SELECT_ALL_SQL_HOADONDANGPHACHE = "SELECT*FROM dbo.HoaDon where TrangThaiPhaChe = 0 and stt = 1;";
     final String UPDATE_STT = "UPDATE dbo.HoaDon SET stt=? WHERE Id=?";
     final String UPDATE_TTPHACHE = "UPDATE dbo.HoaDon SET TrangThaiPhaChe=? WHERE Id=?";
+    final String UPDATE_MONEYTAKE = "UPDATE dbo.HoaDon SET SoTienNhanVao=? WHERE Id=?";
+    final String UPDATE_CHECKSTT = "UPDATE dbo.HoaDon SET TinhTrangThanhToan=? WHERE Id=?";
     DAO_Ban dao_Ban = new DAO_Ban();
     DAO_KhachHang dao_KhachHang = new DAO_KhachHang();
     DAO_NhanVien dao_NhanVien = new DAO_NhanVien();
@@ -47,7 +50,7 @@ public class DAO_HoaDon {
                 NhanVien nhanVien = null;
                 GiamGia giamGia = null;
                 lstHoaDon.add(new HoaDon(rs.getString("id"), ban, khachHang, nhanVien, rs.getString("Ma"), rs.getDate("NgayTao"),
-                        rs.getString("ThoiGian"), rs.getInt("TinhTrangThanhToan"), rs.getInt("TrangThaiPhaChe"), giamGia, rs.getInt("Stt")));
+                        rs.getString("ThoiGian"), rs.getInt("TinhTrangThanhToan"), rs.getInt("TrangThaiPhaChe"), giamGia, rs.getInt("Stt"), rs.getBigDecimal("SoTienNhanVao")));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -69,7 +72,7 @@ public class DAO_HoaDon {
                 NhanVien nhanVien = null;
                 GiamGia giamGia = null;
                 lstHoaDon.add(new HoaDon(rs.getString("id"), ban, khachHang, nhanVien, rs.getString("Ma"), rs.getDate("NgayTao"),
-                        rs.getString("ThoiGian"), rs.getInt("TinhTrangThanhToan"), rs.getInt("TrangThaiPhaChe"), giamGia, rs.getInt("Stt")));
+                        rs.getString("ThoiGian"), rs.getInt("TinhTrangThanhToan"), rs.getInt("TrangThaiPhaChe"), giamGia, rs.getInt("Stt"), rs.getBigDecimal("SoTienNhanVao")));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -92,7 +95,7 @@ public class DAO_HoaDon {
                 NhanVien nhanVien = null;
                 GiamGia giamGia = null;
                 lstHoaDon.add(new HoaDon(rs.getString("id"), ban, khachHang, nhanVien, rs.getString("Ma"), rs.getDate("NgayTao"),
-                        rs.getString("ThoiGian"), rs.getInt("TinhTrangThanhToan"), rs.getInt("TrangThaiPhaChe"), giamGia, rs.getInt("Stt")));
+                        rs.getString("ThoiGian"), rs.getInt("TinhTrangThanhToan"), rs.getInt("TrangThaiPhaChe"), giamGia, rs.getInt("Stt"), rs.getBigDecimal("SoTienNhanVao")));
                 hoaDon = lstHoaDon.get(0);
                 break;
             }
@@ -171,7 +174,7 @@ public class DAO_HoaDon {
                 NhanVien nhanVien = null;
                 GiamGia giamGia = null;
                 lstHoaDonDangPhaChe.add(new HoaDon(rs.getString("id"), ban, khachHang, nhanVien, rs.getString("Ma"), rs.getDate("NgayTao"),
-                        rs.getString("ThoiGian"), rs.getInt("TinhTrangThanhToan"), rs.getInt("TrangThaiPhaChe"), giamGia, rs.getInt("Stt")));
+                        rs.getString("ThoiGian"), rs.getInt("TinhTrangThanhToan"), rs.getInt("TrangThaiPhaChe"), giamGia, rs.getInt("Stt"), rs.getBigDecimal("SoTienNhanVao")));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -183,7 +186,26 @@ public class DAO_HoaDon {
     public void updateTTPhaChe(String id, int i) {
         DBConnection1 dbConn = new DBConnection1();
         try {
-            dbConn.ExcuteSQL(UPDATE_TTPHACHE, i  , id);
+            dbConn.ExcuteSQL(UPDATE_TTPHACHE, i, id);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void UpdateMoneyTake(String LocalId, double localMoneyTake) {
+        BigDecimal moneyTake = new BigDecimal(localMoneyTake);
+        DBConnection1 dbConn = new DBConnection1();
+        try {
+            dbConn.ExcuteSQL(UPDATE_MONEYTAKE, moneyTake, LocalId);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void updateSttCheckBill(int i, String LocalId) {
+        DBConnection1 dbConn = new DBConnection1();
+        try {
+            dbConn.ExcuteSQL(UPDATE_CHECKSTT, i, LocalId);
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -6,6 +6,7 @@ package com.view.component;
 
 import SingletonClass.LstHoaDon_singleton;
 import com.view.form_Template.Container;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -39,7 +40,7 @@ public class CreateBillPane extends javax.swing.JFrame {
     public void save() {
         int idBan = Integer.valueOf(txtBan.getText());
         Ban ban = banService.getBanByID(idBan);
-        HoaDon hoaDon = new HoaDon(null, ban, null, null, null, null, null, 0, 0, null,1); 
+        HoaDon hoaDon = new HoaDon(null, ban, null, null, null, null, null, 0, 0, null,1,null); 
         hoaDonService.saveHoaDon(hoaDon);
     }
 

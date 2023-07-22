@@ -4,8 +4,16 @@
  */
 package com.view.component;
 
+import SingletonClass.IdHD_singleton;
+import java.util.ArrayList;
+import javax.swing.JLabel;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 import model.ChiTietDoUong;
 import model.HoaDon;
+import model.HoaDonChiTiet;
+import service.HoaDonChiTietService;
+import service.HoaDonService;
 
 /**
  *
@@ -17,14 +25,49 @@ public class EnterAmountFrame extends javax.swing.JFrame {
      * Creates new form EnterAmountFrame
      */
     static ChiTietDoUong localDrinkDetail = new ChiTietDoUong();
-    
-    public EnterAmountFrame(ChiTietDoUong drinkDetail,HoaDon hoaDon) {
+    HoaDonChiTietService hoaDonChiTietService = new HoaDonChiTietService();
+    HoaDonService hoaDonService = new HoaDonService();
+    JTable localTbl = new JTable();
+    JLabel localLbl = new JLabel();
+
+    public EnterAmountFrame(ChiTietDoUong drinkDetail, JTable tbl, JLabel lbl) {
         initComponents();
         this.pack();
         this.setLocationRelativeTo(null);
         this.setVisible(true);
         lblDrinkName.setText(drinkDetail.getTenDoUong());
-        lblMaHoaDon.setText(hoaDon.getId());
+        lblMaHoaDon.setText(IdHD_singleton.getInstance().maHD);
+        localDrinkDetail = drinkDetail;
+        localTbl = tbl;
+        localLbl = lbl;
+        System.out.println(localDrinkDetail);
+    }
+
+    public void addDrinkDetail() {
+        int stt = 0;
+        double cellCheck = 0;
+        double totalCheck = 0;
+        DefaultTableModel model = new DefaultTableModel();
+        model = (DefaultTableModel) localTbl.getModel();
+        model.setRowCount(0);
+        HoaDon hoaDon = new HoaDon();
+        hoaDon = hoaDonService.getHoaDonByID(IdHD_singleton.getInstance().id);
+        HoaDonChiTiet hoaDonChiTiet = new HoaDonChiTiet();
+        hoaDonChiTiet.setHoaDon(hoaDon);
+        hoaDonChiTiet.setChiTietDoUong(localDrinkDetail);
+        hoaDonChiTiet.setSoLuong(Integer.valueOf(txtAmount.getText()));
+        hoaDonChiTietService.saveHoaDon(hoaDonChiTiet);
+        ArrayList<HoaDonChiTiet> lstHoaDonChiTiet = new ArrayList<>();
+        lstHoaDonChiTiet = hoaDonChiTietService.getListHoaDonChiTietByID(IdHD_singleton.getInstance().id);
+        for (HoaDonChiTiet hdChiTiet : lstHoaDonChiTiet) {
+            System.out.println("test");
+            stt++;
+            cellCheck = Double.valueOf(hdChiTiet.getSoLuong()) * Double.valueOf(hdChiTiet.getChiTietDoUong().getGiaBan());
+            totalCheck += cellCheck;
+            model.addRow(new Object[]{stt, hdChiTiet.getChiTietDoUong().getTenDoUong(), hdChiTiet.getSoLuong(),
+                hdChiTiet.getChiTietDoUong().getGiaBan(), cellCheck});
+        }
+        localLbl.setText(String.valueOf(totalCheck));
     }
 
     /**
@@ -40,9 +83,9 @@ public class EnterAmountFrame extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         lblDrinkName = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        txtAmount = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        btnAddDrink = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         lblMaHoaDon = new javax.swing.JLabel();
@@ -59,10 +102,10 @@ public class EnterAmountFrame extends javax.swing.JFrame {
 
         jLabel4.setText("Số lượng:");
 
-        jButton1.setText("Thêm");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnAddDrink.setText("Thêm");
+        btnAddDrink.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnAddDrinkActionPerformed(evt);
             }
         });
 
@@ -97,12 +140,12 @@ public class EnterAmountFrame extends javax.swing.JFrame {
                                 .addGap(18, 18, 18)))
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblDrinkName, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtAmount, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(lblMaHoaDon))
                         .addGap(0, 19, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton1)
+                        .addComponent(btnAddDrink)
                         .addGap(18, 18, 18)
                         .addComponent(jButton2)))
                 .addContainerGap())
@@ -126,11 +169,11 @@ public class EnterAmountFrame extends javax.swing.JFrame {
                     .addComponent(lblDrinkName))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtAmount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
+                    .addComponent(btnAddDrink)
                     .addComponent(jButton2))
                 .addGap(18, 18, 18))
         );
@@ -156,25 +199,26 @@ public class EnterAmountFrame extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnAddDrinkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddDrinkActionPerformed
         // TODO add your handling code here:
-        
-    }//GEN-LAST:event_jButton1ActionPerformed
+        addDrinkDetail();
+        this.dispose();
+    }//GEN-LAST:event_btnAddDrinkActionPerformed
 
     /**
      * @param args the command line arguments
      */
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton btnAddDrink;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JLabel lblDrinkName;
     private javax.swing.JLabel lblMaHoaDon;
+    private javax.swing.JTextField txtAmount;
     // End of variables declaration//GEN-END:variables
 }

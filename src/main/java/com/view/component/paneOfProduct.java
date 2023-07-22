@@ -14,6 +14,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -33,7 +34,8 @@ public class paneOfProduct extends JPanel {
     static ChiTietDoUong drinkDetail = new ChiTietDoUong();
     static HoaDon localHoaDon = new HoaDon();
     static JTable localTbl = new JTable();
-    public paneOfProduct(ArrayList<ChiTietDoUong> lstPerson,JTable tbl,HoaDon hoaDon) {
+    static JLabel localLblCheck = new JLabel();
+    public paneOfProduct(ArrayList<ChiTietDoUong> lstPerson,JTable tbl,HoaDon hoaDon, JLabel lblTotalCheck) {
       
         GridLayout grid = new GridLayout(Integer.valueOf(lstPerson.size() / 3) + 1, 3);
         grid.setVgap(-5);
@@ -41,6 +43,7 @@ public class paneOfProduct extends JPanel {
         this.setLayout(grid);
         localHoaDon  = hoaDon;
         localTbl =  tbl;
+        localLblCheck = lblTotalCheck;
         for (int i = 0; i < lstPerson.size(); i++) {
             ProductCell cell = new ProductCell(lstPerson.get(i).getHinhAnh(), lstPerson.get(i).getTenDoUong(), lstPerson.get(i).getGiaBan(), lstPerson.get(i).getMoTa());
             lstCell.add(cell);
@@ -56,7 +59,7 @@ public class paneOfProduct extends JPanel {
                     drinkDetail = LstChiTietDoUong_singleton.getInstance().lstChiTietDoUongs.get(index);
                     java.awt.EventQueue.invokeLater(new Runnable() {
                         public void run() {
-                            new EnterAmountFrame(drinkDetail,localHoaDon).setVisible(true);
+                            new EnterAmountFrame(drinkDetail,localTbl,localLblCheck).setVisible(true);
                         }
                     });
 //////////////////////handling  folow old style, too much risk                    

@@ -62,4 +62,12 @@ public class HoaDonService {
         return dao_HoaDon.selectByID(LocalId);
 
     }
+
+    public void updateMoneyTake(String LocalId, double localMoneyTake) {
+          dao_HoaDon.UpdateMoneyTake(LocalId, localMoneyTake);
+    }
+
+    public void updateSttCheckBill(int i, String LocalId) {
+          dao_HoaDon.updateSttCheckBill(i,LocalId);
+    }
 }
