@@ -11,10 +11,11 @@ import com.view.form.ThongBaoForm;
 import com.view.form.LichHocForm;
 import com.view.form.DiemForm;
 import com.view.form.WalletForm;
+import com.view.form_Template.Form_QuanLyKho;
 import com.view.form_canbo.FormLichHoc;
 import com.view.form_canbo.Form_BaoCao;
 import com.view.form_canbo.Form_DKDichVu;
-import com.view.form_canbo.Form_Diem;
+//import com.view.form_canbo.Form_Diem;
 import com.view.form_canbo.Form_LopHoc;
 import com.view.form_canbo.Form_MonHoc;
 import com.view.form_canbo.Form_QlThongTinSV;
@@ -41,50 +42,52 @@ public class MainOfCB extends javax.swing.JFrame {
     private DiemForm formDiem;
     private DangKyDVForm form4;
     private FormLichHoc formQLLHoc;
-    private Form_Diem formQLDiem;
+//    private Form_Diem formQLDiem;
     private Form_QlThongTinSV formQLTin;
     private Form_DKDichVu fromDKDV;
     private Form_BaoCao formBaoCao;
     private Form_ThongBaoCB formQLTbao;
     private Form_MonHoc formMonHoc;
     private Form_LopHoc formLopHoc;
+    private Form_QuanLyKho formQuanLyKho;
 
 
     public MainOfCB() {
         initComponents();
         setBackground(new Color(0, 0, 0, 0));
         home = new WalletForm();
-        formThongbao = new ThongBaoForm();
-        formLichHoc = new LichHocForm();
-        formDiem = new DiemForm();
-        formQLLHoc = new FormLichHoc();
-        formQLDiem = new Form_Diem();
-        formQLTin = new Form_QlThongTinSV();
-        fromDKDV = new Form_DKDichVu();
-        formBaoCao = new Form_BaoCao();
-        formMonHoc = new Form_MonHoc();
-        formLopHoc = new Form_LopHoc();
+//        formThongbao = new ThongBaoForm();
+//        formLichHoc = new LichHocForm();
+//        formDiem = new DiemForm();
+//        formQLLHoc = new FormLichHoc();
+//        formQLDiem = new Form_Diem();
+//        formQLTin = new Form_QlThongTinSV();
+//        fromDKDV = new Form_DKDichVu();
+//        formBaoCao = new Form_BaoCao();
+//        formMonHoc = new Form_MonHoc();
+//        formLopHoc = new Form_LopHoc();
+        formQuanLyKho = new Form_QuanLyKho();
 
         menuOfCB1.initMoving(MainOfCB.this);
         menuOfCB1.addEventMenuSelected(new EventMenuSelected() {
             @Override
             public void selected(int index) {
                 if (index == 5) {
-                    setForm(fromDKDV);
+//                    setForm(fromDKDV);
                 } else if (index == 6) {
-                    setForm(formBaoCao);
+//                    setForm(formBaoCao);
                 } else if (index == 0) {
-                    setForm(formThongbao);
+//                    setForm(formThongbao);
                 } else if (index == 1) {
-                    setForm(formQLLHoc);
+//                    setForm(formQLLHoc);
                 }   else if (index == 7) {
-                    setForm(formMonHoc);
+                    setForm(formQuanLyKho);
                 }
                 else if (index == 8) {
                     setForm(formLopHoc);
                 }
                 else if (index == 2) {
-                    setForm(formQLDiem);
+//                    setForm(formQLDiem);
                 } else if (index == 3) {
                     setForm(formQLTin);
                 } else if (index == 4) {
@@ -143,11 +146,12 @@ public class MainOfCB extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
 
-        panelBorder1.setBackground(new java.awt.Color(242, 242, 242));
+        panelBorder1.setPreferredSize(new java.awt.Dimension(0, 0));
 
         header2.setFont(new java.awt.Font("sansserif", 0, 14)); // NOI18N
 
         mainPanel.setOpaque(false);
+        mainPanel.setPreferredSize(new java.awt.Dimension(1400, 825));
         mainPanel.setLayout(new java.awt.BorderLayout());
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
@@ -189,11 +193,11 @@ public class MainOfCB extends javax.swing.JFrame {
                 .addGroup(panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(panelBorder1Layout.createSequentialGroup()
                         .addGap(12, 12, 12)
-                        .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 947, Short.MAX_VALUE)
+                        .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 1067, Short.MAX_VALUE)
                         .addContainerGap())
                     .addGroup(panelBorder1Layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(header2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(header2, javax.swing.GroupLayout.DEFAULT_SIZE, 903, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
         );
@@ -204,20 +208,20 @@ public class MainOfCB extends javax.swing.JFrame {
                     .addComponent(header2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 615, Short.MAX_VALUE)
                 .addContainerGap())
-            .addComponent(menuOfCB1, javax.swing.GroupLayout.DEFAULT_SIZE, 657, Short.MAX_VALUE)
+            .addComponent(menuOfCB1, javax.swing.GroupLayout.DEFAULT_SIZE, 660, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panelBorder1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(panelBorder1, javax.swing.GroupLayout.DEFAULT_SIZE, 1300, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panelBorder1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(panelBorder1, javax.swing.GroupLayout.DEFAULT_SIZE, 660, Short.MAX_VALUE)
         );
 
         pack();
