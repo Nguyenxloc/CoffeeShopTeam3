@@ -13,11 +13,12 @@ import com.view.form.DiemForm;
 import com.view.form.QuanLyNhanVien;
 import com.view.form.WalletForm;
 import com.view.form_Template.FormLichHoc;
-import com.view.form_Template.Form_BanHang;
+//import com.view.form_Template.Form_BanHang;
 import com.view.form_Template.Form_LopHoc;
 import com.view.form_Template.Form_QLDoUong;
 import com.view.form_Template.Form_QLHoaDon;
 import com.view.form_Template.Form_TaoTaiKhoan;
+import com.view.form_Template.Form_ThongKe;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -43,11 +44,12 @@ public class MainTemplate extends javax.swing.JFrame {
     private LichHocForm formLichHoc;
     private DiemForm formDiem;
     private DangKyDVForm form4;
-    private Form_BanHang formBanHang;
+//    private Form_BanHang formBanHang;
     private FormLichHoc formLH;
     private Form_TaoTaiKhoan form_TaoTaiKhoan;
     private Form_QLDoUong form_QLDoUong;
     private Form_QLHoaDon form_QLHoaDon;
+    private Form_ThongKe form_ThongKe;
     private com.view.component.paneOfProduct paneOfProduct2;
     private QuanLyNhanVien formQLNhanVien;
 
@@ -58,15 +60,16 @@ public class MainTemplate extends javax.swing.JFrame {
         formThongbao = new ThongBaoForm();
         formLichHoc = new LichHocForm();
         formDiem = new DiemForm();
-        formBanHang = new Form_BanHang();
+//        formBanHang = new Form_BanHang();
         form_QLHoaDon = new Form_QLHoaDon();
+        form_ThongKe = new Form_ThongKe();
         formQLNhanVien = new QuanLyNhanVien();
 
         form_TaoTaiKhoan = new Form_TaoTaiKhoan();
         form_QLDoUong = new Form_QLDoUong();
 
         JScrollPane scroll = new JScrollPane();
-        Component[] com = formBanHang.getComponents();
+//        Component[] com = formBanHang.getComponents();
 
         setBackground(new Color(0, 0, 0, 0));
         menuOfCB1.initMoving(MainTemplate.this);
@@ -74,13 +77,13 @@ public class MainTemplate extends javax.swing.JFrame {
             @Override
             public void selected(int index) {
                 if (index == 5) {
-//                    setForm(fromDKDV);
-                } else if (index == 6) {
                     setForm(form_QLHoaDon);
+                } else if (index == 6) {
+                    setForm(form_ThongKe);
                 } else if (index == 0) {
                     setForm(formThongbao);
                 } else if (index == 1) {
-                    setForm(formBanHang);
+//                    setForm(formBanHang);
                 } else if (index == 7) {
 
                     setForm(formQLNhanVien);
@@ -161,6 +164,7 @@ public class MainTemplate extends javax.swing.JFrame {
             panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(menuOfCB1, javax.swing.GroupLayout.DEFAULT_SIZE, 717, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelBorder1Layout.createSequentialGroup()
+                .addContainerGap()
                 .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );

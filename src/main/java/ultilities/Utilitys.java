@@ -81,7 +81,7 @@ public class Utilitys {//Lớp này giải quyết kết nối xử lý truy v�
         }
     }
 
-    // Phương thức để hash mật khẩu
+     //Phương thức để hash mật khẩu
 //    public static String hashPassword(String password) {
 //        return BCrypt.hashpw(password, BCrypt.gensalt(12));
 //

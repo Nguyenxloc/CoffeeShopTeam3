@@ -8,10 +8,6 @@ package ultilities;
  *
  * @author ADMIN
  */
-
-import java.sql.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.sql.*;
 
 public class DBConnection1 {

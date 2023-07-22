@@ -16,15 +16,17 @@ public class CapBac {
     private String maCB;
     private String tenCB;
     private BigDecimal luongPastTime;
+    private String ngayTao;
 
     public CapBac() {
     }
 
-    public CapBac(String idCB, String maCB, String tenCB, BigDecimal luongPastTime) {
+    public CapBac(String idCB, String maCB, String tenCB, BigDecimal luongPastTime, String ngayTao) {
         this.idCB = idCB;
         this.maCB = maCB;
         this.tenCB = tenCB;
         this.luongPastTime = luongPastTime;
+        this.ngayTao = ngayTao;
     }
 
     public String getIdCB() {
@@ -58,6 +60,18 @@ public class CapBac {
     public void setLuongPastTime(BigDecimal luongPastTime) {
         this.luongPastTime = luongPastTime;
     }
-    
-    
+
+    public String getNgayTao() {
+        return ngayTao;
+    }
+
+    public void setNgayTao(String ngayTao) {
+        this.ngayTao = ngayTao;
+    }
+
+    @Override
+    public String toString() {
+        return "CapBac{" + "idCB=" + idCB + ", maCB=" + maCB + ", tenCB=" + tenCB + ", luongPastTime=" + luongPastTime + ", ngayTao=" + ngayTao + '}';
+    }
+  
 }
