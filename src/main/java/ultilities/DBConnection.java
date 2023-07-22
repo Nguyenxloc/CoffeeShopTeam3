@@ -89,7 +89,7 @@ public class DBConnection {//Lớp này giải quyết kết nối xử lý truy
 
     public static void main(String[] args) throws Exception {
         String version = DBConnection.getConnection().getMetaData().getDatabaseProductVersion();
-        System.out.println(version);
+//        System.out.println(version);
     }
 
     public void ExcuteSQL(String INSERT_SQL, String id, String tenLoaiDoUong, String tenDoUong, int i, double giaBan) {

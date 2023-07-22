@@ -33,6 +33,10 @@ public class DAO_ChiTietDoUongMaster {
             + "SELECT*FROM dbo.ChiTietDoUong\n"
             + "WHERE (@tenDoUong IS NULL OR TenDoUong=@tenDoUong) AND (@IdLoaiDoUong IS NULL OR IdLoaiDoUong=@idLoaiDoUong)";
 
+    public DAO_ChiTietDoUongMaster() {
+    }
+
+
     public ArrayList<ChiTietDoUong> selectALl() {
         DBConnection1 dbConn = new DBConnection1();
         ArrayList<ChiTietDoUong> lstChiTietDoUong = new ArrayList<>();
@@ -57,7 +61,7 @@ public class DAO_ChiTietDoUongMaster {
         ArrayList<ChiTietDoUong> lstChiTietDoUong = new ArrayList<>();
         DAO_LoaiDoUongMaster dAO_LoaiDoUong = new DAO_LoaiDoUongMaster();
         try {
-            ResultSet rs = dbConn.getDataFromQuery(SELECT_ALL_SQL, id);
+            ResultSet rs = dbConn.getDataFromQuery(SELECT_BY_SQL, id);
             while (rs.next()) {
                 LoaiDoUong loaiDoUong = dAO_LoaiDoUong.selectByID(rs.getString("idLoaiDoUong"));
                 lstChiTietDoUong.add(new ChiTietDoUong(rs.getString("id"), rs.getString("TenDoUong"), rs.getDouble("GiaNhap"), rs.getDouble("GiaBan"), rs.getString("MoTa"), rs.getBytes("HinhAnh"), loaiDoUong));

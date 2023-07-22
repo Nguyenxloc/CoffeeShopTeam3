@@ -624,7 +624,6 @@ public class Form_QLDoUong extends javax.swing.JPanel {
         lblUrl.setText("#url");
         index = tblDanhSachDoUong.getSelectedRow();
         if (lstChiTietDoUong.get(index).getHinhAnh() != null) {
-            System.out.println("test condition 1");
             ImageIcon oriImgIcon = new ImageIcon(lstChiTietDoUong.get(index).getHinhAnh());
             Image image = oriImgIcon.getImage(); // transform it
             Image newimg = image.getScaledInstance(145, 140, java.awt.Image.SCALE_SMOOTH); // scale it the smooth way

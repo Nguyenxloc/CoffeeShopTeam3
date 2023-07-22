@@ -4,37 +4,34 @@
  */
 package SingletonClass;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Properties;
+import java.util.ArrayList;
+import model.HoaDon;
+import service.HoaDonService;
 
 /**
  *
  * @author 84374
  */
-public class CountProduct {
+public class LstHoaDonDangPhaChe_singleton {
 
-    private static CountProduct single_instance = null;
-
+    private static LstHoaDonDangPhaChe_singleton single_instance = null;
+    private static service.HoaDonService service = new HoaDonService();
     // Declaring a variable of type String
-    public int count = 0;
+    public ArrayList<HoaDon> lstHoaDonDangPhaChe;
 
     // Constructor
     // Here we will be creating private constructor
     // restricted to this class itself
-    private CountProduct() {
-        count = 0;
+    private LstHoaDonDangPhaChe_singleton() {
+        lstHoaDonDangPhaChe = new ArrayList<>();
     }
 
     // Static method
     // Static method to create instance of Singleton class
-    public static synchronized CountProduct getInstance() {
+    public static synchronized LstHoaDonDangPhaChe_singleton getInstance() {
         if (single_instance == null) {
-            single_instance = new CountProduct();
+            single_instance = new LstHoaDonDangPhaChe_singleton();
         }
         return single_instance;
     }
-    
-    
 }

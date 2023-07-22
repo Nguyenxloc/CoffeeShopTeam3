@@ -12,6 +12,7 @@ import com.view.form.LichHocForm;
 import com.view.form.DiemForm;
 import com.view.form.QuanLyNhanVien;
 import com.view.form.WalletForm;
+import com.view.form_Template.Container;
 import com.view.form_Template.FormLichHoc;
 import com.view.form_Template.Form_BanHang;
 import com.view.form_Template.Form_KhuyenMai;
@@ -31,7 +32,6 @@ import javax.swing.JScrollPane;
 
 /**
  *
- * @author RAVEN
  */
 public class MainTemplate extends javax.swing.JFrame {
 
@@ -40,11 +40,7 @@ public class MainTemplate extends javax.swing.JFrame {
      */
     private WalletForm home;
     private ThongBaoForm formThongbao;
-    private LichHocForm formLichHoc;
-    private DiemForm formDiem;
-    private DangKyDVForm form4;
     private Form_BanHang formBanHang;
-    private FormLichHoc formLH;
     private Form_TaoTaiKhoan form_TaoTaiKhoan;
     private Form_QLDoUong form_QLDoUong;
     private Form_KhuyenMai form_KhuyenMai;
@@ -53,21 +49,15 @@ public class MainTemplate extends javax.swing.JFrame {
 
     public MainTemplate() {
         initComponents();
-        formLH = new FormLichHoc();
-        home = new WalletForm();
+        home = new WalletForm();         
         formThongbao = new ThongBaoForm();
-        formLichHoc = new LichHocForm();
-        formDiem = new DiemForm();
         formBanHang = new Form_BanHang();
-        form_KhuyenMai = new Form_KhuyenMai();
-        formQLNhanVien = new QuanLyNhanVien();
 
+        form_KhuyenMai = new Form_KhuyenMai();
+
+        formQLNhanVien = new QuanLyNhanVien();
         form_TaoTaiKhoan = new Form_TaoTaiKhoan();
         form_QLDoUong = new Form_QLDoUong();
-
-        JScrollPane scroll = new JScrollPane();
-        Component[] com = formBanHang.getComponents();
-
         setBackground(new Color(0, 0, 0, 0));
         menuOfCB1.initMoving(MainTemplate.this);
         menuOfCB1.addEventMenuSelected(new EventMenuSelected() {
@@ -82,11 +72,9 @@ public class MainTemplate extends javax.swing.JFrame {
                 } else if (index == 1) {
                     setForm(formBanHang);
                 } else if (index == 7) {
-
                     setForm(formQLNhanVien);
                 } else if (index == 8) {
                     setForm(form_TaoTaiKhoan);
-
                 } else if (index == 2) {
 //                    setForm(formQLDiem);
                 } else if (index == 3) {
