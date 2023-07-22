@@ -22,6 +22,10 @@ public class DAO_LoaiDoUong implements iLoaiDoUong {
     final String SELECT_BY_SQL = "SELECT * FROM [dbo].[LoaiDoUong] WHERE [Id] = ?";
     final String SELECT_ALL_SQL = "SELECT * FROM [dbo].[LoaiDoUong]";
     final String SELECT_BY_UNIID = "SELECT * FROM [dbo].[LoaiDoUong] WHERE [Id] = ?";
+    final String SELECT_LOAIDU_KM = "SELECT LoaiDoUong.MA, LoaiDoUong.Ten, ChiTietDoUong.GiaBan, ChiTietDoUong.GiaBan - (ChiTietDoUong.GiaBan * GiamGia.GIATRI / 100) AS GIAMOI\n"
+            + "FROM LoaiDoUong\n"
+            + "JOIN ChiTietDoUong ON LoaiDoUong.Id = ChiTietDoUong.IdLoaiDoUong\n"
+            + "JOIN GiamGia ON ChiTietDoUong.MaGIamGia = GiamGia.MaGiamGia;";
 
     @Override
     public ArrayList<LoaiDoUong> selectALl() {
@@ -104,4 +108,3 @@ public class DAO_LoaiDoUong implements iLoaiDoUong {
 //        return lstViewDoUong;
 //    }
 }
-    

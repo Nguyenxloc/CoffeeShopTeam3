@@ -4,26 +4,35 @@
  */
 package model;
 
-
-
 /**
  *
  * @author 84374
  */
 public class ChiTietDoUong {
-  private String id;
-    
+
+    private String id;
+
     private String tenDoUong;
-    
+
     private double giaNhap;
-    
+
     private double giaBan;
-    
+
     private String moTa;
-    
+
     private byte[] hinhAnh;
-    
+
     private LoaiDoUong loaiDoUong;
+
+    private KhuyenMai khuyenMai;
+
+    public KhuyenMai getKhuyenMai() {
+        return khuyenMai;
+    }
+
+    public void setKhuyenMai(KhuyenMai khuyenMai) {
+        this.khuyenMai = khuyenMai;
+    }
 
     public ChiTietDoUong() {
     }
@@ -36,6 +45,17 @@ public class ChiTietDoUong {
         this.moTa = moTa;
         this.hinhAnh = hinhAnh;
         this.loaiDoUong = loaiDoUong;
+    }
+
+    public ChiTietDoUong(String id, String tenDoUong, double giaNhap, double giaBan, String moTa, byte[] hinhAnh, LoaiDoUong loaiDoUong, KhuyenMai khuyenMai) {
+        this.id = id;
+        this.tenDoUong = tenDoUong;
+        this.giaNhap = giaNhap;
+        this.giaBan = giaBan;
+        this.moTa = moTa;
+        this.hinhAnh = hinhAnh;
+        this.loaiDoUong = loaiDoUong;
+        this.khuyenMai = khuyenMai;
     }
 
     public String getId() {

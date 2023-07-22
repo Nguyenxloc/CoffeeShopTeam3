@@ -480,6 +480,12 @@ public class Form_QLDoUong extends javax.swing.JPanel {
         jLabel4.setForeground(new java.awt.Color(0, 0, 0));
         jLabel4.setText("Tên đồ uống: ");
 
+        cboTimKiemDanhMucDoUong.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cboTimKiemDanhMucDoUongActionPerformed(evt);
+            }
+        });
+
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(0, 0, 0));
         jLabel5.setText("Loại đồ uống: ");
@@ -699,6 +705,10 @@ public class Form_QLDoUong extends javax.swing.JPanel {
         // TODO add your handling code here:
         timKiem();
     }//GEN-LAST:event_btnTimKiemActionPerformed
+
+    private void cboTimKiemDanhMucDoUongActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboTimKiemDanhMucDoUongActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cboTimKiemDanhMucDoUongActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

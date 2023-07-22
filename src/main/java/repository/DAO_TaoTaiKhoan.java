@@ -10,6 +10,7 @@ import model.CapBac;
 import model.TaiKhoan;
 import ultilities.Utilitys;
 import java.sql.*;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -23,6 +24,7 @@ public class DAO_TaoTaiKhoan {
             + "VALUES (?,?,?,?,?,?,?,?,?,?)";
     final String SELECT_CAPBAC_SQL = "SELECT id, Ten FROM CapBac";
     final String SELECT_PHONE_SQL = "SELECT Sdt FROM NhanVien";
+    final String SELECT_EMPLOYEE_BY_USERNAME = "SELECT Ten,MatKhau FROM NHANVIEN WHERE Ten LIKE ";
     final String SELECT_BY_SQL = "SELECT COUNT(*) FROM nhanvien WHERE ma = ?";
     final String SELECT_ALL_SQL = "SELECT NhanVien.Ma, NhanVien.Ho + ' ' + NhanVien.TenDem + ' ' + NhanVien.Ten as TENNHANVIEN, GioiTinh,NgaySinh,DiaChi,Sdt,MatKhau,CapBac.Id,TrangThai  FROM NhanVien JOIN \n"
             + "CapBac ON NhanVien.IdCB = CapBac.Id";
@@ -79,12 +81,12 @@ public class DAO_TaoTaiKhoan {
     }
 
     // Lấy dữ liệu theo mã Nhân viên
-    public int selectByID(String id) {
+    public int selectById(String maNV) {
         Utilitys dbConn = new Utilitys();
         ArrayList<TaiKhoan> listAcount = new ArrayList<>();
         TaiKhoan tk = new TaiKhoan();
         try {
-            ResultSet rs = dbConn.getDataFromQuery(SELECT_BY_SQL, id);
+            ResultSet rs = dbConn.getDataFromQuery(SELECT_BY_SQL, maNV);
             if (rs.next()) {
                 int count = rs.getInt(1);
                 return count;
@@ -94,6 +96,39 @@ public class DAO_TaoTaiKhoan {
             e.printStackTrace();
         }
         return 0;
+    }
+
+    // Lấy dữ liệu theo tên nhân viên
+    public TaiKhoan selectByUserName(String userName) {
+        TaiKhoan account = null;
+        try {
+            PreparedStatement ps = connection.prepareStatement(SELECT_EMPLOYEE_BY_USERNAME);
+            ps.setString(1, "%" + userName + "%");
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()) {
+                String name = rs.getString("Ten");
+                String password = rs.getString("MatKhau");
+
+                account = new TaiKhoan();
+                account.setTenNV(name);
+                account.setMatKhau(password);
+
+            }
+            ps.close();
+            rs.close();
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        } finally {
+            try {
+                connection.close();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+
+        return account;
     }
 
     // Lấy dữ liệu CapBac đổ lêncomboBox
@@ -117,6 +152,7 @@ public class DAO_TaoTaiKhoan {
         return listCapBac;
     }
 
+    // Hàm thêm tài khoản
     public void save(TaiKhoan acount) {
         String hashPasString = Utilitys.hashPassword(acount.getMatKhau());
         try {

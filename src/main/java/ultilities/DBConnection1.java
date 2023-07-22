@@ -15,7 +15,7 @@ public class DBConnection1 {
     private static String hostName = "localhost";
     private static String acc = "sa";
     private static String pass = "123456";
-    private static String dbName = "COFFEESHOP_DA1";
+    private static String dbName = "COFFEESHOP_DA1234";
     private static String connectionSql
             = "jdbc:sqlserver://" + hostName + ":1433;databaseName=" + dbName + ";user=" + acc + ";password=" + pass + ";encrypt=false";
     private static String driver = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
@@ -28,10 +28,17 @@ public class DBConnection1 {
             System.out.println("Error At Driver");
         }
     }
+    public static void main(String[] args) {
+        openDbConnection();
+    }
     
     public static Connection openDbConnection() {
         try {
+
+//            System.out.println(connectionSql);
+
             System.out.println("Loading...");
+
             return DriverManager.getConnection(connectionSql, acc, pass);
         } catch (Exception e) {
             System.out.println("Trace error at OpenDbConnection function: ");
@@ -75,5 +82,7 @@ public class DBConnection1 {
             return null;
         }
     }
+    
+   
     
 }

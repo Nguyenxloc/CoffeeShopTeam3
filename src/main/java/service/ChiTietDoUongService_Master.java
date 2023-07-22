@@ -4,9 +4,6 @@
  */
 package service;
 
-
-
-
 import java.util.ArrayList;
 import model.ChiTietDoUong;
 import model.LoaiDoUong;
@@ -18,43 +15,47 @@ import repository.DAO_LoaiDoUongMaster;
  * @author ADMIN
  */
 public class ChiTietDoUongService_Master {
-    
-    DAO_LoaiDoUongMaster dAO_LoaiDoUong  = new DAO_LoaiDoUongMaster();
+
+    DAO_LoaiDoUongMaster dAO_LoaiDoUong = new DAO_LoaiDoUongMaster();
     DAO_ChiTietDoUongMaster dAO_ChiTietDoUong = new DAO_ChiTietDoUongMaster();
 
-    public ArrayList<LoaiDoUong> getListLoaiDoUong(){
-        ArrayList<LoaiDoUong> lstLoaiDoUong  = new ArrayList<>();
+    public ArrayList<LoaiDoUong> getListLoaiDoUong() {
+        ArrayList<LoaiDoUong> lstLoaiDoUong = new ArrayList<>();
         lstLoaiDoUong = dAO_LoaiDoUong.selectALl();
         return lstLoaiDoUong;
     }
-    
-    public void saveLoaiDoUong(LoaiDoUong loaiDoUong){
+
+    public void saveLoaiDoUong(LoaiDoUong loaiDoUong) {
         dAO_LoaiDoUong.save(loaiDoUong);
     }
-    
-    
-     public ArrayList<ChiTietDoUong> getListChiTietDoUong(){
-        ArrayList<ChiTietDoUong> lstChiTietDoUong  = new ArrayList<>();
+
+    public ArrayList<ChiTietDoUong> getListChiTietDoUong() {
+        ArrayList<ChiTietDoUong> lstChiTietDoUong = new ArrayList<>();
         lstChiTietDoUong = dAO_ChiTietDoUong.selectALl();
         return lstChiTietDoUong;
     }
-     
-     public ArrayList<ChiTietDoUong> getTimKiem(String tenDoUong,String idLoaiDoUong,double giaBatDau,double giaKetThuc ){
-        ArrayList<ChiTietDoUong> lstChiTietDoUong  = new ArrayList<>();
-        lstChiTietDoUong = dAO_ChiTietDoUong.selectByFlexibleCondition(tenDoUong, idLoaiDoUong,giaBatDau,giaKetThuc);
+
+    public ArrayList<ChiTietDoUong> getTimKiem(String tenDoUong, String idLoaiDoUong, double giaBatDau, double giaKetThuc) {
+        ArrayList<ChiTietDoUong> lstChiTietDoUong = new ArrayList<>();
+        lstChiTietDoUong = dAO_ChiTietDoUong.selectByFlexibleCondition(tenDoUong, idLoaiDoUong, giaBatDau, giaKetThuc);
         return lstChiTietDoUong;
     }
-     
-    
-    public void saveChiTietDoUong(ChiTietDoUong chiTietDoUong){
+
+    // Láy giá trị theo mã Giảm giá
+    public ArrayList<ChiTietDoUong> selectAllByMaGiamGia(String maGiamGia) {
+        return dAO_ChiTietDoUong.selectAllByMaGiamGia(maGiamGia);
+    }
+
+    public void saveChiTietDoUong(ChiTietDoUong chiTietDoUong) {
         dAO_ChiTietDoUong.save(chiTietDoUong);
     }
-    
-    public void updateChiTietDoUong(ChiTietDoUong chiTietDoUong){
+
+    public void updateChiTietDoUong(ChiTietDoUong chiTietDoUong) {
         dAO_ChiTietDoUong.update(chiTietDoUong);
     }
-    
-    public void deleteChiTietDoUong(String  tenDoUong){
+
+    public void deleteChiTietDoUong(String tenDoUong) {
         dAO_ChiTietDoUong.delete(tenDoUong);
     }
+
 }
