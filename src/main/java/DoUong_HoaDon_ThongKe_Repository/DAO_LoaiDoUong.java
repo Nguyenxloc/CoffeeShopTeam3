@@ -2,9 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package DoUong_ThongKe_Repository;
+package DoUong_HoaDon_ThongKe_Repository;
 
-import Model_DoUong_ThongKe.LoaiDoUong;
+import DoUong_HoaDon_ThongKe_Model.LoaiDoUong;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import ultilities.DBConnection;
@@ -22,6 +22,10 @@ public class DAO_LoaiDoUong implements iLoaiDoUong {
     final String SELECT_BY_SQL = "SELECT * FROM [dbo].[LoaiDoUong] WHERE [Id] = ?";
     final String SELECT_ALL_SQL = "SELECT * FROM [dbo].[LoaiDoUong]";
     final String SELECT_BY_UNIID = "SELECT * FROM [dbo].[LoaiDoUong] WHERE [Id] = ?";
+    final String SELECT_LOAIDU_KM = "SELECT LoaiDoUong.MA, LoaiDoUong.Ten, ChiTietDoUong.GiaBan, ChiTietDoUong.GiaBan - (ChiTietDoUong.GiaBan * GiamGia.GIATRI / 100) AS GIAMOI\n"
+            + "FROM LoaiDoUong\n"
+            + "JOIN ChiTietDoUong ON LoaiDoUong.Id = ChiTietDoUong.IdLoaiDoUong\n"
+            + "JOIN GiamGia ON ChiTietDoUong.MaGIamGia = GiamGia.MaGiamGia;";
 
     @Override
     public ArrayList<LoaiDoUong> selectALl() {
@@ -104,4 +108,3 @@ public class DAO_LoaiDoUong implements iLoaiDoUong {
 //        return lstViewDoUong;
 //    }
 }
-    

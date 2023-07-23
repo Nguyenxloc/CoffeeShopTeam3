@@ -6,7 +6,7 @@
 package com.view.form;
 
 
-import com.view.DAO1.NhanVienService;
+import Repository1.NhanVienService;
 import com.view.model.NhanVien;
 import java.sql.Connection;
 import java.sql.PreparedStatement;

@@ -9,7 +9,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-//import org.mindrot.jbcrypt.BCrypt;
+import org.mindrot.jbcrypt.BCrypt;
 
 /**
  *
@@ -19,8 +19,8 @@ public class Utilitys {//Lớp này giải quyết kết nối xử lý truy v�
 
     private static String hostName = "localhost";
     private static String acc = "sa";
-    private static String pass = "12345";
-    private static String dbName = "COFFEESHOP_DA1234";
+    private static String pass = "123456";
+    private static String dbName = "COFFEESHOP_DA1";
     private static String connectionSql
             = "jdbc:sqlserver://" + hostName + ":1433;databaseName=" + dbName + ";user=" + acc + ";password=" + pass + ";encrypt=false";
     private static String driver = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
@@ -83,16 +83,16 @@ public class Utilitys {//Lớp này giải quyết kết nối xử lý truy v�
     }
 
     // Phương thức để hash mật khẩu
-//    public static String hashPassword(String password) {
-//        return BCrypt.hashpw(password, BCrypt.gensalt(12));
-//
-//    }
-//
-//    // Kiểm tra tính hợp lệ của mật khẩu đã hash bằng thư viện bcrypt.
-//    public static boolean checkPwd(String pwdRaw, String pwdHash) {
-//        return BCrypt.checkpw(pwdRaw, pwdHash);
-//
-//    }
+    public static String hashPassword(String password) {
+        return BCrypt.hashpw(password, BCrypt.gensalt(12));
+
+    }
+
+    // Kiểm tra tính hợp lệ của mật khẩu đã hash bằng thư viện bcrypt.
+    public static boolean checkPwd(String pwdRaw, String pwdHash) {
+        return BCrypt.checkpw(pwdRaw, pwdHash);
+
+    }
 
     public synchronized static Connection getConnection() throws Exception {
         return DriverManager.getConnection(connectionSql);

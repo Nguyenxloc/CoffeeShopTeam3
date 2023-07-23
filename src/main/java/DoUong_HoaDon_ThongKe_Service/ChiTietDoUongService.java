@@ -2,12 +2,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package DoUong_ThongKe_Service;
+package DoUong_HoaDon_ThongKe_Service;
 
-import DoUong_ThongKe_Model.ChiTietDoUong;
-import DoUong_ThongKe_Repository.DAO_ChiTietDoUong;
-import DoUong_ThongKe_Repository.DAO_LoaiDoUong;
-import Model_DoUong_ThongKe.LoaiDoUong;
+import DoUong_HoaDon_ThongKe_Model.ChiTietDoUong;
+import DoUong_HoaDon_ThongKe_Repository.DAO_ChiTietDoUong;
+import DoUong_HoaDon_ThongKe_Repository.DAO_LoaiDoUong;
+import DoUong_HoaDon_ThongKe_Model.LoaiDoUong;
 import java.util.ArrayList;
 
 /**

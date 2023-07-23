@@ -37,13 +37,18 @@ public class TaoTaiKhoanService {
 //            QuanLyTaiKhoan qlTK = new QuanLyTaiKhoan(tk.getMaNV(), tk.getTenNV(), tk.getGioiTinh(), tk.getNgaySinh(), tk.getDiaChi(), tk.getSoDT(), tk.getMatKhau(), tk.getCapBac().getIdCB(), tk.getTrangThai());
 //            listQLTK.add(listAcount);
 //        }
-
         return listAcount;
     }
 
-    public int selectById(String id) {
-        int count = repositoryTK.selectByID(id);
+    // Lấy giá trị theo mã
+    public int selectById(String maNV) {
+        int count = repositoryTK.selectById(maNV);
         return count;
+    }
+
+    public TaiKhoan selectByUserName(String username) {
+        TaiKhoan account = repositoryTK.selectByUserName(username);
+        return account;
     }
 
     public ArrayList<CapBac> getTenCapBac() {
@@ -64,5 +69,15 @@ public class TaoTaiKhoanService {
 //    public boolean accountVerification(String pwdRaw, String pwdHash) {
 //        return Utilitys.checkPwd(pwdRaw, pwdHash);
 //    }
+//
+//    // Hàm check Password đã Hash
+//    public boolean accountVerification(String pwdRaw, String pwdHash) {
+//        return Utilitys.checkPwd(pwdRaw, pwdHash);
+//    }
+
+    public void save(TaiKhoan acount) {
+        repositoryTK.save(acount);
+    }
+   
 
 }

@@ -45,6 +45,7 @@ public class paneOfProduct extends JPanel {
         localTbl =  tbl;
         localLblCheck = lblTotalCheck;
         for (int i = 0; i < lstPerson.size(); i++) {
+            System.out.println("test");
             ProductCell cell = new ProductCell(lstPerson.get(i).getHinhAnh(), lstPerson.get(i).getTenDoUong(), lstPerson.get(i).getGiaBan(), lstPerson.get(i).getMoTa());
             lstCell.add(cell);
             lstCell.get(i).setName(String.valueOf(i));

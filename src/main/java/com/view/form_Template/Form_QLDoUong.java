@@ -4,9 +4,9 @@
  */
 package com.view.form_Template;
 
-import DoUong_ThongKe_Model.ChiTietDoUong;
-import DoUong_ThongKe_Service.ChiTietDoUongService;
-import Model_DoUong_ThongKe.LoaiDoUong;
+import DoUong_HoaDon_ThongKe_Model.ChiTietDoUong;
+import DoUong_HoaDon_ThongKe_Service.ChiTietDoUongService;
+import DoUong_HoaDon_ThongKe_Model.LoaiDoUong;
 import com.view.component.ChooseFileFrame;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
@@ -22,6 +22,12 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.CreationHelper;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 //import org.apache.poi.ss.usermodel.Cell;
 //import org.apache.poi.ss.usermodel.CellStyle;
 //import org.apache.poi.ss.usermodel.CreationHelper;
@@ -180,6 +186,98 @@ public class Form_QLDoUong extends javax.swing.JPanel {
 //                    cell.setCellStyle(cellStyle);
 //                }
 //            }
+        System.out.println(lstChiTietDoUong);
+        XSSFWorkbook workbook = new XSSFWorkbook();
+        XSSFSheet sheet = workbook.createSheet("Danh sách sản phẩm");
+
+        //format date 
+        CellStyle cellStyle = workbook.createCellStyle();
+        CreationHelper createHelper = workbook.getCreationHelper();
+        cellStyle.setDataFormat(
+                createHelper.createDataFormat().getFormat("m/d/yy"));
+
+        int rowCount = 0;
+        //header
+        Object[] header = {"Tên đồ uống", "Loại đồ uống", "Giá nhập", "Giá bán", "Mô tả"};
+        Row headerRow = sheet.createRow(0);
+
+        Cell headerCell0 = headerRow.createCell(0);
+        headerCell0.setCellValue((String) header[0]);
+
+        Cell headerCell1 = headerRow.createCell(1);
+        headerCell1.setCellValue((String) header[1]);
+
+        Cell headerCell2 = headerRow.createCell(2);
+        headerCell2.setCellValue((String) header[2]);
+
+        Cell headerCell3 = headerRow.createCell(3);
+        headerCell3.setCellValue((String) header[3]);
+
+        Cell headerCell4 = headerRow.createCell(4);
+        headerCell4.setCellValue((String) header[4]);
+
+        //
+        for (ChiTietDoUong sp : lstChiTietDoUong) {
+            //create a row
+            Row row = sheet.createRow(++rowCount);
+            int columnCount = -1;
+            // write a row
+            Object[] obj = {sp.getTenDoUong(), sp.getLoaiDoUong().getTenLoaiDoUong(), sp.getGiaNhap(), sp.getGiaBan(), sp.getMoTa()};
+            for (int colNum = 0; colNum < obj.length; colNum++) {
+                Cell cell = row.createCell(++columnCount);
+                if (obj[colNum] instanceof String) {
+                    cell.setCellValue((String) obj[colNum]);
+                } else if (obj[colNum] instanceof Integer) {
+                    cell.setCellValue((Integer) obj[colNum]);
+                } else if (obj[colNum] instanceof Integer) {
+                    cell.setCellValue((Integer) obj[colNum]);
+                } else if (obj[colNum] instanceof Double) {
+                    cell.setCellValue((Double) obj[colNum]);
+                } else if (obj[colNum] instanceof Date) {
+                    cell.setCellValue((Date) obj[colNum]);
+                    cell.setCellStyle(cellStyle);
+                }
+            }
+        }
+
+        try (FileOutputStream outputStream = new FileOutputStream("DSSanPham.xlsx")) {
+            workbook.write(outputStream);
+        }
+    }
+
+    public void convertURLToBytes() throws IOException {
+        BufferedImage bImage = ImageIO.read(new File(lblUrl.getText()));
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        ImageIO.write(bImage, "jpg", bos);
+        imgBytes = bos.toByteArray();
+    }
+
+    public void clear() {
+        lblHinhAnh.setIcon(null);
+        lblHinhAnh.setText("Ảnh");
+        lblUrl.setText("#url");
+        txtTenDoUong.setText("");
+        cboDanhMucDoUong.setSelectedIndex(0);
+        txtGiaNhapDoUong.setText("");
+        txtGiaBanDoUong.setText("");
+        taraMota.setText("");
+        index = -1;
+        imgBytes = null;
+        loadData();
+    }
+
+    public void timKiem() {
+        String tenDoUong = txtTimKiemTenDoUong.getText();
+        if(tenDoUong.equalsIgnoreCase(""))
+           tenDoUong = null;
+        int count = cboTimKiemDanhMucDoUong.getSelectedIndex();
+        String idLoaiDoUong = lstLoaiDoUong.get(count).getId();
+        double giaBatDau=0;
+        double giaKetThuc=0;
+//        try {
+//            giaBatDau = Double.parseDouble(txtStartPrice.getText());
+//        } catch (Exception e) {
+//            giaBatDau = 0;
 //        }
 //
 //        try (FileOutputStream outputStream = new FileOutputStream("DSSanPham.xlsx")) {
@@ -480,6 +578,12 @@ public class Form_QLDoUong extends javax.swing.JPanel {
         jLabel4.setForeground(new java.awt.Color(0, 0, 0));
         jLabel4.setText("Tên đồ uống: ");
 
+        cboTimKiemDanhMucDoUong.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cboTimKiemDanhMucDoUongActionPerformed(evt);
+            }
+        });
+
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel5.setForeground(new java.awt.Color(0, 0, 0));
         jLabel5.setText("Loại đồ uống: ");
@@ -699,6 +803,10 @@ public class Form_QLDoUong extends javax.swing.JPanel {
         // TODO add your handling code here:
        // timKiem();
     }//GEN-LAST:event_btnTimKiemActionPerformed
+
+    private void cboTimKiemDanhMucDoUongActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboTimKiemDanhMucDoUongActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cboTimKiemDanhMucDoUongActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
