@@ -7,17 +7,16 @@ package com.view.main;
 import com.view.DAO1.NhanVienDao;
 import com.view.model.NhanVien;
 import java.io.File;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.sql.*;
 import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
+import ultilities.DBConnection;
 import ultilities.DBConnection1;
 
 
 
 public class LoginFrame extends javax.swing.JFrame {
-      private DBConnection1 dbconection = new DBConnection1();
+    private DBConnection connection = new DBConnection();
     private NhanVienDao dao = new NhanVienDao();
     private String dir = null;
 
@@ -206,26 +205,29 @@ public class LoginFrame extends javax.swing.JFrame {
         String ps = txtPassword.getText();
 
         String sql = "	select * from NhanVien where TaiKhoan =? and MatKhau = ?";
-        try ( Connection con = dbconection.getConnection();  
+        try ( Connection con = connection.getConnection();
                 PreparedStatement st = con.prepareStatement(sql)) {
             st.setString(1, us);
             st.setString(2, ps);
             ResultSet rs = st.executeQuery();
             if (rs.next()) {
-                
-                
-                if (us.equals("son") && ps.equals("12345")) {
-                    JOptionPane.showMessageDialog(null, "Đăng nhập quyền quản lý");
-                            MainTemplate view = new MainTemplate();
+                JOptionPane.showMessageDialog(null, "Đăng nhập thành công");
+                MainTemplate view = new MainTemplate();
                             view.setVisible(true);
-                            setVisible(false);                  
-                }
-                else if (us.equals("hung") && ps.equals("12345")) {
-                   JOptionPane.showMessageDialog(null, "Đăng nhập quyền nhân viên");
-                            MainTemplate view = new MainTemplate();
-                            view.setVisible(true);
-                            setVisible(false);  
-                } 
+                            setVisible(false);   
+                 
+//                if (us.equals("son") && ps.equals("12345")) {
+//                    JOptionPane.showMessageDialog(null, "Đăng nhập quyền quản lý");
+//                            MainTemplate view = new MainTemplate();
+//                            view.setVisible(true);
+//                            setVisible(false);                  
+//                }
+//                else if (us.equals("hung") && ps.equals("12345")) {
+//                   JOptionPane.showMessageDialog(null, "Đăng nhập quyền nhân viên");
+//                            MainTemplate view = new MainTemplate();
+//                            view.setVisible(true);
+//                            setVisible(false);  
+//                } 
                  
             } else {
                // JOptionPane.showMessageDialog(null, "Username or Password không chính xác");
@@ -302,6 +304,8 @@ public class LoginFrame extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(LoginFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+
         //</editor-fold>
 
         /* Create and display the form */

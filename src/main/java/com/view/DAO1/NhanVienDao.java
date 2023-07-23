@@ -16,8 +16,8 @@ import ultilities.DBConnection;
  */
 public class NhanVienDao {
 
-    final String INSERT_SQL = "INSERT INTO dbo.NhanVien(Ma,Ten,GioiTinh,NgaySinh,DiaChi,Sdt,TaiKhoan,MatKhau,IdCB,TrangThai,IMG) values(?,?,?,?,?,?,?,?,?,?,?)";
-    final String UPDATE_SQL = "UPDATE dbo.NhanVien set Ten=?,GioiTinh=?,NgaySinh=?,DiaChi=?,Sdt=?,TaiKhoan=?,MatKhau=?,IdCB=?,TrangThai=?,IMG=? where Ma=?";
+    final String INSERT_SQL = "INSERT INTO dbo.NhanVien(Ma,Ten,GioiTinh,NgaySinh,DiaChi,Sdt,TaiKhoan,MatKhau,IdCB,TrangThai,HinhAnh) values(?,?,?,?,?,?,?,?,?,?,?)";
+    final String UPDATE_SQL = "UPDATE dbo.NhanVien set Ten=?,GioiTinh=?,NgaySinh=?,DiaChi=?,Sdt=?,TaiKhoan=?,MatKhau=?,IdCB=?,TrangThai=?,HinhAnh=? where Ma=?";
     final String DELETE_SQL = "DELETE FROM [dbo].[NhanVien] WHERE [ID] = ?";
     final String SELECT_BY_SQL = "SELECT * FROM [dbo].[NhanVien] WHERE [ID] = ?";
     final String SELECT_ALL_SQL = "SELECT * FROM [dbo].[NhanVien]";
@@ -85,7 +85,7 @@ public class NhanVienDao {
     
     public ArrayList<NhanVien> getList(){
         ArrayList<NhanVien> list = new ArrayList<>();
-        String sql = "select NhanVien.Ma,NhanVien.Ten,TenDem,Ho,GioiTinh,NgaySinh,DiaChi,Sdt,TaiKhoan,MatKhau,CapBac.Ten,TrangThai,IMG from NhanVien join CapBac on NhanVien.IdCB=CapBac.Id";
+        String sql = "select NhanVien.Ma,NhanVien.Ten,TenDem,Ho,GioiTinh,NgaySinh,DiaChi,Sdt,TaiKhoan,MatKhau,CapBac.Ten,TrangThai,HinhAnh from NhanVien join CapBac on NhanVien.IdCB=CapBac.Id";
         try(Connection con = connection1.getConnection();
                 PreparedStatement st = con.prepareStatement(sql)) {
                 ResultSet rs = st.executeQuery();
@@ -131,7 +131,7 @@ public class NhanVienDao {
     }
     
     public Boolean addNew(NhanVien nhanVien){
-        String sql = "insert into NhanVien(Ma,Ten,GioiTinh,NgaySinh,DiaChi,Sdt,TaiKhoan,MatKhau,IdCB,TrangThai,Hinh) values(?,?,?,?,?,?,?,?,?,?,?)";
+        String sql = "insert into NhanVien(Ma,Ten,GioiTinh,NgaySinh,DiaChi,Sdt,TaiKhoan,MatKhau,IdCB,TrangThai,HinhAnh) values(?,?,?,?,?,?,?,?,?,?,?)";
         try(Connection con = connection1.getConnection();
                 PreparedStatement st = con.prepareStatement(sql)) {
                 st.setObject(1, nhanVien.getMa());

@@ -4,39 +4,76 @@
  */
 package ultilities;
 
+
 import java.sql.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.sql.*;
 
-/**
- *
- * @author dungna29
- */
-public class DBConnection1 {//Lớp này giải quyết kết nối xử lý truy vấn
-
-    public static final String HOSTNAME = "localhost";
-    public static final String PORT = "1433";
-    public static final String DBNAME = "COFFEESHOP_DA1";
-    public static final String USERNAME = "sa";
-    public static final String PASSWORD = "12345";
-
-   
-    public static Connection getConnection() {
-
-        // Create a variable for the connection string.
-        String connectionUrl = "jdbc:sqlserver://" + HOSTNAME + ":" + PORT + ";"
-                + "databaseName=" + DBNAME + ";encrypt=true;trustservercertificate=true;";
+public class DBConnection1 {
+    
+    private static String hostName = "localhost";
+    private static String acc = "sa";
+    private static String pass = "12345";
+    private static String dbName = "COFFEESHOP_DA1234";
+    private static String connectionSql
+            = "jdbc:sqlserver://" + hostName + ":1433;databaseName=" + dbName + ";user=" + acc + ";password=" + pass + ";encrypt=false";
+    private static String driver = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
+    private static Connection conn;
+    
+    static {
         try {
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            return DriverManager.getConnection(connectionUrl, USERNAME, PASSWORD);
-        } // Handle any errors that may have occurred.
-        catch (ClassNotFoundException | SQLException e) {
-            e.printStackTrace(System.out);
+            Class.forName(driver);
+        } catch (ClassNotFoundException ex) {
+            System.out.println("Error At Driver");
         }
-        return null;
     }
-
-    public static void main(String[] args) {
-        getConnection();
+    
+    public static Connection openDbConnection() {
+        try {
+            System.out.println("Loading...");
+            return DriverManager.getConnection(connectionSql, acc, pass);
+        } catch (Exception e) {
+            System.out.println("Trace error at OpenDbConnection function: ");
+            e.printStackTrace();
+            return null;
+        }
     }
+    
+    public static int ExcuteSQL(String sql, Object... args) {
+        PreparedStatement pstm = getStmt(sql, args);
+        try {
+            try {
+                return pstm.executeUpdate();
+            } finally {
+                pstm.close();
+            }
+        } catch (Exception e) {
+            System.out.println("Trace error at ExcuteSQL function: ");
+            e.printStackTrace();
+            return 0;
+        }
+    }
+    
+    public static ResultSet getDataFromQuery(String sql, Object... args) throws SQLException {
+        PreparedStatement pstm = getStmt(sql, args);
+        return pstm.executeQuery();
+    }
+    
+    public static PreparedStatement getStmt(String sql, Object... args) {
+        try {
+            conn = openDbConnection();
+            PreparedStatement ps;
+            ps = conn.prepareStatement(sql);
+            for (int i = 0; i < args.length; i++) {
+                ps.setObject(i + 1, args[i]);
+            }
+            return ps;
+        } catch (Exception ex) {
+            System.out.println("Trace error at getStmt function: ");
+            ex.printStackTrace();
+            return null;
+        }
+    }
+    
 }

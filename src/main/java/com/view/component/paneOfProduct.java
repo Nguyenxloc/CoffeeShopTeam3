@@ -4,7 +4,8 @@
  */
 package com.view.component;
 
-import model.DoUong;
+import SingletonClass.LstChiTietDoUong_singleton;
+import model.ChiTietDoUong;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridLayout;
@@ -13,9 +14,12 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.ScrollPaneConstants;
+import model.HoaDon;
 
 /**
  *
@@ -27,15 +31,21 @@ public class paneOfProduct extends JPanel {
 //        paneOfProduct1.setVisible(true);
 
     static ArrayList<ProductCell> lstCell = new ArrayList<>();
-
-    public paneOfProduct(ArrayList<DoUong> lstPerson) {
-        
+    static ChiTietDoUong drinkDetail = new ChiTietDoUong();
+    static HoaDon localHoaDon = new HoaDon();
+    static JTable localTbl = new JTable();
+    static JLabel localLblCheck = new JLabel();
+    public paneOfProduct(ArrayList<ChiTietDoUong> lstPerson,JTable tbl,HoaDon hoaDon, JLabel lblTotalCheck) {
+      
         GridLayout grid = new GridLayout(Integer.valueOf(lstPerson.size() / 3) + 1, 3);
         grid.setVgap(-5);
         grid.setHgap(0);
         this.setLayout(grid);
+        localHoaDon  = hoaDon;
+        localTbl =  tbl;
+        localLblCheck = lblTotalCheck;
         for (int i = 0; i < lstPerson.size(); i++) {
-            ProductCell cell = new ProductCell(lstPerson.get(i).getImg(), lstPerson.get(i).getTen(), lstPerson.get(i).getGiaCa(), lstPerson.get(i).getMoTa());
+            ProductCell cell = new ProductCell(lstPerson.get(i).getHinhAnh(), lstPerson.get(i).getTenDoUong(), lstPerson.get(i).getGiaBan(), lstPerson.get(i).getMoTa());
             lstCell.add(cell);
             lstCell.get(i).setName(String.valueOf(i));
             lstCell.get(i).addMouseListener(new MouseListener() {
@@ -45,6 +55,13 @@ public class paneOfProduct extends JPanel {
                     int index = Integer.valueOf(e.getComponent().getName());
                     //
                     System.out.println("index: " + index);
+                    System.out.println("test localHoaDon: "+localHoaDon.getId());
+                    drinkDetail = LstChiTietDoUong_singleton.getInstance().lstChiTietDoUongs.get(index);
+                    java.awt.EventQueue.invokeLater(new Runnable() {
+                        public void run() {
+                            new EnterAmountFrame(drinkDetail,localTbl,localLblCheck).setVisible(true);
+                        }
+                    });
 //////////////////////handling  folow old style, too much risk                    
 //                    System.out.println("source: "+ e.getSource());
 //                    System.out.println(e.getComponent().getX());
@@ -64,6 +81,7 @@ public class paneOfProduct extends JPanel {
                     cell.getLblNameProduct().setForeground(Color.blue);
                     cell.getLblPriceProduct().setForeground(Color.blue);
                     cell.getLblDes().setForeground(Color.blue);
+
                 }
 
                 @Override
