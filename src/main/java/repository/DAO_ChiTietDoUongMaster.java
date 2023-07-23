@@ -4,10 +4,11 @@
  */
 package repository;
 
-
+import com.view.model.QuanLyKhuyenMai;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import model.ChiTietDoUong;
+import model.KhuyenMai;
 import model.LoaiDoUong;
 import ultilities.DBConnection1;
 
@@ -15,7 +16,7 @@ import ultilities.DBConnection1;
  *
  * @author ADMIN
  */
-public class DAO_ChiTietDoUongMaster  {
+public class DAO_ChiTietDoUongMaster {
 
     final String INSERT_SQL = "INSERT INTO dbo.ChiTietDoUong(idLoaiDoUong,TenDoUong,GiaNhap,GiaBan,HinhAnh,MoTa)VALUES(?,?,?,?,?,?)";
     final String UPDATE_SQL = "UPDATE dbo.ChiTietDoUong SET TenDoUong=?, GiaNhap=?,GiaBan=?,MoTa=?,HinhAnh=? WHERE Id=?";

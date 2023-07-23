@@ -4,22 +4,36 @@
  */
 package com.view.main;
 
+import ultilities.DBConnection;
+
+import ultilities.Utilitys;
+
+import ultilities.DBConnection;
+
+import ultilities.Utilitys;
+
+import ultilities.DBConnection;
+
+import ultilities.DBConnection;
+
 /**
  *
  * @author 84374
  */
 public class MainController {
+
     public static void main(String[] args) {
-         java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {     
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+
+//                new LoginFrame().setVisible(true);
                 new MainTemplate().setVisible(true);
             }
         });
-        
 //        System.out.println("===================Test jdbc=================");
 //
 //        DBConnection dbconn  = new DBConnection();
-//        //System.out.println(dbconn.openDbConnection());d
+//        //System.out.println(dbconn.openDbConnection());
 //
 //        Utilitys dbconn = new Utilitys();
 //        System.out.println(dbconn.openDbConnection());

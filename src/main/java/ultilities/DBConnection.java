@@ -32,6 +32,8 @@ public class DBConnection {//Lớp này giải quyết kết nối xử lý truy
             System.out.println("Lỗi Driver");
         }
     }
+    
+   
 
     //1. Mở kết nối
     public static Connection openDbConnection() {
@@ -87,7 +89,7 @@ public class DBConnection {//Lớp này giải quyết kết nối xử lý truy
 
     public static void main(String[] args) throws Exception {
         String version = DBConnection.getConnection().getMetaData().getDatabaseProductVersion();
-        System.out.println(version);
+//        System.out.println(version);
     }
 
     public void ExcuteSQL(String INSERT_SQL, String id, String tenLoaiDoUong, String tenDoUong, int i, double giaBan) {
@@ -97,4 +99,7 @@ public class DBConnection {//Lớp này giải quyết kết nối xử lý truy
     public void ExcuteSQL(String INSERT_SQL, String ma, String tenLoaiDoUong) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
+    
+    
+  
 }

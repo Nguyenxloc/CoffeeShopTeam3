@@ -40,9 +40,15 @@ public class TaoTaiKhoanService {
         return listAcount;
     }
 
-    public int selectById(String id) {
-        int count = repositoryTK.selectByID(id);
+    // Lấy giá trị theo mã
+    public int selectById(String maNV) {
+        int count = repositoryTK.selectById(maNV);
         return count;
+    }
+
+    public TaiKhoan selectByUserName(String username) {
+        TaiKhoan account = repositoryTK.selectByUserName(username);
+        return account;
     }
 
     public ArrayList<CapBac> getTenCapBac() {
@@ -63,5 +69,12 @@ public class TaoTaiKhoanService {
 //    public boolean accountVerification(String pwdRaw, String pwdHash) {
 //        return Utilitys.checkPwd(pwdRaw, pwdHash);
 //    }
+
+    public void save(TaiKhoan acount) {
+        repositoryTK.save(acount);
+    }
+
+    
+
 
 }

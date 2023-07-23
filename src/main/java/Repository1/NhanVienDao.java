@@ -72,30 +72,30 @@ public class NhanVienDao {
     
     public ArrayList<NhanVien> getList(){
         ArrayList<NhanVien> list = new ArrayList<>();
-        String sql = "select NhanVien.Ma,NhanVien.Ten,TenDem,Ho,GioiTinh,NgaySinh,DiaChi,Sdt,TaiKhoan,MatKhau,CapBac.Ten,TrangThai,HinhAnh from NhanVien join CapBac on NhanVien.IdCB=CapBac.Id";
-        try(Connection con = connection1.getConnection();
-                PreparedStatement st = con.prepareStatement(sql)) {
-                ResultSet rs = st.executeQuery();
-                while (rs.next()) {                
-                NhanVien nhanVien = new NhanVien();               
-                nhanVien.setMa(rs.getString(1));
-                nhanVien.setTen(rs.getString(2));
-                nhanVien.setTenDem(rs.getString(3));
-                nhanVien.setHo(rs.getString(4));
-                nhanVien.setGioiTinh(rs.getString(5));
-                nhanVien.setNgaySinh(rs.getString(6));
-                nhanVien.setDiaChi(rs.getString(7));
-                nhanVien.setSdt(rs.getString(8));
-                nhanVien.setTaiKhoan(rs.getString(9));
-                nhanVien.setMatKhau(rs.getString(10));
-                nhanVien.setIdCB(rs.getString(11));
-                nhanVien.setTrangThai(rs.getInt(12));
-                nhanVien.setImg(rs.getBytes(13));
-                list.add(nhanVien);
-                }
-        } catch (Exception e) {
-           e.printStackTrace();
-        }
+//        String sql = "select NhanVien.Ma,NhanVien.Ten,TenDem,Ho,GioiTinh,NgaySinh,DiaChi,Sdt,TaiKhoan,MatKhau,CapBac.Ten,TrangThai,HinhAnh from NhanVien join CapBac on NhanVien.IdCB=CapBac.Id";
+//        try(Connection con = connection1.getConnection();
+//                PreparedStatement st = con.prepareStatement(sql)) {
+//                ResultSet rs = st.executeQuery();
+//                while (rs.next()) {                
+//                NhanVien nhanVien = new NhanVien();               
+//                nhanVien.setMa(rs.getString(1));
+//                nhanVien.setTen(rs.getString(2));
+//                nhanVien.setTenDem(rs.getString(3));
+//                nhanVien.setHo(rs.getString(4));
+//                nhanVien.setGioiTinh(rs.getString(5));
+//                nhanVien.setNgaySinh(rs.getString(6));
+//                nhanVien.setDiaChi(rs.getString(7));
+//                nhanVien.setSdt(rs.getString(8));
+//                nhanVien.setTaiKhoan(rs.getString(9));
+//                nhanVien.setMatKhau(rs.getString(10));
+//                nhanVien.setIdCB(rs.getString(11));
+//                nhanVien.setTrangThai(rs.getInt(12));
+//                nhanVien.setImg(rs.getBytes(13));
+//                list.add(nhanVien);
+//                }
+//        } catch (Exception e) {
+//           e.printStackTrace();
+//        }
         return list;
     }
     
