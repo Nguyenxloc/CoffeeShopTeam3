@@ -93,20 +93,20 @@ public class Form_TaoTaiKhoan extends javax.swing.JPanel {
     }
 
     // Chức năng đăng ký form
-    private void createAccount() {
-        if (validateForm()) {
-            TaiKhoan createAcount = getFomr();
-
-            if (createAcount == null) {
-                JOptionPane.showMessageDialog(this, "Lỗi trống dữ liệu");
-                return;
-            }
-            service.save(createAcount);
-            JOptionPane.showMessageDialog(this, "Đăng ký tài khoản thành công");
-            clearForm();
-        }
-
-    }
+//    private void createAccount() {
+//        if (validateForm()) {
+//            TaiKhoan createAcount = getFomr();
+//
+//            if (createAcount == null) {
+//                JOptionPane.showMessageDialog(this, "Lỗi trống dữ liệu");
+//                return;
+//            }
+//            service.save(createAcount);
+//            JOptionPane.showMessageDialog(this, "Đăng ký tài khoản thành công");
+//            clearForm();
+//        }
+//
+//    }
 
     private boolean validateForm() {
         // Validate để trống trường dữ liệu
@@ -451,7 +451,7 @@ public class Form_TaoTaiKhoan extends javax.swing.JPanel {
 
     private void btnDangKy1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDangKy1ActionPerformed
         // TODO add your handling code here:
-        createAccount();
+//        createAccount();
     }//GEN-LAST:event_btnDangKy1ActionPerformed
 
 

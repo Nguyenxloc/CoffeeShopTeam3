@@ -4,10 +4,10 @@
  */
 package ultilities;
 
-
-import java.sql.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+/**
+ *
+ * @author ADMIN
+ */
 import java.sql.*;
 
 public class DBConnection1 {

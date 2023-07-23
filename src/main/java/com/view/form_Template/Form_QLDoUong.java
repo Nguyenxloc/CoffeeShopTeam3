@@ -4,9 +4,9 @@
  */
 package com.view.form_Template;
 
-import DoUong_ThongKe_Model.ChiTietDoUong;
-import DoUong_ThongKe_Service.ChiTietDoUongService;
-import Model_DoUong_ThongKe.LoaiDoUong;
+import DoUong_HoaDon_ThongKe_Model.ChiTietDoUong;
+import DoUong_HoaDon_ThongKe_Service.ChiTietDoUongService;
+import DoUong_HoaDon_ThongKe_Model.LoaiDoUong;
 import com.view.component.ChooseFileFrame;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
@@ -157,14 +157,12 @@ public class Form_QLDoUong extends javax.swing.JPanel {
 
         //
         for (ChiTietDoUong sp : lstChiTietDoUong) {
-            System.out.println("test loop1");
             //create a row
             Row row = sheet.createRow(++rowCount);
             int columnCount = -1;
             // write a row
             Object[] obj = {sp.getTenDoUong(), sp.getLoaiDoUong().getTenLoaiDoUong(), sp.getGiaNhap(), sp.getGiaBan(), sp.getMoTa()};
             for (int colNum = 0; colNum < obj.length; colNum++) {
-                System.out.println(rowCount);
                 Cell cell = row.createCell(++columnCount);
                 if (obj[colNum] instanceof String) {
                     cell.setCellValue((String) obj[colNum]);
@@ -175,7 +173,6 @@ public class Form_QLDoUong extends javax.swing.JPanel {
                 } else if (obj[colNum] instanceof Double) {
                     cell.setCellValue((Double) obj[colNum]);
                 } else if (obj[colNum] instanceof Date) {
-                    System.out.println("test date");
                     cell.setCellValue((Date) obj[colNum]);
                     cell.setCellStyle(cellStyle);
                 }

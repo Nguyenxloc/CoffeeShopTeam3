@@ -43,7 +43,7 @@ public class MainTemplate extends javax.swing.JFrame {
     private Form_BanHang formBanHang;
     private Form_TaoTaiKhoan form_TaoTaiKhoan;
     private Form_QLDoUong form_QLDoUong;
-    private Form_KhuyenMai form_KhuyenMai;
+//    private Form_KhuyenMai form_KhuyenMai;
     private com.view.component.paneOfProduct paneOfProduct2;
     private QuanLyNhanVien formQLNhanVien;
 
@@ -53,7 +53,7 @@ public class MainTemplate extends javax.swing.JFrame {
         formThongbao = new ThongBaoForm();
         formBanHang = new Form_BanHang();
 
-        form_KhuyenMai = new Form_KhuyenMai();
+//        form_KhuyenMai = new Form_KhuyenMai();
 
         formQLNhanVien = new QuanLyNhanVien();
         form_TaoTaiKhoan = new Form_TaoTaiKhoan();
@@ -80,7 +80,7 @@ public class MainTemplate extends javax.swing.JFrame {
                 } else if (index == 3) {
                     setForm(form_QLDoUong);
                 } else if (index == 4) {
-                    setForm(form_KhuyenMai);
+//                    setForm(form_KhuyenMai);
                 } else if (index == 9) {
                     MessageFrame messageFrame = new MessageFrame();
                     messageFrame.show();

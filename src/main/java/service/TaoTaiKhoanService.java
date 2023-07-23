@@ -10,7 +10,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.CapBac;
 import model.TaiKhoan;
-import org.mindrot.jbcrypt.BCrypt;
 import repository.DAO_TaoTaiKhoan;
 import ultilities.Utilitys;
 
@@ -62,10 +61,20 @@ public class TaoTaiKhoanService {
         return listPhones;
     }
 
+//    public void save(TaiKhoan acount) {
+//        repositoryTK.save(acount);
+//    }
+//
+//    // Hàm check Password đã Hash
+//    public boolean accountVerification(String pwdRaw, String pwdHash) {
+//        return Utilitys.checkPwd(pwdRaw, pwdHash);
+//    }
+
     public void save(TaiKhoan acount) {
         repositoryTK.save(acount);
     }
 
     
+
 
 }

@@ -21,9 +21,8 @@ public class DAO_ChiTietDoUongMaster {
     final String INSERT_SQL = "INSERT INTO dbo.ChiTietDoUong(idLoaiDoUong,TenDoUong,GiaNhap,GiaBan,HinhAnh,MoTa)VALUES(?,?,?,?,?,?)";
     final String UPDATE_SQL = "UPDATE dbo.ChiTietDoUong SET TenDoUong=?, GiaNhap=?,GiaBan=?,MoTa=?,HinhAnh=? WHERE Id=?";
     final String DELETE_SQL = "DELETE FROM [dbo].[ChiTietDoUong] WHERE [Id] = ?";
-    final String SELECT_BY_MAGIAMGIA_SQL = "SELECT * FROM [dbo].[ChiTietDoUong] WHERE MaGIamGia = ?\n"
-            + "ORDER BY IdLoaiDoUong";
-    final String SELECT_ALL_SQL = "SELECT * FROM [dbo].[ChiTietDoUong] ORDER BY IdLoaiDoUong,MaGIamGia";
+    final String SELECT_BY_SQL = "SELECT * FROM [dbo].[ChiTietDoUong] WHERE [Id] = ?";
+    final String SELECT_ALL_SQL = "SELECT * FROM [dbo].[ChiTietDoUong] ORDER BY IdLoaiDoUong;";
     final String SELECT_BY_UNIID = "SELECT * FROM [dbo].[ChiTietDoUong] WHERE [Id] = ?";
     final String SELECT_BY_MULIPLECONDITION = "DECLARE @tenDoUong AS NVARCHAR(50) = ?, @idLoaiDoUong AS uniqueidentifier =?,@giaBatDau as decimal(20, 0)=?,@giaKeThuc as decimal(20, 0)=?"
             + "SELECT*FROM dbo.ChiTietDoUong \n"
@@ -41,19 +40,18 @@ public class DAO_ChiTietDoUongMaster {
         DBConnection1 dbConn = new DBConnection1();
         ArrayList<ChiTietDoUong> lstChiTietDoUong = new ArrayList<>();
         DAO_LoaiDoUongMaster dAO_LoaiDoUong = new DAO_LoaiDoUongMaster();
-        DAO_KhuyenMai dAO_KhuyenMai = new DAO_KhuyenMai();
         try {
             ResultSet rs = dbConn.getDataFromQuery(SELECT_ALL_SQL);
             while (rs.next()) {
-                KhuyenMai km = dAO_KhuyenMai.selectByID(rs.getString("MaGIamGia"));
                 LoaiDoUong loaiDoUong = dAO_LoaiDoUong.selectByID(rs.getString("idLoaiDoUong"));
-                lstChiTietDoUong.add(new ChiTietDoUong(rs.getString("id"), rs.getString("TenDoUong"), rs.getDouble("GiaNhap"), rs.getDouble("GiaBan"), rs.getString("MoTa"), rs.getBytes("HinhAnh"), loaiDoUong, km));
+                lstChiTietDoUong.add(new ChiTietDoUong(rs.getString("id"), rs.getString("TenDoUong"), rs.getDouble("GiaNhap"), rs.getDouble("GiaBan"), rs.getString("MoTa"), rs.getBytes("HinhAnh"), loaiDoUong));
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
         return lstChiTietDoUong;
     }
+
 
     public ChiTietDoUong selectByID(String id) {
         DBConnection1 dbConn = new DBConnection1();
@@ -75,6 +73,7 @@ public class DAO_ChiTietDoUongMaster {
         return chiTietDoUong;
     }
 
+
     public void save(ChiTietDoUong chiTietDoUong) {
         DBConnection1 dbConn = new DBConnection1();
         try {
@@ -83,6 +82,7 @@ public class DAO_ChiTietDoUongMaster {
             e.printStackTrace();
         }
     }
+
 
     public void update(ChiTietDoUong chiTietDoUong) {
         DBConnection1 dbConn = new DBConnection1();
@@ -93,6 +93,7 @@ public class DAO_ChiTietDoUongMaster {
         }
     }
 
+
     public void delete(String id) {
         DBConnection1 dbConn = new DBConnection1();
         try {
@@ -102,24 +103,6 @@ public class DAO_ChiTietDoUongMaster {
         }
     }
 
-    public ArrayList<ChiTietDoUong> selectAllByMaGiamGia(String maGiamGia) {
-        DBConnection1 dbConn = new DBConnection1();
-        ArrayList<ChiTietDoUong> listChiTietDoUong = new ArrayList<>();
-        DAO_LoaiDoUongMaster dAO_LoaiDoUong = new DAO_LoaiDoUongMaster();
-        DAO_KhuyenMai dAO_KhuyenMai = new DAO_KhuyenMai();
-        try {
-            ResultSet rs = dbConn.getDataFromQuery(SELECT_BY_MAGIAMGIA_SQL, maGiamGia);
-            while (rs.next()) {
-                KhuyenMai km = dAO_KhuyenMai.selectByID(maGiamGia);
-                LoaiDoUong loaiDoUong = dAO_LoaiDoUong.selectByID(rs.getString("idLoaiDoUong"));
-                listChiTietDoUong.add(new ChiTietDoUong(rs.getString("id"), rs.getString("TenDoUong"), rs.getDouble("GiaNhap"), rs.getDouble("GiaBan"), rs.getString("MoTa"), rs.getBytes("HinhAnh"), null, km));
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return listChiTietDoUong;
-
-    }
 
     public ArrayList<ChiTietDoUong> selectByFlexibleCondition(String tenDoUong, String idLoaiDoUong, double giaBatDau, double giaKetThuc) {
         DBConnection1 dbConn = new DBConnection1();

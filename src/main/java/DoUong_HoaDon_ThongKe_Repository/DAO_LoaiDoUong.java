@@ -2,9 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package DoUong_ThongKe_Repository;
+package DoUong_HoaDon_ThongKe_Repository;
 
-import Model_DoUong_ThongKe.LoaiDoUong;
+import DoUong_HoaDon_ThongKe_Model.LoaiDoUong;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import ultilities.DBConnection;
