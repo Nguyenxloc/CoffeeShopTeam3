@@ -10,6 +10,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import model.CapBac;
 import model.TaiKhoan;
+//import org.mindrot.jbcrypt.BCrypt;
 import repository.DAO_TaoTaiKhoan;
 import ultilities.Utilitys;
 
@@ -36,7 +37,6 @@ public class TaoTaiKhoanService {
 //            QuanLyTaiKhoan qlTK = new QuanLyTaiKhoan(tk.getMaNV(), tk.getTenNV(), tk.getGioiTinh(), tk.getNgaySinh(), tk.getDiaChi(), tk.getSoDT(), tk.getMatKhau(), tk.getCapBac().getIdCB(), tk.getTrangThai());
 //            listQLTK.add(listAcount);
 //        }
-
         return listAcount;
     }
 
@@ -64,6 +64,11 @@ public class TaoTaiKhoanService {
 //    public void save(TaiKhoan acount) {
 //        repositoryTK.save(acount);
 //    }
+
+    // Hàm check Password đã Hash
+//    public boolean accountVerification(String pwdRaw, String pwdHash) {
+//        return Utilitys.checkPwd(pwdRaw, pwdHash);
+//    }
 //
 //    // Hàm check Password đã Hash
 //    public boolean accountVerification(String pwdRaw, String pwdHash) {
@@ -73,8 +78,6 @@ public class TaoTaiKhoanService {
     public void save(TaiKhoan acount) {
         repositoryTK.save(acount);
     }
-
-    
-
+   
 
 }

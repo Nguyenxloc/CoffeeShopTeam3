@@ -28,6 +28,12 @@ import org.apache.poi.ss.usermodel.CreationHelper;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+//import org.apache.poi.ss.usermodel.Cell;
+//import org.apache.poi.ss.usermodel.CellStyle;
+//import org.apache.poi.ss.usermodel.CreationHelper;
+//import org.apache.poi.ss.usermodel.Row;
+//import org.apache.poi.xssf.usermodel.XSSFSheet;
+//import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public class Form_QLDoUong extends javax.swing.JPanel {
 
@@ -125,6 +131,61 @@ public class Form_QLDoUong extends javax.swing.JPanel {
     }
 
     public void xuatFileExcel() throws FileNotFoundException, IOException {
+//        System.out.println(lstChiTietDoUong);
+//        XSSFWorkbook workbook = new XSSFWorkbook();
+//        XSSFSheet sheet = workbook.createSheet("Danh sách sản phẩm");
+//
+//        //format date 
+//        CellStyle cellStyle = workbook.createCellStyle();
+//        CreationHelper createHelper = workbook.getCreationHelper();
+//        cellStyle.setDataFormat(
+//                createHelper.createDataFormat().getFormat("m/d/yy"));
+//
+//        int rowCount = 0;
+//        //header
+//        Object[] header = {"Tên đồ uống", "Loại đồ uống", "Giá nhập", "Giá bán", "Mô tả"};
+//        Row headerRow = sheet.createRow(0);
+//
+//        Cell headerCell0 = headerRow.createCell(0);
+//        headerCell0.setCellValue((String) header[0]);
+//
+//        Cell headerCell1 = headerRow.createCell(1);
+//        headerCell1.setCellValue((String) header[1]);
+//
+//        Cell headerCell2 = headerRow.createCell(2);
+//        headerCell2.setCellValue((String) header[2]);
+//
+//        Cell headerCell3 = headerRow.createCell(3);
+//        headerCell3.setCellValue((String) header[3]);
+//
+//        Cell headerCell4 = headerRow.createCell(4);
+//        headerCell4.setCellValue((String) header[4]);
+//
+//        //
+//        for (ChiTietDoUong sp : lstChiTietDoUong) {
+//            System.out.println("test loop1");
+//            //create a row
+//            Row row = sheet.createRow(++rowCount);
+//            int columnCount = -1;
+//            // write a row
+//            Object[] obj = {sp.getTenDoUong(), sp.getLoaiDoUong().getTenLoaiDoUong(), sp.getGiaNhap(), sp.getGiaBan(), sp.getMoTa()};
+//            for (int colNum = 0; colNum < obj.length; colNum++) {
+//                System.out.println(rowCount);
+//                Cell cell = row.createCell(++columnCount);
+//                if (obj[colNum] instanceof String) {
+//                    cell.setCellValue((String) obj[colNum]);
+//                } else if (obj[colNum] instanceof Integer) {
+//                    cell.setCellValue((Integer) obj[colNum]);
+//                } else if (obj[colNum] instanceof Integer) {
+//                    cell.setCellValue((Integer) obj[colNum]);
+//                } else if (obj[colNum] instanceof Double) {
+//                    cell.setCellValue((Double) obj[colNum]);
+//                } else if (obj[colNum] instanceof Date) {
+//                    System.out.println("test date");
+//                    cell.setCellValue((Date) obj[colNum]);
+//                    cell.setCellStyle(cellStyle);
+//                }
+//            }
         System.out.println(lstChiTietDoUong);
         XSSFWorkbook workbook = new XSSFWorkbook();
         XSSFSheet sheet = workbook.createSheet("Danh sách sản phẩm");
@@ -218,30 +279,70 @@ public class Form_QLDoUong extends javax.swing.JPanel {
 //        } catch (Exception e) {
 //            giaBatDau = 0;
 //        }
-//        
-//        try {
-//             giaKetThuc = Double.parseDouble(txtEndPrice.getText());
-//        } catch (Exception e) {
-//             giaKetThuc = 0;
+//
+//        try (FileOutputStream outputStream = new FileOutputStream("DSSanPham.xlsx")) {
+//            workbook.write(outputStream);
 //        }
-        try {
-            DefaultTableModel model = new DefaultTableModel();
-            model = (DefaultTableModel) tblDanhSachDoUong.getModel();
-            model.setRowCount(0);
-            lstChiTietDoUong = chiTietDoUongService.getTimKiem(tenDoUong, idLoaiDoUong, giaBatDau,giaKetThuc);
-            int i = 1;
-            for (ChiTietDoUong chiTietDoUong : lstChiTietDoUong) {
-                model.addRow(new Object[]{
-                    i++,
-                    chiTietDoUong.getTenDoUong(),
-                    chiTietDoUong.getLoaiDoUong().getTenLoaiDoUong(),
-                    chiTietDoUong.getGiaNhap(),
-                    chiTietDoUong.getGiaBan(),
-                    chiTietDoUong.getMoTa(),});
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+//    }
+//
+//    public void convertURLToBytes() throws IOException {
+//        BufferedImage bImage = ImageIO.read(new File(lblUrl.getText()));
+//        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+//        ImageIO.write(bImage, "jpg", bos);
+//        imgBytes = bos.toByteArray();
+//    }
+//
+//    public void clear() {
+//        lblHinhAnh.setIcon(null);
+//        lblHinhAnh.setText("Ảnh");
+//        lblUrl.setText("#url");
+//        txtTenDoUong.setText("");
+//        cboDanhMucDoUong.setSelectedIndex(0);
+//        txtGiaNhapDoUong.setText("");
+//        txtGiaBanDoUong.setText("");
+//        taraMota.setText("");
+//        index = -1;
+//        imgBytes = null;
+//        loadData();
+//    }
+//
+//    public void timKiem() {
+//        String tenDoUong = txtTimKiemTenDoUong.getText();
+//        if(tenDoUong.equalsIgnoreCase(""))
+//           tenDoUong = null;
+//        int count = cboTimKiemDanhMucDoUong.getSelectedIndex();
+//        String idLoaiDoUong = lstLoaiDoUong.get(count).getId();
+//        double giaBatDau=0;
+//        double giaKetThuc=0;
+////        try {
+////            giaBatDau = Double.parseDouble(txtStartPrice.getText());
+////        } catch (Exception e) {
+////            giaBatDau = 0;
+////        }
+////        
+////        try {
+////             giaKetThuc = Double.parseDouble(txtEndPrice.getText());
+////        } catch (Exception e) {
+////             giaKetThuc = 0;
+////        }
+//        try {
+//            DefaultTableModel model = new DefaultTableModel();
+//            model = (DefaultTableModel) tblDanhSachDoUong.getModel();
+//            model.setRowCount(0);
+//            lstChiTietDoUong = chiTietDoUongService.getTimKiem(tenDoUong, idLoaiDoUong, giaBatDau,giaKetThuc);
+//            int i = 1;
+//            for (ChiTietDoUong chiTietDoUong : lstChiTietDoUong) {
+//                model.addRow(new Object[]{
+//                    i++,
+//                    chiTietDoUong.getTenDoUong(),
+//                    chiTietDoUong.getLoaiDoUong().getTenLoaiDoUong(),
+//                    chiTietDoUong.getGiaNhap(),
+//                    chiTietDoUong.getGiaBan(),
+//                    chiTietDoUong.getMoTa(),});
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
 
     }
 //    public void loadHinhAnh(){
@@ -597,24 +698,24 @@ public class Form_QLDoUong extends javax.swing.JPanel {
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
 
-        try {
-            convertURLToBytes();
-        } catch (Exception e) {
-            imgBytes = new byte[5000];
-            e.printStackTrace();
-        }
-
-        int count = cboDanhMucDoUong.getSelectedIndex();
-        LoaiDoUong loaiDoUong = lstLoaiDoUong.get(count);
-        String tenDoUong = txtTenDoUong.getText();
-        Double giaNhap = Double.parseDouble(txtGiaNhapDoUong.getText());
-        Double giaBan = Double.parseDouble(txtGiaBanDoUong.getText());
-        String moTa = taraMota.getText();
-        System.out.println(imgBytes);
-        ChiTietDoUong chiTietDoUong = new ChiTietDoUong(null, tenDoUong, giaNhap, giaBan, moTa, imgBytes, loaiDoUong);
-        save(chiTietDoUong);
-        loadData();
-        JOptionPane.showMessageDialog(this, "Thêm thành công !");
+//        try {
+//            convertURLToBytes();
+//        } catch (Exception e) {
+//            imgBytes = new byte[5000];
+//            e.printStackTrace();
+//        }
+//
+//        int count = cboDanhMucDoUong.getSelectedIndex();
+//        LoaiDoUong loaiDoUong = lstLoaiDoUong.get(count);
+//        String tenDoUong = txtTenDoUong.getText();
+//        Double giaNhap = Double.parseDouble(txtGiaNhapDoUong.getText());
+//        Double giaBan = Double.parseDouble(txtGiaBanDoUong.getText());
+//        String moTa = taraMota.getText();
+//        System.out.println(imgBytes);
+//        ChiTietDoUong chiTietDoUong = new ChiTietDoUong(null, tenDoUong, giaNhap, giaBan, moTa, imgBytes, loaiDoUong);
+//        save(chiTietDoUong);
+//        loadData();
+//        JOptionPane.showMessageDialog(this, "Thêm thành công !");
     }//GEN-LAST:event_btnThemActionPerformed
 
     private void tblDanhSachDoUongMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblDanhSachDoUongMouseClicked
@@ -646,20 +747,20 @@ public class Form_QLDoUong extends javax.swing.JPanel {
 
     private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
 
-        String tenDoUong = txtTenDoUong.getText();
-        Double giaNhap = Double.parseDouble(txtGiaNhapDoUong.getText());
-        Double giaBan = Double.parseDouble(txtGiaBanDoUong.getText());
-        String moTa = taraMota.getText();
-        try {
-            convertURLToBytes();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        System.out.println(imgBytes);
-        ChiTietDoUong chiTietDoUong = new ChiTietDoUong(lstChiTietDoUong.get(index).getId(), tenDoUong, giaNhap, giaBan, moTa, imgBytes, lstLoaiDoUong.get(cboDanhMucDoUong.getSelectedIndex()));
-        update(chiTietDoUong);
-        loadData();
-        JOptionPane.showMessageDialog(this, "Sửa thành công !");
+//        String tenDoUong = txtTenDoUong.getText();
+//        Double giaNhap = Double.parseDouble(txtGiaNhapDoUong.getText());
+//        Double giaBan = Double.parseDouble(txtGiaBanDoUong.getText());
+//        String moTa = taraMota.getText();
+//        try {
+//            convertURLToBytes();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        System.out.println(imgBytes);
+//        ChiTietDoUong chiTietDoUong = new ChiTietDoUong(lstChiTietDoUong.get(index).getId(), tenDoUong, giaNhap, giaBan, moTa, imgBytes, lstLoaiDoUong.get(cboDanhMucDoUong.getSelectedIndex()));
+//        update(chiTietDoUong);
+//        loadData();
+//        JOptionPane.showMessageDialog(this, "Sửa thành công !");
     }//GEN-LAST:event_btnSuaActionPerformed
 
     private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
@@ -695,12 +796,12 @@ public class Form_QLDoUong extends javax.swing.JPanel {
 
     private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
         // TODO add your handling code here:
-        clear();
+       // clear();
     }//GEN-LAST:event_btnClearActionPerformed
 
     private void btnTimKiemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTimKiemActionPerformed
         // TODO add your handling code here:
-        timKiem();
+       // timKiem();
     }//GEN-LAST:event_btnTimKiemActionPerformed
 
     private void cboTimKiemDanhMucDoUongActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboTimKiemDanhMucDoUongActionPerformed

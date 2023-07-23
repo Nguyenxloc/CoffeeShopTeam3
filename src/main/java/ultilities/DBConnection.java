@@ -55,8 +55,9 @@ public class DBConnection {//Lớp này giải quyết kết nối xử lý truy
             } finally {
                 pstm.close();
             }
-        } catch (SQLException ex) {
+        } catch (Exception ex) {
             System.out.println("Lỗi tại ExcuteDungna");
+            ex.printStackTrace();
             return 0;
         }
     }

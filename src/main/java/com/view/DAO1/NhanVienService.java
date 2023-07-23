@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package Repository1;
+package com.view.DAO1;
 
 import com.view.model.NhanVien;
 
@@ -22,4 +22,19 @@ public class NhanVienService {
         }
     }
     
+      public String xoaNhanVien(String ma){
+          if(repository.deleteNew(ma)){
+              return "Xóa thành công";
+          }else{
+              return "Xóa thất bại";
+          }
+      }
+      
+      public String doiMatKhau(String tk,NhanVien nhanVien){
+          if(repository.updatePass(tk, nhanVien)){
+              return "Đổi mật khẩu thành công";
+          }else{
+              return "Thất bại";
+          }
+      }
 }
