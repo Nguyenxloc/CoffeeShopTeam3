@@ -22,6 +22,8 @@ public class LichSuHoaDon {
     
     private String timeThanhToan;
     
+    private int tinhTrangThanhToan;
+    
     private int soLuong;
     
     private double tongTienHoaDon;
@@ -35,24 +37,12 @@ public class LichSuHoaDon {
     public LichSuHoaDon() {
     }
 
-    public LichSuHoaDon(String maHoaDon, String tenNhanVien, String timeTao, String timeThanhToan, int soLuong, double tongTienHoaDon, double chietKhau, int trangThai) {
+    public LichSuHoaDon(String maHoaDon, String tenNhanVien, String timeTao, String timeThanhToan, int tinhTrangThanhToan, int soLuong, double tongTienHoaDon, double chietKhau, double tongTienThuVe, int trangThai) {
         this.maHoaDon = maHoaDon;
         this.tenNhanVien = tenNhanVien;
         this.timeTao = timeTao;
         this.timeThanhToan = timeThanhToan;
-        this.soLuong = soLuong;
-        this.tongTienHoaDon = tongTienHoaDon;
-        this.chietKhau = chietKhau;
-        this.trangThai = trangThai;
-    }
-
-    
-    
-    public LichSuHoaDon(String maHoaDon, String tenNhanVien, String timeTao, String timeThanhToan, int soLuong, double tongTienHoaDon, double chietKhau, double tongTienThuVe, int trangThai) {
-        this.maHoaDon = maHoaDon;
-        this.tenNhanVien = tenNhanVien;
-        this.timeTao = timeTao;
-        this.timeThanhToan = timeThanhToan;
+        this.tinhTrangThanhToan = tinhTrangThanhToan;
         this.soLuong = soLuong;
         this.tongTienHoaDon = tongTienHoaDon;
         this.chietKhau = chietKhau;
@@ -90,6 +80,14 @@ public class LichSuHoaDon {
 
     public void setTimeThanhToan(String timeThanhToan) {
         this.timeThanhToan = timeThanhToan;
+    }
+
+    public int getTinhTrangThanhToan() {
+        return tinhTrangThanhToan;
+    }
+
+    public void setTinhTrangThanhToan(int tinhTrangThanhToan) {
+        this.tinhTrangThanhToan = tinhTrangThanhToan;
     }
 
     public int getSoLuong() {
@@ -134,8 +132,9 @@ public class LichSuHoaDon {
 
     @Override
     public String toString() {
-        return "LichSuHoaDon{" + "maHoaDon=" + maHoaDon + ", tenNhanVien=" + tenNhanVien + ", timeTao=" + timeTao + ", timeThanhToan=" + timeThanhToan + ", soLuong=" + soLuong + ", tongTienHoaDon=" + tongTienHoaDon + ", chietKhau=" + chietKhau + ", tongTienThuVe=" + tongTienThuVe + ", trangThai=" + trangThai + '}';
+        return "LichSuHoaDon{" + "maHoaDon=" + maHoaDon + ", tenNhanVien=" + tenNhanVien + ", timeTao=" + timeTao + ", timeThanhToan=" + timeThanhToan + ", tinhTrangThanhToan=" + tinhTrangThanhToan + ", soLuong=" + soLuong + ", tongTienHoaDon=" + tongTienHoaDon + ", chietKhau=" + chietKhau + ", tongTienThuVe=" + tongTienThuVe + ", trangThai=" + trangThai + '}';
     }
+
     
     public double tienThucNhan(){
         if (chietKhau == 0) {

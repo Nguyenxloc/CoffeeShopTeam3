@@ -24,9 +24,9 @@ public class DAO_HoaDon {
     final String UPDATE_SQL = "UPDATE dbo.HoaDon SET IdBan=?, IdKH=?,IdNV=?,Ma=?,TinhTrangThanhToan=?,TrangThaiPhaChe=?,MaGiamGia=? WHERE Id=?";
     final String DELETE_SQL = "DELETE FROM [dbo].[HoaDon] WHERE [Id] = ?";
     final String SELECT_BY_SQL = "SELECT * FROM [dbo].[HoaDon] WHERE [Id] = ?";
-    final String SELECT_ALL_SQL = "SELECT*FROM dbo.HoaDon where stt = 1 order by NumOrder;";
-    final String SELECT_ALL_SQL_HOADONCHO = "SELECT*FROM dbo.HoaDon where stt = 0;";
-    final String SELECT_ALL_SQL_HOADONDANGPHACHE = "SELECT*FROM dbo.HoaDon where TrangThaiPhaChe = 0 and stt = 1;";
+    final String SELECT_ALL_SQL = "SELECT*FROM dbo.HoaDon where Stt = 1 order by NumOrder;";
+    final String SELECT_ALL_SQL_HOADONCHO = "SELECT*FROM dbo.HoaDon where Stt = 0;";
+    final String SELECT_ALL_SQL_HOADONDANGPHACHE = "SELECT*FROM dbo.HoaDon where TrangThaiPhaChe = 0 and Stt = 1;";
     final String UPDATE_STT = "UPDATE dbo.HoaDon SET stt=? WHERE Id=?";
     final String UPDATE_TTPHACHE = "UPDATE dbo.HoaDon SET TrangThaiPhaChe=? WHERE Id=?";
     final String UPDATE_MONEYTAKE = "UPDATE dbo.HoaDon SET SoTienNhanVao=? WHERE Id=?";
