@@ -7,7 +7,7 @@ package service;
 import java.util.ArrayList;
 import model.ChiTietDoUong;
 import model.LoaiDoUong;
-import repository.DAO_ChiTietDoUongMaster;
+import repository.DAO_ChiTietDoUongTai;
 import repository.DAO_LoaiDoUongMaster;
 
 /**
@@ -17,7 +17,7 @@ import repository.DAO_LoaiDoUongMaster;
 public class ChiTietDoUongService_Master {
 
     DAO_LoaiDoUongMaster dAO_LoaiDoUong = new DAO_LoaiDoUongMaster();
-    DAO_ChiTietDoUongMaster dAO_ChiTietDoUong = new DAO_ChiTietDoUongMaster();
+    DAO_ChiTietDoUongTai dAO_ChiTietDoUong = new DAO_ChiTietDoUongTai();
 
     public ArrayList<LoaiDoUong> getListLoaiDoUong() {
         ArrayList<LoaiDoUong> lstLoaiDoUong = new ArrayList<>();

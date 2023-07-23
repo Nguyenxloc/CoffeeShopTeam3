@@ -16,7 +16,7 @@ import ultilities.DBConnection1;
  *
  * @author ADMIN
  */
-public class DAO_ChiTietDoUongMaster {
+public class DAO_ChiTietDoUongTai {
 
     final String INSERT_SQL = "INSERT INTO dbo.ChiTietDoUong(idLoaiDoUong,TenDoUong,GiaNhap,GiaBan,HinhAnh,MoTa)VALUES(?,?,?,?,?,?)";
     final String UPDATE_SQL = "UPDATE dbo.ChiTietDoUong SET TenDoUong=?, GiaNhap=?,GiaBan=?,MoTa=?,HinhAnh=? WHERE Id=?";
@@ -24,7 +24,7 @@ public class DAO_ChiTietDoUongMaster {
     final String SELECT_BY_MAGIAMGIA_SQL = "SELECT * FROM [dbo].[ChiTietDoUong] WHERE MaGIamGia = ?\n"
             + "ORDER BY IdLoaiDoUong";
     final String SELECT_ALL_SQL = "SELECT * FROM [dbo].[ChiTietDoUong] ORDER BY IdLoaiDoUong,MaGIamGia";
-    final String SELECT_BY_UNIID = "SELECT * FROM [dbo].[ChiTietDoUong] WHERE [Id] = ?";
+    final String SELECT_BY_SQL = "SELECT * FROM [dbo].[ChiTietDoUong] WHERE [Id] = ?";
     final String SELECT_BY_MULIPLECONDITION = "DECLARE @tenDoUong AS NVARCHAR(50) = ?, @idLoaiDoUong AS uniqueidentifier =?,@giaBatDau as decimal(20, 0)=?,@giaKeThuc as decimal(20, 0)=?"
             + "SELECT*FROM dbo.ChiTietDoUong \n"
             + "WHERE (@tenDoUong IS NULL OR TenDoUong=@tenDoUong) AND (@IdLoaiDoUong IS NULL OR IdLoaiDoUong=@idLoaiDoUong) AND (@giaBatDau =0 OR GiaBan>=@giaBatDau) AND (@giaKetThuc =0 OR GiaBan<=@giaKetThuc)";
@@ -33,7 +33,7 @@ public class DAO_ChiTietDoUongMaster {
             + "SELECT*FROM dbo.ChiTietDoUong\n"
             + "WHERE (@tenDoUong IS NULL OR TenDoUong=@tenDoUong) AND (@IdLoaiDoUong IS NULL OR IdLoaiDoUong=@idLoaiDoUong)";
 
-    public DAO_ChiTietDoUongMaster() {
+    public DAO_ChiTietDoUongTai() {
     }
 
 
