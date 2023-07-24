@@ -4,10 +4,10 @@
  */
 package ultilities;
 
-
-import java.sql.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+/**
+ *
+ * @author ADMIN
+ */
 import java.sql.*;
 
 public class DBConnection1 {
@@ -15,7 +15,7 @@ public class DBConnection1 {
     private static String hostName = "localhost";
     private static String acc = "sa";
     private static String pass = "123456";
-    private static String dbName = "COFFEESHOP_DA1234";
+    private static String dbName = "COFFEESHOP_DA1";
     private static String connectionSql
             = "jdbc:sqlserver://" + hostName + ":1433;databaseName=" + dbName + ";user=" + acc + ";password=" + pass + ";encrypt=false";
     private static String driver = "com.microsoft.sqlserver.jdbc.SQLServerDriver";

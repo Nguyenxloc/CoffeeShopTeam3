@@ -7,6 +7,7 @@ package service;
 import java.util.ArrayList;
 import model.ChiTietDoUong;
 import model.LoaiDoUong;
+import repository.DAO_ChiTietDoUongMaster;
 import repository.DAO_ChiTietDoUongTai;
 import repository.DAO_LoaiDoUongMaster;
 
@@ -17,7 +18,8 @@ import repository.DAO_LoaiDoUongMaster;
 public class ChiTietDoUongService_Master {
 
     DAO_LoaiDoUongMaster dAO_LoaiDoUong = new DAO_LoaiDoUongMaster();
-    DAO_ChiTietDoUongTai dAO_ChiTietDoUong = new DAO_ChiTietDoUongTai();
+    DAO_ChiTietDoUongMaster dAO_ChiTietDoUong = new DAO_ChiTietDoUongMaster();
+    DAO_ChiTietDoUongTai dAO_ChiTietDoUongTai = new DAO_ChiTietDoUongTai(); 
 
     public ArrayList<LoaiDoUong> getListLoaiDoUong() {
         ArrayList<LoaiDoUong> lstLoaiDoUong = new ArrayList<>();
@@ -43,7 +45,7 @@ public class ChiTietDoUongService_Master {
 
     // Láy giá trị theo mã Giảm giá
     public ArrayList<ChiTietDoUong> selectAllByMaGiamGia(String maGiamGia) {
-        return dAO_ChiTietDoUong.selectAllByMaGiamGia(maGiamGia);
+        return dAO_ChiTietDoUongTai.selectAllByMaGiamGia(maGiamGia);
     }
 
     public void saveChiTietDoUong(ChiTietDoUong chiTietDoUong) {

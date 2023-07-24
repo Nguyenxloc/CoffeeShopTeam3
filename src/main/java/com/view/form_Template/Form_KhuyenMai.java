@@ -4,10 +4,12 @@
  */
 package com.view.form_Template;
 
-import model.ChiTietDoUong;
-import service.ChiTietDoUongService_Master;
-import DoUong_ThongKe_Service.LoaiDoUongService;
+import DoUong_HoaDon_ThongKe_Model.LoaiDoUong;
+import DoUong_HoaDon_ThongKe_Service.LoaiDoUongService;
 import com.view.form.ThemSanPhamGiamGiaJDialog;
+import model.ChiTietDoUong;
+
+
 import com.view.model.QuanLyTaiKhoan;
 import java.awt.Checkbox;
 import java.text.DecimalFormat;
@@ -22,8 +24,8 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import model.CapBac;
 import model.KhuyenMai;
-import model.LoaiDoUong;
 import model.TaiKhoan;
+import service.ChiTietDoUongService_Master;
 import service.SaleService;
 import service.TaoTaiKhoanService;
 
@@ -38,19 +40,18 @@ public class Form_KhuyenMai extends javax.swing.JPanel {
     private LoaiDoUongService loadDoUongService = new LoaiDoUongService();
     private ArrayList<KhuyenMai> listSale = new ArrayList<>();
     private ArrayList<ChiTietDoUong> listChiTietSP = new ArrayList<>();
-    private ArrayList<Model_DoUong_ThongKe.LoaiDoUong> listLoaiDoUong = new ArrayList<>();
+    private ArrayList<LoaiDoUong> listLoaiDoUong = new ArrayList<>();
 //    private ArrayList<CapBac> listCapBac = new ArrayList<>();
     private int row;
 
     public Form_KhuyenMai() {
         initComponents();
         fillToTableKhuyenMai();
-        fillToTableSanPhamDoUong();
+//        fillToTableSanPhamDoUong();
         fillComboboxLoaiKM();
         fillComboboxTrangThai();
         fillComboboxLoaiSP();
 //        fillComboboxTrangThaiSale();
-
     }
 
     // Chức năng load dữ liệu lên bảng Khuyến mại
@@ -76,6 +77,7 @@ public class Form_KhuyenMai extends javax.swing.JPanel {
             listChiTietSP = chiTietDoUongService.selectAllByMaGiamGia(maKM);
         }
         DecimalFormat decimalFormat = new DecimalFormat("#,### VND");
+        System.out.println(listChiTietSP);
         for (ChiTietDoUong ctdu : listChiTietSP) {
             String loaiKM = ctdu.getKhuyenMai().getLoaiKM();
             if (loaiKM.equals("%")) {
@@ -132,7 +134,7 @@ public class Form_KhuyenMai extends javax.swing.JPanel {
         model.removeAllElements();
         listLoaiDoUong = loadDoUongService.selectALl();
         model.addElement("Tất cả");
-        for (Model_DoUong_ThongKe.LoaiDoUong ldu : listLoaiDoUong) {
+        for (LoaiDoUong ldu : listLoaiDoUong) {
             model.addElement(ldu.getTenLoaiDoUong());
         }
     }

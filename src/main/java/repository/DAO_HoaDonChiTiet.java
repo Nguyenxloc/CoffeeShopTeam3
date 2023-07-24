@@ -27,7 +27,7 @@ public class DAO_HoaDonChiTiet {
         DBConnection1 dbConn = new DBConnection1();
         ArrayList<HoaDonChiTiet> lstHoaDonChiTiet = new ArrayList<>();
         DAO_HoaDon dao_HoaDon = new DAO_HoaDon();
-        DAO_ChiTietDoUongTai dao_ChiTietDoUong = new DAO_ChiTietDoUongTai();
+        DAO_ChiTietDoUongMaster dao_ChiTietDoUong = new DAO_ChiTietDoUongMaster();
 
         try {
             ResultSet rs = dbConn.getDataFromQuery(SELECT_ALL_SQL);
@@ -51,7 +51,7 @@ public class DAO_HoaDonChiTiet {
         DBConnection1 dbConn = new DBConnection1();
         HoaDonChiTiet hoaDonChiTiet = new HoaDonChiTiet();
         DAO_HoaDon dao_HoaDon = new DAO_HoaDon();
-        DAO_ChiTietDoUongTai dao_ChiTietDoUong = new DAO_ChiTietDoUongTai();
+        DAO_ChiTietDoUongMaster dao_ChiTietDoUong = new DAO_ChiTietDoUongMaster();
         ArrayList<HoaDonChiTiet> lstHoaDonChiTiet = new ArrayList<>();
         try {
             ResultSet rs = dbConn.getDataFromQuery(SELECT_BY_SQL, id);

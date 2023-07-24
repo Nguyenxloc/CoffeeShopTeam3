@@ -2,38 +2,38 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package DoUong_ThongKe_Service;
+package DoUong_HoaDon_ThongKe_Service;
 
-import DoUong_ThongKe_Repository.DAO_LoaiDoUong;
-import DoUong_ThongKe_Repository.iLoaiDoUong;
-import Model_DoUong_ThongKe.LoaiDoUong;
+import DoUong_HoaDon_ThongKe_Repository.DAO_LoaiDoUong;
+import DoUong_HoaDon_ThongKe_Repository.iLoaiDoUong;
 import java.util.ArrayList;
+import model.LoaiDoUong;
 
 /**
  *
  * @author LENOVO T560
  */
+
+
 public class LoaiDoUongService implements iLoaiDoUong {
-
     private DAO_LoaiDoUong repository = new DAO_LoaiDoUong();
-
     @Override
-    public ArrayList<LoaiDoUong> selectALl() {
+    public ArrayList<DoUong_HoaDon_ThongKe_Model.LoaiDoUong> selectALl() {
         return repository.selectALl();
     }
 
     @Override
-    public LoaiDoUong selectByID(String id) {
+    public DoUong_HoaDon_ThongKe_Model.LoaiDoUong selectByID(String id) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
-    public void save(LoaiDoUong loaiDoUong) {
+    public void save(DoUong_HoaDon_ThongKe_Model.LoaiDoUong loaiDoUong) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
-    public void update(LoaiDoUong loaiDoUong) {
+    public void update(DoUong_HoaDon_ThongKe_Model.LoaiDoUong loaiDoUong) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
@@ -41,5 +41,7 @@ public class LoaiDoUongService implements iLoaiDoUong {
     public void delete(String id) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
+
+   
 
 }

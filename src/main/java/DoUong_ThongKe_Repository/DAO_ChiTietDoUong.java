@@ -4,8 +4,11 @@
  */
 package DoUong_ThongKe_Repository;
 
-import DoUong_ThongKe_Model.ChiTietDoUong;
-import Model_DoUong_ThongKe.LoaiDoUong;
+
+import DoUong_HoaDon_ThongKe_Model.ChiTietDoUong;
+import DoUong_HoaDon_ThongKe_Model.LoaiDoUong;
+import DoUong_HoaDon_ThongKe_Repository.DAO_LoaiDoUong;
+import DoUong_HoaDon_ThongKe_Repository.iChiTietDoUong;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import ultilities.DBConnection1;

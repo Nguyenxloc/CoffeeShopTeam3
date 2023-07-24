@@ -5,7 +5,8 @@
  */
 package com.view.form;
 
-import DoUong_ThongKe_Service.LoaiDoUongService;
+import DoUong_HoaDon_ThongKe_Model.LoaiDoUong;
+import DoUong_HoaDon_ThongKe_Service.LoaiDoUongService;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -33,7 +34,7 @@ public class ThemSanPhamGiamGiaJDialog extends javax.swing.JDialog {
     private LoaiDoUongService loadDoUongService = new LoaiDoUongService();
     private ArrayList<KhuyenMai> listSale = new ArrayList<>();
     private ArrayList<ChiTietDoUong> listChiTietSP = new ArrayList<>();
-    private ArrayList<Model_DoUong_ThongKe.LoaiDoUong> listLoaiDoUong = new ArrayList<>();
+    private ArrayList<LoaiDoUong> listLoaiDoUong = new ArrayList<>();
 
     private int row;
     static String maGiamGia;
@@ -95,7 +96,7 @@ public class ThemSanPhamGiamGiaJDialog extends javax.swing.JDialog {
         model.removeAllElements();
         listLoaiDoUong = loadDoUongService.selectALl();
         model.addElement("Tất cả");
-        for (Model_DoUong_ThongKe.LoaiDoUong ldu : listLoaiDoUong) {
+        for (LoaiDoUong ldu : listLoaiDoUong) {
             model.addElement(ldu.getTenLoaiDoUong());
         }
     }

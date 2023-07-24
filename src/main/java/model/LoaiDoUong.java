@@ -4,7 +4,6 @@
  */
 package model;
 
-import DoUong_ThongKe_Model.*;
 
 /**
  *
