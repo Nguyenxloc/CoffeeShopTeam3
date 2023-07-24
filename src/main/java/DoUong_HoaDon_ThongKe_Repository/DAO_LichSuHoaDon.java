@@ -20,13 +20,13 @@ import ultilities.DbConnection_Sang;
  */
 public class DAO_LichSuHoaDon implements iLichSuHoaDon {
 
-    final String SELECT_ALL_SQL = "select  HoaDon.Ma, NhanVien.Ten, convert(varchar, hoadon.NgayTao, 105) as 'NgayTao',convert(varchar, hoadon.NgayTao, 105) as 'NgayTao', \n"
-            + "            (sum(SoLuong)) as 'SoLuongSP', sum(ChiTietDoUong.GiaBan * HoaDonChiTiet.SoLuong) as 'TongTien', GiamGia.GiaTri, HoaDon.Stt  from HoaDonChiTiet\n"
+    final String SELECT_ALL_SQL = "select  HoaDon.Ma, NhanVien.Ten, convert(varchar, hoadon.NgayTao, 105) as 'NgayTao',convert(varchar, hoadon.ThoiGian, 105) as 'ThoiGian', \n"
+            + "            (sum(SoLuong)) as 'SoLuongSP', sum(ChiTietDoUong.GiaBan * HoaDonChiTiet.SoLuong) as 'TongTien', GiamGia.GiaTri ,HoaDon.TinhTrangThanhToan, HoaDon.Stt, dbo.HoaDon.SoTienNhanVao as 'TongTienThuVe'  from HoaDonChiTiet\n"
             + "            join ChiTietDoUong on HoaDonChiTiet.IdChiTietDoUong = ChiTietDoUong.Id\n"
             + "            join HoaDon on HoaDonChiTiet.IdHoaDon = HoaDon.Id\n"
             + "            join NhanVien on HoaDon.IdNV = NhanVien.Id\n"
             + "            join GiamGia on GiamGia.MaGiamGia = HoaDon.MaGiamGia\n"
-            + "            group by HoaDon.Ma, NhanVien.Ten, HoaDon.NgayTao, HoaDon.ThoiGian, GiamGia.GiaTri, HoaDon.Stt";
+            + "            group by HoaDon.Ma, NhanVien.Ten, HoaDon.NgayTao, HoaDon.ThoiGian, GiamGia.GiaTri, HoaDon.Stt,dbo.HoaDon.TinhTrangThanhToan,dbo.HoaDon.SoTienNhanVao";
 
     final String SELECT_ALL_HOADON = "select HoaDon.Ma, ChiTietDoUong.TenDoUong, HoaDonChiTiet.SoLuong, (ChiTietDoUong.GiaBan * HoaDonChiTiet.SoLuong) as 'ThanhTien' from HoaDonChiTiet\n"
             + "join ChiTietDoUong on ChiTietDoUong.Id = HoaDonChiTiet.IdChiTietDoUong\n"
@@ -45,7 +45,7 @@ public class DAO_LichSuHoaDon implements iLichSuHoaDon {
             ResultSet rs = dbConn.getDataFromQuery(SELECT_ALL_SQL);
             while (rs.next()) {
                 lstLichSuHoaDon.add(new LichSuHoaDon(rs.getString("Ma"), rs.getString("Ten"), rs.getString("NgayTao"), rs.getString("ThoiGian"),
-                        rs.getInt("tinhTrangThanhToan"), rs.getInt("SoLuongSP"), rs.getDouble("TongTien"), rs.getDouble("GiaTri"), rs.getDouble("TongTienThuVe"), rs.getInt("Stt")));
+                        rs.getInt("TinhTrangThanhToan"), rs.getInt("SoLuongSP"), rs.getDouble("TongTien"), rs.getDouble("GiaTri"), rs.getDouble("TongTienThuVe"), rs.getInt("Stt")));
             }
         } catch (Exception e) {
             e.printStackTrace();

@@ -149,7 +149,7 @@ public class LichSuHoaDon {
         if (trangThai == 1) {
             return "Hoàn thành";
         } else {
-            return "Đang pha chế";
+            return "Chưa hoàn thành";
         }
     }
     

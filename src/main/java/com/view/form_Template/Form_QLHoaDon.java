@@ -40,8 +40,6 @@ public class Form_QLHoaDon extends javax.swing.JPanel {
         initComponents();
 
         loadData();
-        System.out.println("hello");
-        System.out.println("hello");
 
     }
 
