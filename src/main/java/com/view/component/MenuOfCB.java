@@ -1,23 +1,32 @@
 package com.view.component;
 
+import SingletonClass.NV_singleton;
 import com.view.event.EventMenuSelected;
 import com.view.model.Model_Menu;
 import java.awt.Color;
 import java.awt.GradientPaint;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.RenderingHints;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.io.File;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import model.NhanVien;
 
 public class MenuOfCB extends javax.swing.JPanel {
 
     private EventMenuSelected event;
     private String dir;
-
+    private String maNV;
+    private String tenNV;
+    private String capBac;
+    private String ngay;
     public void addEventMenuSelected(EventMenuSelected event) {
         this.event = event;
         listMenu1.addEventMenuSelected(event);
@@ -25,11 +34,10 @@ public class MenuOfCB extends javax.swing.JPanel {
 
     public MenuOfCB() {
 
-        String path = "src\\main\\java\\com\\view\\icon\\team3.png";
+        String path = "src\\main\\java\\com\\view\\icon\\logoTeamResizedNoBac.png";
         File file = new File(path);
         String absolutePath = file.getAbsolutePath();
         dir = absolutePath;
-
         initComponents();
         setOpaque(false);
         listMenu1.setOpaque(false);
@@ -37,20 +45,51 @@ public class MenuOfCB extends javax.swing.JPanel {
     }
 
     private void init() {
-        listMenu1.addItem(new Model_Menu("2", "Thông báo và tin tức", Model_Menu.MenuType.MENU));
-        listMenu1.addItem(new Model_Menu("3", "Lịch học", Model_Menu.MenuType.MENU));
-        listMenu1.addItem(new Model_Menu("4", "Điểm", Model_Menu.MenuType.MENU));
-        listMenu1.addItem(new Model_Menu("5", "Thông tin sinh viên", Model_Menu.MenuType.MENU));
-        //listMenu1.addItem(new Model_Menu("6", "Icons", Model_Menu.MenuType.MENU));
-        listMenu1.addItem(new Model_Menu("1", "Học phí", Model_Menu.MenuType.MENU));
-        listMenu1.addItem(new Model_Menu("7", "Đăng ký dịch vụ", Model_Menu.MenuType.MENU));
-        listMenu1.addItem(new Model_Menu("8", "Báo  cáo", Model_Menu.MenuType.MENU));
-        listMenu1.addItem(new Model_Menu("6", "Môn học", Model_Menu.MenuType.MENU));
-        listMenu1.addItem(new Model_Menu("9", "Lớp học", Model_Menu.MenuType.MENU));
+
+        listMenu1.addItem(new Model_Menu("2", "Thông báo", Model_Menu.MenuType.MENU));
+        listMenu1.addItem(new Model_Menu("3", "Bán hàng", Model_Menu.MenuType.MENU));
+        listMenu1.addItem(new Model_Menu("4", "QL Giao ca", Model_Menu.MenuType.MENU));
+        listMenu1.addItem(new Model_Menu("5", "QL Menu", Model_Menu.MenuType.MENU));
+        //listMenu1.addItem(new Model_Menu("6", "Icons", Model_Menu.MenuType.MENU)); Khang
+        listMenu1.addItem(new Model_Menu("1", "Quản lý khuyến mại", Model_Menu.MenuType.MENU));
+        listMenu1.addItem(new Model_Menu("7", "QL Hóa Đơn", Model_Menu.MenuType.MENU));
+        listMenu1.addItem(new Model_Menu("8", "Thống kê", Model_Menu.MenuType.MENU));
+        listMenu1.addItem(new Model_Menu("6", "Quản lý nhân viên", Model_Menu.MenuType.MENU));
+        listMenu1.addItem(new Model_Menu("9", "Tạo tài khoản", Model_Menu.MenuType.MENU));
+        listMenu1.addItem(new Model_Menu("10", "Quản lý nhập kho", Model_Menu.MenuType.MENU));
         listMenu1.addItem(new Model_Menu("10", "Đăng xuất", Model_Menu.MenuType.MENU));
-        listMenu1.addItem(new Model_Menu("", "", Model_Menu.MenuType.EMPTY));
 
+        listMenu1.addItem(new Model_Menu("", "\n ", Model_Menu.MenuType.TITLE));
+        listMenu1.addItem(new Model_Menu("", "\n ", Model_Menu.MenuType.TITLE));
+        listMenu1.addItem(new Model_Menu("", "\n ", Model_Menu.MenuType.TITLE));
+        listMenu1.addItem(new Model_Menu("", "\n ", Model_Menu.MenuType.TITLE));
+        listMenu1.addItem(new Model_Menu("", "\n ", Model_Menu.MenuType.TITLE));
+        listMenu1.addItem(new Model_Menu("", "\n ", Model_Menu.MenuType.TITLE));
+        listMenu1.addItem(new Model_Menu("", "\n ", Model_Menu.MenuType.TITLE));
+        listMenu1.addItem(new Model_Menu("", "\n ", Model_Menu.MenuType.TITLE));
+        listMenu1.addItem(new Model_Menu("", "\n ", Model_Menu.MenuType.TITLE));
+        listMenu1.addItem(new Model_Menu("", "\n ", Model_Menu.MenuType.TITLE));
+        listMenu1.addItem(new Model_Menu("", "\n ", Model_Menu.MenuType.TITLE));
+        listMenu1.addItem(new Model_Menu("", "\n ", Model_Menu.MenuType.TITLE));
+        listMenu1.addItem(new Model_Menu("", "\n ", Model_Menu.MenuType.TITLE));
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        java.util.Date  date = new java.util.Date();
+        maNV = NV_singleton.getInstance().nv.getMa();
+        capBac =NV_singleton.getInstance().nv.getCapBac().getTenCB();
+        tenNV = NV_singleton.getInstance().nv.getTen();
+        ngay =formatter.format(date);
 
+        listMenu1.addItem(new Model_Menu("", "#Mã nhân viên:" + maNV, Model_Menu.MenuType.TITLE));
+        listMenu1.addItem(new Model_Menu("", "#Cấp bậc:" + capBac, Model_Menu.MenuType.TITLE));
+        listMenu1.addItem(new Model_Menu("", "#Tên nhân viên:" + tenNV, Model_Menu.MenuType.TITLE));
+        listMenu1.addItem(new Model_Menu("", "#Ngày:" + ngay, Model_Menu.MenuType.TITLE));
+//        listMenu1.addItem(new Model_Menu("11", "QL somethingelse", Model_Menu.MenuType.MENU));
+//        listMenu1.addItem(new Model_Menu("12", "QL somethingelse", Model_Menu.MenuType.MENU));
+//        listMenu1.addItem(new Model_Menu("13", "QL somethingelse", Model_Menu.MenuType.MENU));
+//        listMenu1.addItem(new Model_Menu("14", "QL somethingelse", Model_Menu.MenuType.MENU));
+//        listMenu1.addItem(new Model_Menu("15", "Tạo tài khoản", Model_Menu.MenuType.MENU));
+//        listMenu1.addItem(new Model_Menu("16", "Đăng xuất", Model_Menu.MenuType.MENU));
+//        listMenu1.addItem(new Model_Menu("17", "Đăng xuất ", Model_Menu.MenuType.EMPTY));
     }
 
     @SuppressWarnings("unchecked")
@@ -65,8 +104,11 @@ public class MenuOfCB extends javax.swing.JPanel {
 
         jLabel1.setFont(new java.awt.Font("sansserif", 1, 17)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setIcon(new javax.swing.ImageIcon(dir));
-        jLabel1.setText("<html>\nQuản lý\n<br>\n_sinh viên");
+        ImageIcon imgIcon  = new javax.swing.ImageIcon(dir);
+        Image image = imgIcon.getImage(); // transform it
+        Image newimg = image.getScaledInstance(150, 46, java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
+        ImageIcon imageIcon = new ImageIcon(newimg);
+        jLabel1.setIcon(imageIcon);
 
         javax.swing.GroupLayout panelMovingLayout = new javax.swing.GroupLayout(panelMoving);
         panelMoving.setLayout(panelMovingLayout);
@@ -74,14 +116,14 @@ public class MenuOfCB extends javax.swing.JPanel {
             panelMovingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelMovingLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 203, Short.MAX_VALUE)
+                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 191, Short.MAX_VALUE)
                 .addContainerGap())
         );
         panelMovingLayout.setVerticalGroup(
             panelMovingLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelMovingLayout.createSequentialGroup()
                 .addGap(15, 15, 15)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jLabel1)
                 .addContainerGap())
         );
 
@@ -89,15 +131,18 @@ public class MenuOfCB extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panelMoving, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(listMenu1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(listMenu1, javax.swing.GroupLayout.DEFAULT_SIZE, 215, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(panelMoving, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(panelMoving, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(15, 15, 15)
-                .addComponent(listMenu1, javax.swing.GroupLayout.DEFAULT_SIZE, 418, Short.MAX_VALUE))
+                .addComponent(listMenu1, javax.swing.GroupLayout.DEFAULT_SIZE, 464, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 

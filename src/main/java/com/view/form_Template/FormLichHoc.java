@@ -2,23 +2,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
-package com.view.form_canbo;
+package com.view.form_Template;
 
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.table.DefaultTableModel;
-import model.GiangVien;
-import model.Lich;
-import model.LichFull;
-import model.LopHoc;
-import model.MonHoc;
-import model.PhongHoc;
-import model.SinhVien;
-import service.CanBoService;
-import service.GiangVienService;
-import service.SinhVienService;
 
 /**
  *
@@ -26,301 +16,12 @@ import service.SinhVienService;
  */
 public class FormLichHoc extends javax.swing.JPanel {
 
-    CanBoService cbService = new CanBoService();
-    SinhVienService svService = new SinhVienService();
-    GiangVienService gvService = new GiangVienService();
-    int count = -1;
-    ArrayList<LichFull> lstLichFull = new ArrayList<>();
-
-    ArrayList<LopHoc> lstLopHoc = new ArrayList<>();
-    ArrayList<MonHoc> lstMonHoc = new ArrayList<>();
-    ArrayList<PhongHoc> lstPhongHoc = new ArrayList<>();
-    ArrayList<String> lstNgayHoc = new ArrayList<>();
-    ArrayList<String> lstThoiGianHoc = new ArrayList<>();
-
-    ArrayList<LopHoc> lstLopThi = new ArrayList<>();
-    ArrayList<MonHoc> lstMonThi = new ArrayList<>();
-    ArrayList<PhongHoc> lstPhongThi = new ArrayList<>();
-    ArrayList<String> lstNgayThi = new ArrayList<>();
-    ArrayList<String> lstThoiGianThi = new ArrayList<>();
 
     /**
      * Creates new form FormLichHoc
      */
     public FormLichHoc() {
         initComponents();
-//        loadToTblLichHoc();
-        try {
-            loadToLichThiFaster();
-            loadToTblLichHocFaster();
-            loadToCboLopHocThi();
-            loadToCboMaMonThi();
-            loadToCboPhongThi();
-            loadToCboNgayThi();
-            loadToCboThoiGianThi();
-            loadToCboLopHocHoc();
-            loadToCboMaMonHoc();
-            loadToCboPhongHoc();
-            loadToCboNgayHoc();
-            loadToCboThoiGianHoc();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-    }
-
-    public void loadToTblLichThi() {
-        DefaultTableModel modelOfLH = new DefaultTableModel();
-        modelOfLH = (DefaultTableModel) tblLichThi.getModel();
-        modelOfLH.setRowCount(0);
-        ArrayList<Lich> lstLich = new ArrayList<>();
-        lstLich = cbService.selectLich();
-        for (Lich lichObj : lstLich) {
-            SinhVien sv = new SinhVien();
-            GiangVien gv = new GiangVien();
-            sv = svService.findBId(lichObj.getMaSV());
-            gv = gvService.getByMaGV(lichObj.getMaGiangVien());
-            MonHoc mh = new MonHoc();
-            mh = cbService.selectMonHocByID(lichObj.getMaMonHoc());
-            modelOfLH.addRow(new Object[]{lichObj.getMaSV(), sv.getHoTen(), lichObj.getMaGiangVien(), gv.getHoTen(), lichObj.getMaMonHoc(), mh.getTenMonHoc(), lichObj.getMaLopHoc(), lichObj.getNgayHoc(), lichObj.getMaPhongHoc(), lichObj.getThoiGian()});
-        }
-    }
-
-    public void loadToLichThiFaster() {
-        DefaultTableModel modelOfLT = new DefaultTableModel();
-        modelOfLT = (DefaultTableModel) tblLichThi.getModel();
-        modelOfLT.setRowCount(0);
-        lstLichFull = cbService.selectLichFull();
-        for (LichFull lichObj : lstLichFull) {
-            modelOfLT.addRow(new Object[]{lichObj.getMaSV(), lichObj.getHoTenSv(), lichObj.getMaGiangVien(), lichObj.getHoTenGV(), lichObj.getMaMonHoc(), lichObj.getTenMonHoc(), lichObj.getMaLopHoc(), lichObj.getNgayHoc(), lichObj.getMaPhongHoc(), lichObj.getThoiGian()});
-        }
-    }
-
-    public void loadToTblLichHocFaster() {
-        DefaultTableModel modelOfLH = new DefaultTableModel();
-        modelOfLH = (DefaultTableModel) tblLichHoc.getModel();
-        modelOfLH.setRowCount(0);
-        lstLichFull = cbService.selectLichFull();
-        for (LichFull lichObj : lstLichFull) {
-            modelOfLH.addRow(new Object[]{lichObj.getMaSV(), lichObj.getHoTenSv(), lichObj.getMaGiangVien(), lichObj.getHoTenGV(), lichObj.getMaMonHoc(), lichObj.getTenMonHoc(), lichObj.getMaLopHoc(), lichObj.getNgayHoc(), lichObj.getMaPhongHoc(), lichObj.getThoiGian()});
-        }
-    }
-
-    public void loadToCboLopHocThi() {
-        DefaultComboBoxModel modelOfCBOlopHocThi = new DefaultComboBoxModel();
-        modelOfCBOlopHocThi = (DefaultComboBoxModel) cboLopHocThi.getModel();
-        modelOfCBOlopHocThi.removeAllElements();
-        lstLopThi = cbService.selectLopHoc();
-        modelOfCBOlopHocThi.addElement("Tất cả");
-        for (LopHoc lopThi : lstLopThi) {
-            System.out.println("test cbo");
-            modelOfCBOlopHocThi.addElement(lopThi.getMaLopHoc());
-        }
-    }
-
-    public void loadToCboMaMonThi() {
-        DefaultComboBoxModel modelOfCBOMaMon = new DefaultComboBoxModel();
-        modelOfCBOMaMon = (DefaultComboBoxModel) cboMaMonThi.getModel();
-        modelOfCBOMaMon.removeAllElements();
-        lstMonThi = cbService.selectMonHoc();
-        modelOfCBOMaMon.addElement("Tất cả");
-        for (MonHoc monThi : lstMonThi) {
-            System.out.println("test cbo");
-            String mh = monThi.getMaMonHoc() + "-" + monThi.getTenMonHoc();
-            modelOfCBOMaMon.addElement(mh);
-        }
-    }
-
-    public void loadToCboPhongThi() {
-        DefaultComboBoxModel modelOfCBOPhongThi = new DefaultComboBoxModel();
-        modelOfCBOPhongThi = (DefaultComboBoxModel) cboPhongThi.getModel();
-        modelOfCBOPhongThi.removeAllElements();
-        lstPhongThi = cbService.selectPhongHoc();
-        modelOfCBOPhongThi.addElement("Tất cả");
-        for (PhongHoc phongThi : lstPhongThi) {
-            System.out.println("test cbo");
-            modelOfCBOPhongThi.addElement(phongThi.getMaPhongHoc());
-        }
-    }
-
-    public void loadToCboNgayThi() {
-        DefaultComboBoxModel modelOfCBONgayThi = new DefaultComboBoxModel();
-        modelOfCBONgayThi = (DefaultComboBoxModel) cboNgayThi.getModel();
-        modelOfCBONgayThi.removeAllElements();
-        ArrayList<String> lstNgayThi = new ArrayList<>();
-        lstNgayThi = cbService.getDay();
-        modelOfCBONgayThi.addElement("Tất cả");
-        for (String ngayThi : lstNgayThi) {
-            modelOfCBONgayThi.addElement(ngayThi.toString());
-        }
-    }
-
-    public void loadToCboThoiGianThi() {
-        DefaultComboBoxModel modelOfCBOThoiGian = new DefaultComboBoxModel();
-        modelOfCBOThoiGian = (DefaultComboBoxModel) cboThoiGianThi.getModel();
-        modelOfCBOThoiGian.removeAllElements();
-        lstThoiGianThi = cbService.getTime();
-        modelOfCBOThoiGian.addElement("Tất cả");
-        for (String ngayThi : lstThoiGianThi) {
-            modelOfCBOThoiGian.addElement(ngayThi.toString());
-        }
-    }
-
-    public void loadToTblLichHoc() {
-        DefaultTableModel modelOfLH = new DefaultTableModel();
-        modelOfLH = (DefaultTableModel) tblLichHoc.getModel();
-        modelOfLH.setRowCount(0);
-        ArrayList<Lich> lstLich = new ArrayList<>();
-        lstLich = cbService.selectLich();
-        for (Lich lichObj : lstLich) {
-            SinhVien sv = new SinhVien();
-            GiangVien gv = new GiangVien();
-            sv = svService.findBId(lichObj.getMaSV());
-            gv = gvService.getByMaGV(lichObj.getMaGiangVien());
-            MonHoc mh = new MonHoc();
-            mh = cbService.selectMonHocByID(lichObj.getMaMonHoc());
-            modelOfLH.addRow(new Object[]{lichObj.getMaSV(), sv.getHoTen(), lichObj.getMaGiangVien(), gv.getHoTen(), lichObj.getMaMonHoc(), mh.getTenMonHoc(), lichObj.getMaLopHoc(), lichObj.getNgayHoc(), lichObj.getMaPhongHoc(), lichObj.getThoiGian()});
-        }
-    }
-
-///////////////////////////////////cboLichHoc///////////////////////// 
-    public void loadToCboLopHocHoc() {
-        DefaultComboBoxModel modelOfCBOlopHoc = new DefaultComboBoxModel();
-        modelOfCBOlopHoc = (DefaultComboBoxModel) cboLopHocHoc.getModel();
-        modelOfCBOlopHoc.removeAllElements();
-        lstLopHoc = cbService.selectLopHoc();
-        modelOfCBOlopHoc.addElement("Tất cả");
-        for (LopHoc lopHoc : lstLopHoc) {
-            System.out.println("test cbo");
-            modelOfCBOlopHoc.addElement(lopHoc.getMaLopHoc());
-        }
-    }
-
-    public void loadToCboMaMonHoc() {
-        DefaultComboBoxModel modelOfCBOMaMonHoc = new DefaultComboBoxModel();
-        modelOfCBOMaMonHoc = (DefaultComboBoxModel) cboMaMonHoc.getModel();
-        modelOfCBOMaMonHoc.removeAllElements();
-        lstMonHoc = cbService.selectMonHoc();
-        modelOfCBOMaMonHoc.addElement("Tất cả");
-        for (MonHoc monHoc : lstMonHoc) {
-            System.out.println("test cbo");
-            String mh = monHoc.getMaMonHoc() + "-" + monHoc.getTenMonHoc();
-            modelOfCBOMaMonHoc.addElement(mh);
-        }
-    }
-
-    public void loadToCboPhongHoc() {
-        DefaultComboBoxModel modelOfCBOPhongHoc = new DefaultComboBoxModel();
-        modelOfCBOPhongHoc = (DefaultComboBoxModel) cboPhongHoc.getModel();
-        modelOfCBOPhongHoc.removeAllElements();
-        lstPhongHoc = cbService.selectPhongHoc();
-        modelOfCBOPhongHoc.addElement("Tất cả");
-        for (PhongHoc phongHoc : lstPhongHoc) {
-            System.out.println("test cbo");
-            modelOfCBOPhongHoc.addElement(phongHoc.getMaPhongHoc());
-        }
-    }
-
-    public void loadToCboNgayHoc() {
-        DefaultComboBoxModel modelOfCBONgayHoc = new DefaultComboBoxModel();
-        modelOfCBONgayHoc = (DefaultComboBoxModel) cboNgayHoc.getModel();
-        modelOfCBONgayHoc.removeAllElements();
-
-        lstNgayHoc = cbService.getDay();
-        modelOfCBONgayHoc.addElement("Tất cả");
-        for (String ngayThi : lstNgayHoc) {
-            modelOfCBONgayHoc.addElement(ngayThi.toString());
-        }
-    }
-
-    public void loadToCboThoiGianHoc() {
-        DefaultComboBoxModel modelOfCBOThoiGian = new DefaultComboBoxModel();
-        modelOfCBOThoiGian = (DefaultComboBoxModel) cboThoiGianHoc.getModel();
-        modelOfCBOThoiGian.removeAllElements();
-
-        lstThoiGianHoc = cbService.getTime();
-        modelOfCBOThoiGian.addElement("Tất cả");
-        for (String ngayThi : lstThoiGianHoc) {
-            modelOfCBOThoiGian.addElement(ngayThi.toString());
-        }
-    }
-
-    public void showDetailLichThi() {
-        count = tblLichThi.getSelectedRow();
-        txtMaGVLichThi.setText(lstLichFull.get(count).getMaGiangVien());
-        txtMaSVLichThi.setText(lstLichFull.get(count).getMaSV());
-        txtHoTenGVLichThi.setText(lstLichFull.get(count).getHoTenGV());
-        txtHoTenSVLichThi.setText(lstLichFull.get(count).getHoTenSv());
-        cboMaMonThi.setSelectedItem(lstLichFull.get(count).getMaMonHoc() + "-" + lstLichFull.get(count).getTenMonHoc());
-        txtTenMonLichThi.setText(lstLichFull.get(count).getTenMonHoc());
-        cboLopHocThi.setSelectedItem(lstLichFull.get(count).getMaLopHoc());
-        cboNgayThi.setSelectedItem(lstLichFull.get(count).getNgayHoc());
-        cboPhongThi.setSelectedItem(lstLichFull.get(count).getMaPhongHoc());
-        cboThoiGianThi.setSelectedItem(lstLichFull.get(count).getThoiGian());
-    }
-
-    public void showDetailLichHoc() {
-        count = tblLichHoc.getSelectedRow();
-        txtMaGVLichHoc.setText(lstLichFull.get(count).getMaGiangVien());
-        txtMaSVLichHoc.setText(lstLichFull.get(count).getMaSV());
-        txtHoTenGVLichHoc.setText(lstLichFull.get(count).getHoTenGV());
-        txtHoTenSVLichHoc.setText(lstLichFull.get(count).getHoTenSv());
-        cboMaMonHoc.setSelectedItem(lstLichFull.get(count).getMaMonHoc() + "-" + lstLichFull.get(count).getTenMonHoc());
-        txtMonHocLichHoc.setText(lstLichFull.get(count).getTenMonHoc());
-        cboLopHocHoc.setSelectedItem(lstLichFull.get(count).getMaLopHoc());
-        cboNgayHoc.setSelectedItem(lstLichFull.get(count).getNgayHoc());
-        cboPhongHoc.setSelectedItem(lstLichFull.get(count).getMaPhongHoc());
-        cboThoiGianHoc.setSelectedItem(lstLichFull.get(count).getThoiGian());
-    }
-
-    public void clearOLichHoc() {
-        txtMaGVLichHoc.setText(null);
-        txtMaSVLichHoc.setText(null);
-        txtHoTenGVLichHoc.setText(null);
-        txtHoTenSVLichHoc.setText(null);
-        cboMaMonHoc.setSelectedIndex(0);
-        txtMonHocLichHoc.setText(null);
-        cboLopHocHoc.setSelectedIndex(0);
-        cboNgayHoc.setSelectedIndex(0);
-        cboPhongHoc.setSelectedIndex(0);
-        cboThoiGianHoc.setSelectedIndex(0);
-    }
-
-    public void clearOLichThi() {
-        txtMaGVLichThi.setText(null);
-        txtMaSVLichThi.setText(null);
-        txtHoTenGVLichThi.setText(null);
-        txtHoTenSVLichThi.setText(null);
-        cboMaMonThi.setSelectedIndex(0);
-        txtTenMonLichThi.setText(null);
-        cboLopHocThi.setSelectedIndex(0);
-        cboNgayThi.setSelectedIndex(0);
-        cboPhongThi.setSelectedIndex(0);
-        cboThoiGianThi.setSelectedIndex(0);
-    }
-
-    public void update(Lich lh, String maSv, String maMonHoc, String maLopHoc) {
-        cbService.updateLich(lh, maSv, maMonHoc, maLopHoc);
-    }
-
-    public void findByTxtLichHoc(String maSv, String hoTenSv, String maMonHoc, String maLopHoc, String maPhongHoc, String maGiangVien, String hoTenGV, String tenMonHoc, Date ngayHoc, String thoiGian, String loaiLich) {
-        ArrayList<LichFull> lstLichHocFulls = cbService.selectLichFullByMultipleCondition(maSv, hoTenSv, maMonHoc, maLopHoc, maPhongHoc, maGiangVien, hoTenGV, tenMonHoc, ngayHoc, thoiGian, loaiLich);
-        DefaultTableModel modelOfLH = new DefaultTableModel();
-        modelOfLH = (DefaultTableModel) tblLichHoc.getModel();
-        modelOfLH.setRowCount(0);
-        for (LichFull lichObj : lstLichHocFulls) {
-            modelOfLH.addRow(new Object[]{lichObj.getMaSV(), lichObj.getHoTenSv(), lichObj.getMaGiangVien(), lichObj.getHoTenGV(), lichObj.getMaMonHoc(), lichObj.getTenMonHoc(), lichObj.getMaLopHoc(), lichObj.getNgayHoc(), lichObj.getMaPhongHoc(), lichObj.getThoiGian()});
-        }
-    }
-
-     public void findByTxtLichThi(String maSv, String hoTenSv, String maMonHoc, String maLopHoc, String maPhongHoc, String maGiangVien, String hoTenGV, String tenMonHoc, Date ngayHoc, String thoiGian, String loaiLich) {
-        ArrayList<LichFull> lstLichThiFulls = cbService.selectLichFullByMultipleCondition(maSv, hoTenSv, maMonHoc, maLopHoc, maPhongHoc, maGiangVien, hoTenGV, tenMonHoc, ngayHoc, thoiGian, loaiLich);
-        DefaultTableModel modelOfLT = new DefaultTableModel();
-        modelOfLT = (DefaultTableModel) tblLichThi.getModel();
-        modelOfLT.setRowCount(0);
-        for (LichFull lichObj : lstLichThiFulls) {
-            modelOfLT.addRow(new Object[]{lichObj.getMaSV(), lichObj.getHoTenSv(), lichObj.getMaGiangVien(), lichObj.getHoTenGV(), lichObj.getMaMonHoc(), lichObj.getTenMonHoc(), lichObj.getMaLopHoc(), lichObj.getNgayHoc(), lichObj.getMaPhongHoc(), lichObj.getThoiGian()});
-        }
     }
 
     /**
@@ -834,26 +535,21 @@ public class FormLichHoc extends javax.swing.JPanel {
 
     private void tblLichHocMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblLichHocMouseClicked
         // TODO add your handling code here:
-        showDetailLichHoc();
+ 
     }//GEN-LAST:event_tblLichHocMouseClicked
 
     private void tblLichThiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblLichThiMouseClicked
         // TODO add your handling code here:
-        showDetailLichThi();
+
     }//GEN-LAST:event_tblLichThiMouseClicked
 
     private void btnClearLichThiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearLichThiActionPerformed
         // TODO add your handling code here:
-        clearOLichThi();
+
     }//GEN-LAST:event_btnClearLichThiActionPerformed
 
     private void btnUpdateLichThiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateLichThiActionPerformed
         // TODO add your handling code here:
-        count = tblLichThi.getSelectedRow();
-        LichFull lichFull = lstLichFull.get(count);
-        Lich lich = new Lich();
-        lich = new Lich(lichFull.getMaSV(), lichFull.getMaMonHoc(), lichFull.getMaLopHoc(), String.valueOf(cboPhongHoc.getSelectedItem()), lichFull.getMaGiangVien(), lichFull.getMaChuyenNganh(), lstLichFull.get(count).getNam(), lichFull.getMua(), lichFull.getNgayHoc(), lichFull.getThoiGian(), lichFull.getLoaiLich());
-        cbService.updateLich(lich, lstLichFull.get(count).getMaSV(), lstLichFull.get(count).getMaMonHoc(), lstLichFull.get(count).getMaLopHoc());
     }//GEN-LAST:event_btnUpdateLichThiActionPerformed
 
     private void cboNgayThiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboNgayThiActionPerformed
@@ -862,178 +558,17 @@ public class FormLichHoc extends javax.swing.JPanel {
 
     private void btnSearchOnLichHocActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchOnLichHocActionPerformed
         // TODO add your handling code here:
-        String maSv = null;
-        String hotenSV = null;
-        String maMonHoc = null;
-        String maLopHoc = null;
-        String maPhongHoc = null;
-        String day = null;
-
-        String maGv = null;
-        String hoTenGV = null;
-        String tenMonHoc = null;
-        Date ngayHoc = null;
-        String thoiGian = null;
-
-        if (txtMaSVLichHoc.getText().equalsIgnoreCase(null)) {
-            maSv = null;
-
-        } else {
-            maSv = txtMaSVLichHoc.getText();
-        }
-        if (txtHoTenSVLichHoc.getText().equalsIgnoreCase(null)) {
-            hotenSV = null;
-        } else {
-            hotenSV = txtHoTenSVLichHoc.getText();
-        }
-
-        if (cboMaMonHoc.getSelectedIndex() != 0) {
-            int count = cboMaMonHoc.getSelectedIndex();
-            maMonHoc = lstMonHoc.get(count - 1).getMaMonHoc();
-        } else {
-            maMonHoc = null;
-        }
-        if (cboLopHocHoc.getSelectedIndex() != 0) {
-            maLopHoc = cboLopHocHoc.getSelectedItem().toString();
-        } else {
-            maLopHoc = null;
-        }
-
-        if (cboPhongHoc.getSelectedIndex() != 0) {
-            maPhongHoc = cboPhongHoc.getSelectedItem().toString();
-        } else {
-            maPhongHoc = null;
-        }
-
-        if (txtMaGVLichHoc.getText().equalsIgnoreCase(null)) {
-            maGv = null;
-        } else {
-            maGv = txtMaGVLichHoc.getText();
-        }
-
-        if (txtHoTenGVLichHoc.getText().equalsIgnoreCase(null)) {
-            hoTenGV = null;
-        } else {
-            hoTenGV = txtHoTenGVLichHoc.getText();
-        }
-
-        if (txtMonHocLichHoc.getText().equalsIgnoreCase(null)) {
-            tenMonHoc = null;
-        } else {
-            tenMonHoc = txtMonHocLichHoc.getText();
-        }
-
-        if (cboNgayHoc.getSelectedIndex() != 0) {
-            int count = cboNgayHoc.getSelectedIndex();
-            ngayHoc = Date.valueOf(lstNgayHoc.get(count - 1));
-        } else {
-            ngayHoc = null;
-        }
-        if (cboThoiGianHoc.getSelectedIndex() != 0) {
-            thoiGian = String.valueOf(cboThoiGianHoc.getSelectedItem());
-        } else {
-            thoiGian = null;
-        }
-        try {
-            System.out.println("masv=" + maSv);
-            System.out.println("day" + day);
-//            System.out.println(maSv + hotenSV + maMonHoc + maLopHoc + maPhongHoc + maGv + hoTenGV + tenMonHoc + ngayHoc + thoiGian + "Lich Hoc");
-            findByTxtLichHoc(maSv, hotenSV, maMonHoc, maLopHoc, maPhongHoc, maGv, hoTenGV, tenMonHoc, ngayHoc, thoiGian, "Lịch học");
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+       
     }//GEN-LAST:event_btnSearchOnLichHocActionPerformed
 
     private void btnClearLichHocActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearLichHocActionPerformed
         // TODO add your handling code here:
-        clearOLichHoc();
-        loadToTblLichHocFaster();
+ 
     }//GEN-LAST:event_btnClearLichHocActionPerformed
 
     private void btnSearchLichThiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchLichThiActionPerformed
         // TODO add your handling code here:
-        String maSv = null;
-        String hotenSV = null;
-        String maMonHoc = null;
-        String maLopHoc = null;
-        String maPhongHoc = null;
-        String day = null;
-
-        String maGv = null;
-        String hoTenGV = null;
-        String tenMonHoc = null;
-        Date ngayHoc = null;
-        String thoiGian = null;
-
-        if (txtMaSVLichThi.getText().equalsIgnoreCase(null)) {
-            maSv = null;
-
-        } else {
-            maSv = txtMaSVLichThi.getText();
-        }
-        if (txtHoTenSVLichThi.getText().equalsIgnoreCase(null)) {
-            hotenSV = null;
-        } else {
-            hotenSV = txtHoTenSVLichThi.getText();
-        }
-
-        if (cboMaMonThi.getSelectedIndex() != 0) {
-            int count = cboMaMonThi.getSelectedIndex();
-            maMonHoc = lstMonThi.get(count - 1).getMaMonHoc();
-        } else {
-            maMonHoc = null;
-        }
-        if (cboLopHocThi.getSelectedIndex() != 0) {
-            maLopHoc = cboLopHocThi.getSelectedItem().toString();
-        } else {
-            maLopHoc = null;
-        }
-
-        if (cboPhongThi.getSelectedIndex() != 0) {
-            maPhongHoc = cboPhongThi.getSelectedItem().toString();
-        } else {
-            maPhongHoc = null;
-        }
-
-        if (txtMaGVLichThi.getText().equalsIgnoreCase(null)) {
-            maGv = null;
-        } else {
-            maGv = txtMaGVLichThi.getText();
-        }
-
-        if (txtHoTenGVLichThi.getText().equalsIgnoreCase(null)) {
-            hoTenGV = null;
-        } else {
-            hoTenGV = txtHoTenGVLichThi.getText();
-        }
-
-        if (txtTenMonLichThi.getText().equalsIgnoreCase(null)) {
-            tenMonHoc = null;
-        } else {
-            tenMonHoc = txtTenMonLichThi.getText();
-        }
-
-        if (cboNgayThi.getSelectedIndex() != 0) {
-            int count = cboNgayThi.getSelectedIndex();
-            ngayHoc = Date.valueOf(lstNgayThi.get(count - 1));
-        } else {
-            ngayHoc = null;
-        }
-        if (cboThoiGianThi.getSelectedIndex() != 0) {
-            thoiGian = String.valueOf(cboThoiGianThi.getSelectedItem());
-        } else {
-            thoiGian = null;
-        }
-        try {
-            System.out.println("masv=" + maSv);
-            System.out.println("day" + day);
-//            System.out.println(maSv + hotenSV + maMonHoc + maLopHoc + maPhongHoc + maGv + hoTenGV + tenMonHoc + ngayHoc + thoiGian + "Lich Hoc");
-            findByTxtLichThi(maSv, hotenSV, maMonHoc, maLopHoc, maPhongHoc, maGv, hoTenGV, tenMonHoc, ngayHoc, thoiGian, "Lịch học");
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+     
     }//GEN-LAST:event_btnSearchLichThiActionPerformed
 
 

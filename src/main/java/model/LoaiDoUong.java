@@ -4,12 +4,27 @@
  */
 package model;
 
+
 /**
  *
- * @author MSI-G8
+ * @author ADMIN
  */
 public class LoaiDoUong {
-    private String id, ma, ten;
+    
+    private String id;
+    
+    private String ma;
+    
+    private String tenLoaiDoUong;
+
+    public LoaiDoUong() {
+    }
+
+    public LoaiDoUong(String id, String ma, String tenLoaiDoUong) {
+        this.id = id;
+        this.ma = ma;
+        this.tenLoaiDoUong = tenLoaiDoUong;
+    }
 
     public String getId() {
         return id;
@@ -27,26 +42,18 @@ public class LoaiDoUong {
         this.ma = ma;
     }
 
-    public String getTen() {
-        return ten;
+    public String getTenLoaiDoUong() {
+        return tenLoaiDoUong;
     }
 
-    public void setTen(String ten) {
-        this.ten = ten;
-    }
-
-    public LoaiDoUong() {
-    }
-
-    public LoaiDoUong(String id, String ma, String ten) {
-        this.id = id;
-        this.ma = ma;
-        this.ten = ten;
+    public void setTenLoaiDoUong(String tenLoaiDoUong) {
+        this.tenLoaiDoUong = tenLoaiDoUong;
     }
 
     @Override
     public String toString() {
-        return "id=" + id + ", ma=" + ma + ", ten=" + ten;
+        return "LoaiDoUong{" + "id=" + id + ", ma=" + ma + ", tenDoUong=" + tenLoaiDoUong + '}';
     }
+    
     
 }

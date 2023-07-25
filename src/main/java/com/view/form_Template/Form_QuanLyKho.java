@@ -45,7 +45,7 @@ public class Form_QuanLyKho extends javax.swing.JPanel {
         for (QLNhapKho nk : ds) {
 
 //           String donGiaFormat = decimalFormat.format(nk.getDonGia());
-            Object[] rowData = {nk.getId(), nk.getNhanVien().getIdNV(), nk.getTenSP(),
+            Object[] rowData = {nk.getId(), nk.getNhanVien().getId(), nk.getTenSP(),
                 spd.format(nk.getNgayNhap()), nk.getDonVi(), nk.getSoLuong(), nk.getDonGia()};
             dtm.addRow(rowData);
         }
@@ -122,7 +122,7 @@ public class Form_QuanLyKho extends javax.swing.JPanel {
         dtm.setRowCount(0); // Xóa các dòng hiện tại
         SimpleDateFormat spd = new SimpleDateFormat("dd/MM/yyyy");
         for (QLNhapKho nk : ketQua) {
-            Object[] row = {nk.getId(), nk.getNhanVien().getIdNV(), nk.getTenSP(), spd.format(nk.getNgayNhap()),
+            Object[] row = {nk.getId(), nk.getNhanVien().getId(), nk.getTenSP(), spd.format(nk.getNgayNhap()),
                 nk.getDonVi(), nk.getSoLuong(), nk.getDonGia()
             };
             dtm.addRow(row);

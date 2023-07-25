@@ -27,7 +27,7 @@ public class NhanVienRepository {
                 String ho = rs.getString("Ho");
                 
                 NhanVien nhanVien = new NhanVien();
-                nhanVien.setIdNV(id);
+                nhanVien.setId(id);
                 nhanVien.setTen(ten);
                 nhanVien.setTenDem(tenDem);
                 nhanVien.setHo(ho);
@@ -53,7 +53,7 @@ public class NhanVienRepository {
             st.setString(1, id);
             ResultSet rs = st.executeQuery();
             while(rs.next()){
-                nv.setIdNV(rs.getString(1));
+                nv.setId(rs.getString(1));
                 nv.setTen(rs.getString(2));
                 nv.setTenDem(rs.getString(3));
                 nv.setHo(rs.getString(4));

@@ -28,7 +28,7 @@ public class NhapKhoService implements INhapKhoService{
         List<QLNhapKho> ds = new ArrayList<>();
         List<NhapKho> list = nhapKhoRepository.getALL();
         for (NhapKho nk : list) {
-            NhanVien idNV = nhanVienRepository.timIDNhanVien(nk.getNhanVien().getIdNV());
+            NhanVien idNV = nhanVienRepository.timIDNhanVien(nk.getNhanVien().getId());
             QLNhapKho vModel = new QLNhapKho(nk.getId(), idNV, nk.getTenSP(),
                     nk.getNgayNhap(), nk.getDonVi(), nk.getSoLuong(), nk.getDonGia());
             ds.add(vModel);
@@ -49,7 +49,7 @@ public class NhapKhoService implements INhapKhoService{
 
     @Override
     public void them(QLNhapKho nk) {
-        NhanVien idNV = nhanVienRepository.timIDNhanVien(nk.getNhanVien().getIdNV());
+        NhanVien idNV = nhanVienRepository.timIDNhanVien(nk.getNhanVien().getId());
         NhapKho domainModel = new NhapKho("", idNV, nk.getTenSP(), nk.getNgayNhap(),
                 nk.getDonVi(), nk.getSoLuong(), nk.getDonGia());
         nhapKhoRepository.them(domainModel);
@@ -67,7 +67,7 @@ public class NhapKhoService implements INhapKhoService{
 
     @Override
     public void sua(String id, QLNhapKho nk) {
-        NhanVien idNV = nhanVienRepository.timIDNhanVien(nk.getNhanVien().getIdNV());//Tìm tên nhân viên theo idnv
+        NhanVien idNV = nhanVienRepository.timIDNhanVien(nk.getNhanVien().getId());//Tìm tên nhân viên theo idnv
         NhapKho domainModel = new NhapKho(id, idNV, nk.getTenSP(), nk.getNgayNhap(),
                 nk.getDonVi(), nk.getSoLuong(), nk.getDonGia());
         nhapKhoRepository.sua(id, domainModel);

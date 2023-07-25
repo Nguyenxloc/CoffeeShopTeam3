@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
-package com.view.form_canbo;
+package com.view.form_Template;
 
 import java.util.ArrayList;
 import javax.swing.DefaultComboBoxModel;
@@ -10,46 +10,18 @@ import javax.swing.JOptionPane;
 import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
-import model.ChuyenNganh;
-import model.LopHoc;
-import service.CanBoService;
 
 /**
  *
  * @author Lê Chấn Khang
  */
 public class Form_LopHoc extends javax.swing.JPanel {
-
-    private CanBoService canBoService = new CanBoService();
-    private DefaultTableModel defaultTableModel = new DefaultTableModel();
-    private DefaultComboBoxModel comboBoxModel = new DefaultComboBoxModel();
     
     public Form_LopHoc() {
         initComponents();
-        loadData();
-        loadCb();
     }
     
     
-    private void loadData() {
-          ArrayList<LopHoc> list = canBoService.selectLopHoc();
-          defaultTableModel = (DefaultTableModel) tblQLLH.getModel();
-          defaultTableModel.setRowCount(0);
-          for (LopHoc lopHoc : list) {
-            defaultTableModel.addRow(new Object[]{
-               lopHoc.getMaLopHoc(),lopHoc.getMaChuyenNganh(),lopHoc.getTenLopHoc(),lopHoc.getNam(),lopHoc.getMua()
-            });
-        }
-    }
-    
-    
-    private void loadCb() {
-        ArrayList<ChuyenNganh> lit = canBoService.selectChuyenNganh();
-        comboBoxModel = (DefaultComboBoxModel) cboMaCN.getModel();
-        for (ChuyenNganh o : lit) {
-            comboBoxModel.addElement(o.getMaChuyenNganh());
-        }
-    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -250,59 +222,25 @@ public class Form_LopHoc extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void tblQLLHMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblQLLHMouseClicked
-        // TODO add your handling code here:
-        int index = tblQLLH.getSelectedRow();
-        LopHoc lopHoc = canBoService.selectLopHoc().get(index);
-        txtMa.setText(lopHoc.getMaLopHoc());
-        cboMaCN.setSelectedItem(lopHoc.getMaChuyenNganh());
-        txtTenLH.setText(lopHoc.getTenLopHoc());
-        txtNam.setText(lopHoc.getNam()+"");
-        txtMua.setText(lopHoc.getMua());
+
     }//GEN-LAST:event_tblQLLHMouseClicked
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-        String ma = txtMa.getText();
-        String maCN = cboMaCN.getSelectedItem().toString();
-        String ten = txtTenLH.getText();
-        Integer nam = Integer.parseInt(txtNam.getText());
-        String mua = txtMua.getText();
-        
-        LopHoc l = new LopHoc(ma, maCN, ten, nam, mua);
-        JOptionPane.showMessageDialog(this, canBoService.saveLopHoc(l));
-        loadData();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
-        String ma = txtMa.getText();
-        String maCN = cboMaCN.getSelectedItem().toString();
-        String ten = txtTenLH.getText();
-        Integer nam = Integer.parseInt(txtNam.getText());
-        String mua = txtMua.getText();
-        
-        LopHoc l = new LopHoc("", maCN, ten, nam, mua);
-        JOptionPane.showMessageDialog(this, canBoService.updateLopHoc2(ma, l));
-        loadData();
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
-        int hoi = JOptionPane.showConfirmDialog(this, "Bạn có muốn xóa không");
-        if(hoi!=JOptionPane.YES_OPTION){
-            return;
-        }
-        String ma = txtMa.getText();
-        JOptionPane.showMessageDialog(this, canBoService.deleteLopHoc(ma));
-        loadData();
+
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void txtSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyReleased
         // TODO add your handling code here:
-        DefaultTableModel ab = (DefaultTableModel) tblQLLH.getModel();
-        TableRowSorter<DefaultTableModel> ob =  new TableRowSorter<>(ab);
-        tblQLLH.setRowSorter(ob);
-        ob.setRowFilter(RowFilter.regexFilter(txtSearch.getText()));
+
     }//GEN-LAST:event_txtSearchKeyReleased
 
     private void txtSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSearchActionPerformed

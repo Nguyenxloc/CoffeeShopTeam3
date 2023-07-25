@@ -16,12 +16,12 @@ import java.sql.SQLException;
  */
 public class DBConnection {//Lớp này giải quyết kết nối xử lý truy vấn
 
-    private static String hostName = "MSI\\SQLEXPRESS01";
+    private static String hostName = "localhost";
     private static String acc = "sa";
     private static String pass = "1234";
     private static String dbName = "COFFEESHOP_DA1";
     private static String connectionSql
-            = "jdbc:sqlserver://" + hostName + ":1433;databaseName=" + dbName+";user="+acc+ ";password="+pass+";encrypt=false";
+            = "jdbc:sqlserver://" + hostName + ":1433;databaseName=" + dbName + ";user=" + acc + ";password=" + pass + ";encrypt=false";
     private static String driver = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
     private static Connection conn;
 
@@ -32,11 +32,12 @@ public class DBConnection {//Lớp này giải quyết kết nối xử lý truy
             System.out.println("Lỗi Driver");
         }
     }
+    
+   
 
     //1. Mở kết nối
     public static Connection openDbConnection() {
         try {
-            System.out.println(connectionSql);
             return DriverManager.getConnection(connectionSql, acc, pass);
         } catch (SQLException ex) {
             return null;
@@ -48,12 +49,15 @@ public class DBConnection {//Lớp này giải quyết kết nối xử lý truy
         PreparedStatement pstm = getStmt(sql, args);
         try {
             try {
+                int rs = pstm.executeUpdate();
+                System.out.println(rs);
                 return pstm.executeUpdate();
             } finally {
                 pstm.close();
             }
-        } catch (SQLException ex) {
+        } catch (Exception ex) {
             System.out.println("Lỗi tại ExcuteDungna");
+            ex.printStackTrace();
             return 0;
         }
     }
@@ -79,13 +83,24 @@ public class DBConnection {//Lớp này giải quyết kết nối xử lý truy
             return null;
         }
     }
-    
+
     public synchronized static Connection getConnection() throws Exception {
         return DriverManager.getConnection(connectionSql);
     }
-    
+
     public static void main(String[] args) throws Exception {
         String version = DBConnection.getConnection().getMetaData().getDatabaseProductVersion();
-        System.out.println(version);
+//        System.out.println(version);
     }
+
+    public void ExcuteSQL(String INSERT_SQL, String id, String tenLoaiDoUong, String tenDoUong, int i, double giaBan) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    public void ExcuteSQL(String INSERT_SQL, String ma, String tenLoaiDoUong) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+    
+    
+  
 }

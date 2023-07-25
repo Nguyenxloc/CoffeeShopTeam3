@@ -28,7 +28,7 @@ public class LoaiDoUongRepository {
                 LoaiDoUong loai = new LoaiDoUong();
                 loai.setId(id);
                 loai.setMa(ma);
-                loai.setTen(ten);
+                loai.setTenLoaiDoUong(ten);
                 
                 loais.add(loai);
                 
@@ -47,7 +47,7 @@ public class LoaiDoUongRepository {
                                                     "VALUES (?, ?)";
             PreparedStatement st = con.prepareStatement(query);
             st.setString(1, ld.getMa());
-            st.setString(2, ld.getTen());
+            st.setString(2, ld.getTenLoaiDoUong());
             
             st.close();
             con.close();

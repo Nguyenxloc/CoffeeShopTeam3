@@ -68,7 +68,7 @@ public class NhapKhoRepository {
             String query = "INSERT INTO NhapKho " + " (IdNV, TenSP, NgayNhap, DonVi, SoLuong, DonGia) "
                     + "VALUES (?, ?, ?, ?, ?, ?)";
             PreparedStatement st = con.prepareStatement(query);
-            st.setString(1, nk.getNhanVien().getIdNV());
+            st.setString(1, nk.getNhanVien().getId());
             st.setString(2, nk.getTenSP());
             st.setDate(3, nk.getNgayNhap());
             st.setString(4, nk.getDonVi());
@@ -103,7 +103,7 @@ public class NhapKhoRepository {
 
             PreparedStatement st = con.prepareStatement(query);
 
-            st.setString(1, nk.getNhanVien().getIdNV());
+            st.setString(1, nk.getNhanVien().getId());
             st.setString(2, nk.getTenSP());
             st.setDate(3, nk.getNgayNhap());
             st.setString(4, nk.getDonVi());
@@ -157,7 +157,7 @@ public class NhapKhoRepository {
 ////                int soLuong = rs.getInt("SoLuong");
 
                 NhanVien nv = new NhanVien();
-                nv.setIdNV(rs.getString("idNV"));
+                nv.setId(rs.getString("idNV"));
                 NhapKho nhapKho = new NhapKho();
                 nhapKho.setId(rs.getString("Id"));
                 nhapKho.setNhanVien(nv);
