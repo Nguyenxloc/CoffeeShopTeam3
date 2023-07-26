@@ -15,6 +15,7 @@ import com.view.form.WalletForm;
 import com.view.form_Template.Container;
 import com.view.form_Template.FormLichHoc;
 import com.view.form_Template.Form_BanHang;
+import com.view.form_Template.Form_ChamCong;
 import com.view.form_Template.Form_KhuyenMai;
 import com.view.form_Template.Form_LopHoc;
 import com.view.form_Template.Form_QLDoUong;
@@ -48,19 +49,22 @@ public class MainTemplate extends javax.swing.JFrame {
     private com.view.component.paneOfProduct paneOfProduct2;
     private QuanLyNhanVien formQLNhanVien;
     private Form_QLHoaDon formQLHoaDon;
+    private Form_ChamCong form_ChamCong;
 
     public MainTemplate() {
         initComponents();
-        home = new WalletForm();         
+        home = new WalletForm();
         formThongbao = new ThongBaoForm();
         formBanHang = new Form_BanHang();
-     
+
         form_KhuyenMai = new Form_KhuyenMai();
 
         formQLNhanVien = new QuanLyNhanVien();
         form_TaoTaiKhoan = new Form_TaoTaiKhoan();
         form_QLDoUong = new Form_QLDoUong();
         formQLHoaDon = new Form_QLHoaDon();
+        form_ChamCong = new Form_ChamCong();
+
         setBackground(new Color(0, 0, 0, 0));
         menuOfCB1.initMoving(MainTemplate.this);
         menuOfCB1.addEventMenuSelected(new EventMenuSelected() {
@@ -69,7 +73,7 @@ public class MainTemplate extends javax.swing.JFrame {
                 if (index == 5) {
                     setForm(formQLHoaDon);
                 } else if (index == 6) {
-//                    setForm(formBaoCao);
+//                    setForm(form_ChamCong);
                 } else if (index == 0) {
                     setForm(formThongbao);
                 } else if (index == 1) {
@@ -84,9 +88,9 @@ public class MainTemplate extends javax.swing.JFrame {
                     setForm(form_QLDoUong);
                 } else if (index == 4) {
                     setForm(form_KhuyenMai);
-                }
-                
-                else if (index == 9) {
+                } else if (index == 9) {
+                    setForm(form_ChamCong);
+                } else if (index == 10) {
                     MessageFrame messageFrame = new MessageFrame();
                     messageFrame.show();
                     messageFrame.setMessage("Bạn có chắc chắn muốn đăng xuất không?");
