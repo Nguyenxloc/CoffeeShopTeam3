@@ -225,39 +225,11 @@ public class LoginFrame extends javax.swing.JFrame {
                             rs.getString("MatKhau"), capBac, rs.getInt("TrangThai"), rs.getBytes("HinhAnh"), rs.getString("NgayTao"));
     
                 JOptionPane.showMessageDialog(null, "Đăng nhập thành công");
-//                JProgressBar progress =  new JProgressBar();
-//                LoadingFrame loadingFrame = new LoadingFrame(progress);
-//                java.awt.EventQueue.invokeLater(
-//                        new Runnable() {
-//                    public void run() {
-//                         loadingFrame.setVisible(true);
-//                    }
-//                });
-//                try {
-//                    for (int i = 0; i <=100; i++) {
-//                        Thread.sleep(50);
-//                        progress.setValue(i);
-//                        
-//                    }
-//                } catch (Exception e) {
-//                }
-//                
+                this.setVisible(false);
                 MainTemplate view = new MainTemplate();
-//                loadingFrame.setVisible(false);
                 view.setVisible(true);
+                
 
-//                if (us.equals("son") && ps.equals("12345")) {
-//                    JOptionPane.showMessageDialog(null, "Đăng nhập quyền quản lý");
-//                            MainTemplate view = new MainTemplate();
-//                            view.setVisible(true);
-//                            setVisible(false);                  
-//                }
-//                else if (us.equals("hung") && ps.equals("12345")) {
-//                   JOptionPane.showMessageDialog(null, "Đăng nhập quyền nhân viên");
-//                            MainTemplate view = new MainTemplate();
-//                            view.setVisible(true);
-//                            setVisible(false);  
-//                } 
             } else {
                 // JOptionPane.showMessageDialog(null, "Username or Password không chính xác");
 

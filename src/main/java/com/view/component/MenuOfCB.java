@@ -68,10 +68,6 @@ public class MenuOfCB extends javax.swing.JPanel {
         listMenu1.addItem(new Model_Menu("", "\n ", Model_Menu.MenuType.TITLE));
         listMenu1.addItem(new Model_Menu("", "\n ", Model_Menu.MenuType.TITLE));
         listMenu1.addItem(new Model_Menu("", "\n ", Model_Menu.MenuType.TITLE));
-        listMenu1.addItem(new Model_Menu("", "\n ", Model_Menu.MenuType.TITLE));
-        listMenu1.addItem(new Model_Menu("", "\n ", Model_Menu.MenuType.TITLE));
-        listMenu1.addItem(new Model_Menu("", "\n ", Model_Menu.MenuType.TITLE));
-        listMenu1.addItem(new Model_Menu("", "\n ", Model_Menu.MenuType.TITLE));
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
         java.util.Date  date = new java.util.Date();
         maNV = NV_singleton.getInstance().nv.getMa();

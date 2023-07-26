@@ -31,7 +31,10 @@ public class DAO_GiamGia {
         try {
             ResultSet rs = dbConn.getDataFromQuery(SELECT_ALL_SQL);
             while (rs.next()) {
-                lstGiamGia.add(new GiamGia(rs.getString("MaGiamGia"), rs.getDouble("PhanTram"), rs.getNString("MoTa"), rs.getString("NgayTao")));
+                lstGiamGia.add(new GiamGia(rs.getString("MaGiamGia"), rs.getNString("TenKhuyenMai"), rs.getString("LoaiKhuyenMai"), rs.getInt("GiaTri"),
+                        rs.getDate("NgayTao"),
+                        rs.getDate("NgayKetThuc"),
+                        rs.getNString("TrangThai")));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -44,9 +47,12 @@ public class DAO_GiamGia {
         GiamGia giamGia = new GiamGia();
         ArrayList<GiamGia> lstGiamGia = new ArrayList<>();
         try {
-            ResultSet rs = dbConn.getDataFromQuery(SELECT_ALL_SQL, id);
+            ResultSet rs = dbConn.getDataFromQuery(SELECT_BY_SQL, id);
             while (rs.next()) {
-                lstGiamGia.add(new GiamGia(rs.getString("MaGiamGia"), rs.getDouble("PhanTram"), rs.getNString("MoTa"), rs.getString("NgayTao")));
+                lstGiamGia.add(new GiamGia(rs.getString("MaGiamGia"), rs.getNString("TenKhuyenMai"), rs.getString("LoaiKhuyenMai"), rs.getInt("GiaTri"),
+                        rs.getDate("NgayTao"),
+                        rs.getDate("NgayKetThuc"),
+                        rs.getNString("TrangThai")));
                 giamGia = lstGiamGia.get(0);
                 break;
             }
@@ -57,32 +63,32 @@ public class DAO_GiamGia {
         return giamGia;
     }
 
-    public void save(GiamGia giamGia) {
-        DBConnection1 dbConn = new DBConnection1();
-        try {
-            dbConn.ExcuteSQL(INSERT_SQL,giamGia.getMaGiamGia(),giamGia.getPhanTram(),giamGia.getMoTa());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+//    public void save(GiamGia giamGia) {
+//        DBConnection1 dbConn = new DBConnection1();
+//        try {
+//            dbConn.ExcuteSQL(INSERT_SQL, giamGia.getMaGiamGia(), giamGia.getPhanTram(), giamGia.getMoTa());
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
 
-    public void update(GiamGia giamGia) {
-        DBConnection1 dbConn = new DBConnection1();
-        try {
-            dbConn.ExcuteSQL(UPDATE_SQL, giamGia.getPhanTram(),giamGia.getMaGiamGia());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+//    public void update(GiamGia giamGia) {
+//        DBConnection1 dbConn = new DBConnection1();
+//        try {
+//            dbConn.ExcuteSQL(UPDATE_SQL, giamGia.getPhanTram(), giamGia.getMaGiamGia());
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
 
-    public void delete(String maGiamGia) {
-        DBConnection1 dbConn = new DBConnection1();
-        try {
-            dbConn.ExcuteSQL(DELETE_SQL, maGiamGia);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+//    public void delete(String maGiamGia) {
+//        DBConnection1 dbConn = new DBConnection1();
+//        try {
+//            dbConn.ExcuteSQL(DELETE_SQL, maGiamGia);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
 
 //    public ArrayList<ChiTietDoUong> selectByFlexibleCondition(String tenDoUong, String idLoaiDoUong, double giaBatDau, double giaKetThuc) {
 //        DBConnection1 dbConn = new DBConnection1();

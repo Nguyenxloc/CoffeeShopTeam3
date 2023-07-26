@@ -5,13 +5,16 @@
 package com.view.component;
 
 import SingletonClass.LstHoaDon_singleton;
+import SingletonClass.NV_singleton;
 import com.view.form_Template.Container;
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import model.Ban;
 import model.HoaDon;
+import model.NhanVien;
 import service.BanService;
 import service.HoaDonService;
 
@@ -34,13 +37,20 @@ public class CreateBillPane extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         this.setVisible(true);
         localTbl = tbl;
-
+        lblMaNV.setText(NV_singleton.getInstance().nv.getMa());
+        lblTenNV.setText(NV_singleton.getInstance().nv.getTen());
+        SimpleDateFormat formatterDate = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat formatterTime = new SimpleDateFormat("HH:MM");
+        java.util.Date  date = new java.util.Date();
+        lblDateNow.setText(formatterDate.format(date));
+        lblTimeNow.setText(formatterTime.format(date));
     }
 
     public void save() {
         int idBan = Integer.valueOf(txtBan.getText());
         Ban ban = banService.getBanByID(idBan);
-        HoaDon hoaDon = new HoaDon(null, ban, null, null, null, null, null, 0, 0, null,1,null); 
+        NhanVien nv = NV_singleton.getInstance().nv;
+        HoaDon hoaDon = new HoaDon(null, ban, null,nv, null, null, null, 0, 0, null,1,null); 
         hoaDonService.saveHoaDon(hoaDon);
     }
 
@@ -83,12 +93,16 @@ public class CreateBillPane extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         txtBan = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
+        lblDateNow = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
+        lblTimeNow = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
+        jLabel5 = new javax.swing.JLabel();
+        lblMaNV = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        lblTenNV = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setBackground(new java.awt.Color(0, 0, 255));
@@ -103,8 +117,8 @@ public class CreateBillPane extends javax.swing.JFrame {
         jLabel2.setForeground(new java.awt.Color(0, 0, 0));
         jLabel2.setText("Bàn");
 
-        jLabel6.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel6.setText("#GetDateHere");
+        lblDateNow.setForeground(new java.awt.Color(0, 0, 0));
+        lblDateNow.setText("#GetDateHere");
 
         jLabel3.setForeground(new java.awt.Color(0, 0, 0));
         jLabel3.setText("Ngày");
@@ -112,8 +126,8 @@ public class CreateBillPane extends javax.swing.JFrame {
         jLabel4.setForeground(new java.awt.Color(0, 0, 0));
         jLabel4.setText("Giờ vào");
 
-        jLabel7.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel7.setText("#getTime");
+        lblTimeNow.setForeground(new java.awt.Color(0, 0, 0));
+        lblTimeNow.setText("#getTime");
 
         jButton1.setText("Thêm");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -129,67 +143,98 @@ public class CreateBillPane extends javax.swing.JFrame {
             }
         });
 
+        jLabel5.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel5.setText("Mã NV");
+
+        lblMaNV.setForeground(new java.awt.Color(0, 0, 0));
+        lblMaNV.setText("#MaNV");
+
+        jLabel6.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel6.setText("Tên NV");
+
+        lblTenNV.setForeground(new java.awt.Color(0, 0, 0));
+        lblTenNV.setText("#tenNV");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(18, 18, 18)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGap(21, 21, 21)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jLabel6)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addGap(18, 18, 18)
-                                .addComponent(txtBan, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 67, Short.MAX_VALUE)
-                                .addComponent(jLabel4))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jButton1))))
-                        .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel7)
-                            .addComponent(jButton2))))
-                .addGap(12, 12, 12))
+                            .addComponent(jLabel5)
+                            .addComponent(jLabel6)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel2))
+                        .addGap(26, 26, 26)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtBan)
+                            .addComponent(lblTimeNow)
+                            .addComponent(lblTenNV)
+                            .addComponent(lblMaNV)
+                            .addComponent(lblDateNow)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(20, 20, 20)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton2)))
+                .addGap(22, 22, 22))
         );
+
+        jPanel1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {jButton1, jButton2});
+
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(17, 17, 17)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(35, 35, 35)
+                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(txtBan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4)
-                    .addComponent(jLabel7))
-                .addGap(33, 33, 33)
+                    .addComponent(txtBan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(lblMaNV))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6)
+                    .addComponent(lblTenNV))
+                .addGap(23, 23, 23)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(jLabel6))
+                    .addComponent(lblDateNow))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(lblTimeNow))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
                     .addComponent(jButton2))
-                .addContainerGap(19, Short.MAX_VALUE))
+                .addContainerGap(21, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
@@ -218,9 +263,13 @@ public class CreateBillPane extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel lblDateNow;
+    private javax.swing.JLabel lblMaNV;
+    private javax.swing.JLabel lblTenNV;
+    private javax.swing.JLabel lblTimeNow;
     private javax.swing.JTextField txtBan;
     // End of variables declaration//GEN-END:variables
 }
