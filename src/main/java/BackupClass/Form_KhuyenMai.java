@@ -2,8 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
-package com.view.form_Template;
-
+package BackupClass;
 
 import com.view.form_Template.*;
 import DoUong_HoaDon_ThongKe_Model.LoaiDoUong;
