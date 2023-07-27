@@ -15,6 +15,7 @@ import com.view.form.WalletForm;
 import com.view.form_Template.Container;
 import com.view.form_Template.FormLichHoc;
 import com.view.form_Template.Form_BanHang;
+import com.view.form_Template.Form_GiaoCa1;
 import com.view.form_Template.Form_KhuyenMai;
 import com.view.form_Template.Form_LopHoc;
 import com.view.form_Template.Form_QLDoUong;
@@ -50,20 +51,20 @@ public class MainTemplate extends javax.swing.JFrame {
     private QuanLyNhanVien formQLNhanVien;
     private Form_QLHoaDon formQLHoaDon;
     private Form_QuanLyKho form_QuanLyKho;
+    private Form_GiaoCa1 form_GiaoCa1;
 
     public MainTemplate() {
         initComponents();
         home = new WalletForm();         
         formThongbao = new ThongBaoForm();
         formBanHang = new Form_BanHang();
-     
         form_KhuyenMai = new Form_KhuyenMai();
-
         formQLNhanVien = new QuanLyNhanVien();
         form_TaoTaiKhoan = new Form_TaoTaiKhoan();
         form_QLDoUong = new Form_QLDoUong();
         formQLHoaDon = new Form_QLHoaDon();
         form_QuanLyKho = new Form_QuanLyKho();
+        form_GiaoCa1 = new Form_GiaoCa1();
         setBackground(new Color(0, 0, 0, 0));
         menuOfCB1.initMoving(MainTemplate.this);
         menuOfCB1.addEventMenuSelected(new EventMenuSelected() {
@@ -82,7 +83,7 @@ public class MainTemplate extends javax.swing.JFrame {
                 } else if (index == 8) {
                     setForm(form_TaoTaiKhoan);
                 } else if (index == 2) {
-//                    setForm(formQLDiem);
+                    setForm(form_GiaoCa1);
                 } else if (index == 3) {
                     setForm(form_QLDoUong);
                 } else if (index == 4) {
