@@ -5,6 +5,7 @@
  */
 package com.view.main;
 
+import SingletonClass.DoanhThu_singleton;
 import com.view.event.EventMenuSelected;
 import com.view.form.DangKyDVForm;
 import com.view.form.ThongBaoForm;
@@ -83,6 +84,7 @@ public class MainTemplate extends javax.swing.JFrame {
                 } else if (index == 8) {
                     setForm(form_TaoTaiKhoan);
                 } else if (index == 2) {
+//                    DoanhThu_singleton.getInstance().doanhThuNow =  ;
                     setForm(form_GiaoCa1);
                 } else if (index == 3) {
                     setForm(form_QLDoUong);
