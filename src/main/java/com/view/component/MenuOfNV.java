@@ -19,7 +19,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import model.NhanVien;
 
-public class MenuOfCB extends javax.swing.JPanel {
+public class MenuOfNV extends javax.swing.JPanel {
 
     private EventMenuSelected event;
     private String dir;
@@ -33,7 +33,7 @@ public class MenuOfCB extends javax.swing.JPanel {
         listMenu1.addEventMenuSelected(event);
     }
 
-    public MenuOfCB() {
+    public MenuOfNV() {
 
         String path = "src\\main\\java\\com\\view\\icon\\logoTeamResizedNoBac.png";
         File file = new File(path);
@@ -50,12 +50,12 @@ public class MenuOfCB extends javax.swing.JPanel {
         listMenu1.addItem(new Model_Menu("2", "Thông báo", Model_Menu.MenuType.MENU));
         listMenu1.addItem(new Model_Menu("3", "Bán hàng", Model_Menu.MenuType.MENU));
         listMenu1.addItem(new Model_Menu("4", "QL Giao ca", Model_Menu.MenuType.MENU));
-        listMenu1.addItem(new Model_Menu("5", "QL Menu", Model_Menu.MenuType.MENU));
+//        listMenu1.addItem(new Model_Menu("5", "QL Menu", Model_Menu.MenuType.MENU));
         //listMenu1.addItem(new Model_Menu("6", "Icons", Model_Menu.MenuType.MENU)); Khang
-        listMenu1.addItem(new Model_Menu("1", "Quản lý khuyến mại", Model_Menu.MenuType.MENU));
+//        listMenu1.addItem(new Model_Menu("1", "Quản lý khuyến mại", Model_Menu.MenuType.MENU));
         listMenu1.addItem(new Model_Menu("7", "QL Hóa Đơn", Model_Menu.MenuType.MENU));
         listMenu1.addItem(new Model_Menu("8", "Thống kê", Model_Menu.MenuType.MENU));
-        listMenu1.addItem(new Model_Menu("6", "Quản lý nhân viên", Model_Menu.MenuType.MENU));
+//        listMenu1.addItem(new Model_Menu("6", "Quản lý nhân viên", Model_Menu.MenuType.MENU));
         listMenu1.addItem(new Model_Menu("9", "Tạo tài khoản", Model_Menu.MenuType.MENU));
         listMenu1.addItem(new Model_Menu("10", "Quản lý nhập kho", Model_Menu.MenuType.MENU));
         listMenu1.addItem(new Model_Menu("10", "Đăng xuất", Model_Menu.MenuType.MENU));
@@ -69,9 +69,16 @@ public class MenuOfCB extends javax.swing.JPanel {
         listMenu1.addItem(new Model_Menu("", "\n ", Model_Menu.MenuType.TITLE));
         listMenu1.addItem(new Model_Menu("", "\n ", Model_Menu.MenuType.TITLE));
         listMenu1.addItem(new Model_Menu("", "\n ", Model_Menu.MenuType.TITLE));
+        listMenu1.addItem(new Model_Menu("", "\n ", Model_Menu.MenuType.TITLE));
+        listMenu1.addItem(new Model_Menu("", "\n ", Model_Menu.MenuType.TITLE));
+        listMenu1.addItem(new Model_Menu("", "\n ", Model_Menu.MenuType.TITLE));
+        listMenu1.addItem(new Model_Menu("", "\n ", Model_Menu.MenuType.TITLE));
+        listMenu1.addItem(new Model_Menu("", "\n ", Model_Menu.MenuType.TITLE));
+        listMenu1.addItem(new Model_Menu("", "\n ", Model_Menu.MenuType.TITLE));
+        listMenu1.addItem(new Model_Menu("", "\n ", Model_Menu.MenuType.TITLE));
+        listMenu1.addItem(new Model_Menu("", "\n ", Model_Menu.MenuType.TITLE));
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
         java.util.Date date = new java.util.Date();
-
         try {
             maNV = NV_singleton.getInstance().nv.getMa();
             capBac = NV_singleton.getInstance().nv.getCapBac().getTenCB();

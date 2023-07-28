@@ -21,6 +21,7 @@ public class LoginFrame extends javax.swing.JFrame {
 
     private DBConnection connection = new DBConnection();
     private NhanVienDao dao = new NhanVienDao();
+    private DAO_CapBac daoCapBac = new DAO_CapBac();
     private String dir = null;
 
     ////// query sql -- get vaiTro
@@ -218,17 +219,26 @@ public class LoginFrame extends javax.swing.JFrame {
             if (rs.next()) {
                 System.out.println("test nv singleton1");
                 System.out.println(rs);
-                    CapBac capBac = dao_capBac.selectByID(rs.getString("IdCB"));
-                    NV_singleton.getInstance().nv = new model.NhanVien(rs.getString("Id"), rs.getString("Ma"), rs.getNString("Ten"),
-                            rs.getNString("TenDem"), rs.getNString("Ho"), rs.getNString("GioiTinh"), rs.getDate("NgaySinh"),
-                            rs.getNString("DiaChi"), rs.getString("Sdt"), rs.getString("TaiKhoan"),
-                            rs.getString("MatKhau"), capBac, rs.getInt("TrangThai"), rs.getBytes("HinhAnh"), rs.getString("NgayTao"));
-    
+                CapBac capBac = dao_capBac.selectByID(rs.getString("IdCB"));
+                String vaiTro = capBac.getTenCB();
+                NV_singleton.getInstance().nv = new model.NhanVien(rs.getString("Id"), rs.getString("Ma"), rs.getNString("Ten"),
+                        rs.getNString("TenDem"), rs.getNString("Ho"), rs.getNString("GioiTinh"), rs.getDate("NgaySinh"),
+                        rs.getNString("DiaChi"), rs.getString("Sdt"), rs.getString("TaiKhoan"),
+                        rs.getString("MatKhau"), capBac, rs.getInt("TrangThai"), rs.getBytes("HinhAnh"), rs.getString("NgayTao"));
+
+                if (vaiTro.strip().equalsIgnoreCase("Quản lý")) {
+                    System.out.println("case 1");
+                    this.setVisible(false);
+                    MainTemplate view = new MainTemplate();
+                    view.setVisible(true);
+                } else {
+                    System.out.println("case 2 ");
+                    this.setVisible(false);
+                    MainOfNV viewNV = new MainOfNV();
+                    viewNV.setVisible(true);
+                }
+
                 JOptionPane.showMessageDialog(null, "Đăng nhập thành công");
-                this.setVisible(false);
-                MainTemplate view = new MainTemplate();
-                view.setVisible(true);
-                
 
             } else {
                 // JOptionPane.showMessageDialog(null, "Username or Password không chính xác");
@@ -314,13 +324,7 @@ public class LoginFrame extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Vui lòng nhập tài khoản!");
             txtUser.requestFocus();
             return true;
-        } //        else if(regex.matcher(manv).find()){
-        //            JOptionPane.showMessageDialog(this, "Tài khoản chứa ký tự đặc biệt!");
-        //            txtUser.setText("");
-        //            txtUser.requestFocus();
-        //            return true;
-        //        }
-        else if (txtPassword.getPassword().length == 0) {
+        } else if (txtPassword.getPassword().length == 0) {
             JOptionPane.showMessageDialog(this, "Vui lòng nhập mật khẩu!");
             txtPassword.requestFocus();
             return true;
@@ -345,15 +349,27 @@ public class LoginFrame extends javax.swing.JFrame {
 
         String manv = txtUser.getText();
         String matKhau = new String(txtPassword.getPassword());
+
         try {
             NhanVien User = dao.selectByAccount(manv);
             if (User != null) {
                 String matKhau2 = User.getPassword();
+                CapBac capBac = daoCapBac.selectByID(User.getIdCB());
+                String vaiTro = capBac.getTenCB();
                 if (matKhau.equals(matKhau2)) {
                     //ShareHelper.USER = User;
-                    MainTemplate view = new MainTemplate();
-                    view.setVisible(true);
-                    this.dispose();
+                    if (vaiTro.strip().equalsIgnoreCase("Quản lý")) {
+                        System.out.println("case 1");
+                        MainTemplate view = new MainTemplate();
+                        view.setVisible(true);
+                        this.dispose();
+                    } else {
+                        System.out.println("case 2 ");
+                        MainOfNV viewNV = new MainOfNV();
+                        viewNV.setVisible(true);
+                        this.dispose();
+                    }
+
                 } else {
                     //alert("Sai mật khẩu!");
                     JOptionPane.showMessageDialog(this, "Sai maatj khaau");

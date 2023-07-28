@@ -36,12 +36,12 @@ import javax.swing.JScrollPane;
 /**
  *
  */
-public class MainTemplate extends javax.swing.JFrame {
+public class MainOfNV extends javax.swing.JFrame {
 
     /**
      * Creates new form Main
      */
-       private WalletForm home;
+    private WalletForm home;
     private ThongBaoForm formThongbao;
     private Form_BanHang formBanHang;
     private Form_TaoTaiKhoan form_TaoTaiKhoan;
@@ -52,10 +52,8 @@ public class MainTemplate extends javax.swing.JFrame {
     private Form_QLHoaDon formQLHoaDon;
     private Form_QuanLyKho form_QuanLyKho;
     private Form_GiaoCa1 form_GiaoCa1;
-//    private Form_QuanLyKho form_QuanLyKho;
-//    private Form_GiaoCa1 form_GiaoCa1;
 
-    public MainTemplate() {
+    public MainOfNV() {
         initComponents();
         home = new WalletForm();         
         formThongbao = new ThongBaoForm();
@@ -68,34 +66,28 @@ public class MainTemplate extends javax.swing.JFrame {
         form_QuanLyKho = new Form_QuanLyKho();
         form_GiaoCa1 = new Form_GiaoCa1();
         setBackground(new Color(0, 0, 0, 0));
-        menuOfCB1.initMoving(MainTemplate.this);
-        menuOfCB1.addEventMenuSelected(new EventMenuSelected() {
+        menuOfNV1.initMoving(MainOfNV.this);
+        menuOfNV1.addEventMenuSelected(new EventMenuSelected() {
             @Override
             public void selected(int index) {
                 if (index == 5) {
-                    setForm(formQLHoaDon);
+                    setForm(form_TaoTaiKhoan);
                 } else if (index == 6) {
-//                    setForm(formBaoCao);
+                    setForm(form_QuanLyKho);
                 } else if (index == 0) {
                     setForm(formThongbao);
                 } else if (index == 1) {
                     setForm(formBanHang);
-                } else if (index == 7) {
-                    setForm(formQLNhanVien);
-                } else if (index == 8) {
-                    setForm(form_TaoTaiKhoan);
-                } else if (index == 2) {
+                }   else if (index == 2) {
 //                    DoanhThu_singleton.getInstance().doanhThuNow =  ;
                     setForm(form_GiaoCa1);
                 } else if (index == 3) {
-                    setForm(form_QLDoUong);
+                    setForm(formQLHoaDon);
                 } else if (index == 4) {
-                    setForm(form_KhuyenMai);
+//                    setForm();
                 }
-                else if (index == 9) {
-                    setForm(form_QuanLyKho);
-                }
-                else if (index == 10) {
+
+                else if (index == 7) {
                     MessageFrame messageFrame = new MessageFrame();
                     messageFrame.show();
                     messageFrame.setMessage("Bạn có chắc chắn muốn đăng xuất không?");
@@ -141,7 +133,7 @@ public class MainTemplate extends javax.swing.JFrame {
 
         panelBorder1 = new com.view.swing.PanelBorder();
         mainPanel = new javax.swing.JPanel();
-        menuOfCB1 = new com.view.component.MenuOfCB();
+        menuOfNV1 = new com.view.component.MenuOfNV();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -154,17 +146,17 @@ public class MainTemplate extends javax.swing.JFrame {
         panelBorder1Layout.setHorizontalGroup(
             panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelBorder1Layout.createSequentialGroup()
-                .addComponent(menuOfCB1, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(menuOfNV1, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 1041, Short.MAX_VALUE)
-                .addGap(12, 12, 12))
+                .addContainerGap())
         );
         panelBorder1Layout.setVerticalGroup(
             panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(menuOfCB1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(panelBorder1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(mainPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 750, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(menuOfNV1, javax.swing.GroupLayout.DEFAULT_SIZE, 750, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -172,7 +164,10 @@ public class MainTemplate extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panelBorder1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(panelBorder1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(7, 7, 7))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -191,7 +186,7 @@ public class MainTemplate extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel mainPanel;
-    private com.view.component.MenuOfCB menuOfCB1;
+    private com.view.component.MenuOfNV menuOfNV1;
     private com.view.swing.PanelBorder panelBorder1;
     // End of variables declaration//GEN-END:variables
 }

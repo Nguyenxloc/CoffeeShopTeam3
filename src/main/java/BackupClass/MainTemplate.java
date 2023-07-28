@@ -3,8 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.view.main;
+package BackupClass;
 
+import com.view.main.*;
+import SingletonClass.DoanhThu_singleton;
+import com.view.component.MenuOfCB;
 import com.view.event.EventMenuSelected;
 import com.view.form.DangKyDVForm;
 import com.view.form.ThongBaoForm;
@@ -41,7 +44,7 @@ public class MainTemplate extends javax.swing.JFrame {
     /**
      * Creates new form Main
      */
-       private WalletForm home;
+    private WalletForm home;
     private ThongBaoForm formThongbao;
     private Form_BanHang formBanHang;
     private Form_TaoTaiKhoan form_TaoTaiKhoan;
@@ -52,9 +55,7 @@ public class MainTemplate extends javax.swing.JFrame {
     private Form_QLHoaDon formQLHoaDon;
     private Form_QuanLyKho form_QuanLyKho;
     private Form_GiaoCa1 form_GiaoCa1;
-//    private Form_QuanLyKho form_QuanLyKho;
-//    private Form_GiaoCa1 form_GiaoCa1;
-
+    private MenuOfCB menuOfCB1;
     public MainTemplate() {
         initComponents();
         home = new WalletForm();         
@@ -141,7 +142,6 @@ public class MainTemplate extends javax.swing.JFrame {
 
         panelBorder1 = new com.view.swing.PanelBorder();
         mainPanel = new javax.swing.JPanel();
-        menuOfCB1 = new com.view.component.MenuOfCB();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setUndecorated(true);
@@ -153,26 +153,18 @@ public class MainTemplate extends javax.swing.JFrame {
         panelBorder1.setLayout(panelBorder1Layout);
         panelBorder1Layout.setHorizontalGroup(
             panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelBorder1Layout.createSequentialGroup()
-                .addComponent(menuOfCB1, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 1041, Short.MAX_VALUE)
-                .addGap(12, 12, 12))
         );
         panelBorder1Layout.setVerticalGroup(
             panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(menuOfCB1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(panelBorder1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(mainPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 750, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(panelBorder1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(panelBorder1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -191,7 +183,6 @@ public class MainTemplate extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel mainPanel;
-    private com.view.component.MenuOfCB menuOfCB1;
     private com.view.swing.PanelBorder panelBorder1;
     // End of variables declaration//GEN-END:variables
 }
