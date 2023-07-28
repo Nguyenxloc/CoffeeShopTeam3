@@ -1,9 +1,11 @@
 package com.view.main;
 
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import javax.swing.Action;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 
@@ -58,23 +60,30 @@ public class MessageFrame extends javax.swing.JFrame {
 
         kGradientPanel1.setBackground(new java.awt.Color(153, 204, 255));
         kGradientPanel1.setForeground(new java.awt.Color(153, 204, 255));
-        kGradientPanel1.setkEndColor(new java.awt.Color(204, 255, 204));
-        kGradientPanel1.setkStartColor(new java.awt.Color(204, 255, 255));
+        kGradientPanel1.setkEndColor(new java.awt.Color(255, 255, 255));
+        kGradientPanel1.setkStartColor(new java.awt.Color(255, 255, 255));
 
         lblThongBao.setFont(new java.awt.Font("Segoe UI", 3, 14)); // NOI18N
         lblThongBao.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
-        jLabel2.setIcon(new javax.swing.ImageIcon(dir+"\\mess4.png"));
+        ImageIcon imgIcon  = new javax.swing.ImageIcon(dir+"\\logout.png");
+        Image image = imgIcon.getImage(); // transform it
+        Image newimg = image.getScaledInstance(80, 80, java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
+        ImageIcon imageIcon = new ImageIcon(newimg);
+        jLabel2.setIcon(imageIcon);
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
 
         btnOk.setBorder(null);
         btnOk.setText("OK");
+        btnOk.setkBackGroundColor(new java.awt.Color(255, 255, 255));
         btnOk.setkBorderRadius(20);
-        btnOk.setkEndColor(new java.awt.Color(0, 255, 51));
+        btnOk.setkEndColor(new java.awt.Color(0, 51, 255));
         btnOk.setkForeGround(new java.awt.Color(0, 0, 0));
-        btnOk.setkHoverEndColor(new java.awt.Color(51, 255, 0));
-        btnOk.setkHoverForeGround(new java.awt.Color(255, 51, 51));
-        btnOk.setkHoverStartColor(new java.awt.Color(0, 255, 102));
-        btnOk.setkStartColor(new java.awt.Color(0, 153, 51));
+        btnOk.setkHoverEndColor(new java.awt.Color(0, 102, 204));
+        btnOk.setkHoverForeGround(new java.awt.Color(255, 255, 255));
+        btnOk.setkHoverStartColor(new java.awt.Color(102, 153, 255));
+        btnOk.setkSelectedColor(new java.awt.Color(255, 255, 255));
+        btnOk.setkStartColor(new java.awt.Color(0, 102, 255));
 
         btnCancel.setBorder(null);
         btnCancel.setText("Cancel");
@@ -82,7 +91,7 @@ public class MessageFrame extends javax.swing.JFrame {
         btnCancel.setkEndColor(new java.awt.Color(153, 153, 153));
         btnCancel.setkForeGround(new java.awt.Color(0, 0, 0));
         btnCancel.setkHoverEndColor(new java.awt.Color(204, 204, 204));
-        btnCancel.setkHoverForeGround(new java.awt.Color(255, 51, 51));
+        btnCancel.setkHoverForeGround(new java.awt.Color(255, 255, 255));
         btnCancel.setkHoverStartColor(new java.awt.Color(204, 204, 204));
         btnCancel.setkStartColor(new java.awt.Color(153, 153, 153));
 
@@ -90,18 +99,20 @@ public class MessageFrame extends javax.swing.JFrame {
         kGradientPanel1.setLayout(kGradientPanel1Layout);
         kGradientPanel1Layout.setHorizontalGroup(
             kGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, kGradientPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(141, 141, 141))
             .addGroup(kGradientPanel1Layout.createSequentialGroup()
-                .addGroup(kGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(lblThongBao, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, kGradientPanel1Layout.createSequentialGroup()
-                        .addComponent(btnOk, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addComponent(btnOk, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(kGradientPanel1Layout.createSequentialGroup()
+                .addGroup(kGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(kGradientPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(lblThongBao, javax.swing.GroupLayout.PREFERRED_SIZE, 382, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(kGradientPanel1Layout.createSequentialGroup()
+                        .addGap(145, 145, 145)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         kGradientPanel1Layout.setVerticalGroup(
             kGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -109,7 +120,7 @@ public class MessageFrame extends javax.swing.JFrame {
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblThongBao, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(kGradientPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnOk, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -119,11 +130,11 @@ public class MessageFrame extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(kGradientPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(kGradientPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 383, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(kGradientPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(kGradientPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -154,6 +165,7 @@ public class MessageFrame extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(MessageFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */

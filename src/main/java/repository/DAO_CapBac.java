@@ -43,7 +43,7 @@ public class DAO_CapBac {
         CapBac capBac = new CapBac();
         ArrayList<CapBac> lstCapBac = new ArrayList<>();
         try {
-            ResultSet rs = dbConn.getDataFromQuery(SELECT_ALL_SQL, id);
+            ResultSet rs = dbConn.getDataFromQuery(SELECT_BY_SQL, id);
             while (rs.next()) {
                 lstCapBac.add(new CapBac(rs.getString("Id"), rs.getString("Ma"), rs.getNString("Ten"), rs.getBigDecimal("LuongPartime"), rs.getString("NgayTao")));
                 capBac = lstCapBac.get(0);

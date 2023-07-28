@@ -28,6 +28,13 @@ public class NhanVien {
     public NhanVien() {
     }
 
+    public NhanVien(String taiKhoan, String matKhau) {
+        this.taiKhoan = taiKhoan;
+        this.matKhau = matKhau;
+    }
+
+    
+    
     public NhanVien(String ma, String ten, String gioiTinh, String ngaySinh, String diaChi, String sdt, String taiKhoan, String matKhau, String idCB, int trangThai, byte[] img) {
         this.ma = ma;
         this.ten = ten;

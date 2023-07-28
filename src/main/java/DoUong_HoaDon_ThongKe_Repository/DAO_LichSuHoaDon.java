@@ -10,23 +10,23 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
-import java.util.Date;
 import ultilities.DBConnection1;
 import ultilities.DbConnection_Sang;
 
 /**
  *
- * @author ADMIN
+ * @author Sang
  */
 public class DAO_LichSuHoaDon implements iLichSuHoaDon {
 
-    final String SELECT_ALL_SQL = "select  HoaDon.Ma, NhanVien.Ten, convert(varchar, hoadon.ngaytao, 105) as 'NgayTao',convert(varchar, hoadon.NgayThanhToan, 105) as 'NgayThanhToan', "
-            + "(sum(SoLuong)) as 'SoLuongSP', sum(ChiTietDoUong.GiaBan * HoaDonChiTiet.SoLuong) as 'TongTien', GiamGia.PhamTram, HoaDon.TinhTrang  from HoaDonChiTiet\n"
-            + "join ChiTietDoUong on HoaDonChiTiet.IdChiTietDoUong = ChiTietDoUong.Id\n"
-            + "join HoaDon on HoaDonChiTiet.IdHoaDon = HoaDon.Id\n"
-            + "join NhanVien on HoaDon.IdNV = NhanVien.Id\n"
-            + "join GiamGia on GiamGia.MaGiamGia = HoaDon.MaGiamGia\n"
-            + "group by HoaDon.Ma, NhanVien.Ten, HoaDon.NgayTao, HoaDon.NgayThanhToan, GiamGia.PhamTram, HoaDon.TinhTrang";
+    final String SELECT_ALL_SQL = "select HoaDon.Ma, NhanVien.Ten, convert(varchar, hoadon.ngaytao, 105) as 'NgayTao', HoaDon.ThoiGian, sum(isnull(HoaDonChiTiet.SoLuong, 0)) as 'SoLuong', \n"
+            + "sum(isnull(ChiTietDoUong.GiaBan, 0) * isnull(HoaDonChiTiet.SoLuong, 0)) as 'TongTien', isnull(GiamGia.GiaTri, 0) as 'KhuyenMai', isnull(HoaDon.TinhTrangThanhToan, 0) as 'TinhTrangThanhToan' from HoaDon\n"
+            + "left join HoaDonChiTiet on HoaDonChiTiet.IdHoaDon = HoaDon.Id\n"
+            + "left join NhanVien on HoaDon.IdNV = NhanVien.Id\n"
+            + "left join ChiTietDoUong on ChiTietDoUong.Id = HoaDonChiTiet.IdChiTietDoUong\n"
+            + "left join GiamGia on GiamGia.MaGiamGia = HoaDon.MaGiamGia\n"
+            + "where convert(varchar, hoadon.ngaytao, 105) = (select convert(varchar,getDate(), 105))\n"
+            + "Group by HoaDon.Ma, NhanVien.Ten, convert(varchar, hoadon.ngaytao, 105), HoaDon.ThoiGian, GiamGia.GiaTri, HoaDon.TinhTrangThanhToan";
 
     final String SELECT_ALL_HOADON = "select HoaDon.Ma, ChiTietDoUong.TenDoUong, HoaDonChiTiet.SoLuong, (ChiTietDoUong.GiaBan * HoaDonChiTiet.SoLuong) as 'ThanhTien' from HoaDonChiTiet\n"
             + "join ChiTietDoUong on ChiTietDoUong.Id = HoaDonChiTiet.IdChiTietDoUong\n"
@@ -44,8 +44,8 @@ public class DAO_LichSuHoaDon implements iLichSuHoaDon {
         try {
             ResultSet rs = dbConn.getDataFromQuery(SELECT_ALL_SQL);
             while (rs.next()) {
-                lstLichSuHoaDon.add(new LichSuHoaDon(rs.getString("Ma"), rs.getString("Ten"), rs.getString("NgayTao"), rs.getString("NgayThanhToan"),
-                        rs.getInt("SoLuongSP"), rs.getDouble("TongTien"), rs.getDouble("PhamTram"), rs.getInt("TinhTrang")));
+                lstLichSuHoaDon.add(new LichSuHoaDon(rs.getString("Ma"), rs.getString("Ten"), rs.getString("NgayTao"), rs.getString("ThoiGian"),
+                        rs.getInt("SoLuong"), rs.getDouble("TongTien"), rs.getDouble("KhuyenMai"), rs.getInt("TinhTrangThanhToan")));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -84,14 +84,14 @@ public class DAO_LichSuHoaDon implements iLichSuHoaDon {
     @Override
     public ArrayList<LichSuHoaDon> getByTime(String d1, String d2) {
         ArrayList<LichSuHoaDon> lstLichSuHoaDon = new ArrayList<>();
-        String sql = "select  HoaDon.Ma, NhanVien.Ten, convert(varchar, hoadon.ngaytao, 105) as 'NgayTao',convert(varchar, hoadon.NgayThanhToan, 105) as 'NgayThanhToan', "
-                + "(sum(SoLuong)) as 'SoLuongSP', sum(ChiTietDoUong.GiaBan * HoaDonChiTiet.SoLuong) as 'TongTien', GiamGia.PhamTram, HoaDon.TinhTrang  from HoaDonChiTiet\n"
-                + "join ChiTietDoUong on HoaDonChiTiet.IdChiTietDoUong = ChiTietDoUong.Id\n"
-                + "join HoaDon on HoaDonChiTiet.IdHoaDon = HoaDon.Id\n"
-                + "join NhanVien on HoaDon.IdNV = NhanVien.Id\n"
-                + "join GiamGia on GiamGia.MaGiamGia = HoaDon.MaGiamGia\n"
-                + "where convert(varchar, hoadon.NgayThanhToan, 105) between ? and ?\n"
-                + "group by HoaDon.Ma, NhanVien.Ten, HoaDon.NgayTao, HoaDon.NgayThanhToan, GiamGia.PhamTram, HoaDon.TinhTrang";
+        String sql = "select HoaDon.Ma, NhanVien.Ten, convert(varchar, hoadon.ngaytao, 105) as 'NgayTao', HoaDon.ThoiGian, sum(isnull(HoaDonChiTiet.SoLuong, 0)) as 'SoLuong', \n"
+                + "sum(isnull(ChiTietDoUong.GiaBan, 0) * isnull(HoaDonChiTiet.SoLuong, 0)) as 'TongTien', isnull(GiamGia.GiaTri, 0) as 'KhuyenMai', isnull(HoaDon.TinhTrangThanhToan, 0) as 'TinhTrangThanhToan' from HoaDon\n"
+                + "left join HoaDonChiTiet on HoaDonChiTiet.IdHoaDon = HoaDon.Id\n"
+                + "left join NhanVien on HoaDon.IdNV = NhanVien.Id\n"
+                + "left join ChiTietDoUong on ChiTietDoUong.Id = HoaDonChiTiet.IdChiTietDoUong\n"
+                + "left join GiamGia on GiamGia.MaGiamGia = HoaDon.MaGiamGia\n"
+                + "where convert(varchar, HoaDon.NgayTao, 105) between ? and ?\n"
+                + "Group by HoaDon.Ma, NhanVien.Ten, convert(varchar, hoadon.ngaytao, 105), HoaDon.ThoiGian, GiamGia.GiaTri, HoaDon.TinhTrangThanhToan";
         try (Connection con = dbConnection.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setObject(1, d1);
             ps.setObject(2, d2);
@@ -101,11 +101,11 @@ public class DAO_LichSuHoaDon implements iLichSuHoaDon {
                 lichSuHoaDon.setMaHoaDon(rs.getString("Ma"));
                 lichSuHoaDon.setTenNhanVien(rs.getString("Ten"));
                 lichSuHoaDon.setTimeTao(rs.getString("NgayTao"));
-                lichSuHoaDon.setTimeThanhToan(rs.getString("NgayThanhToan"));
-                lichSuHoaDon.setSoLuong(rs.getInt("SoLuongSP"));
+                lichSuHoaDon.setTimeThanhToan(rs.getString("ThoiGian"));
+                lichSuHoaDon.setSoLuong(rs.getInt("SoLuong"));
                 lichSuHoaDon.setTongTienHoaDon(rs.getDouble("TongTien"));
-                lichSuHoaDon.setChietKhau(rs.getDouble("PhamTram"));
-                lichSuHoaDon.setTrangThai(rs.getInt("TinhTrang"));
+                lichSuHoaDon.setChietKhau(rs.getDouble("KhuyenMai"));
+                lichSuHoaDon.setTrangThai(rs.getInt("TinhTrangThanhToan"));
                 lstLichSuHoaDon.add(lichSuHoaDon);
             }
         } catch (Exception e) {
@@ -140,13 +140,13 @@ public class DAO_LichSuHoaDon implements iLichSuHoaDon {
     @Override
     public ArrayList<LichSuHoaDon> getByMa(String maHoaDon) {
         ArrayList<LichSuHoaDon> lstLichSuHoaDon = new ArrayList<>();
-        String sql = "select  HoaDon.Ma, NhanVien.Ten, convert(varchar, hoadon.ngaytao, 105) as 'NgayTao',convert(varchar, hoadon.NgayThanhToan, 105) as 'NgayThanhToan', (sum(SoLuong)) as 'SoLuongSP', sum(ChiTietDoUong.GiaBan * HoaDonChiTiet.SoLuong) as 'TongTien', GiamGia.PhamTram, HoaDon.TinhTrang  from HoaDonChiTiet\n"
+        String sql = "select  HoaDon.Ma, NhanVien.Ten, convert(varchar, hoadon.ngaytao, 105) as 'NgayTao',convert(varchar, hoadon.NgayTao, 105) as 'NgayThanhToan', (sum(SoLuong)) as 'SoLuongSP', sum(ChiTietDoUong.GiaBan * HoaDonChiTiet.SoLuong) as 'TongTien', GiamGia.PhamTram, HoaDon.Stt  from HoaDonChiTiet\n"
                 + "join ChiTietDoUong on HoaDonChiTiet.IdChiTietDoUong = ChiTietDoUong.Id\n"
                 + "join HoaDon on HoaDonChiTiet.IdHoaDon = HoaDon.Id\n"
                 + "join NhanVien on HoaDon.IdNV = NhanVien.Id\n"
                 + "join GiamGia on GiamGia.MaGiamGia = HoaDon.MaGiamGia\n"
                 + "where HoaDon.Ma = ?\n"
-                + "group by HoaDon.Ma, NhanVien.Ten, HoaDon.NgayTao, HoaDon.NgayThanhToan, GiamGia.PhamTram, HoaDon.TinhTrang";
+                + "group by HoaDon.Ma, NhanVien.Ten, HoaDon.NgayTao, HoaDon.ThoiGian, GiamGia.GiaTri, HoaDon.Stt";
         try (Connection con = dbConnection.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setObject(1, maHoaDon);
             ResultSet rs = ps.executeQuery();
@@ -155,11 +155,11 @@ public class DAO_LichSuHoaDon implements iLichSuHoaDon {
                 lichSuHoaDon.setMaHoaDon(rs.getString("Ma"));
                 lichSuHoaDon.setTenNhanVien(rs.getString("Ten"));
                 lichSuHoaDon.setTimeTao(rs.getString("NgayTao"));
-                lichSuHoaDon.setTimeThanhToan(rs.getString("NgayThanhToan"));
+                lichSuHoaDon.setTimeThanhToan(rs.getString("ThoiGian"));
                 lichSuHoaDon.setSoLuong(rs.getInt("SoLuongSP"));
                 lichSuHoaDon.setTongTienHoaDon(rs.getDouble("TongTien"));
-                lichSuHoaDon.setChietKhau(rs.getDouble("PhamTram"));
-                lichSuHoaDon.setTrangThai(rs.getInt("TinhTrang"));
+                lichSuHoaDon.setChietKhau(rs.getDouble("GiaTri"));
+                lichSuHoaDon.setTrangThai(rs.getInt("Stt"));
                 lstLichSuHoaDon.add(lichSuHoaDon);
             }
         } catch (Exception e) {
