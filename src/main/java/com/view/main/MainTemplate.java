@@ -6,29 +6,20 @@
 package com.view.main;
 
 import com.view.event.EventMenuSelected;
-import com.view.form.DangKyDVForm;
 import com.view.form.ThongBaoForm;
-import com.view.form.LichHocForm;
-import com.view.form.DiemForm;
 import com.view.form.QuanLyNhanVien;
 import com.view.form.WalletForm;
-import com.view.form_Template.Container;
-import com.view.form_Template.FormLichHoc;
 import com.view.form_Template.Form_BanHang;
 import com.view.form_Template.Form_KhuyenMai;
-import com.view.form_Template.Form_LopHoc;
+import com.view.form_Template.Form_LichLamViec;
 import com.view.form_Template.Form_QLDoUong;
+import com.view.form_Template.Form_QLHoaDon;
 import com.view.form_Template.Form_TaoTaiKhoan;
-import java.awt.BorderLayout;
+import com.view.form_Template.Form_ThongKe;
 import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
-import static java.awt.SystemColor.menu;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JComponent;
-import javax.swing.JOptionPane;
-import javax.swing.JScrollPane;
 
 /**
  *
@@ -43,30 +34,36 @@ public class MainTemplate extends javax.swing.JFrame {
     private Form_BanHang formBanHang;
     private Form_TaoTaiKhoan form_TaoTaiKhoan;
     private Form_QLDoUong form_QLDoUong;
-//    private Form_KhuyenMai form_KhuyenMai;
+    private Form_KhuyenMai form_KhuyenMai;
     private com.view.component.paneOfProduct paneOfProduct2;
     private QuanLyNhanVien formQLNhanVien;
+    private Form_QLHoaDon formQLHoaDon;
+    private Form_ThongKe form_ThongKe;
+    private Form_LichLamViec form_LichLamViec;
 
     public MainTemplate() {
         initComponents();
         home = new WalletForm();         
         formThongbao = new ThongBaoForm();
         formBanHang = new Form_BanHang();
-
-//        form_KhuyenMai = new Form_KhuyenMai();
+     
+        form_KhuyenMai = new Form_KhuyenMai();
 
         formQLNhanVien = new QuanLyNhanVien();
         form_TaoTaiKhoan = new Form_TaoTaiKhoan();
         form_QLDoUong = new Form_QLDoUong();
+        formQLHoaDon = new Form_QLHoaDon();
+        form_ThongKe = new Form_ThongKe();
+        form_LichLamViec = new Form_LichLamViec();
         setBackground(new Color(0, 0, 0, 0));
         menuOfCB1.initMoving(MainTemplate.this);
         menuOfCB1.addEventMenuSelected(new EventMenuSelected() {
             @Override
             public void selected(int index) {
                 if (index == 5) {
-//                    setForm(fromDKDV);
+                    setForm(formQLHoaDon);
                 } else if (index == 6) {
-//                    setForm(formBaoCao);
+                    setForm(form_ThongKe);
                 } else if (index == 0) {
                     setForm(formThongbao);
                 } else if (index == 1) {
@@ -80,8 +77,10 @@ public class MainTemplate extends javax.swing.JFrame {
                 } else if (index == 3) {
                     setForm(form_QLDoUong);
                 } else if (index == 4) {
-//                    setForm(form_KhuyenMai);
-                } else if (index == 9) {
+                    setForm(form_KhuyenMai);
+                }else if (index == 9) {
+                    setForm(form_LichLamViec);
+                }else if (index == 10) {
                     MessageFrame messageFrame = new MessageFrame();
                     messageFrame.show();
                     messageFrame.setMessage("Bạn có chắc chắn muốn đăng xuất không?");
@@ -149,6 +148,7 @@ public class MainTemplate extends javax.swing.JFrame {
             panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(menuOfCB1, javax.swing.GroupLayout.DEFAULT_SIZE, 717, Short.MAX_VALUE)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelBorder1Layout.createSequentialGroup()
+                .addContainerGap()
                 .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
