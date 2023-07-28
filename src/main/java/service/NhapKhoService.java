@@ -38,8 +38,8 @@ public class NhapKhoService implements INhapKhoService{
     }
 
     @Override
-    public List<NhanVien> getALLNV() {
-        return nhanVienRepository.getAll();
+    public List<NhanVien> getCBBNV() {
+        return nhanVienRepository.getCBBTenNV();
     }
 
     @Override
@@ -84,6 +84,7 @@ public class NhapKhoService implements INhapKhoService{
         }
         return lstQLNhapKhos;
     }
+
     
     
 }

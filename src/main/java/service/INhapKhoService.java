@@ -14,7 +14,7 @@ import viewModel.QLNhapKho;
  */
 public interface INhapKhoService {
     public List<QLNhapKho> getALL();
-    public List<NhanVien> getALLNV();
+    public List<NhanVien> getCBBNV();
     public NhanVien timTheoID(String id);
     public void them(QLNhapKho nk);
     public boolean xoa(String id);

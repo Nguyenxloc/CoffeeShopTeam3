@@ -168,9 +168,16 @@ public class NhanVien {
         this.ngayTao = ngayTao;
     }
 
+    public String getHoTen() {
+        return ten + " : " + ma ;
+    }
+
     @Override
     public String toString() {
         return "NhanVien{" + "id=" + id + ", ma=" + ma + ", ten=" + ten + ", tenDem=" + tenDem + ", ho=" + ho + ", gioiTinh=" + gioiTinh + ", dob=" + dob + ", diaChi=" + diaChi + ", sdt=" + sdt + ", taiKhoan=" + taiKhoan + ", matKhau=" + matKhau + ", capBac=" + capBac + ", trangThai=" + trangThai + ", img=" + img + ", ngayTao=" + ngayTao + '}';
     }
+    
+    
+    
     
 }

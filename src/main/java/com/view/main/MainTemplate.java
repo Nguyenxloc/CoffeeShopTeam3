@@ -15,7 +15,9 @@ import com.view.form.WalletForm;
 import com.view.form_Template.Container;
 import com.view.form_Template.FormLichHoc;
 import com.view.form_Template.Form_BanHang;
+import com.view.form_Template.Form_CapBac;
 import com.view.form_Template.Form_KhuyenMai;
+import com.view.form_Template.Form_LoaiDoUong;
 import com.view.form_Template.Form_LopHoc;
 import com.view.form_Template.Form_QLDoUong;
 import com.view.form_Template.Form_QLHoaDon;
@@ -50,6 +52,8 @@ public class MainTemplate extends javax.swing.JFrame {
     private QuanLyNhanVien formQLNhanVien;
     private Form_QLHoaDon formQLHoaDon;
     private Form_QuanLyKho form_QuanLyKho;
+    private Form_LoaiDoUong form_LoaiDoUong;
+    private Form_CapBac form_CapBac;
 
     public MainTemplate() {
         initComponents();
@@ -64,6 +68,10 @@ public class MainTemplate extends javax.swing.JFrame {
         form_QLDoUong = new Form_QLDoUong();
         formQLHoaDon = new Form_QLHoaDon();
         form_QuanLyKho = new Form_QuanLyKho();
+        form_LoaiDoUong = new Form_LoaiDoUong();
+        form_CapBac = new Form_CapBac();
+        
+        
         setBackground(new Color(0, 0, 0, 0));
         menuOfCB1.initMoving(MainTemplate.this);
         menuOfCB1.addEventMenuSelected(new EventMenuSelected() {
@@ -90,8 +98,13 @@ public class MainTemplate extends javax.swing.JFrame {
                 }
                 else if (index == 9) {
                     setForm(form_QuanLyKho);
+                }else if (index == 10) {
+                    setForm(form_LoaiDoUong);
+                }else if (index == 11) {
+                    setForm(form_CapBac);
                 }
-                else if (index == 10) {
+                
+                else if (index == 12) {
                     MessageFrame messageFrame = new MessageFrame();
                     messageFrame.show();
                     messageFrame.setMessage("Bạn có chắc chắn muốn đăng xuất không?");
