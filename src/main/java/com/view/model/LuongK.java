@@ -8,16 +8,20 @@ package com.view.model;
  *
  * @author Lê Chấn Khang
  */
-public class CapBac {
+public class LuongK {
     private String id;
     private String ten;
+    private int tongGio;
+    private double luong;
 
-    public CapBac() {
+    public LuongK() {
     }
 
-    public CapBac(String id, String ten) {
+    public LuongK(String id, String ten, int tongGio, double luong) {
         this.id = id;
         this.ten = ten;
+        this.tongGio = tongGio;
+        this.luong = luong;
     }
 
     public String getId() {
@@ -36,15 +40,28 @@ public class CapBac {
         this.ten = ten;
     }
 
-//    @Override
-//    public String toString() {
-//        return ten;
-//    }
-    
+    public int getTongGio() {
+        return tongGio;
+    }
+
+    public void setTongGio(int tongGio) {
+        this.tongGio = tongGio;
+    }
+
+    public double getLuong() {
+        return luong;
+    }
+
+    public void setLuong(double luong) {
+        this.luong = luong;
+    }
+
     @Override
     public String toString() {
-        return "CapBac{" + "id=" + id + ", ten=" + ten + '}';
+        return "LuongK{" + "id=" + id + ", ten=" + ten + ", tongGio=" + tongGio + ", luong=" + luong + '}';
     }
+    
+    
     
     
 }

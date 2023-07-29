@@ -14,12 +14,20 @@ public class NhanVienService {
     
     private NhanVienDao repository = new NhanVienDao();
     
-      public String them(NhanVien nhanVien) {
-        if(repository.addNew(nhanVien)){
-            return "Thêm thành công";
-        }else{
-            return "Thêm thất bại";
-        }
+//      public String them(NhanVien nhanVien) {
+//        if(repository.save(nhanVien)){
+//            return "Thêm thành công";
+//        }else{
+//            return "Thêm thất bại";
+//        }
+//    }
+      
+      public void saveNhanVien(NhanVien nhanVien) {
+        repository.save(nhanVien);
+    }
+
+       public void updateNhanVien(NhanVien nhanVien) {
+        repository.update(nhanVien);
     }
     
       public String xoaNhanVien(String ma){

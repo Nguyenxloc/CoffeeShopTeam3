@@ -21,7 +21,8 @@ public class NhanVien {
     private String sdt;
     private String taiKhoan;
     private String matKhau;
-    private String idCB;
+    //private String idCB;
+    private CapBac capBac;
     private int trangThai;
    private byte[] img;
 
@@ -34,8 +35,8 @@ public class NhanVien {
     }
 
     
-    
-    public NhanVien(String ma, String ten, String gioiTinh, String ngaySinh, String diaChi, String sdt, String taiKhoan, String matKhau, String idCB, int trangThai, byte[] img) {
+    public NhanVien(String id, String ma, String ten, String gioiTinh, String ngaySinh, String diaChi, String sdt, String taiKhoan, String matKhau, CapBac capBac, int trangThai, byte[] img) {
+        this.id = id;
         this.ma = ma;
         this.ten = ten;
         this.gioiTinh = gioiTinh;
@@ -44,14 +45,14 @@ public class NhanVien {
         this.sdt = sdt;
         this.taiKhoan = taiKhoan;
         this.matKhau = matKhau;
-        this.idCB = idCB;
+        this.capBac = capBac;
         this.trangThai = trangThai;
         this.img = img;
     }
 
     
     
-    public NhanVien(String id, String ma, String ten, String tenDem, String ho, String gioiTinh, String ngaySinh, String diaChi, String sdt, String taiKhoan, String matKhau, String idCB, int trangThai, byte[] img) {
+    public NhanVien(String id, String ma, String ten, String tenDem, String ho, String gioiTinh, String ngaySinh, String diaChi, String sdt, String taiKhoan, String matKhau, CapBac capBac, int trangThai, byte[] img) {
         this.id = id;
         this.ma = ma;
         this.ten = ten;
@@ -63,7 +64,7 @@ public class NhanVien {
         this.sdt = sdt;
         this.taiKhoan = taiKhoan;
         this.matKhau = matKhau;
-        this.idCB = idCB;
+        this.capBac = capBac;
         this.trangThai = trangThai;
         this.img = img;
     }
@@ -156,12 +157,12 @@ public class NhanVien {
         this.matKhau = matKhau;
     }
 
-    public String getIdCB() {
-        return idCB;
+    public CapBac getCapBac() {
+        return capBac;
     }
 
-    public void setIdCB(String idCB) {
-        this.idCB = idCB;
+    public void setCapBac(CapBac capBac) {
+        this.capBac = capBac;
     }
 
     public int getTrangThai() {
@@ -180,6 +181,10 @@ public class NhanVien {
         this.img = img;
     }
 
+    
+    
+    
+    
     
     
 

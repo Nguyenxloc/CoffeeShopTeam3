@@ -40,7 +40,7 @@ public class QuanLyNhanVien extends javax.swing.JPanel {
     private NhanVienDao nhanVienDao = new NhanVienDao();
     private NhanVienService nhanVienService = new NhanVienService();
     //
-
+     ArrayList<CapBac> listCapBac = new ArrayList<>();
     //
     static String url = null;
     byte[] imgBytes = new byte[5000];
@@ -60,7 +60,7 @@ public class QuanLyNhanVien extends javax.swing.JPanel {
         ArrayList<CapBac> lit = nhanVienDao.getCboCapbac();
         comboBoxModel = (DefaultComboBoxModel) cboVaitro.getModel();
         for (CapBac capBac : lit) {
-            comboBoxModel.addElement(capBac);
+            comboBoxModel.addElement(capBac.getTen().toString());
         }
     }
 
@@ -68,7 +68,7 @@ public class QuanLyNhanVien extends javax.swing.JPanel {
 
         defaultTableModel = (DefaultTableModel) tblForm.getModel();
         defaultTableModel.setRowCount(0);
-        listNhanVien = nhanVienDao.getList();
+        listNhanVien = nhanVienDao.selectALl();
         for (NhanVien nv : listNhanVien) {
             defaultTableModel.addRow(new Object[]{
                 nv.getMa(),
@@ -79,7 +79,7 @@ public class QuanLyNhanVien extends javax.swing.JPanel {
                 nv.getSdt(),
                 nv.getTaiKhoan(),
                 nv.getMatKhau(),
-                nv.getIdCB(),
+                nv.getCapBac().getTen(),
                 nv.getTrangThai() == 1 ? "Làm việc" : "Nghỉ việc",
                 nv.getImg()
             });
@@ -96,126 +96,145 @@ public class QuanLyNhanVien extends javax.swing.JPanel {
     }
     //
 
-    public void showDetail() {
-        count = tblForm.getSelectedRow();
-        txtMa.setText(listNhanVien.get(count).getMa());
-        txtTen.setText(listNhanVien.get(count).getTen());
-        rdoNam.setSelected(listNhanVien.get(count).getGioiTinh().equalsIgnoreCase("Nam"));
-        rdoNu.setSelected(listNhanVien.get(count).getGioiTinh().equalsIgnoreCase("Nữ"));
-        txtNgaySinh.setText(listNhanVien.get(count).getNgaySinh());
-        txtDiachi.setText(listNhanVien.get(count).getDiaChi());
-        txtSDT.setText(listNhanVien.get(count).getSdt());
-        txtTK.setText(listNhanVien.get(count).getTaiKhoan());
-        txtMK.setText(listNhanVien.get(count).getMatKhau());
+//    public void showDetail() {
+//        count = tblForm.getSelectedRow();
+//        txtMa.setText(listNhanVien.get(count).getMa());
+//        txtTen.setText(listNhanVien.get(count).getTen());
+//        rdoNam.setSelected(listNhanVien.get(count).getGioiTinh().equalsIgnoreCase("Nam"));
+//        rdoNu.setSelected(listNhanVien.get(count).getGioiTinh().equalsIgnoreCase("Nữ"));
+//        txtNgaySinh.setText(listNhanVien.get(count).getNgaySinh());
+//        txtDiachi.setText(listNhanVien.get(count).getDiaChi());
+//        txtSDT.setText(listNhanVien.get(count).getSdt());
+//        txtTK.setText(listNhanVien.get(count).getTaiKhoan());
+//        txtMK.setText(listNhanVien.get(count).getMatKhau());
+//
+//        cboVaitro.setSelectedItem(listNhanVien.get(count).getIdCB());
+//        //txtTrangthai.setText(Integer.parseInt(listNhanVien.get(count).getTrangThai()));
+//        //txtTrangthai.setText(listNhanVien.get(count).getTrangThai() + "");
+//        if (listNhanVien.get(count).getTrangThai() == 1) {
+//            rdoLamviec.setSelected(true);
+//        } else {
+//            rdoNghiviec.setSelected(true);
+//        }
+//        //rdoLamviec.setSelected(listNhanVien.get(count).getTrangThai()==1?"Nam":"Nữ");
+//
+//        lblAvatar.setText("");
+//        ImageIcon oriImgIcon = new ImageIcon(listNhanVien.get(count).getImg());
+//        Image image = oriImgIcon.getImage(); // transform it
+//        Image newimg = image.getScaledInstance(140, 150, java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
+//        ImageIcon imageIcon = new ImageIcon(newimg);
+//        lblAvatar.setIcon(imageIcon);
+//
+//    }
 
-        cboVaitro.setSelectedItem(listNhanVien.get(count).getIdCB());
-        //txtTrangthai.setText(Integer.parseInt(listNhanVien.get(count).getTrangThai()));
-        //txtTrangthai.setText(listNhanVien.get(count).getTrangThai() + "");
-        if (listNhanVien.get(count).getTrangThai() == 1) {
-            rdoLamviec.setSelected(true);
-        } else {
-            rdoNghiviec.setSelected(true);
+//    public void save() {
+//        try {
+//            convertURLToBytes();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            JOptionPane.showMessageDialog(this, "Lỗi nhập ảnh !");
+//        }
+//        String ma = txtMa.getText();
+//        String ten = txtTen.getText();
+//        String gioiTinh;
+//        if (rdoNam.isSelected()) {
+//            gioiTinh = "Nam";
+//        } else {
+//            gioiTinh = "Nữ";
+//        }
+//        String ngaySinh = txtNgaySinh.getText();
+//        String diaChi = txtDiachi.getText();
+//        String sdt = txtSDT.getText();
+//        String taiKhoan = txtTK.getText();
+//        String matKhau = txtMK.getText();
+//        CapBac cb = (CapBac) cboVaitro.getSelectedItem();
+//        String vaiTro = cb.getId();
+//        Integer trangThai;
+//        if (rdoLamviec.isSelected()) {
+//            trangThai = 1;
+//        } else {
+//            trangThai = 0;
+//        }
+//
+//        NhanVien nhanVien = new NhanVien(ma, ten, gioiTinh, ngaySinh, diaChi, sdt, taiKhoan, matKhau, vaiTro, trangThai, imgBytes);
+//
+//        try {
+//            nhanVienDao.save(nhanVien);
+//            JOptionPane.showMessageDialog(this, "Thêm thành công !");
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            JOptionPane.showMessageDialog(this, "Thêm thất bại !");
+//        }
+//        loadData();
+//    }
+
+//    public void update() {
+//        count = tblForm.getSelectedRow();
+//        System.out.println(imgBytes);
+//        String mes = "";
+//        try {
+//            convertURLToBytes();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            mes += "\n Lỗi nhập ảnh";
+//        }
+//        System.out.println(lblURL.getText());
+//        System.out.println(!lblURL.getText().equals(url));
+//        if (!lblURL.getText().equals("#URL")) {
+//
+//            String ma = txtMa.getText();
+//            String ten = txtTen.getText();
+//            String gioiTinh;
+//            if (rdoNam.isSelected()) {
+//                gioiTinh = "Nam";
+//            } else {
+//                gioiTinh = "Nữ";
+//            }
+//            String ngaySinh = txtNgaySinh.getText();
+//            String diaChi = txtDiachi.getText();
+//            String sdt = txtSDT.getText();
+//            String taiKhoan = txtTK.getText();
+//            String matKhau = txtMK.getText();
+//            CapBac cb = (CapBac) cboVaitro.getSelectedItem();
+//            String vaiTro = cb.getId();
+//            Integer trangThai;
+//            if (rdoLamviec.isSelected()) {
+//                trangThai = 1;
+//            } else {
+//                trangThai = 0;
+//            }
+//
+//            NhanVien nhanVien = new NhanVien(listNhanVien.get(count).getMa(), ten, gioiTinh, ngaySinh, diaChi, sdt, taiKhoan, matKhau, vaiTro, trangThai, imgBytes);
+//            try {
+//                nhanVienDao.update(nhanVien);
+//                JOptionPane.showMessageDialog(this, "Cập nhật thành công !");
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//                JOptionPane.showMessageDialog(this, "Cập nhật thất bại !");
+//            }
+//            loadData();
+//        } else {
+//            mes += "\n Thêm thất bại !";
+//            JOptionPane.showMessageDialog(this, mes);
+//        }
+//    }
+    
+    
+    public void save(NhanVien nhanVien) {
+
+        try {
+            nhanVienService.saveNhanVien(nhanVien);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        //rdoLamviec.setSelected(listNhanVien.get(count).getTrangThai()==1?"Nam":"Nữ");
-
-        lblAvatar.setText("");
-        ImageIcon oriImgIcon = new ImageIcon(listNhanVien.get(count).getImg());
-        Image image = oriImgIcon.getImage(); // transform it
-        Image newimg = image.getScaledInstance(140, 150, java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
-        ImageIcon imageIcon = new ImageIcon(newimg);
-        lblAvatar.setIcon(imageIcon);
 
     }
 
-    public void save() {
+    public void update(NhanVien nhanVien) {
         try {
-            convertURLToBytes();
+            nhanVienService.updateNhanVien(nhanVien);
         } catch (Exception e) {
             e.printStackTrace();
-            JOptionPane.showMessageDialog(this, "Lỗi nhập ảnh !");
-        }
-        String ma = txtMa.getText();
-        String ten = txtTen.getText();
-        String gioiTinh;
-        if (rdoNam.isSelected()) {
-            gioiTinh = "Nam";
-        } else {
-            gioiTinh = "Nữ";
-        }
-        String ngaySinh = txtNgaySinh.getText();
-        String diaChi = txtDiachi.getText();
-        String sdt = txtSDT.getText();
-        String taiKhoan = txtTK.getText();
-        String matKhau = txtMK.getText();
-        CapBac cb = (CapBac) cboVaitro.getSelectedItem();
-        String vaiTro = cb.getId();
-        Integer trangThai;
-        if (rdoLamviec.isSelected()) {
-            trangThai = 1;
-        } else {
-            trangThai = 0;
-        }
-
-        NhanVien nhanVien = new NhanVien(ma, ten, gioiTinh, ngaySinh, diaChi, sdt, taiKhoan, matKhau, vaiTro, trangThai, imgBytes);
-
-        try {
-            nhanVienDao.save(nhanVien);
-            JOptionPane.showMessageDialog(this, "Thêm thành công !");
-        } catch (Exception e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(this, "Thêm thất bại !");
-        }
-        loadData();
-    }
-
-    public void update() {
-        count = tblForm.getSelectedRow();
-        System.out.println(imgBytes);
-        String mes = "";
-        try {
-            convertURLToBytes();
-        } catch (Exception e) {
-            e.printStackTrace();
-            mes += "\n Lỗi nhập ảnh";
-        }
-        System.out.println(lblURL.getText());
-        System.out.println(!lblURL.getText().equals(url));
-        if (!lblURL.getText().equals("#URL")) {
-
-            String ma = txtMa.getText();
-            String ten = txtTen.getText();
-            String gioiTinh;
-            if (rdoNam.isSelected()) {
-                gioiTinh = "Nam";
-            } else {
-                gioiTinh = "Nữ";
-            }
-            String ngaySinh = txtNgaySinh.getText();
-            String diaChi = txtDiachi.getText();
-            String sdt = txtSDT.getText();
-            String taiKhoan = txtTK.getText();
-            String matKhau = txtMK.getText();
-            CapBac cb = (CapBac) cboVaitro.getSelectedItem();
-            String vaiTro = cb.getId();
-            Integer trangThai;
-            if (rdoLamviec.isSelected()) {
-                trangThai = 1;
-            } else {
-                trangThai = 0;
-            }
-
-            NhanVien nhanVien = new NhanVien(listNhanVien.get(count).getMa(), ten, gioiTinh, ngaySinh, diaChi, sdt, taiKhoan, matKhau, vaiTro, trangThai, imgBytes);
-            try {
-                nhanVienDao.update(nhanVien);
-                JOptionPane.showMessageDialog(this, "Cập nhật thành công !");
-            } catch (Exception e) {
-                e.printStackTrace();
-                JOptionPane.showMessageDialog(this, "Cập nhật thất bại !");
-            }
-            loadData();
-        } else {
-            mes += "\n Thêm thất bại !";
-            JOptionPane.showMessageDialog(this, mes);
         }
     }
 
@@ -224,6 +243,7 @@ public class QuanLyNhanVien extends javax.swing.JPanel {
     private void initComponents() {
 
         buttonGroup1 = new javax.swing.ButtonGroup();
+        buttonGroup2 = new javax.swing.ButtonGroup();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblForm = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
@@ -261,13 +281,13 @@ public class QuanLyNhanVien extends javax.swing.JPanel {
 
         tblForm.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Mã NV", "Tên", "Giới tính", "Ngày sinh", "Địa chỉ", "Số điện thoại", "Tài khoản", "Mật khẩu", "Vai trò"
+                "Mã NV", "Tên", "Giới tính", "Ngày sinh", "Địa chỉ", "Số điện thoại", "Tài khoản", "Mật khẩu", "Vai trò", "Trang thai"
             }
         ));
         tblForm.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -287,9 +307,11 @@ public class QuanLyNhanVien extends javax.swing.JPanel {
 
         jLabel5.setText("Giới tính");
 
+        buttonGroup1.add(rdoNam);
         rdoNam.setSelected(true);
         rdoNam.setText("Nam");
 
+        buttonGroup1.add(rdoNu);
         rdoNu.setText("Nữ");
 
         jLabel6.setText("Ngày sinh");
@@ -355,8 +377,10 @@ public class QuanLyNhanVien extends javax.swing.JPanel {
             }
         });
 
+        buttonGroup2.add(rdoLamviec);
         rdoLamviec.setText("Làm việc");
 
+        buttonGroup2.add(rdoNghiviec);
         rdoNghiviec.setText("Nghỉ việc");
 
         jLabel12.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -524,6 +548,65 @@ public class QuanLyNhanVien extends javax.swing.JPanel {
 
     private void tblFormMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblFormMouseClicked
         // TODO add your handling code here:
+        
+        lblURL.setText("#url");
+        count = tblForm.getSelectedRow();
+        if (listNhanVien.get(count).getImg()!= null) {
+            ImageIcon oriImgIcon = new ImageIcon(listNhanVien.get(count).getImg());
+            Image image = oriImgIcon.getImage(); // transform it
+            Image newimg = image.getScaledInstance(145, 140, java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
+            ImageIcon imageIcon = new ImageIcon(newimg);
+            lblAvatar.setText("");
+            lblAvatar.setIcon(imageIcon);
+            txtMa.setText(tblForm.getValueAt(count, 0).toString());
+            txtTen.setText(tblForm.getValueAt(count, 1).toString());
+            String gioiTinh= tblForm.getValueAt(count, 2).toString();
+            if(gioiTinh.equalsIgnoreCase("Nam")){
+            rdoNam.setSelected(true);
+             }else{
+            rdoNu.setSelected(true);
+             }
+            txtNgaySinh.setText(tblForm.getValueAt(count, 3).toString());
+            txtDiachi.setText(tblForm.getValueAt(count, 4).toString());
+            txtSDT.setText(tblForm.getValueAt(count, 5).toString());
+            txtTK.setText(tblForm.getValueAt(count, 6).toString());      
+            txtMK.setText(tblForm.getValueAt(count, 7).toString());      
+            cboVaitro.setSelectedItem(tblForm.getValueAt(count, 8).toString());
+            String trangThai= tblForm.getValueAt(count, 9).toString();
+            if(trangThai.equalsIgnoreCase("Làm việc")){
+            rdoLamviec.setSelected(true);
+             }else{
+            rdoNghiviec.setSelected(true);
+             }
+        } else {
+            lblAvatar.setIcon(null);
+            lblAvatar.setText("Ảnh");
+            txtMa.setText(tblForm.getValueAt(count, 0).toString());
+            txtTen.setText(tblForm.getValueAt(count, 1).toString());
+            String gioiTinh= tblForm.getValueAt(count, 2).toString();
+            if(gioiTinh.equalsIgnoreCase("Nam")){
+            rdoNam.setSelected(true);
+             }else{
+            rdoNu.setSelected(true);
+             }
+            txtNgaySinh.setText(tblForm.getValueAt(count, 3).toString());
+            txtDiachi.setText(tblForm.getValueAt(count, 4).toString());
+            txtSDT.setText(tblForm.getValueAt(count, 5).toString());
+            txtTK.setText(tblForm.getValueAt(count, 6).toString()); 
+            txtMK.setText(tblForm.getValueAt(count, 7).toString()); 
+            cboVaitro.setSelectedItem(tblForm.getValueAt(count, 8).toString());
+            String trangThai= tblForm.getValueAt(count, 9).toString();
+            if(trangThai.equalsIgnoreCase("Làm việc")){
+            rdoLamviec.setSelected(true);
+             }else{
+            rdoNghiviec.setSelected(true);
+             }
+        }
+
+        
+        
+        
+        
 //        int index = tblForm.getSelectedRow();
 //        NhanVien nhanVien = nhanVienDao.getList().get(index);
 //        String ma= tblForm.getValueAt(index, 0).toString();
@@ -567,7 +650,7 @@ public class QuanLyNhanVien extends javax.swing.JPanel {
 //            }
 //            i++;
 //        }
-        showDetail();
+        //showDetail();
 
     }//GEN-LAST:event_tblFormMouseClicked
 
@@ -585,28 +668,35 @@ public class QuanLyNhanVien extends javax.swing.JPanel {
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
         // TODO add your handling code here:
-//        String ma = txtMa.getText();
-//        String ten = txtTen.getText();
-//        String gioiTinh;
-//        if(rdoNam.isSelected()){
-//            gioiTinh="Nam";
-//        }else{
-//            gioiTinh="Nữ";
-//        }
-//        String ngaySinh = txtNgaySinh.getText();
-//        String diaChi = txtDiachi.getText();
-//        String sdt = txtSDT.getText();
-//        String taiKhoan = txtTK.getText();
-//      btnSua  String matKhau = txtMK.getText();
-//        CapBac cb = (CapBac) cboVaitro.getSelectedItem();
-//        String vaiTro = cb.getId();
-//        Integer trangThai = Integer.parseInt(txtTrangthai.getText());
-//       
-//        
-//        NhanVien nhanVien = new NhanVien(ma, ten, gioiTinh, ngaySinh, diaChi, sdt, taiKhoan, matKhau, vaiTro, trangThai, "");
+        String ma = txtMa.getText();
+        String ten = txtTen.getText();
+        String gioiTinh;
+        if(rdoNam.isSelected()){
+            gioiTinh="Nam";
+        }else{
+            gioiTinh="Nữ";
+        }
+        String ngaySinh = txtNgaySinh.getText();
+        String diaChi = txtDiachi.getText();
+        String sdt = txtSDT.getText();
+        String taiKhoan = txtTK.getText();
+        String matKhau = txtMK.getText();
+        int count = cboVaitro.getSelectedIndex();
+        CapBac capBac = listCapBac.get(count);
+        Integer trangThai;
+        if(rdoLamviec.isSelected()){
+            trangThai=1;
+        }else{
+            trangThai=0;
+        }
+        
+        NhanVien nhanVien = new NhanVien(null, ma, ten, gioiTinh, ngaySinh, diaChi, sdt, taiKhoan, matKhau, capBac, trangThai, imgBytes);
+        save(nhanVien);
+        loadData();
+        JOptionPane.showMessageDialog(this, "Sửa thành công !");
 //        JOptionPane.showMessageDialog(this, nhanVienService.them(nhanVien));
 //        loadData();
-        save();
+        //save();
     }//GEN-LAST:event_btnThemActionPerformed
 
     private void btnChooseFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChooseFileActionPerformed
@@ -620,7 +710,7 @@ public class QuanLyNhanVien extends javax.swing.JPanel {
 
     private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
         // TODO add your handling code here:
-        update();
+        //update();
     }//GEN-LAST:event_btnSuaActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
@@ -654,7 +744,8 @@ public class QuanLyNhanVien extends javax.swing.JPanel {
     private javax.swing.JButton btnSua;
     private javax.swing.JButton btnThem;
     private javax.swing.ButtonGroup buttonGroup1;
-    private javax.swing.JComboBox<Object> cboVaitro;
+    private javax.swing.ButtonGroup buttonGroup2;
+    private javax.swing.JComboBox<String> cboVaitro;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
