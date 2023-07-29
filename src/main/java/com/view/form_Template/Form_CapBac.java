@@ -44,7 +44,7 @@ public class Form_CapBac extends javax.swing.JPanel {
         String ten = txtTen.getText();
         String luog = txtLuong.getText();
         
-        if(ma.trim().equals("") | ten.trim().equals("") || luog.trim().equals("")){
+        if(ma.trim().equals("") | ten.trim().equals("")){
             JOptionPane.showMessageDialog(this, "Không được để trống");
             return null;
         }
