@@ -15,6 +15,8 @@ import com.view.form.WalletForm;
 import com.view.form_Template.Container;
 import com.view.form_Template.FormLichHoc;
 import com.view.form_Template.Form_BanHang;
+import com.view.form_Template.Form_ChamCong;
+import com.view.form_Template.Form_GiaoCa;
 
 import com.view.form_Template.Form_CapBac;
 import com.view.form_Template.Form_KhuyenMai;
@@ -58,6 +60,8 @@ public class MainTemplate extends javax.swing.JFrame {
     private com.view.component.paneOfProduct paneOfProduct2;
     private QuanLyNhanVien formQLNhanVien;
     private Form_QLHoaDon formQLHoaDon;
+    private Form_ChamCong form_ChamCong;
+    private Form_GiaoCa form_GiaoCa;
     private Form_QuanLyKho form_QuanLyKho;
     private Form_LoaiDoUong form_LoaiDoUong;
     private Form_CapBac form_CapBac;
@@ -70,16 +74,18 @@ public class MainTemplate extends javax.swing.JFrame {
 
     public MainTemplate() {
         initComponents();
-        home = new WalletForm();         
+        home = new WalletForm();
         formThongbao = new ThongBaoForm();
         formBanHang = new Form_BanHang();
-     
+
         form_KhuyenMai = new Form_KhuyenMai();
 
         formQLNhanVien = new QuanLyNhanVien();
         form_TaoTaiKhoan = new Form_TaoTaiKhoan();
         form_QLDoUong = new Form_QLDoUong();
         formQLHoaDon = new Form_QLHoaDon();
+        form_ChamCong = new Form_ChamCong();
+        form_GiaoCa = new Form_GiaoCa();
         form_QuanLyKho = new Form_QuanLyKho();
         form_LoaiDoUong = new Form_LoaiDoUong();
         form_CapBac = new Form_CapBac();
@@ -101,6 +107,7 @@ public class MainTemplate extends javax.swing.JFrame {
                 if (index == 5) {
                     setForm(formQLHoaDon);
                 } else if (index == 6) {
+//                    setForm(form_ChamCong);
 //                    setForm(formBaoCao);
                     setForm(form_QLHoaDon);
                 } else if (index == 6) {
@@ -114,6 +121,7 @@ public class MainTemplate extends javax.swing.JFrame {
                 } else if (index == 8) {
                     setForm(form_TaoTaiKhoan);
                 } else if (index == 2) {
+                    setForm(form_GiaoCa);
 //                    setForm(formQLDiem);
 //                    DoanhThu_singleton.getInstance().doanhThuNow =  ;
                     setForm(form_GiaoCa1);
@@ -121,6 +129,9 @@ public class MainTemplate extends javax.swing.JFrame {
                     setForm(form_QLDoUong);
                 } else if (index == 4) {
                     setForm(form_KhuyenMai);
+                } else if (index == 9) {
+                    setForm(form_ChamCong);
+                } else if (index == 10) {
                 }
                 else if (index == 9) {
                     setForm(form_QuanLyKho);

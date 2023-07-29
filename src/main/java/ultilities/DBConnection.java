@@ -18,6 +18,8 @@ public class DBConnection {//Lớp này giải quyết kết nối xử lý truy
 
     private static String hostName = "localhost";
     private static String acc = "sa";
+    private static String pass = "123456";
+    private static String dbName = "COFFEESHOP_DA1_Master";
     private static String pass = "1234";
     private static String dbName = "COFFEESHOP_DA1";
     private static String connectionSql
@@ -32,8 +34,6 @@ public class DBConnection {//Lớp này giải quyết kết nối xử lý truy
             System.out.println("Lỗi Driver");
         }
     }
-    
-   
 
     //1. Mở kết nối
     public static Connection openDbConnection() {
@@ -100,7 +100,5 @@ public class DBConnection {//Lớp này giải quyết kết nối xử lý truy
     public void ExcuteSQL(String INSERT_SQL, String ma, String tenLoaiDoUong) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-    
-    
-  
+
 }
