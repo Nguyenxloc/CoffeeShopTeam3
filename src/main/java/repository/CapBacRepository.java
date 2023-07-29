@@ -47,10 +47,9 @@ public class CapBacRepository {
             String query = "INSERT INTO CapBac " + " (Ma, Ten, LuongPartime) " +
                                                             "VALUES (?, ?, ?)";
             PreparedStatement st = con.prepareStatement(query);
-            st.setString(1, cb.getIdCB());
-            st.setString(2, cb.getMaCB());
-            st.setString(3, cb.getTenCB());
-            st.setBigDecimal(4, cb.getLuongPastTime());
+            st.setString(1, cb.getMaCB());
+            st.setString(2, cb.getTenCB());
+            st.setBigDecimal(3, cb.getLuongPastTime());
             
             st.execute();
             st.close();
@@ -96,15 +95,22 @@ public class CapBacRepository {
         }
     }
     
-//    private boolean checkMa(String id){
-//         int count = 0;
-//         try {
-//            Connection con = DBConnection.getConnection();
-//            String query = "SELECT COUNT(*) FROM CapBac WHERE Id = ?";
-//             
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
+    public boolean checkMa(String id){
+         int count = 0;
+         try {
+            Connection con = DBConnection.getConnection();
+            String query = "SELECT COUNT(*) FROM CapBac WHERE Id = ?";
+            PreparedStatement st = con.prepareStatement(query);
+            st.setString(1, id);
+            ResultSet rs = st.executeQuery();
+            while(rs.next()){
+                count = rs.getInt(1);
+            }
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+         return count>0;
+    }
     
 }

@@ -50,7 +50,11 @@ public class Form_CapBac extends javax.swing.JPanel {
         }
         BigDecimal luong = new BigDecimal(luog);
         
-        QLCapBac cb = new QLCapBac("", ma, ten, luong);
+        QLCapBac cb = new QLCapBac();
+        cb.setMaCB(ma);
+        cb.setTenCB(ten);
+        cb.setLuongPastTime(luong);
+        
         return cb;
         
     }
@@ -290,7 +294,6 @@ public class Form_CapBac extends javax.swing.JPanel {
             return;
         }
         if(ld != null){
-            JOptionPane.showMessageDialog(this, "Sửa thành công");
             capBacService.sua(ld);
             loadTable();
             clear();
@@ -304,7 +307,6 @@ public class Form_CapBac extends javax.swing.JPanel {
         QLCapBac ql = getForm();
 
         if(ql != null){
-            JOptionPane.showMessageDialog(this, "Thêm thành công");
             capBacService.them(ql);
             loadTable();
             clear();
