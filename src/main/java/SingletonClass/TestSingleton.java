@@ -14,5 +14,7 @@ public class TestSingleton {
 //        CountProduct_singleton.getInstance().count=1;
         System.out.println("==============test singleton:================");
         System.out.println(LstChiTietDoUong_singleton.getInstance().lstChiTietDoUongs);
+        System.out.println(System.getProperty("lib/javax.json-1.1.jar"));
+        
     }
 }
