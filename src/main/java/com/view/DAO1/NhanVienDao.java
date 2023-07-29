@@ -146,28 +146,28 @@ public class NhanVienDao {
         return lit;
     }
     
-//    public Boolean addNew(NhanVien nhanVien){
-//        String sql = "insert into NhanVien(Ma,Ten,GioiTinh,NgaySinh,DiaChi,Sdt,TaiKhoan,MatKhau,IdCB,TrangThai,HinhAnh) values(?,?,?,?,?,?,?,?,?,?,?)";
-//        try(Connection con = connection1.getConnection();
-//                PreparedStatement st = con.prepareStatement(sql)) {
-//                st.setObject(1, nhanVien.getMa());
-//                st.setObject(2, nhanVien.getTen());
-//                st.setObject(3, nhanVien.getGioiTinh());
-//                st.setObject(4, nhanVien.getNgaySinh());
-//                st.setObject(5, nhanVien.getDiaChi());
-//                st.setObject(6, nhanVien.getSdt());
-//                st.setObject(7, nhanVien.getTaiKhoan());
-//                st.setObject(8, nhanVien.getMatKhau());
-//                st.setObject(9, nhanVien.getIdCB());
-//                st.setObject(10, nhanVien.getTrangThai());
-//                st.setObject(11, nhanVien.getImg());
-//                int result = st.executeUpdate();
-//                return result>0;
-//        } catch (Exception e) {
-//             e.printStackTrace();
-//        }
-//        return false;
-//    }
+    public Boolean addNew(NhanVien nhanVien){
+        String sql = "insert into NhanVien(Ma,Ten,GioiTinh,NgaySinh,DiaChi,Sdt,TaiKhoan,MatKhau,IdCB,TrangThai,HinhAnh) values(?,?,?,?,?,?,?,?,?,?,?)";
+        try(Connection con = connection1.getConnection();
+                PreparedStatement st = con.prepareStatement(sql)) {
+                st.setObject(1, nhanVien.getMa());
+                st.setObject(2, nhanVien.getTen());
+                st.setObject(3, nhanVien.getGioiTinh());
+                st.setObject(4, nhanVien.getNgaySinh());
+                st.setObject(5, nhanVien.getDiaChi());
+                st.setObject(6, nhanVien.getSdt());
+                st.setObject(7, nhanVien.getTaiKhoan());
+                st.setObject(8, nhanVien.getMatKhau());
+                st.setObject(9, nhanVien.getCapBac().getId());
+                st.setObject(10, nhanVien.getTrangThai());
+                st.setObject(11, nhanVien.getImg());
+                int result = st.executeUpdate();
+                return result>0;
+        } catch (Exception e) {
+             e.printStackTrace();
+        }
+        return false;
+    }
     
     public Boolean deleteNew(String ma){
         String sql = "delete NhanVien where Ma =?";
@@ -183,7 +183,8 @@ public class NhanVienDao {
     }
     
     public static void main(String[] args) {
-//        NhanVienDao dao = new NhanVienDao();
+        NhanVienDao dao = new NhanVienDao();
+        //NhanVien nhanVien = new NhanVien("", "NV03", "Tam", "Nu", "2000-01-01", "Ha Noi", "0143432545", "Tam", "12344", capBac, 0, "");
 //        //System.out.println(dao.selectByAccount("son"));
 //         ArrayList<NhanVien> list = dao.getList();
 //         System.out.println(list);

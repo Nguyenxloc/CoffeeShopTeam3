@@ -34,6 +34,21 @@ public class NhanVien {
         this.matKhau = matKhau;
     }
 
+    public NhanVien(String ma, String ten, String gioiTinh, String ngaySinh, String diaChi, String sdt, String taiKhoan, String matKhau, CapBac capBac, int trangThai, byte[] img) {
+        this.ma = ma;
+        this.ten = ten;
+        this.gioiTinh = gioiTinh;
+        this.ngaySinh = ngaySinh;
+        this.diaChi = diaChi;
+        this.sdt = sdt;
+        this.taiKhoan = taiKhoan;
+        this.matKhau = matKhau;
+        this.capBac = capBac;
+        this.trangThai = trangThai;
+        this.img = img;
+    }
+
+    
     
     public NhanVien(String id, String ma, String ten, String gioiTinh, String ngaySinh, String diaChi, String sdt, String taiKhoan, String matKhau, CapBac capBac, int trangThai, byte[] img) {
         this.id = id;
