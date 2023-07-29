@@ -8,7 +8,7 @@ import DoUong_HoaDon_ThongKe_Model.LoaiDoUong;
 
 /**
  *
- * @author ADMIN
+ * @author Sang
  */
 public class ChiTietDoUong {
     

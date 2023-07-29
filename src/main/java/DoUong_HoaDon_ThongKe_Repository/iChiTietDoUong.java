@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 /**
  *
- * @author ADMIN
+ * @author Sang
  */
 public interface iChiTietDoUong {
 

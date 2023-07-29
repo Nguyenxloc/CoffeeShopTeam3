@@ -5,7 +5,7 @@
 package com.view.form_Template;
 
 import DoUong_HoaDon_ThongKe_Model.ChiTietDoUong;
-import DoUong_HoaDon_ThongKe_Service.ChiTietDoUongService;
+import DoUong_HoaDon_ThongKe_Service111.ChiTietDoUongService;
 import DoUong_HoaDon_ThongKe_Model.LoaiDoUong;
 import com.view.component.ChooseFileFrame;
 import java.awt.Image;
@@ -698,24 +698,24 @@ public class Form_QLDoUong extends javax.swing.JPanel {
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
 
-//        try {
-//            convertURLToBytes();
-//        } catch (Exception e) {
-//            imgBytes = new byte[5000];
-//            e.printStackTrace();
-//        }
-//
-//        int count = cboDanhMucDoUong.getSelectedIndex();
-//        LoaiDoUong loaiDoUong = lstLoaiDoUong.get(count);
-//        String tenDoUong = txtTenDoUong.getText();
-//        Double giaNhap = Double.parseDouble(txtGiaNhapDoUong.getText());
-//        Double giaBan = Double.parseDouble(txtGiaBanDoUong.getText());
-//        String moTa = taraMota.getText();
-//        System.out.println(imgBytes);
-//        ChiTietDoUong chiTietDoUong = new ChiTietDoUong(null, tenDoUong, giaNhap, giaBan, moTa, imgBytes, loaiDoUong);
-//        save(chiTietDoUong);
-//        loadData();
-//        JOptionPane.showMessageDialog(this, "Thêm thành công !");
+        try {
+            convertURLToBytes();
+        } catch (Exception e) {
+            imgBytes = new byte[5000];
+            e.printStackTrace();
+        }
+
+        int count = cboDanhMucDoUong.getSelectedIndex();
+        LoaiDoUong loaiDoUong = lstLoaiDoUong.get(count);
+        String tenDoUong = txtTenDoUong.getText();
+        Double giaNhap = Double.parseDouble(txtGiaNhapDoUong.getText());
+        Double giaBan = Double.parseDouble(txtGiaBanDoUong.getText());
+        String moTa = taraMota.getText();
+        System.out.println(imgBytes);
+        ChiTietDoUong chiTietDoUong = new ChiTietDoUong(null, tenDoUong, giaNhap, giaBan, moTa, imgBytes, loaiDoUong);
+        save(chiTietDoUong);
+        loadData();
+        JOptionPane.showMessageDialog(this, "Thêm thành công !");
     }//GEN-LAST:event_btnThemActionPerformed
 
     private void tblDanhSachDoUongMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblDanhSachDoUongMouseClicked
@@ -747,20 +747,21 @@ public class Form_QLDoUong extends javax.swing.JPanel {
 
     private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
 
-//        String tenDoUong = txtTenDoUong.getText();
-//        Double giaNhap = Double.parseDouble(txtGiaNhapDoUong.getText());
-//        Double giaBan = Double.parseDouble(txtGiaBanDoUong.getText());
-//        String moTa = taraMota.getText();
-//        try {
-//            convertURLToBytes();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        System.out.println(imgBytes);
-//        ChiTietDoUong chiTietDoUong = new ChiTietDoUong(lstChiTietDoUong.get(index).getId(), tenDoUong, giaNhap, giaBan, moTa, imgBytes, lstLoaiDoUong.get(cboDanhMucDoUong.getSelectedIndex()));
-//        update(chiTietDoUong);
-//        loadData();
-//        JOptionPane.showMessageDialog(this, "Sửa thành công !");
+        String tenDoUong = txtTenDoUong.getText();
+        Double giaNhap = Double.parseDouble(txtGiaNhapDoUong.getText());
+        Double giaBan = Double.parseDouble(txtGiaBanDoUong.getText());
+        String moTa = taraMota.getText();
+        try {
+            convertURLToBytes();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        System.out.println(imgBytes);
+        System.out.println(lstLoaiDoUong.get(cboDanhMucDoUong.getSelectedIndex()));
+        ChiTietDoUong chiTietDoUong = new ChiTietDoUong(lstChiTietDoUong.get(index).getId(), tenDoUong, giaNhap, giaBan, moTa, imgBytes, lstLoaiDoUong.get(cboDanhMucDoUong.getSelectedIndex()));
+        update(chiTietDoUong);
+        loadData();
+        JOptionPane.showMessageDialog(this, "Sửa thành công !");
     }//GEN-LAST:event_btnSuaActionPerformed
 
     private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
@@ -796,12 +797,12 @@ public class Form_QLDoUong extends javax.swing.JPanel {
 
     private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
         // TODO add your handling code here:
-       // clear();
+        clear();
     }//GEN-LAST:event_btnClearActionPerformed
 
     private void btnTimKiemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTimKiemActionPerformed
         // TODO add your handling code here:
-       // timKiem();
+        timKiem();
     }//GEN-LAST:event_btnTimKiemActionPerformed
 
     private void cboTimKiemDanhMucDoUongActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboTimKiemDanhMucDoUongActionPerformed
