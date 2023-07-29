@@ -52,11 +52,11 @@ public class Form_QuanLyKho extends javax.swing.JPanel {
     }
 
     public void loadCBB() {
-        List<NhanVien> ds = nhapkhoService.getALLNV();
+        List<NhanVien> ds = nhapkhoService.getCBBNV();
         DefaultComboBoxModel model = (DefaultComboBoxModel) cbbtenNV.getModel();
         model.removeAllElements();
         for (NhanVien nv : ds) {
-            model.addElement(nv.toString());
+            model.addElement(nv.getHoTen());
         }
     }
 
@@ -80,7 +80,7 @@ public class Form_QuanLyKho extends javax.swing.JPanel {
         BigDecimal dGia = new BigDecimal(dGiaa);
         Date nNhap = new Date(sdf.parse(nNhapp).getTime());
         int cout = cbbtenNV.getSelectedIndex();
-        NhanVien nv = nhapkhoService.getALLNV().get(cout);
+        NhanVien nv = nhapkhoService.getCBBNV().get(cout);
 
         QLNhapKho nk = new QLNhapKho();
         nk.setNhanVien(nv);
@@ -91,21 +91,22 @@ public class Form_QuanLyKho extends javax.swing.JPanel {
         nk.setDonGia(dGia);
         return nk;
     }
+    
 
     public void moueclick() {
         int row = tblTable.getSelectedRow();
-
         NhanVien nv = nhapkhoService.timTheoID(tblTable.getValueAt(row, 1).toString());
 //        DecimalFormat decimalFormat = new DecimalFormat("#,### VND");
 //        String dGia = decimalFormat.format(nk.getDonGia());
 
         txtID.setText(tblTable.getValueAt(row, 0).toString());
-        cbbtenNV.setSelectedItem(nv.toString());
+        cbbtenNV.setSelectedItem(nv.getHoTen());
         txtTenSP.setText(tblTable.getValueAt(row, 2).toString());
         txtnNhap.setText(tblTable.getValueAt(row, 3).toString());
         txtdVi.setText(tblTable.getValueAt(row, 4).toString());
         txtsoLuong.setText(tblTable.getValueAt(row, 5).toString());
         txtdGia.setText(tblTable.getValueAt(row, 6).toString());
+    
     }
 
     public void clear() {
@@ -142,8 +143,6 @@ public class Form_QuanLyKho extends javax.swing.JPanel {
         jLabel559 = new javax.swing.JLabel();
         jScrollPane30 = new javax.swing.JScrollPane();
         tblTable = new javax.swing.JTable();
-        btnTKiem = new javax.swing.JButton();
-        txtSsearchKey = new javax.swing.JTextField();
         jPanel438 = new javax.swing.JPanel();
         jPanel439 = new javax.swing.JPanel();
         jPanel440 = new javax.swing.JPanel();
@@ -206,6 +205,9 @@ public class Form_QuanLyKho extends javax.swing.JPanel {
         jLabel5 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         txtID = new javax.swing.JTextField();
+        jPanel1 = new javax.swing.JPanel();
+        btnTKiem = new javax.swing.JButton();
+        txtSsearchKey = new javax.swing.JTextField();
 
         jPanel437.setMaximumSize(new java.awt.Dimension(1014, 600));
         jPanel437.setMinimumSize(new java.awt.Dimension(1014, 600));
@@ -232,22 +234,7 @@ public class Form_QuanLyKho extends javax.swing.JPanel {
         });
         jScrollPane30.setViewportView(tblTable);
 
-        jPanel437.add(jScrollPane30, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 300, 780, 260));
-
-        btnTKiem.setText("Tìm Kiếm");
-        btnTKiem.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnTKiemActionPerformed(evt);
-            }
-        });
-        jPanel437.add(btnTKiem, new org.netbeans.lib.awtextra.AbsoluteConstraints(960, 70, 101, -1));
-
-        txtSsearchKey.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtSsearchKeyActionPerformed(evt);
-            }
-        });
-        jPanel437.add(txtSsearchKey, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 70, 650, -1));
+        jPanel437.add(jScrollPane30, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 300, 760, 260));
 
         jPanel438.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -515,7 +502,43 @@ public class Form_QuanLyKho extends javax.swing.JPanel {
         txtID.setEnabled(false);
         jPanel4.add(txtID, new org.netbeans.lib.awtextra.AbsoluteConstraints(44, 6, 258, -1));
 
-        jPanel437.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(301, 100, 720, -1));
+        jPanel437.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 100, 690, -1));
+
+        btnTKiem.setText("Tìm Kiếm");
+        btnTKiem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTKiemActionPerformed(evt);
+            }
+        });
+
+        txtSsearchKey.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtSsearchKeyActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(txtSsearchKey, javax.swing.GroupLayout.PREFERRED_SIZE, 609, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(32, 32, 32)
+                .addComponent(btnTKiem, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(32, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtSsearchKey, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnTKiem))
+                .addGap(59, 59, 59))
+        );
+
+        jPanel437.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 49, 780, 40));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -691,6 +714,7 @@ public class Form_QuanLyKho extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel437;
     private javax.swing.JPanel jPanel438;

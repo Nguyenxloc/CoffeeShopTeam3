@@ -15,6 +15,11 @@ import com.view.form.WalletForm;
 import com.view.form_Template.Container;
 import com.view.form_Template.FormLichHoc;
 import com.view.form_Template.Form_BanHang;
+
+import com.view.form_Template.Form_CapBac;
+import com.view.form_Template.Form_KhuyenMai;
+import com.view.form_Template.Form_LoaiDoUong;
+
 import com.view.form_Template.Form_GiaoCa1;
 import com.view.form_Template.Form_KhuyenMai;
 import com.view.form_Template.Form_LopHoc;
@@ -22,6 +27,7 @@ import com.view.form_Template.Form_QLDoUong;
 import com.view.form_Template.Form_QLHoaDon;
 import com.view.form_Template.Form_QuanLyKho;
 import com.view.form_Template.Form_TaoTaiKhoan;
+
 import com.view.form_Template.Form_ThongKe;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -42,6 +48,7 @@ public class MainTemplate extends javax.swing.JFrame {
     /**
      * Creates new form Main
      */
+    private WalletForm home;
        private WalletForm home;
     private ThongBaoForm formThongbao;
     private Form_BanHang formBanHang;
@@ -50,6 +57,10 @@ public class MainTemplate extends javax.swing.JFrame {
     private Form_KhuyenMai form_KhuyenMai;
     private com.view.component.paneOfProduct paneOfProduct2;
     private QuanLyNhanVien formQLNhanVien;
+    private Form_QLHoaDon formQLHoaDon;
+    private Form_QuanLyKho form_QuanLyKho;
+    private Form_LoaiDoUong form_LoaiDoUong;
+    private Form_CapBac form_CapBac;
     private Form_QLHoaDon form_QLHoaDon;
     private Form_ThongKe form_ThongKe;
 //    private Form_QuanLyKho form_QuanLyKho;
@@ -62,6 +73,18 @@ public class MainTemplate extends javax.swing.JFrame {
         home = new WalletForm();         
         formThongbao = new ThongBaoForm();
         formBanHang = new Form_BanHang();
+     
+        form_KhuyenMai = new Form_KhuyenMai();
+
+        formQLNhanVien = new QuanLyNhanVien();
+        form_TaoTaiKhoan = new Form_TaoTaiKhoan();
+        form_QLDoUong = new Form_QLDoUong();
+        formQLHoaDon = new Form_QLHoaDon();
+        form_QuanLyKho = new Form_QuanLyKho();
+        form_LoaiDoUong = new Form_LoaiDoUong();
+        form_CapBac = new Form_CapBac();
+        
+        
         form_KhuyenMai = new Form_KhuyenMai();
         formQLNhanVien = new QuanLyNhanVien();
         form_TaoTaiKhoan = new Form_TaoTaiKhoan();
@@ -76,6 +99,9 @@ public class MainTemplate extends javax.swing.JFrame {
             @Override
             public void selected(int index) {
                 if (index == 5) {
+                    setForm(formQLHoaDon);
+                } else if (index == 6) {
+//                    setForm(formBaoCao);
                     setForm(form_QLHoaDon);
                 } else if (index == 6) {
                     setForm(form_ThongKe);
@@ -88,6 +114,7 @@ public class MainTemplate extends javax.swing.JFrame {
                 } else if (index == 8) {
                     setForm(form_TaoTaiKhoan);
                 } else if (index == 2) {
+//                    setForm(formQLDiem);
 //                    DoanhThu_singleton.getInstance().doanhThuNow =  ;
                     setForm(form_GiaoCa1);
                 } else if (index == 3) {
@@ -96,6 +123,14 @@ public class MainTemplate extends javax.swing.JFrame {
                     setForm(form_KhuyenMai);
                 }
                 else if (index == 9) {
+                    setForm(form_QuanLyKho);
+                }else if (index == 10) {
+                    setForm(form_LoaiDoUong);
+                }else if (index == 11) {
+                    setForm(form_CapBac);
+                }
+                
+                else if (index == 12) {
 //                    setForm(form_QuanLyKho);
                 }
                 else if (index == 10) {
@@ -157,6 +192,17 @@ public class MainTemplate extends javax.swing.JFrame {
         panelBorder1Layout.setHorizontalGroup(
             panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelBorder1Layout.createSequentialGroup()
+                .addComponent(menuOfCB1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(12, 12, 12)
+                .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 1041, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        panelBorder1Layout.setVerticalGroup(
+            panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(menuOfCB1, javax.swing.GroupLayout.DEFAULT_SIZE, 717, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelBorder1Layout.createSequentialGroup()
+                .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
                 .addComponent(menuOfCB1, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 1041, Short.MAX_VALUE)
@@ -175,6 +221,9 @@ public class MainTemplate extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(panelBorder1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
             .addComponent(panelBorder1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
