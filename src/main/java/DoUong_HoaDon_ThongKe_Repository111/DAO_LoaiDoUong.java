@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package DoUong_HoaDon_ThongKe_Repository;
+package DoUong_HoaDon_ThongKe_Repository111;
 
 import DoUong_HoaDon_ThongKe_Model.LoaiDoUong;
 import java.sql.ResultSet;
@@ -12,7 +12,7 @@ import ultilities.DBConnection1;
 
 /**
  *
- * @author Sang
+ * @author ADMIN
  */
 public class DAO_LoaiDoUong implements iLoaiDoUong {
 
@@ -72,4 +72,39 @@ public class DAO_LoaiDoUong implements iLoaiDoUong {
             e.printStackTrace();
         }
     }
+
+    @Override
+    public void update(LoaiDoUong loaiDoUong) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void delete(String id) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+//    public ArrayList<ViewDoUong> getDanhMucDoUongTheoMa(String ma) {
+//        ArrayList<ViewDoUong> lstViewDoUong = new ArrayList<>();
+//        String sql = "select ChiTietDoUong.MaDoUong, ChiTietDoUong.TenDoUong, LoaiDoUong.Ten, ChiTietDoUong.GiaBan, ChiTietDoUong.MoTa from LoaiDoUong \n"
+//                + "Join ChiTietDoUong on LoaiDoUong.id =  ChiTietDoUong.idLoaiDoUong\n"
+//                + "where Ma = ?\n"
+//                + "group by ChiTietDoUong.MaDoUong, ChiTietDoUong.TenDoUong, LoaiDoUong.Ten, ChiTietDoUong.GiaBan, ChiTietDoUong.MoTa\n"
+//                + "order by MaDoUong";
+//        try (Connection con = DbConnection1.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
+//            ps.setObject(1, ma);
+//            ResultSet rs = ps.executeQuery();
+//            while (rs.next()) {
+//                ViewDoUong viewDoUong = new ViewDoUong();
+//                viewDoUong.setMaDoUong(rs.getString("MaDoUong"));
+//                viewDoUong.setTenDoUong(rs.getString("TenDoUong"));
+//                viewDoUong.setLoaiDoUong(rs.getString("Ten"));
+//                viewDoUong.setGiaBan(rs.getDouble("GiaBan"));
+//                viewDoUong.setMoTa(rs.getString("MoTa"));
+//                lstViewDoUong.add(viewDoUong);
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        return lstViewDoUong;
+//    }
 }

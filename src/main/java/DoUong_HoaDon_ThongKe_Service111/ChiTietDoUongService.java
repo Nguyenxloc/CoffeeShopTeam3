@@ -2,17 +2,17 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package DoUong_HoaDon_ThongKe_Service;
+package DoUong_HoaDon_ThongKe_Service111;
 
 import DoUong_HoaDon_ThongKe_Model.ChiTietDoUong;
-import DoUong_HoaDon_ThongKe_Repository.DAO_ChiTietDoUong;
-import DoUong_HoaDon_ThongKe_Repository.DAO_LoaiDoUong;
+import DoUong_HoaDon_ThongKe_Repository111.DAO_ChiTietDoUong;
+import DoUong_HoaDon_ThongKe_Repository111.DAO_LoaiDoUong;
 import DoUong_HoaDon_ThongKe_Model.LoaiDoUong;
 import java.util.ArrayList;
 
 /**
  *
- * @author Sang
+ * @author ADMIN
  */
 public class ChiTietDoUongService {
     

@@ -22,6 +22,7 @@ import com.view.form_Template.Form_QLDoUong;
 import com.view.form_Template.Form_QLHoaDon;
 import com.view.form_Template.Form_QuanLyKho;
 import com.view.form_Template.Form_TaoTaiKhoan;
+import com.view.form_Template.Form_ThongKe;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -50,7 +51,8 @@ public class MainOfNV extends javax.swing.JFrame {
     private com.view.component.paneOfProduct paneOfProduct2;
     private QuanLyNhanVien formQLNhanVien;
     private Form_QLHoaDon formQLHoaDon;
-    private Form_QuanLyKho form_QuanLyKho;
+    private Form_ThongKe form_ThongKe;
+//    private Form_QuanLyKho form_QuanLyKho;
     private Form_GiaoCa1 form_GiaoCa1;
 
     public MainOfNV() {
@@ -63,7 +65,8 @@ public class MainOfNV extends javax.swing.JFrame {
         form_TaoTaiKhoan = new Form_TaoTaiKhoan();
         form_QLDoUong = new Form_QLDoUong();
         formQLHoaDon = new Form_QLHoaDon();
-        form_QuanLyKho = new Form_QuanLyKho();
+        form_ThongKe = new Form_ThongKe();
+//        form_QuanLyKho = new Form_QuanLyKho();
         form_GiaoCa1 = new Form_GiaoCa1();
         setBackground(new Color(0, 0, 0, 0));
         menuOfNV1.initMoving(MainOfNV.this);
@@ -73,7 +76,7 @@ public class MainOfNV extends javax.swing.JFrame {
                 if (index == 5) {
                     setForm(form_TaoTaiKhoan);
                 } else if (index == 6) {
-                    setForm(form_QuanLyKho);
+//                    setForm(form_QuanLyKho);
                 } else if (index == 0) {
                     setForm(formThongbao);
                 } else if (index == 1) {
@@ -84,7 +87,7 @@ public class MainOfNV extends javax.swing.JFrame {
                 } else if (index == 3) {
                     setForm(formQLHoaDon);
                 } else if (index == 4) {
-//                    setForm();
+                    setForm(form_ThongKe);
                 }
 
                 else if (index == 7) {
@@ -145,18 +148,13 @@ public class MainOfNV extends javax.swing.JFrame {
         panelBorder1.setLayout(panelBorder1Layout);
         panelBorder1Layout.setHorizontalGroup(
             panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelBorder1Layout.createSequentialGroup()
-                .addComponent(menuOfNV1, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 1041, Short.MAX_VALUE)
-                .addContainerGap())
+            .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 1059, Short.MAX_VALUE)
         );
         panelBorder1Layout.setVerticalGroup(
             panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelBorder1Layout.createSequentialGroup()
-                .addGroup(panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(menuOfNV1, javax.swing.GroupLayout.DEFAULT_SIZE, 750, Short.MAX_VALUE))
+                .addContainerGap()
+                .addComponent(mainPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 744, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -165,7 +163,8 @@ public class MainOfNV extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addComponent(menuOfNV1, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(panelBorder1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(7, 7, 7))
         );
@@ -174,6 +173,7 @@ public class MainOfNV extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(panelBorder1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(menuOfNV1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();

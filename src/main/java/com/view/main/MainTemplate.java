@@ -22,6 +22,7 @@ import com.view.form_Template.Form_QLDoUong;
 import com.view.form_Template.Form_QLHoaDon;
 import com.view.form_Template.Form_QuanLyKho;
 import com.view.form_Template.Form_TaoTaiKhoan;
+import com.view.form_Template.Form_ThongKe;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -49,8 +50,9 @@ public class MainTemplate extends javax.swing.JFrame {
     private Form_KhuyenMai form_KhuyenMai;
     private com.view.component.paneOfProduct paneOfProduct2;
     private QuanLyNhanVien formQLNhanVien;
-    private Form_QLHoaDon formQLHoaDon;
-    private Form_QuanLyKho form_QuanLyKho;
+    private Form_QLHoaDon form_QLHoaDon;
+    private Form_ThongKe form_ThongKe;
+//    private Form_QuanLyKho form_QuanLyKho;
     private Form_GiaoCa1 form_GiaoCa1;
 //    private Form_QuanLyKho form_QuanLyKho;
 //    private Form_GiaoCa1 form_GiaoCa1;
@@ -64,8 +66,9 @@ public class MainTemplate extends javax.swing.JFrame {
         formQLNhanVien = new QuanLyNhanVien();
         form_TaoTaiKhoan = new Form_TaoTaiKhoan();
         form_QLDoUong = new Form_QLDoUong();
-        formQLHoaDon = new Form_QLHoaDon();
-        form_QuanLyKho = new Form_QuanLyKho();
+        form_QLHoaDon = new Form_QLHoaDon();
+        form_ThongKe = new Form_ThongKe();
+//        form_QuanLyKho = new Form_QuanLyKho();
         form_GiaoCa1 = new Form_GiaoCa1();
         setBackground(new Color(0, 0, 0, 0));
         menuOfCB1.initMoving(MainTemplate.this);
@@ -73,9 +76,9 @@ public class MainTemplate extends javax.swing.JFrame {
             @Override
             public void selected(int index) {
                 if (index == 5) {
-                    setForm(formQLHoaDon);
+                    setForm(form_QLHoaDon);
                 } else if (index == 6) {
-//                    setForm(formBaoCao);
+                    setForm(form_ThongKe);
                 } else if (index == 0) {
                     setForm(formThongbao);
                 } else if (index == 1) {
@@ -93,7 +96,7 @@ public class MainTemplate extends javax.swing.JFrame {
                     setForm(form_KhuyenMai);
                 }
                 else if (index == 9) {
-                    setForm(form_QuanLyKho);
+//                    setForm(form_QuanLyKho);
                 }
                 else if (index == 10) {
                     MessageFrame messageFrame = new MessageFrame();

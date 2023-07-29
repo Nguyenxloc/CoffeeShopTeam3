@@ -79,7 +79,7 @@
             <artifactId>sample</artifactId>
             <version>1.0</version>
             <scope>system</scope>
-            <systemPath>C:\Users\84374\Documents\NetBeansProjects\CoffeeShopTeam3Master\lib\javax.json-1.1.jar</systemPath>
+            <systemPath>C:\Users\ADMIN\OneDrive\Máy tính\DA1\CoffeeShopTeam_Sang\lib\javax.json-1.1.jar</systemPath>
         </dependency>
 
 
@@ -151,6 +151,6 @@
   
     </build>
 
-    <name>CoffeeShopMaster</name>
+    <name>CoffeeShopSang</name>
 
 </project>

@@ -37,6 +37,17 @@ public class LichSuHoaDon {
     public LichSuHoaDon() {
     }
 
+    public LichSuHoaDon(String maHoaDon, String tenNhanVien, String timeTao, String timeThanhToan, int soLuong, double tongTienHoaDon, double chietKhau, int trangThai) {
+        this.maHoaDon = maHoaDon;
+        this.tenNhanVien = tenNhanVien;
+        this.timeTao = timeTao;
+        this.timeThanhToan = timeThanhToan;
+        this.soLuong = soLuong;
+        this.tongTienHoaDon = tongTienHoaDon;
+        this.chietKhau = chietKhau;
+        this.trangThai = trangThai;
+    }
+    
     public LichSuHoaDon(String maHoaDon, String tenNhanVien, String timeTao, String timeThanhToan, int tinhTrangThanhToan, int soLuong, double tongTienHoaDon, double chietKhau, double tongTienThuVe, int trangThai) {
         this.maHoaDon = maHoaDon;
         this.tenNhanVien = tenNhanVien;
