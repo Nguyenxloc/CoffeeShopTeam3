@@ -29,4 +29,11 @@ public class NhanVienService {
         return repositoryNhanVien.selectByID(id);
     }
 
+    public NhanVien selectByIDNhanVien(String id) {
+        return repositoryNhanVien.selectByIDNhanVien(id);
+    }
+
+    public ArrayList<NhanVien> selectCBONhanVien() {
+        return repositoryNhanVien.selectCBONhanVien();
+    }
 }
