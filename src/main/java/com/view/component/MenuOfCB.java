@@ -27,6 +27,7 @@ public class MenuOfCB extends javax.swing.JPanel {
     private String tenNV;
     private String capBac;
     private String ngay;
+
     public void addEventMenuSelected(EventMenuSelected event) {
         this.event = event;
         listMenu1.addEventMenuSelected(event);
@@ -50,12 +51,12 @@ public class MenuOfCB extends javax.swing.JPanel {
         listMenu1.addItem(new Model_Menu("3", "Bán hàng", Model_Menu.MenuType.MENU));
         listMenu1.addItem(new Model_Menu("4", "QL Giao ca", Model_Menu.MenuType.MENU));
         listMenu1.addItem(new Model_Menu("5", "QL Menu", Model_Menu.MenuType.MENU));
-        //listMenu1.addItem(new Model_Menu("6", "Icons", Model_Menu.MenuType.MENU)); Khang
         listMenu1.addItem(new Model_Menu("1", "Quản lý khuyến mại", Model_Menu.MenuType.MENU));
         listMenu1.addItem(new Model_Menu("7", "QL Hóa Đơn", Model_Menu.MenuType.MENU));
         listMenu1.addItem(new Model_Menu("8", "Thống kê", Model_Menu.MenuType.MENU));
         listMenu1.addItem(new Model_Menu("6", "Quản lý nhân viên", Model_Menu.MenuType.MENU));
         listMenu1.addItem(new Model_Menu("9", "Tạo tài khoản", Model_Menu.MenuType.MENU));
+        listMenu1.addItem(new Model_Menu("9", "Chấm công", Model_Menu.MenuType.MENU));
         listMenu1.addItem(new Model_Menu("10", "Quản lý nhập kho", Model_Menu.MenuType.MENU));
         listMenu1.addItem(new Model_Menu("10", "Quản lý Loại Đồ Uống", Model_Menu.MenuType.MENU));
         listMenu1.addItem(new Model_Menu("10", "Quản lý Cấp Bậc", Model_Menu.MenuType.MENU));
@@ -66,25 +67,22 @@ public class MenuOfCB extends javax.swing.JPanel {
         listMenu1.addItem(new Model_Menu("", "\n ", Model_Menu.MenuType.TITLE));
         listMenu1.addItem(new Model_Menu("", "\n ", Model_Menu.MenuType.TITLE));
         listMenu1.addItem(new Model_Menu("", "\n ", Model_Menu.MenuType.TITLE));
-        listMenu1.addItem(new Model_Menu("", "\n ", Model_Menu.MenuType.TITLE));
-        listMenu1.addItem(new Model_Menu("", "\n ", Model_Menu.MenuType.TITLE));
-        listMenu1.addItem(new Model_Menu("", "\n ", Model_Menu.MenuType.TITLE));
-        listMenu1.addItem(new Model_Menu("", "\n ", Model_Menu.MenuType.TITLE));
-        listMenu1.addItem(new Model_Menu("", "\n ", Model_Menu.MenuType.TITLE));
-        listMenu1.addItem(new Model_Menu("", "\n ", Model_Menu.MenuType.TITLE));
-        listMenu1.addItem(new Model_Menu("", "\n ", Model_Menu.MenuType.TITLE));
-        listMenu1.addItem(new Model_Menu("", "\n ", Model_Menu.MenuType.TITLE));
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
-        java.util.Date  date = new java.util.Date();
-        maNV = NV_singleton.getInstance().nv.getMa();
-        capBac =NV_singleton.getInstance().nv.getCapBac().getTenCB();
-        tenNV = NV_singleton.getInstance().nv.getTen();
-        ngay =formatter.format(date);
+        java.util.Date date = new java.util.Date();
 
-        listMenu1.addItem(new Model_Menu("", "#Mã nhân viên:" + maNV, Model_Menu.MenuType.TITLE));
-        listMenu1.addItem(new Model_Menu("", "#Cấp bậc:" + capBac, Model_Menu.MenuType.TITLE));
-        listMenu1.addItem(new Model_Menu("", "#Tên nhân viên:" + tenNV, Model_Menu.MenuType.TITLE));
-        listMenu1.addItem(new Model_Menu("", "#Ngày:" + ngay, Model_Menu.MenuType.TITLE));
+        try {
+            maNV = NV_singleton.getInstance().nv.getMa();
+            capBac = NV_singleton.getInstance().nv.getCapBac().getTenCB();
+            tenNV = NV_singleton.getInstance().nv.getTen();
+            ngay = formatter.format(date);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        listMenu1.addItem(new Model_Menu("", "#Mã NV:  " + maNV, Model_Menu.MenuType.TITLE));
+        listMenu1.addItem(new Model_Menu("", "#Cấp bậc:  " + capBac, Model_Menu.MenuType.TITLE));
+        listMenu1.addItem(new Model_Menu("", "#Tên NV:  " + tenNV, Model_Menu.MenuType.TITLE));
+        listMenu1.addItem(new Model_Menu("", "#Ngày:  " + ngay, Model_Menu.MenuType.TITLE));
 //        listMenu1.addItem(new Model_Menu("11", "QL somethingelse", Model_Menu.MenuType.MENU));
 //        listMenu1.addItem(new Model_Menu("12", "QL somethingelse", Model_Menu.MenuType.MENU));
 //        listMenu1.addItem(new Model_Menu("13", "QL somethingelse", Model_Menu.MenuType.MENU));

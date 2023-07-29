@@ -4,7 +4,6 @@
  */
 package repository;
 
-
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import model.ChiTietDoUong;
@@ -16,14 +15,14 @@ import ultilities.DBConnection1;
  *
  * @author ADMIN
  */
-public class DAO_ChiTietDoUongTai  {
+public class DAO_ChiTietDoUongTai {
 
-     final String INSERT_SQL = "INSERT INTO dbo.ChiTietDoUong(idLoaiDoUong,TenDoUong,GiaNhap,GiaBan,HinhAnh,MoTa)VALUES(?,?,?,?,?,?)";
+    final String INSERT_SQL = "INSERT INTO dbo.ChiTietDoUong(idLoaiDoUong,TenDoUong,GiaNhap,GiaBan,HinhAnh,MoTa)VALUES(?,?,?,?,?,?)";
     final String UPDATE_SQL = "UPDATE dbo.ChiTietDoUong SET TenDoUong=?, GiaNhap=?,GiaBan=?,MoTa=?,HinhAnh=? WHERE Id=?";
     final String DELETE_SQL = "DELETE FROM [dbo].[ChiTietDoUong] WHERE [Id] = ?";
-    final String SELECT_BY_MAGIAMGIA_SQL = "SELECT * FROM [dbo].[ChiTietDoUong] WHERE MaGIamGia = ?\n"
+    final String SELECT_BY_MAGIAMGIA_SQL = "SELECT * FROM [dbo].[ChiTietDoUong] WHERE MaGiamGia = ?\n"
             + "ORDER BY IdLoaiDoUong";
-    final String SELECT_ALL_SQL = "SELECT * FROM [dbo].[ChiTietDoUong] ORDER BY IdLoaiDoUong,MaGIamGia";
+    final String SELECT_ALL_SQL = "SELECT * FROM [dbo].[ChiTietDoUong] ORDER BY IdLoaiDoUong,MaGiamGia";
     final String SELECT_BY_SQL = "SELECT * FROM [dbo].[ChiTietDoUong] WHERE [Id] = ?";
     final String SELECT_BY_MULIPLECONDITION = "DECLARE @tenDoUong AS NVARCHAR(50) = ?, @idLoaiDoUong AS uniqueidentifier =?,@giaBatDau as decimal(20, 0)=?,@giaKeThuc as decimal(20, 0)=?"
             + "SELECT*FROM dbo.ChiTietDoUong \n"
@@ -35,7 +34,6 @@ public class DAO_ChiTietDoUongTai  {
 
     public DAO_ChiTietDoUongTai() {
     }
-
 
     public ArrayList<ChiTietDoUong> selectALl() {
         DBConnection1 dbConn = new DBConnection1();

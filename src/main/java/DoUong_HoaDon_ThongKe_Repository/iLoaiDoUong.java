@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 /**
  *
- * @author ADMIN
+ * @author Sang
  */
 public interface iLoaiDoUong {
     
@@ -19,8 +19,5 @@ public interface iLoaiDoUong {
 
     void save(LoaiDoUong loaiDoUong);
 
-    void update(LoaiDoUong loaiDoUong);
-
-    void delete(String id);
     
 }

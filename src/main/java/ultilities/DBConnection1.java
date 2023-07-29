@@ -11,16 +11,16 @@ package ultilities;
 import java.sql.*;
 
 public class DBConnection1 {
-    
+
     private static String hostName = "localhost";
     private static String acc = "sa";
-    private static String pass = "1234";
+    private static String pass = "123456";
     private static String dbName = "COFFEESHOP_DA1";
     private static String connectionSql
-            = "jdbc:sqlserver://" + hostName + ":1433;databaseName=" + dbName + ";user=" + acc + ";password=" + pass + ";encrypt=false";
+            = "jdbc:sqlserver://" + hostName + ":1433;databaseName=" + dbName + ";user=" + acc + ";password=" + pass + ";encrypt=false;sendTimeAsDateTime=false";
     private static String driver = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
     private static Connection conn;
-    
+
     static {
         try {
             Class.forName(driver);
@@ -28,15 +28,15 @@ public class DBConnection1 {
             System.out.println("Error At Driver");
         }
     }
+
     public static void main(String[] args) {
         openDbConnection();
     }
-    
+
     public static Connection openDbConnection() {
         try {
 
 //            System.out.println(connectionSql);
-
             System.out.println("Loading...");
 
             return DriverManager.getConnection(connectionSql, acc, pass);
@@ -46,7 +46,7 @@ public class DBConnection1 {
             return null;
         }
     }
-    
+
     public static int ExcuteSQL(String sql, Object... args) {
         PreparedStatement pstm = getStmt(sql, args);
         try {
@@ -61,12 +61,12 @@ public class DBConnection1 {
             return 0;
         }
     }
-    
+
     public static ResultSet getDataFromQuery(String sql, Object... args) throws SQLException {
         PreparedStatement pstm = getStmt(sql, args);
         return pstm.executeQuery();
     }
-    
+
     public static PreparedStatement getStmt(String sql, Object... args) {
         try {
             conn = openDbConnection();
@@ -82,7 +82,5 @@ public class DBConnection1 {
             return null;
         }
     }
-    
-   
-    
+
 }

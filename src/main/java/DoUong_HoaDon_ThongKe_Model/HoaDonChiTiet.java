@@ -6,7 +6,7 @@ package DoUong_HoaDon_ThongKe_Model;
 
 /**
  *
- * @author ADMIN
+ * @author Sang
  */
 public class HoaDonChiTiet {
     
