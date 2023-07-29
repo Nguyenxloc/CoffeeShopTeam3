@@ -4,20 +4,24 @@
  */
 package com.view.main;
 
+import SingletonClass.NV_singleton;
 import com.view.DAO1.NhanVienDao;
 import com.view.model.NhanVien;
 import java.io.File;
 import java.sql.*;
 import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
+import javax.swing.JProgressBar;
+import model.CapBac;
+import repository.DAO_CapBac;
 import ultilities.DBConnection;
 import ultilities.DBConnection1;
 
-
-
 public class LoginFrame extends javax.swing.JFrame {
+
     private DBConnection connection = new DBConnection();
     private NhanVienDao dao = new NhanVienDao();
+    private DAO_CapBac daoCapBac = new DAO_CapBac();
     private String dir = null;
 
     ////// query sql -- get vaiTro
@@ -38,6 +42,7 @@ public class LoginFrame extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         btnLogin.setkBorderRadius(30);
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -66,9 +71,9 @@ public class LoginFrame extends javax.swing.JFrame {
 
         kGradientPanel1.setAlignmentX(1.0F);
         kGradientPanel1.setAlignmentY(1.0F);
-        kGradientPanel1.setkEndColor(new java.awt.Color(102, 102, 255));
+        kGradientPanel1.setkEndColor(new java.awt.Color(0, 51, 153));
         kGradientPanel1.setkGradientFocus(150);
-        kGradientPanel1.setkStartColor(new java.awt.Color(102, 255, 255));
+        kGradientPanel1.setkStartColor(new java.awt.Color(102, 153, 255));
         kGradientPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
@@ -87,17 +92,17 @@ public class LoginFrame extends javax.swing.JFrame {
         btnLogin.setAlignmentY(1.0F);
         btnLogin.setDisplayedMnemonicIndex(1);
         btnLogin.setIconTextGap(6);
-        btnLogin.setkBackGroundColor(new java.awt.Color(255, 51, 204));
+        btnLogin.setkBackGroundColor(new java.awt.Color(0, 0, 204));
         btnLogin.setkBorderRadius(30);
-        btnLogin.setkEndColor(new java.awt.Color(102, 102, 255));
+        btnLogin.setkEndColor(new java.awt.Color(0, 102, 255));
         btnLogin.setkHoverColor(new java.awt.Color(0, 0, 0));
         btnLogin.setkHoverEndColor(new java.awt.Color(102, 255, 255));
         btnLogin.setkHoverForeGround(new java.awt.Color(0, 0, 0));
-        btnLogin.setkHoverStartColor(new java.awt.Color(255, 153, 255));
+        btnLogin.setkHoverStartColor(new java.awt.Color(102, 255, 255));
         btnLogin.setkIndicatorThickness(7);
         btnLogin.setkPressedColor(new java.awt.Color(255, 255, 255));
         btnLogin.setkSelectedColor(new java.awt.Color(255, 255, 255));
-        btnLogin.setkStartColor(new java.awt.Color(255, 102, 255));
+        btnLogin.setkStartColor(new java.awt.Color(51, 102, 255));
         btnLogin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnLoginActionPerformed(evt);
@@ -178,8 +183,8 @@ public class LoginFrame extends javax.swing.JFrame {
         jLabel6.setFont(new java.awt.Font("Segoe UI Semibold", 1, 24)); // NOI18N
         jLabel6.setForeground(new java.awt.Color(255, 255, 255));
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel6.setText("<html>\nNEVER STOP LEARNING\n<br>\nBECAUSE LIFE NEVER STOPS TEACHING\n");
-        kGradientPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 60, 500, 110));
+        jLabel6.setText("<html>HAVE GOOD DAY !");
+        kGradientPanel1.add(jLabel6, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 40, 270, 70));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -200,116 +205,92 @@ public class LoginFrame extends javax.swing.JFrame {
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
 //         MainTemplate view = new MainTemplate();
 //         view.setVisible(true);
-      
-         String us = txtUser.getText();
+        DBConnection dbConn = new DBConnection();
+
+        String us = txtUser.getText();
         String ps = txtPassword.getText();
 
         String sql = "	select * from NhanVien where TaiKhoan =? and MatKhau = ?";
-        try ( Connection con = connection.getConnection();
-                PreparedStatement st = con.prepareStatement(sql)) {
+        try (Connection con = connection.getConnection(); PreparedStatement st = con.prepareStatement(sql)) {
             st.setString(1, us);
             st.setString(2, ps);
             ResultSet rs = st.executeQuery();
+            DAO_CapBac dao_capBac = new DAO_CapBac();
             if (rs.next()) {
+                System.out.println("test nv singleton1");
+                System.out.println(rs);
+                CapBac capBac = dao_capBac.selectByID(rs.getString("IdCB"));
+                String vaiTro = capBac.getTenCB();
+                NV_singleton.getInstance().nv = new model.NhanVien(rs.getString("Id"), rs.getString("Ma"), rs.getNString("Ten"),
+                        rs.getNString("TenDem"), rs.getNString("Ho"), rs.getNString("GioiTinh"), rs.getDate("NgaySinh"),
+                        rs.getNString("DiaChi"), rs.getString("Sdt"), rs.getString("TaiKhoan"),
+                        rs.getString("MatKhau"), capBac, rs.getInt("TrangThai"), rs.getBytes("HinhAnh"), rs.getString("NgayTao"));
+
+                if (vaiTro.strip().equalsIgnoreCase("Quản lý")) {
+                    System.out.println("case 1");
+                    this.setVisible(false);
+                    MainTemplate view = new MainTemplate();
+                    view.setVisible(true);
+                } else {
+                    System.out.println("case 2 ");
+                    this.setVisible(false);
+                    MainOfNV viewNV = new MainOfNV();
+                    viewNV.setVisible(true);
+                }
+
                 JOptionPane.showMessageDialog(null, "Đăng nhập thành công");
-                MainTemplate view = new MainTemplate();
-                            view.setVisible(true);
-                            setVisible(false);   
-                 
-//                if (us.equals("son") && ps.equals("12345")) {
-//                    JOptionPane.showMessageDialog(null, "Đăng nhập quyền quản lý");
-//                            MainTemplate view = new MainTemplate();
-//                            view.setVisible(true);
-//                            setVisible(false);                  
-//                }
-//                else if (us.equals("hung") && ps.equals("12345")) {
-//                   JOptionPane.showMessageDialog(null, "Đăng nhập quyền nhân viên");
-//                            MainTemplate view = new MainTemplate();
-//                            view.setVisible(true);
-//                            setVisible(false);  
-//                } 
-                 
+
             } else {
-               // JOptionPane.showMessageDialog(null, "Username or Password không chính xác");
-                
+                // JOptionPane.showMessageDialog(null, "Username or Password không chính xác");
+
                 String manv = txtUser.getText().trim();
                 String matKhau = new String(txtPassword.getPassword()).trim();
                 NhanVien nhanVien = dao.selectByAccount(manv);
                 Pattern regex = Pattern.compile("[^A-Za-z0-9]");
-        if (txtUser.getText().equals("") && txtPassword.getPassword().length == 0) {
+                if (txtUser.getText().equals("") && txtPassword.getPassword().length == 0) {
 
-            JOptionPane.showMessageDialog(this, "Chưa nhập thông tin đăng nhập!");
-            txtUser.requestFocus();
-            return ;
+                    JOptionPane.showMessageDialog(this, "Chưa nhập thông tin đăng nhập!");
+                    txtUser.requestFocus();
+                    return;
 
-        } else if (txtUser.getText().equals("")) {
-            JOptionPane.showMessageDialog(this, "Vui lòng nhập tài khoản!");
-            txtUser.requestFocus();
-            return;}
-        else if(regex.matcher(manv).find()){
-            JOptionPane.showMessageDialog(this, "Tài khoản chứa ký tự đặc biệt!");
-            txtUser.setText("");
-            txtUser.requestFocus();
-            return;
-        }
-        else if (txtPassword.getPassword().length == 0) {
-            JOptionPane.showMessageDialog(this, "Vui lòng nhập mật khẩu!");
-            txtPassword.requestFocus();
-            return;
-        }else if(regex.matcher(matKhau).find()){
-             JOptionPane.showMessageDialog(this, "Mật khẩu chứa ký tự đặc biệt!");
-             txtPassword.setText("");
-             txtPassword.requestFocus();
-            return;
-        }
-        else if(nhanVien == null){
-                JOptionPane.showMessageDialog(this, "Sai tài khoản");
-                return;
-            }
-        else if (!ps.equals("12345")) {
-            JOptionPane.showMessageDialog(this, " Sai mật khẩu");
-            txtPassword.requestFocus();
-            return;
-        }
-       
+                } else if (txtUser.getText().equals("")) {
+                    JOptionPane.showMessageDialog(this, "Vui lòng nhập tài khoản!");
+                    txtUser.requestFocus();
+                    return;
+                } else if (regex.matcher(manv).find()) {
+                    JOptionPane.showMessageDialog(this, "Tài khoản chứa ký tự đặc biệt!");
+                    txtUser.setText("");
+                    txtUser.requestFocus();
+                    return;
+                } else if (txtPassword.getPassword().length == 0) {
+                    JOptionPane.showMessageDialog(this, "Vui lòng nhập mật khẩu!");
+                    txtPassword.requestFocus();
+                    return;
+                } else if (regex.matcher(matKhau).find()) {
+                    JOptionPane.showMessageDialog(this, "Mật khẩu chứa ký tự đặc biệt!");
+                    txtPassword.setText("");
+                    txtPassword.requestFocus();
+                    return;
+                } else if (nhanVien == null) {
+                    JOptionPane.showMessageDialog(this, "Sai tài khoản");
+                    return;
+                } else if (!ps.equals("12345")) {
+                    JOptionPane.showMessageDialog(this, " Sai mật khẩu");
+                    txtPassword.requestFocus();
+                    return;
+                }
+
             }
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e);
+            e.printStackTrace();
         }
     }//GEN-LAST:event_btnLoginActionPerformed
 
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(LoginFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(LoginFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(LoginFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(LoginFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        //</editor-fold>
-
-        /* Create and display the form */
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private com.k33ptoo.components.KButton btnLogin;
@@ -328,9 +309,7 @@ public class LoginFrame extends javax.swing.JFrame {
     private javax.swing.JTextField txtUser;
     // End of variables declaration//GEN-END:variables
 
-
-
-    public boolean check(){
+    public boolean check() {
         String manv = txtUser.getText().trim();
         String matKhau = new String(txtPassword.getPassword()).trim();
         NhanVien nhanVien = dao.selectByAccount(manv);
@@ -344,50 +323,53 @@ public class LoginFrame extends javax.swing.JFrame {
         } else if (txtUser.getText().equals("")) {
             JOptionPane.showMessageDialog(this, "Vui lòng nhập tài khoản!");
             txtUser.requestFocus();
-            return true;}
-//        else if(regex.matcher(manv).find()){
-//            JOptionPane.showMessageDialog(this, "Tài khoản chứa ký tự đặc biệt!");
-//            txtUser.setText("");
-//            txtUser.requestFocus();
-//            return true;
-//        }
-        else if (txtPassword.getPassword().length == 0) {
+            return true;
+        } else if (txtPassword.getPassword().length == 0) {
             JOptionPane.showMessageDialog(this, "Vui lòng nhập mật khẩu!");
             txtPassword.requestFocus();
             return true;
-        }else if(regex.matcher(matKhau).find()){
-             JOptionPane.showMessageDialog(this, "Mật khẩu chứa ký tự đặc biệt!");
-             txtPassword.setText("");
-             txtPassword.requestFocus();
+        } else if (regex.matcher(matKhau).find()) {
+            JOptionPane.showMessageDialog(this, "Mật khẩu chứa ký tự đặc biệt!");
+            txtPassword.setText("");
+            txtPassword.requestFocus();
             return true;
-        }
-        else if(nhanVien == null){
-                JOptionPane.showMessageDialog(this, "Sai tài khoản");
-                return true;
-            }
-        else if (!matKhau.equals(nhanVien.getPass())) {
+        } else if (nhanVien == null) {
+            JOptionPane.showMessageDialog(this, "Sai tài khoản");
+            return true;
+        } else if (!matKhau.equals(nhanVien.getPass())) {
             JOptionPane.showMessageDialog(this, " Sai mật khẩu");
             txtPassword.requestFocus();
             return true;
         }
-       
+
         return false;
     }
-
 
     private void login() {
 
         String manv = txtUser.getText();
         String matKhau = new String(txtPassword.getPassword());
+
         try {
             NhanVien User = dao.selectByAccount(manv);
             if (User != null) {
                 String matKhau2 = User.getPassword();
+                CapBac capBac = daoCapBac.selectByID(User.getIdCB());
+                String vaiTro = capBac.getTenCB();
                 if (matKhau.equals(matKhau2)) {
                     //ShareHelper.USER = User;
-                   MainTemplate view = new MainTemplate();
-                   view.setVisible(true);
-                    this.dispose();
+                    if (vaiTro.strip().equalsIgnoreCase("Quản lý")) {
+                        System.out.println("case 1");
+                        MainTemplate view = new MainTemplate();
+                        view.setVisible(true);
+                        this.dispose();
+                    } else {
+                        System.out.println("case 2 ");
+                        MainOfNV viewNV = new MainOfNV();
+                        viewNV.setVisible(true);
+                        this.dispose();
+                    }
+
                 } else {
                     //alert("Sai mật khẩu!");
                     JOptionPane.showMessageDialog(this, "Sai maatj khaau");
@@ -395,12 +377,12 @@ public class LoginFrame extends javax.swing.JFrame {
                 }
             } else {
                 //alert("Tài khoản này không tồn tại");
-                JOptionPane.showMessageDialog(this,"ktt");
+                JOptionPane.showMessageDialog(this, "ktt");
 
             }
         } catch (Exception e) {
             //alert("Lỗi truy vấn dữ liệu!");
-            JOptionPane.showMessageDialog(this,"ktt");
+            JOptionPane.showMessageDialog(this, "ktt");
         }
     }
 

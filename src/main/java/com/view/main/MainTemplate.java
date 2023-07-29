@@ -17,11 +17,20 @@ import com.view.form_Template.FormLichHoc;
 import com.view.form_Template.Form_BanHang;
 import com.view.form_Template.Form_ChamCong;
 import com.view.form_Template.Form_GiaoCa;
+
+import com.view.form_Template.Form_CapBac;
+import com.view.form_Template.Form_KhuyenMai;
+import com.view.form_Template.Form_LoaiDoUong;
+
+import com.view.form_Template.Form_GiaoCa1;
 import com.view.form_Template.Form_KhuyenMai;
 import com.view.form_Template.Form_LopHoc;
 import com.view.form_Template.Form_QLDoUong;
 import com.view.form_Template.Form_QLHoaDon;
+import com.view.form_Template.Form_QuanLyKho;
 import com.view.form_Template.Form_TaoTaiKhoan;
+
+import com.view.form_Template.Form_ThongKe;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -42,6 +51,7 @@ public class MainTemplate extends javax.swing.JFrame {
      * Creates new form Main
      */
     private WalletForm home;
+       private WalletForm home;
     private ThongBaoForm formThongbao;
     private Form_BanHang formBanHang;
     private Form_TaoTaiKhoan form_TaoTaiKhoan;
@@ -52,6 +62,15 @@ public class MainTemplate extends javax.swing.JFrame {
     private Form_QLHoaDon formQLHoaDon;
     private Form_ChamCong form_ChamCong;
     private Form_GiaoCa form_GiaoCa;
+    private Form_QuanLyKho form_QuanLyKho;
+    private Form_LoaiDoUong form_LoaiDoUong;
+    private Form_CapBac form_CapBac;
+    private Form_QLHoaDon form_QLHoaDon;
+    private Form_ThongKe form_ThongKe;
+//    private Form_QuanLyKho form_QuanLyKho;
+    private Form_GiaoCa1 form_GiaoCa1;
+//    private Form_QuanLyKho form_QuanLyKho;
+//    private Form_GiaoCa1 form_GiaoCa1;
 
     public MainTemplate() {
         initComponents();
@@ -67,6 +86,19 @@ public class MainTemplate extends javax.swing.JFrame {
         formQLHoaDon = new Form_QLHoaDon();
         form_ChamCong = new Form_ChamCong();
         form_GiaoCa = new Form_GiaoCa();
+        form_QuanLyKho = new Form_QuanLyKho();
+        form_LoaiDoUong = new Form_LoaiDoUong();
+        form_CapBac = new Form_CapBac();
+        
+        
+        form_KhuyenMai = new Form_KhuyenMai();
+        formQLNhanVien = new QuanLyNhanVien();
+        form_TaoTaiKhoan = new Form_TaoTaiKhoan();
+        form_QLDoUong = new Form_QLDoUong();
+        form_QLHoaDon = new Form_QLHoaDon();
+        form_ThongKe = new Form_ThongKe();
+//        form_QuanLyKho = new Form_QuanLyKho();
+        form_GiaoCa1 = new Form_GiaoCa1();
         setBackground(new Color(0, 0, 0, 0));
         menuOfCB1.initMoving(MainTemplate.this);
         menuOfCB1.addEventMenuSelected(new EventMenuSelected() {
@@ -76,6 +108,10 @@ public class MainTemplate extends javax.swing.JFrame {
                     setForm(formQLHoaDon);
                 } else if (index == 6) {
 //                    setForm(form_ChamCong);
+//                    setForm(formBaoCao);
+                    setForm(form_QLHoaDon);
+                } else if (index == 6) {
+                    setForm(form_ThongKe);
                 } else if (index == 0) {
                     setForm(formThongbao);
                 } else if (index == 1) {
@@ -86,6 +122,9 @@ public class MainTemplate extends javax.swing.JFrame {
                     setForm(form_TaoTaiKhoan);
                 } else if (index == 2) {
                     setForm(form_GiaoCa);
+//                    setForm(formQLDiem);
+//                    DoanhThu_singleton.getInstance().doanhThuNow =  ;
+                    setForm(form_GiaoCa1);
                 } else if (index == 3) {
                     setForm(form_QLDoUong);
                 } else if (index == 4) {
@@ -93,6 +132,19 @@ public class MainTemplate extends javax.swing.JFrame {
                 } else if (index == 9) {
                     setForm(form_ChamCong);
                 } else if (index == 10) {
+                }
+                else if (index == 9) {
+                    setForm(form_QuanLyKho);
+                }else if (index == 10) {
+                    setForm(form_LoaiDoUong);
+                }else if (index == 11) {
+                    setForm(form_CapBac);
+                }
+                
+                else if (index == 12) {
+//                    setForm(form_QuanLyKho);
+                }
+                else if (index == 10) {
                     MessageFrame messageFrame = new MessageFrame();
                     messageFrame.show();
                     messageFrame.setMessage("Bạn có chắc chắn muốn đăng xuất không?");
@@ -162,6 +214,18 @@ public class MainTemplate extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelBorder1Layout.createSequentialGroup()
                 .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
+                .addComponent(menuOfCB1, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 1041, Short.MAX_VALUE)
+                .addGap(12, 12, 12))
+        );
+        panelBorder1Layout.setVerticalGroup(
+            panelBorder1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(menuOfCB1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(panelBorder1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(mainPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 750, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -171,6 +235,7 @@ public class MainTemplate extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(panelBorder1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(panelBorder1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

@@ -4,61 +4,94 @@
  */
 package model;
 
+import java.util.Date;
+
 /**
  *
  * @author 84374
  */
 public class GiamGia {
-     private String maGiamGia;
-     private double phanTram;
-     private String moTa;
-     private String ngayTao;
+    private String maKM;
+    private String tenKM;
+    private String loaiKM;
+    private Integer giaTri;
+    private Date ngayBatDau;
+    private Date ngayKetThuc;
+    private String trangThai;
 
     public GiamGia() {
     }
 
-    public GiamGia(String maGiamGia, double phanTram, String moTa, String ngayTao) {
-        this.maGiamGia = maGiamGia;
-        this.phanTram = phanTram;
-        this.moTa = moTa;
-        this.ngayTao = ngayTao;
+    public GiamGia(String maKM, String tenKM, String loaiKM, Integer giaTri, Date ngayBatDau, Date ngayKetThuc, String trangThai) {
+        this.maKM = maKM;
+        this.tenKM = tenKM;
+        this.loaiKM = loaiKM;
+        this.giaTri = giaTri;
+        this.ngayBatDau = ngayBatDau;
+        this.ngayKetThuc = ngayKetThuc;
+        this.trangThai = trangThai;
     }
 
-    public String getMaGiamGia() {
-        return maGiamGia;
+    public String getMaKM() {
+        return maKM;
     }
 
-    public void setMaGiamGia(String maGiamGia) {
-        this.maGiamGia = maGiamGia;
+    public void setMaKM(String maKM) {
+        this.maKM = maKM;
     }
 
-    public double getPhanTram() {
-        return phanTram;
+    public String getTenKM() {
+        return tenKM;
     }
 
-    public void setPhanTram(double phanTram) {
-        this.phanTram = phanTram;
+    public void setTenKM(String tenKM) {
+        this.tenKM = tenKM;
     }
 
-    public String getMoTa() {
-        return moTa;
+    public String getLoaiKM() {
+        return loaiKM;
     }
 
-    public void setMoTa(String moTa) {
-        this.moTa = moTa;
+    public void setLoaiKM(String loaiKM) {
+        this.loaiKM = loaiKM;
     }
 
-    public String getNgayTao() {
-        return ngayTao;
+    public Integer getGiaTri() {
+        return giaTri;
     }
 
-    public void setNgayTao(String ngayTao) {
-        this.ngayTao = ngayTao;
+    public void setGiaTri(Integer giaTri) {
+        this.giaTri = giaTri;
+    }
+
+    public Date getNgayBatDau() {
+        return ngayBatDau;
+    }
+
+    public void setNgayBatDau(Date ngayBatDau) {
+        this.ngayBatDau = ngayBatDau;
+    }
+
+    public Date getNgayKetThuc() {
+        return ngayKetThuc;
+    }
+
+    public void setNgayKetThuc(Date ngayKetThuc) {
+        this.ngayKetThuc = ngayKetThuc;
+    }
+
+    public String getTrangThai() {
+        return trangThai;
+    }
+
+    public void setTrangThai(String trangThai) {
+        this.trangThai = trangThai;
     }
 
     @Override
     public String toString() {
-        return "GiamGia{" + "maGiamGia=" + maGiamGia + ", phanTram=" + phanTram + ", moTa=" + moTa + ", ngayTao=" + ngayTao + '}';
+        return "GiamGia{" + "maKM=" + maKM + ", tenKM=" + tenKM + ", loaiKM=" + loaiKM + ", giaTri=" + giaTri + ", ngayBatDau=" + ngayBatDau + ", ngayKetThuc=" + ngayKetThuc + ", trangThai=" + trangThai + '}';
     }
+
    
 }
