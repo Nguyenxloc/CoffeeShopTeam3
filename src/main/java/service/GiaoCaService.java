@@ -24,6 +24,10 @@ public class GiaoCaService {
         return giaoCaRepository.selectALL();
     }
 
+    public ArrayList<GiaoCa> selectAllByDate(String tuNgay, String denNgay) {
+        return giaoCaRepository.selectAllByDate(tuNgay, denNgay);
+    }
+
     public void delete(String id) {
         giaoCaRepository.delete(id);
     }

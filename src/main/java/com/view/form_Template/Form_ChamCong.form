@@ -80,10 +80,12 @@
                           </Group>
                           <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="txtGioRa" min="-2" max="-2" attributes="0"/>
-                              <Component id="txtGioVao" min="-2" max="-2" attributes="0"/>
-                              <Component id="txtNgay" min="-2" max="-2" attributes="0"/>
                               <Component id="txtMaNhanVien" min="-2" pref="203" max="-2" attributes="0"/>
+                              <Group type="103" alignment="0" groupAlignment="1" max="-2" attributes="0">
+                                  <Component id="txtNgay" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="txtGioVao" alignment="0" pref="111" max="32767" attributes="0"/>
+                                  <Component id="txtGioRa" alignment="0" max="32767" attributes="0"/>
+                              </Group>
                           </Group>
                       </Group>
                       <Component id="lblDongHo" alignment="0" min="-2" pref="243" max="-2" attributes="0"/>

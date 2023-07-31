@@ -33,19 +33,22 @@ public class DAO_GiaoCa {
     final String DELETE_SQL = " DELETE GIAOCA WHERE MaGiaoCa = ?";
     final String SELECT_BY_DATE_SQL = "SELECT MaGiaoCa, CaLamViec, NgayGiaoCa, NguoiGiao, NguoiNhan, SoTienTrenHeThong, SoTienThucKiem, GioKiemKe, TrangThai, GhiChu\n"
             + "FROM GiaoCa\n"
-            + "WHERE NgayGiaoCa BETWEEN ? AND ?";
+            + "WHERE CONVERT(VARCHAR, GiaoCa.NgayGiaoCa, 105) BETWEEN ? AND ?";
     final String SELECT_ALL_SQL = "SELECT MaGiaoCa,CaLamViec, NgayGiaoCa,NguoiGiao,NguoiNhan, SoTienTrenHeThong,SoTienThucKiem,GioKiemKe,TrangThai,GhiChu FROM GiaoCa";
 
     public ArrayList<GiaoCa> selectALL() {
         DBConnection1 dbConn = new DBConnection1();
         ArrayList<GiaoCa> listGiaoCa = new ArrayList<>();
-        NhanVienService nhanVienServiceservice = new NhanVienService();
+        NhanVienService service = new NhanVienService();
         try {
             ResultSet rs = dbConn.getDataFromQuery(SELECT_ALL_SQL);
 
             while (rs.next()) {
-                NhanVien nguoiGiao = nhanVienServiceservice.selectByIDNhanVien("B9994504-EE0C-47E3-96EB-1EFD01397241");
-                NhanVien nguoiNhan = nhanVienServiceservice.selectByIDNhanVien("226EEAF5-C082-477A-A701-598451CFBF47");
+                String nguoiGiaoString = rs.getString("NguoiGiao");
+                String nguoiNhanString = rs.getString("NguoiNhan");
+
+                NhanVien nguoiGiao = service.selectByIDNhanVien(nguoiGiaoString);
+                NhanVien nguoiNhan = service.selectByIDNhanVien(nguoiNhanString);
                 GiaoCa giaoCa = new GiaoCa();
                 giaoCa.setMaGiaoCa(rs.getString("MaGiaoCa"));
                 giaoCa.setCaLamViec(rs.getString("CaLamViec"));
@@ -64,16 +67,23 @@ public class DAO_GiaoCa {
         return listGiaoCa;
     }
 
-    public ArrayList<GiaoCa> selectAllByDate(Date tuNgay, Date denNgay) {
+    public ArrayList<GiaoCa> selectAllByDate(String tuNgay, String denNgay) {
         DBConnection1 dbConn = new DBConnection1();
         ArrayList<GiaoCa> listGiaoCa = new ArrayList<>();
         NhanVienService service = new NhanVienService();
         try {
-            ResultSet rs = dbConn.getDataFromQuery(SELECT_BY_DATE_SQL);
+            Connection connection = dbConn.openDbConnection();
+            PreparedStatement ps = connection.prepareStatement(SELECT_BY_DATE_SQL);
+            ps.setString(1, tuNgay);
+            ps.setString(2, denNgay);
+            ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
-                NhanVien nguoiGiao = service.selectByIDNhanVien("B9994504-EE0C-47E3-96EB-1EFD01397241");
-                NhanVien nguoiNhan = service.selectByIDNhanVien("226EEAF5-C082-477A-A701-598451CFBF47");
+                String nguoiGiaoString = rs.getString("NguoiGiao");
+                String nguoiNhanString = rs.getString("NguoiNhan");
+
+                NhanVien nguoiGiao = service.selectByIDNhanVien(nguoiGiaoString);
+                NhanVien nguoiNhan = service.selectByIDNhanVien(nguoiNhanString);
                 GiaoCa giaoCa = new GiaoCa();
                 giaoCa.setMaGiaoCa(rs.getString("MaGiaoCa"));
                 giaoCa.setCaLamViec(rs.getString("CaLamViec"));
@@ -91,7 +101,6 @@ public class DAO_GiaoCa {
         }
         return listGiaoCa;
     }
-
 //    public ArrayList<KhuyenMai> getSelectAll() {
 //        Utilitys dbConn = new Utilitys();
 //        ArrayList<KhuyenMai> lstKM = new ArrayList<>();
@@ -133,7 +142,6 @@ public class DAO_GiaoCa {
 //        }
 //        return chiTietDoUong;
 //    }
-//
 //    public void save(ChiTietDoUong chiTietDoUong) {
 //        DBConnection1 dbConn = new DBConnection1();
 //        try {
@@ -152,6 +160,7 @@ public class DAO_GiaoCa {
 //        }
 //    }
 //
+
     public void delete(String id) {
         DBConnection1 dbConn = new DBConnection1();
         try {
