@@ -24,12 +24,7 @@ import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
 import javax.json.JsonReader;
 import javax.json.JsonValue;
-import weather.forecast.main.SearchClickListener;
 
-/**
- *
- * @author Priagung Satyagama
- */
 public class WeatherData {
     private JsonArray currData;
     public JsonArray getCurrData(){
@@ -109,4 +104,12 @@ public class WeatherData {
         in.close();
         return data;
     }
+
+    @Override
+    public String toString() {
+        return "WeatherData{" + "currData=" + currData.asJsonObject().getString("Name") + ", forecastData=" + forecastData + '}';
+    }
+    
+    
+    
 }

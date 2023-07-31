@@ -74,20 +74,19 @@
         <!-- https://mvnrepository.com/artifact/org.apache.poi/poi-ooxml -->
         <!-- https://mvnrepository.com/artifact/javax.json/javax.json-api -->
         <!-- https://mvnrepository.com/artifact/javax.json/javax.json-api -->
-        <dependency>
-            <groupId>com.sample</groupId>
-            <artifactId>sample</artifactId>
-            <version>1.0</version>
-            <scope>system</scope>
-            <systemPath>${pom.basedir}\lib\javax.json-1.1.jar</systemPath>
-        </dependency>
-        
+
         <dependency>
             <groupId>javax.json</groupId>
             <artifactId>javax.json-api</artifactId>
             <version>1.1</version>
             <type>jar</type>
         </dependency>
+        <dependency>
+            <groupId>org.glassfish</groupId>
+            <artifactId>javax.json</artifactId>
+            <version>1.0.4</version>
+        </dependency>
+
 
         <dependency>
             <groupId>org.apache.poi</groupId>
