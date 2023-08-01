@@ -18,7 +18,6 @@ import com.view.form_Template.Form_BanHang;
 import com.view.form_Template.Form_CapBac;
 import com.view.form_Template.Form_ChamCong;
 import com.view.form_Template.Form_GiaoCa;
-import com.view.form_Template.Form_GiaoCa1;
 import com.view.form_Template.Form_KhuyenMai;
 import com.view.form_Template.Form_LoaiDoUong;
 import com.view.form_Template.Form_LopHoc;
@@ -56,7 +55,7 @@ public class MainTemplate extends javax.swing.JFrame {
     private QuanLyNhanVien formQLNhanVien;
     private Form_QLHoaDon formQLHoaDon;
     private Form_QuanLyKho form_QuanLyKho;
-    private Form_GiaoCa form_GiaoCa1;
+    private Form_GiaoCa form_GiaoCa;
     private Form_ChamCong form_ChamCong;
     private Form_LoaiDoUong form_LoaiDoUong;
     private Form_CapBac form_CapBac;
@@ -75,7 +74,7 @@ public class MainTemplate extends javax.swing.JFrame {
         form_QLDoUong = new Form_QLDoUong();
         formQLHoaDon = new Form_QLHoaDon();
         form_QuanLyKho = new Form_QuanLyKho();
-        form_GiaoCa1 = new Form_GiaoCa();
+        form_GiaoCa = new Form_GiaoCa();
         form_ChamCong = new Form_ChamCong();
         form_LoaiDoUong = new Form_LoaiDoUong();
         form_CapBac = new Form_CapBac();
@@ -99,7 +98,7 @@ public class MainTemplate extends javax.swing.JFrame {
                     setForm(form_TaoTaiKhoan);
                 } else if (index == 2) {
 //                    DoanhThu_singleton.getInstance().doanhThuNow =  ;
-                    setForm(form_GiaoCa1);
+                    setForm(form_GiaoCa);
                 } else if (index == 3) {
                     setForm(form_QLDoUong);
                 } else if (index == 4) {

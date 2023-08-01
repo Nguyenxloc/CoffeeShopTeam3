@@ -426,6 +426,9 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="In phi&#x1ebf;u giao ca"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnInPhieuGiaoCaActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel15">
               <Properties>

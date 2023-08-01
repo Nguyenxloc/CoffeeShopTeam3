@@ -41,6 +41,17 @@ import service.ChiTietDoUongService_Master;
 import service.GiaoCaService;
 import service.NhanVienService;
 import service.SaleService;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfWriter;
+
+import java.io.FileOutputStream;
+import com.itextpdf.text.*;
+import com.itextpdf.text.pdf.*;
+import java.sql.Time;
 
 /**
  *
@@ -73,7 +84,7 @@ public class Form_GiaoCa extends javax.swing.JPanel {
         DefaultTableModel model = (DefaultTableModel) tblPhieuGiaoCa.getModel();
         model.setRowCount(0);
 //        listGiaoCa = giaoCaService.selectALL();
-        DecimalFormat decimalFormat = new DecimalFormat("#,### VND");
+        DecimalFormat decimalFormat = new DecimalFormat("#,###");
         for (GiaoCa giaoCa : listGiaoCa) {
             NhanVien nguoiGiao = giaoCa.getNguoiGiao();
             NhanVien nguoiNhan = giaoCa.getNguoiNhan();
@@ -124,7 +135,6 @@ public class Form_GiaoCa extends javax.swing.JPanel {
         }
         SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd");
         SimpleDateFormat outputFormat = new SimpleDateFormat("dd-MM-yyyy");
-
         try {
             Date ngayGiaoCalbl = inputFormat.parse(tblPhieuGiaoCa.getValueAt(row, 2).toString());
             String ngayGCFormat = outputFormat.format(ngayGiaoCalbl);
@@ -140,16 +150,22 @@ public class Form_GiaoCa extends javax.swing.JPanel {
             String tenNguoiNhan = tblPhieuGiaoCa.getValueAt(row, 4).toString();
             cboNguoiNhan.setSelectedItem(tenNguoiNhan);
 
-            lblDoanhThu.setText(tblPhieuGiaoCa.getValueAt(row, 5).toString());
+            lblDoanhThu.setText(tblPhieuGiaoCa.getValueAt(row, 5).toString() + " VND");
 
             Date ngayGiaoCaFormat = outputFormat.parse(ngayGCFormat);
             txtNgayGiaoCa.setDate(ngayGiaoCaFormat);
+
+            // Chuyển đổi tổng tiền và tổng tiền thực kiểm
+            String tongTienStr = tblPhieuGiaoCa.getValueAt(row, 5).toString();
+            String tongTienThucKiemStr = tblPhieuGiaoCa.getValueAt(row, 6).toString();
+            lblTongTien.setText(tongTienStr);
+            txtThucKiem.setText(tongTienThucKiemStr);
+
+            // Các dòng mã không thay đổi
+            lblGioKiemKe.setText(tblPhieuGiaoCa.getValueAt(row, 7).toString());
         } catch (ParseException ex) {
             ex.printStackTrace(System.out);
         }
-        lblTongTien.setText(tblPhieuGiaoCa.getValueAt(row, 5).toString());
-        txtThucKiem.setText(tblPhieuGiaoCa.getValueAt(row, 6).toString());
-        lblGioKiemKe.setText(tblPhieuGiaoCa.getValueAt(row, 7).toString());
 
     }
 
@@ -243,7 +259,7 @@ public class Form_GiaoCa extends javax.swing.JPanel {
     // Chức năng lấy giá trị từ form
     private GiaoCa getForm() {
         GiaoCa giaoCa = new GiaoCa();
-        giaoCa.setCaLamViec(cboCaLamViec.getSelectedItem().toString());
+
         String idNhanVien = "";
         NhanVien nvGiaoCa = null;
         NhanVien nvNhanCa = null;
@@ -251,21 +267,48 @@ public class Form_GiaoCa extends javax.swing.JPanel {
         String tenNguoiNhan = cboNguoiNhan.getSelectedItem().toString();
 
         // Truy vấn cơ sở dữ liệu để lấy idNhanVien dựa vào tên người giao và tên người nhận
-        String idNhanVienGiao = nhanVienService.selectByTenNhanVien(tenNguoiGiao);
-        String idNhanVienNhan = nhanVienService.selectByTenNhanVien(tenNguoiNhan);
+        String idNhanVienGiao = "B9994504-EE0C-47E3-96EB-1EFD01397241";
+        String idNhanVienNhan = "226EEAF5-C082-477A-A701-598451CFBF47";
 
         nvGiaoCa = nhanVienService.selectByIDNhanVien(idNhanVienGiao);
         nvNhanCa = nhanVienService.selectByIDNhanVien(idNhanVienNhan);
 
-        giaoCa.setNgayGiaoCa(txtNgayGiaoCa.getDate());
+        giaoCa.setMaGiaoCa(lblMaPhieu.getText());
+        giaoCa.setCaLamViec(cboCaLamViec.getSelectedItem().toString());
+        // Định dạng ngày giao ca
+        SimpleDateFormat inputFormat = new SimpleDateFormat("dd-MM-yyyy");
+        try {
+            Date ngayGiaoCaDate = txtNgayGiaoCa.getDate();
+            String ngayGiaoCaString = inputFormat.format(ngayGiaoCaDate);
+            Date ngayGiaoCa = inputFormat.parse(ngayGiaoCaString);
+            giaoCa.setNgayGiaoCa(ngayGiaoCa);
+        } catch (Exception ex) {
+            ex.printStackTrace(System.out);
+        }
         giaoCa.setNguoiGiao(nvGiaoCa);
         giaoCa.setNguoiNhan(nvNhanCa);
-//        Double tongTienDouble = Double.parseDouble(lblTongTien.getText());
-//        Double tongTienTKDouble = Double.parseDouble(txtThucKiem.getText());
-//        giaoCa.setTongCong(BigDecimal.valueOf(tongTienDouble));
-//        giaoCa.setThucKiem(BigDecimal.valueOf(tongTienTKDouble));
+        // Xóa dấu phẩy trong chuỗi số và chuyển đổi thành số BigDecimal
+        try {
+            String tongTienString = lblTongTien.getText().replace(",", "");
+            String tongTienTKString = txtThucKiem.getText().replace(",", "");
+
+            BigDecimal tongTien = new BigDecimal(tongTienString);
+            BigDecimal tongTienTK = new BigDecimal(tongTienTKString);
+
+            giaoCa.setTongCong(tongTien);
+            giaoCa.setThucKiem(tongTienTK);
+        } catch (NumberFormatException ex) {
+            ex.printStackTrace(System.out);
+        }
+        Time gioKiemKe = Time.valueOf(lblGioKiemKe.getText());
+        giaoCa.setGioKiemKe(gioKiemKe);
         giaoCa.setTrangThai(cboTrangThai.getSelectedItem().toString());
         giaoCa.setGhiChu(txtGhiChu.getText());
+
+        if (giaoCa == null) {
+            JOptionPane.showMessageDialog(this, "Dữ liệu đang bị trống vui lòng kiểm tra lại");
+
+        }
 
         return giaoCa;
     }
@@ -442,6 +485,64 @@ public class Form_GiaoCa extends javax.swing.JPanel {
         return true;
     }
 
+    // Chức năng in phiếu giao ca ra file PDF
+    private void printPhieuGiaoCa() {
+        GiaoCa giaoCa = getForm(); // Lấy đối tượng GiaoCa từ hàm getForm()
+
+        if (giaoCa == null) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn 1 phiếu muốn in ra trên table");
+            return;
+        }
+
+        String filePath = "E:\\File_PDF\\phieugiaoca.pdf"; // Đường dẫn đến file PDF bạn muốn tạo
+        try {
+            Document document = new Document();
+            PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(filePath));
+
+            // Sử dụng font Unicode để hỗ trợ tiếng Việt
+            BaseFont unicodeFont = BaseFont.createFont("c:\\windows\\fonts\\arial.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+            Font titleFont = new Font(unicodeFont, 16, Font.BOLD);
+            Font contentFont = new Font(unicodeFont, 12);
+
+            document.open();
+
+            // Tiêu đề thông tin phiếu giao ca căn giữa
+            Paragraph title = new Paragraph("Thông tin phiếu giao ca", titleFont);
+            title.setAlignment(Element.ALIGN_CENTER);
+            document.add(title);
+
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
+            Date ngayGiaoCa = giaoCa.getNgayGiaoCa();
+            String ngayGiaoCaFormat = simpleDateFormat.format(ngayGiaoCa);
+            String nguoiGiao = giaoCa.getNguoiGiao().getHo() + " " + giaoCa.getNguoiGiao().getTenDem() + " " + giaoCa.getNguoiGiao().getTen();
+            String nguoiNhan = giaoCa.getNguoiNhan().getHo() + " " + giaoCa.getNguoiNhan().getTenDem() + " " + giaoCa.getNguoiNhan().getTen();;
+            DecimalFormat decimalFormat = new DecimalFormat("#,### VND");
+            String tongTien = decimalFormat.format(giaoCa.getTongCong());
+            String tongTienThucKiem = decimalFormat.format(giaoCa.getThucKiem());
+
+            document.add(new Paragraph("Mã ca làm việc: " + giaoCa.getMaGiaoCa(), contentFont));
+            document.add(new Paragraph("Ca làm việc: " + giaoCa.getCaLamViec(), contentFont));
+            document.add(new Paragraph("Ngày giao ca: " + ngayGiaoCaFormat, contentFont));
+            document.add(new Paragraph("Người giao ca: " + nguoiGiao, contentFont));
+            document.add(new Paragraph("Người nhận ca: " + nguoiNhan, contentFont));
+            document.add(new Paragraph("Giờ thực kiểm: " + giaoCa.getGioKiemKe(), contentFont));
+            document.add(new Paragraph("Tổng tiền: " + tongTien, contentFont));
+            document.add(new Paragraph("Thực kiểm: " + tongTienThucKiem, contentFont));
+            document.add(new Paragraph("Trạng thái: " + giaoCa.getTrangThai(), contentFont));
+            // Add thêm các thông tin khác của đối tượng GiaoCa tương tự
+
+            document.close();
+            writer.close();
+
+            System.out.println("File PDF đã được tạo thành công tại đường dẫn: " + filePath);
+            JOptionPane.showMessageDialog(this, "Xuất File PDF thành công");
+        } catch (DocumentException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     // Chức năng tìm kiếm theo ngày
     private void findDataByTime() {
         if (validateFind()) {
@@ -451,8 +552,6 @@ public class Form_GiaoCa extends javax.swing.JPanel {
 
             String tuNgay = simpleDateFormat.format(tuNgayDate);
             String denNgay = simpleDateFormat.format(denNgayDate);
-            System.out.println(tuNgay);
-            System.out.println(denNgay);
 
             listGiaoCa = giaoCaService.selectAllByDate(tuNgay, denNgay);
             fillToTableGiaoCa(listGiaoCa);
@@ -607,6 +706,11 @@ public class Form_GiaoCa extends javax.swing.JPanel {
 
         btnInPhieuGiaoCa.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnInPhieuGiaoCa.setText("In phiếu giao ca");
+        btnInPhieuGiaoCa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnInPhieuGiaoCaActionPerformed(evt);
+            }
+        });
 
         jLabel15.setText("Mã phiếu");
 
@@ -1006,6 +1110,20 @@ public class Form_GiaoCa extends javax.swing.JPanel {
             e.printStackTrace();
         }
     }//GEN-LAST:event_btnXuatFileExcelActionPerformed
+
+    private void btnInPhieuGiaoCaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInPhieuGiaoCaActionPerformed
+        row = tblPhieuGiaoCa.getSelectedRow();
+        if (row == -1) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn một phiếu giao ca trong bảng", "Lỗi", JOptionPane.ERROR_MESSAGE);
+        } else {
+            int choice = JOptionPane.showConfirmDialog(this, "Bạn chắc chắn muốn in phiếu giao ca này ?", "Xác nhận in phiếu", JOptionPane.YES_NO_OPTION);
+            if (choice == JOptionPane.YES_OPTION) {
+                printPhieuGiaoCa();
+            }
+        }
+
+
+    }//GEN-LAST:event_btnInPhieuGiaoCaActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
