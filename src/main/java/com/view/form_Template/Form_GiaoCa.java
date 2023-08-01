@@ -185,7 +185,7 @@ public class Form_GiaoCa extends javax.swing.JPanel {
         lblCaLamViec.setText("#CaLV");
         lblDate.setText("#Date");
         lblDoanhThu.setText("#Revenue");
-        lblTongTien.setText("0.000.000");
+        lblTongTien.setText("0.000.000 VND");
         lblGioKiemKe.setText("00:00");
         cboCaLamViec.setSelectedIndex(0);
         txtNgayGiaoCa.setDate(null);
@@ -201,29 +201,28 @@ public class Form_GiaoCa extends javax.swing.JPanel {
 
     // Chức năng thêm phiếu giao ca
     private void addPhieuGiaoCa() {
-//        if (validateForm()) {
-        GiaoCa giaoCa = getForm();
+        if (validateForm()) {
+            GiaoCa giaoCa = getForm();
 
-        System.out.println(giaoCa.getMaGiaoCa());
-        System.out.println(giaoCa.getCaLamViec());
-        System.out.println(giaoCa.getNgayGiaoCa().toString());
-        System.out.println(giaoCa.getTongCong().toString());
-        System.out.println(giaoCa.getNguoiGiao().getTen());
-        System.out.println(giaoCa.getNguoiNhan().getTen());
-        System.out.println(giaoCa.getGioKiemKe().toString());
-        System.out.println(giaoCa.getThucKiem().toString());
-        System.out.println(giaoCa.getTrangThai());
-        System.out.println(giaoCa.getGhiChu());
+            if (giaoCa == null) {
+                JOptionPane.showMessageDialog(this, "Lỗi dữ liệu trống vui lòng kiểm tra lại");
+                return;
+            }
 
-//            int choice = JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn muốn thêm phiếu giao ca này ?", "ADD ?", JOptionPane.YES_NO_OPTION);
-//            if (choice == JOptionPane.YES_OPTION) {
-////                giaoCaService.delete(maPhieuGiaoCa);
-//                JOptionPane.showMessageDialog(this, "Thêm phiếu giao ca thành công");
-//                listGiaoCa = giaoCaService.selectALL();
-//                fillToTableGiaoCa(listGiaoCa);
-//                clearForm();
-//            }
-//        }
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
+            Date ngayGiaoCa = giaoCa.getNgayGiaoCa();
+            String ngayGiaoCaformat = simpleDateFormat.format(ngayGiaoCa);
+
+            int choice = JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn muốn thêm phiếu giao ca này ?", "ADD ?", JOptionPane.YES_NO_OPTION);
+            if (choice == JOptionPane.YES_OPTION) {
+//                giaoCaService.delete(maPhieuGiaoCa);
+                JOptionPane.showMessageDialog(this, "Thêm phiếu giao ca thành công");
+                listGiaoCa = giaoCaService.selectALL();
+                fillToTableGiaoCa(listGiaoCa);
+                clearForm();
+            }
+        }
+
     }
 
     // Chức năng xóa phiếu giao ca
@@ -249,15 +248,37 @@ public class Form_GiaoCa extends javax.swing.JPanel {
 
     // Chức năng cập nhật Phiếu giao ca
     private void updatePhieuGiaoCa() {
-        int row = tblPhieuGiaoCa.getSelectedRow();
-        if (row == -1) {
-            JOptionPane.showMessageDialog(this, "Vui lòng chọn 1 phiếu giao ca trên table muốn xóa");
-            return;
+        if (validateForm()) {
+            GiaoCa giaoCa = getForm();
+
+            if (giaoCa == null) {
+                JOptionPane.showMessageDialog(this, "Lỗi dữ liệu trống vui lòng kiểm tra lại");
+                return;
+            }
+
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
+            Date ngayGiaoCa = giaoCa.getNgayGiaoCa();
+            String ngayGiaoCaformat = simpleDateFormat.format(ngayGiaoCa);
+            try {
+                giaoCa.setNgayGiaoCa(simpleDateFormat.parse(ngayGiaoCaformat));
+            } catch (ParseException ex) {
+                Logger.getLogger(Form_GiaoCa.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            int choice = JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn muốn sửa phiếu giao ca này ?", "Update ?", JOptionPane.YES_NO_OPTION);
+            if (choice == JOptionPane.YES_OPTION) {
+                String maGiaoCa = giaoCa.getMaGiaoCa();
+                giaoCaService.update(maGiaoCa, giaoCa);
+                JOptionPane.showMessageDialog(this, "Sửa phiếu giao ca thành công");
+                listGiaoCa = giaoCaService.selectALL();
+                fillToTableGiaoCa(listGiaoCa);
+                clearForm();
+            }
         }
     }
 
     // Chức năng lấy giá trị từ form
     private GiaoCa getForm() {
+
         GiaoCa giaoCa = new GiaoCa();
 
         String idNhanVien = "";
@@ -275,23 +296,26 @@ public class Form_GiaoCa extends javax.swing.JPanel {
 
         giaoCa.setMaGiaoCa(lblMaPhieu.getText());
         giaoCa.setCaLamViec(cboCaLamViec.getSelectedItem().toString());
-        // Định dạng ngày giao ca
+
+        // Định dạng ngày giao ca thành 'dd-MM-yyyy'
         SimpleDateFormat inputFormat = new SimpleDateFormat("dd-MM-yyyy");
         try {
             Date ngayGiaoCaDate = txtNgayGiaoCa.getDate();
             String ngayGiaoCaString = inputFormat.format(ngayGiaoCaDate);
             Date ngayGiaoCa = inputFormat.parse(ngayGiaoCaString);
             giaoCa.setNgayGiaoCa(ngayGiaoCa);
-        } catch (Exception ex) {
+        } catch (ParseException ex) {
             ex.printStackTrace(System.out);
+            JOptionPane.showMessageDialog(this, "Ngày giao ca không hợp lệ. Vui lòng chọn ngày từ lịch.");
         }
+
         giaoCa.setNguoiGiao(nvGiaoCa);
         giaoCa.setNguoiNhan(nvNhanCa);
+
         // Xóa dấu phẩy trong chuỗi số và chuyển đổi thành số BigDecimal
         try {
             String tongTienString = lblTongTien.getText().replace(",", "");
             String tongTienTKString = txtThucKiem.getText().replace(",", "");
-
             BigDecimal tongTien = new BigDecimal(tongTienString);
             BigDecimal tongTienTK = new BigDecimal(tongTienTKString);
 
@@ -299,16 +323,13 @@ public class Form_GiaoCa extends javax.swing.JPanel {
             giaoCa.setThucKiem(tongTienTK);
         } catch (NumberFormatException ex) {
             ex.printStackTrace(System.out);
+            JOptionPane.showMessageDialog(this, "Giá trị tổng tiền hoặc tiền thực kiểm không hợp lệ.");
         }
+
         Time gioKiemKe = Time.valueOf(lblGioKiemKe.getText());
         giaoCa.setGioKiemKe(gioKiemKe);
         giaoCa.setTrangThai(cboTrangThai.getSelectedItem().toString());
         giaoCa.setGhiChu(txtGhiChu.getText());
-
-        if (giaoCa == null) {
-            JOptionPane.showMessageDialog(this, "Dữ liệu đang bị trống vui lòng kiểm tra lại");
-
-        }
 
         return giaoCa;
     }
@@ -331,12 +352,16 @@ public class Form_GiaoCa extends javax.swing.JPanel {
             return false;
         }
 
-        Double giaThucKiem = Double.parseDouble(txtThucKiem.getText().trim());
-        if (giaThucKiem < 0) {
-            JOptionPane.showMessageDialog(this, "Vui lòng nhập vào giá trị thực kiểm phải lớn hơn không");
+        try {
+            double giaThucKiem = Double.parseDouble(txtThucKiem.getText().trim());
+            if (giaThucKiem < 0) {
+                JOptionPane.showMessageDialog(this, "Giá trị thực kiểm phải là số nguyên dương");
+                return false;
+            }
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(this, "Giá trị thực kiểm không hợp lệ");
             return false;
         }
-
         return true;
     }
 

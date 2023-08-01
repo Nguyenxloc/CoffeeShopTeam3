@@ -28,13 +28,33 @@ public class DAO_GiaoCa {
 
     private Connection connection = Utilitys.openDbConnection();
 
-    final String INSERT_SQL = "INSERT INTO dbo.ChiTietDoUong(idLoaiDoUong,TenDoUong,GiaNhap,GiaBan,HinhAnh,MoTa)VALUES(?,?,?,?,?,?)";
-    final String UPDATE_SQL = "UPDATE dbo.ChiTietDoUong SET TenDoUong=?, GiaNhap=?,GiaBan=?,MoTa=?,HinhAnh=? WHERE Id=?";
+    final String INSERT_SQL = "INSERT INTO GiaoCa(MaGiaoCa,NgayGiaoCa,NguoiGiao,NguoiNhan,GioKiemKe, SoTienTrenHeThong,SoTienThucKiem,TrangThai,GhiChu,CaLamViec) \n"
+            + "VALUES(?,?,?,?,?,?,?,?,?,?)";
+    final String UPDATE_SQL = "UPDATE GIAOCA\n"
+            + "SET NGAYGIAOCA = ?,\n"
+            + "    NGUOIGIAO = ?,\n"
+            + "    NGUOINHAN = ?,\n"
+            + "    GIOKIEMKE = ?,\n"
+            + "    SOTIENTRENHETHONG = ?,\n"
+            + "	   SOTIENTHUCKIEM = ?,\n"
+            + "    TRANGTHAI = ?,\n"
+            + "	   CALAMVIEC = ?,\n"
+            + "    GHICHU = ?\n"
+            + "WHERE MAGIAOCA = ?";
     final String DELETE_SQL = " DELETE GIAOCA WHERE MaGiaoCa = ?";
     final String SELECT_BY_DATE_SQL = "SELECT MaGiaoCa, CaLamViec, NgayGiaoCa, NguoiGiao, NguoiNhan, SoTienTrenHeThong, SoTienThucKiem, GioKiemKe, TrangThai, GhiChu\n"
             + "FROM GiaoCa\n"
             + "WHERE CONVERT(VARCHAR, GiaoCa.NgayGiaoCa, 105) BETWEEN ? AND ?";
     final String SELECT_ALL_SQL = "SELECT MaGiaoCa,CaLamViec, NgayGiaoCa,NguoiGiao,NguoiNhan, SoTienTrenHeThong,SoTienThucKiem,GioKiemKe,TrangThai,GhiChu FROM GiaoCa";
+    final String SELECT_REVENUE_SQL = "select  HoaDon.Ma, NhanVien.Ten, convert(varchar, hoadon.NgayTao, 105) as 'NgayTao',convert(varchar, hoadon.ThoiGian, 105) as 'ThoiGian',\n"
+            + "                         (sum(SoLuong)) as 'SoLuongSP', sum(ChiTietDoUong.GiaBan * HoaDonChiTiet.SoLuong) as 'TongTien',CASE WHEN dbo.HoaDon.MaGiamGia IS NULL THEN 0 ELSE dbo.GiamGia.GiaTri END AS giatri,\n"
+            + "						 HoaDon.TinhTrangThanhToan, sum(ChiTietDoUong.GiaBan * HoaDonChiTiet.SoLuong - 0*(ChiTietDoUong.GiaBan * HoaDonChiTiet.SoLuong)*(CASE WHEN dbo.HoaDon.MaGiamGia IS NULL THEN 0 ELSE dbo.GiamGia.GiaTri END )/100) as 'ThucNhan' from HoaDonChiTiet\n"
+            + "                         LEFT JOIN ChiTietDoUong on HoaDonChiTiet.IdChiTietDoUong = ChiTietDoUong.Id\n"
+            + "                         LEFT JOIN HoaDon on HoaDonChiTiet.IdHoaDon = HoaDon.Id\n"
+            + "                         LEFT JOIN NhanVien on HoaDon.IdNV = NhanVien.Id\n"
+            + "                         LEFT JOIN GiamGia on GiamGia.MaGiamGia = HoaDon.MaGiamGia\n"
+            + "						 WHERE TinhTrangThanhToan = 1\n"
+            + "                         group by HoaDon.Ma,dbo.HoaDon.MaGiamGia, NhanVien.Ten, HoaDon.NgayTao, HoaDon.ThoiGian, GiamGia.GiaTri, HoaDon.Stt,dbo.HoaDon.TinhTrangThanhToan,dbo.HoaDon.SoTienNhanVao";
 
     public ArrayList<GiaoCa> selectALL() {
         DBConnection1 dbConn = new DBConnection1();
@@ -142,24 +162,45 @@ public class DAO_GiaoCa {
 //        }
 //        return chiTietDoUong;
 //    }
-//    public void save(ChiTietDoUong chiTietDoUong) {
-//        DBConnection1 dbConn = new DBConnection1();
-//        try {
-//            dbConn.ExcuteSQL(INSERT_SQL, chiTietDoUong.getLoaiDoUong().getId(), chiTietDoUong.getTenDoUong(), chiTietDoUong.getGiaNhap(), chiTietDoUong.getGiaBan(), chiTietDoUong.getHinhAnh(), chiTietDoUong.getMoTa());
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
-//
-//    public void update(ChiTietDoUong chiTietDoUong) {
-//        DBConnection1 dbConn = new DBConnection1();
-//        try {
-//            dbConn.ExcuteSQL(UPDATE_SQL, chiTietDoUong.getTenDoUong(), chiTietDoUong.getGiaNhap(), chiTietDoUong.getGiaBan(), chiTietDoUong.getMoTa(), chiTietDoUong.getHinhAnh(), chiTietDoUong.getId());
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
-//
+
+    public void save(GiaoCa giaoCa) {
+        DBConnection1 dbConn = new DBConnection1();
+        try {
+            dbConn.ExcuteSQL(INSERT_SQL, giaoCa.getMaGiaoCa(), giaoCa.getNgayGiaoCa(),
+                    giaoCa.getNguoiGiao().getId(),
+                    giaoCa.getNguoiNhan().getId(), giaoCa.getGioKiemKe(),
+                    giaoCa.getTongCong(), giaoCa.getThucKiem(), giaoCa.getTrangThai(), giaoCa.getGhiChu(), giaoCa.getCaLamViec());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void update(String maGiaoCa, GiaoCa giaoCa) {
+        DBConnection1 dbConn = new DBConnection1();
+        Connection connection = dbConn.openDbConnection();
+        try {
+
+            PreparedStatement ps = connection.prepareStatement(UPDATE_SQL);
+            ps.setDate(1, new java.sql.Date(giaoCa.getNgayGiaoCa().getTime()));
+            ps.setObject(2, giaoCa.getNguoiGiao().getId());
+            ps.setObject(3, giaoCa.getNguoiNhan().getId());
+            ps.setObject(4, new java.sql.Time(giaoCa.getGioKiemKe().getTime()));
+            ps.setObject(5, giaoCa.getTongCong());
+            ps.setObject(6, giaoCa.getThucKiem());
+            ps.setObject(7, giaoCa.getTrangThai());
+            ps.setObject(8, giaoCa.getCaLamViec());
+            ps.setObject(9, giaoCa.getGhiChu());
+            ps.setObject(10, maGiaoCa);
+
+            int resualt = ps.executeUpdate();
+            System.out.println(resualt);
+//            dbConn.ExcuteSQL(UPDATE_SQL, giaoCa.getNgayGiaoCa(), giaoCa.getNguoiGiao().getId(), giaoCa.getNguoiNhan().getId(),
+//                    giaoCa.getGioKiemKe(), giaoCa.getTongCong(), giaoCa.getThucKiem(),
+//                    giaoCa.getTrangThai(), giaoCa.getCaLamViec(), giaoCa.getGhiChu(), giaoCa.getMaGiaoCa());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     public void delete(String id) {
         DBConnection1 dbConn = new DBConnection1();

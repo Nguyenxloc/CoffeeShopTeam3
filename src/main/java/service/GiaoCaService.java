@@ -32,4 +32,8 @@ public class GiaoCaService {
         giaoCaRepository.delete(id);
     }
 
+    public void update(String maGiaoCa, GiaoCa giaoCa) {
+        giaoCaRepository.update(maGiaoCa, giaoCa);
+    }
+
 }
