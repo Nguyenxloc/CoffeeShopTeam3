@@ -61,6 +61,17 @@ public class Form_LoaiDoUong extends javax.swing.JPanel {
             return null;
         }
         
+        if(ten.trim().length() != ten.length()){
+            JOptionPane.showMessageDialog(this, "Không được để khoảng trắng ở đầu, cuối của tên");
+            return null;
+        }
+        
+        if(!ten.matches("[a-zA-Z]+")){
+        }else{
+             JOptionPane.showMessageDialog(this, "Không được nhập số");
+            return null;
+        }
+        
         QLLoaiDoUong ql = new QLLoaiDoUong();
         ql.setMa(ma);
         ql.setTen(ten);

@@ -48,7 +48,10 @@ public class Form_CapBac extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "Không được để trống");
             return null;
         }
-        BigDecimal luong = new BigDecimal(luog);
+        try {
+            BigDecimal luong = new BigDecimal(luog);
+        
+
         
         QLCapBac cb = new QLCapBac();
         cb.setMaCB(ma);
@@ -56,7 +59,10 @@ public class Form_CapBac extends javax.swing.JPanel {
         cb.setLuongPastTime(luong);
         
         return cb;
-        
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Lương phải là số");
+            return null;
+        }
     }
     
     public void mouseClick(){
