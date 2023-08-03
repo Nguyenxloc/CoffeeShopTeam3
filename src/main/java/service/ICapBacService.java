@@ -15,6 +15,6 @@ public interface ICapBacService {
     public List<QLCapBac> getALL();
     public void them(QLCapBac cb);
     public void xoa(String id);
-    public void sua(QLCapBac cb);
+    public void sua(QLCapBac cb, String id);
     
 }

@@ -48,21 +48,31 @@ public class Form_CapBac extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "Không được để trống");
             return null;
         }
-        try {
-            BigDecimal luong = new BigDecimal(luog);
         
-
+        if(ten.trim().length() != ten.length()){
+            JOptionPane.showMessageDialog(this, "Không được để khoảng trắng ở đầu, cuối của tên");
+            return null;
+        }
+        
+        
+        BigDecimal luong = null;
+        if(!luog.trim().isEmpty()){
+        try {
+            luong = new BigDecimal(luog);
+       } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Lương phải là số");
+            return null;
+        }
+        }
         
         QLCapBac cb = new QLCapBac();
         cb.setMaCB(ma);
         cb.setTenCB(ten);
-        cb.setLuongPastTime(luong);
-        
-        return cb;
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "Lương phải là số");
-            return null;
+        if(luong != null){
+            cb.setLuongPastTime(luong);
         }
+        return cb;
+        
     }
     
     public void mouseClick(){
@@ -294,13 +304,14 @@ public class Form_CapBac extends javax.swing.JPanel {
     private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
         QLCapBac ld = getForm();
         int row = tblTable.getSelectedRow();
+        String id = tblTable.getValueAt(row, 0).toString();
 
         if(row == -1){
             JOptionPane.showMessageDialog(this, "Chọn 1 dòng để sửa");
             return;
         }
         if(ld != null){
-            capBacService.sua(ld);
+            capBacService.sua(ld, id);
             loadTable();
             clear();
         }else{

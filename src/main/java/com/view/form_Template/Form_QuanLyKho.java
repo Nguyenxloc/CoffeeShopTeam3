@@ -81,11 +81,13 @@ public class Form_QuanLyKho extends javax.swing.JPanel {
         return null;
          }
          
-        if(!tenSP.matches("[a-zA-Z]+")){
-        }else{
-            JOptionPane.showMessageDialog(this, "Không được nhập số");
+        if(tenSP.matches(".*//d.*")){
+            JOptionPane.showMessageDialog(this, " Tên không được nhập số");
             return null;
         }
+//        else{
+//            
+//        }
 
         try {
             int soLuong = Integer.parseInt(sLuong);

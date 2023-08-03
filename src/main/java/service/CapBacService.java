@@ -51,13 +51,14 @@ public class CapBacService implements ICapBacService{
     }
 
     @Override
-    public void sua(QLCapBac cb) {
-         CapBac domainModel = new CapBac("", cb.getMaCB(), cb.getTenCB(), cb.getLuongPastTime(), "");
-        if(capBacRepository.checkMa(cb.getIdCB())){
+    public void sua(QLCapBac cb, String id) {
+         CapBac domainModel = new CapBac(cb.getIdCB(), cb.getMaCB(), cb.getTenCB(), cb.getLuongPastTime(), "");
+        if(capBacRepository.checkMa(cb.getMaCB())){
             JOptionPane.showMessageDialog(null, "Sửa thành công");
-            capBacRepository.sua(domainModel);
+            capBacRepository.sua(domainModel, id);
         }else{
             JOptionPane.showMessageDialog(null, "Mã không thể sửa");
+            return ;
         }
          
     }
