@@ -61,13 +61,18 @@ public class Form_LoaiDoUong extends javax.swing.JPanel {
             return null;
         }
         
-        if(ten.trim().length() != ten.length()){
-            JOptionPane.showMessageDialog(this, "Không được để khoảng trắng ở đầu, cuối của tên");
+        if(!ma.matches("[a-zA-Z0-9]+$")){
+            JOptionPane.showMessageDialog(this, "Mã không hợp lệ");
             return null;
         }
         
-        if(ten.matches(".*//d.*")){
-            JOptionPane.showMessageDialog(this, "Không được nhập số");
+        if(ten.trim().length() != ten.length()){
+            JOptionPane.showMessageDialog(this, "Tên không hợp lệ");
+            return null;
+        }
+        
+        if(!ten.matches("^[\\p{L}\\p{M}0-9 ]+$")){
+            JOptionPane.showMessageDialog(this, "Tên không hợp lệ");
             return null;
         }
 //        else{

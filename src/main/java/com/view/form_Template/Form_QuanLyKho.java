@@ -77,12 +77,12 @@ public class Form_QuanLyKho extends javax.swing.JPanel {
         }
        
          if (tenSP.trim().length() != tenSP.length()) {
-        JOptionPane.showMessageDialog(this, "Không được để khoảng trắng đầu cuối tên sản phẩm");
+        JOptionPane.showMessageDialog(this, "Tên không hợp lệ");
         return null;
          }
          
-        if(tenSP.matches(".*//d.*")){
-            JOptionPane.showMessageDialog(this, " Tên không được nhập số");
+        if(tenSP.matches("^[\\p{L}\\p{M}0-9 ]+$")){
+            JOptionPane.showMessageDialog(this, " Tên không hợp lệ");
             return null;
         }
 //        else{
