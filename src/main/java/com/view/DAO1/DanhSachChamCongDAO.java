@@ -43,25 +43,26 @@ public class DanhSachChamCongDAO {
         String sql = "SELECT\n"
                 + "[IdNV],[NhanVien].Ten,\n"
                 + "    SUM(DATEDIFF(HOUR, [GioVao], [GioRa])) AS TongGio,\n"
+                + "	[CapBac].LuongPartime,\n"
                 + "	SUM(DATEDIFF(HOUR, [GioVao], [GioRa])) * ([CapBac].LuongPartime) as Luong\n"
                 + "FROM [dbo].[ChamCong] \n"
                 + "JOIN [dbo].[NhanVien] ON [NhanVien].[Id] = [ChamCong].[IdNV] join CapBac on CapBac.Id=NhanVien.IdCB\n"
                 + "where ([Ngay] BETWEEN ? and ?) \n"
                 + "group by ChamCong.IdNV,[NhanVien].Ten,[CapBac].LuongPartime";
-        try( Connection con = connection1.getConnection(); 
-                PreparedStatement st = con.prepareStatement(sql)) {
-                st.setObject(1, ngayA);
-                st.setObject(2, ngayB);
-                ResultSet rs = st.executeQuery();
-                while (rs.next()) {                
-                  LuongK luongK = new LuongK();
-                  luongK.setId(rs.getString(1));
-                  luongK.setTen(rs.getString(2));
-                  luongK.setTongGio(rs.getInt(3));
-                  luongK.setLuong(rs.getDouble(4));
-                  listA.add(luongK);
+        try ( Connection con = connection1.getConnection();  PreparedStatement st = con.prepareStatement(sql)) {
+            st.setObject(1, ngayA);
+            st.setObject(2, ngayB);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                LuongK luongK = new LuongK();
+                luongK.setId(rs.getString(1));
+                luongK.setTen(rs.getString(2));
+                luongK.setTongGio(rs.getInt(3));
+                luongK.setLuongPartime(rs.getInt(4));
+                luongK.setLuong(rs.getDouble(5));
+                listA.add(luongK);
             }
-            
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -70,8 +71,8 @@ public class DanhSachChamCongDAO {
 
     public static void main(String[] args) {
         DanhSachChamCongDAO chamCong = new DanhSachChamCongDAO();
-        ArrayList<LuongK> list = chamCong.getLuong("2023-07-23", "2023-07-26");
-        for (LuongK c : list) {
+        ArrayList<ChamCongK> list = chamCong.getDanhSachChamCOng();
+        for (ChamCongK c : list) {
             System.out.println(c);
         }
     }

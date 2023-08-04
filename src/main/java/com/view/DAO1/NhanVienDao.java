@@ -182,11 +182,33 @@ public class NhanVienDao {
         return false;
     }
     
+    public ArrayList<CapBac> getCboCapbacTest(){
+        ArrayList<CapBac> lit = new ArrayList<>();
+        String sql = "select Id,Ten from CapBac group by Id,Ten";
+        try(Connection con = connection1.getConnection();
+                PreparedStatement st = con.prepareStatement(sql)) {
+                ResultSet rs = st.executeQuery();
+                while (rs.next()) {                
+                  CapBac cb = new CapBac();
+                  cb.setId(rs.getString("Id"));
+                  cb.setTen(rs.getString("Ten"));
+                  lit.add(cb);
+            }
+        } catch (Exception e) {
+           e.printStackTrace();
+        }
+        return lit;
+    }
+    
+    
     public static void main(String[] args) {
         NhanVienDao dao = new NhanVienDao();
         //NhanVien nhanVien = new NhanVien("", "NV03", "Tam", "Nu", "2000-01-01", "Ha Noi", "0143432545", "Tam", "12344", capBac, 0, "");
 //        //System.out.println(dao.selectByAccount("son"));
-//         ArrayList<NhanVien> list = dao.getList();
+         ArrayList<CapBac> list = dao.getCboCapbacTest();
+         for (CapBac o : list) {
+             System.out.println(o);
+        }
 //         System.out.println(list);
     }
     
