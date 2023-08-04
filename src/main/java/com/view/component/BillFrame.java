@@ -203,7 +203,7 @@ public class BillFrame extends javax.swing.JFrame {
         int max = Collections.max(Arrays.asList(arr));
         System.out.println("max: "+ max);
         for (int i = 0; i < max; i++) {
-            System.out.println(localTblHoaDonCho.getValueAt(i, 3));
+
             if (checkHoaDon == 0&&i<localTblHoaDon.getRowCount()) {
                 String maHDTblHoaDon = (String) localTblHoaDon.getValueAt(i, 1);
                 System.out.println("loop 1: "+maHDTblHoaDon);

@@ -352,7 +352,8 @@ public class Form_BanHang extends javax.swing.JPanel {
         }
         lblTotalCash.setText(String.valueOf(totalCheck));
     }
-
+    
+   
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -795,7 +796,7 @@ public class Form_BanHang extends javax.swing.JPanel {
         countHoaDonChoTbl = -1;
         showDetailHoaDonTab();
         showLstDrink();
-
+        System.out.println(LstHoaDon_singleton.getInstance().lstHoaDon.get(countHoaDonTbl));
     }//GEN-LAST:event_tblHoaDonMouseClicked
 
     private void btnWatingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnWatingActionPerformed

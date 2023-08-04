@@ -4,11 +4,19 @@
  */
 package com.view.component;
 
+import java.io.IOException;
+import java.text.Normalizer;
 import java.util.ArrayList;
+import java.util.regex.Pattern;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import model.HoaDon;
 import model.HoaDonChiTiet;
 import model.KhuyenMai;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.PDPage;
+import org.apache.pdfbox.pdmodel.PDPageContentStream;
+import org.apache.pdfbox.pdmodel.font.PDType1Font;
 import service.HoaDonChiTietService;
 import service.HoaDonService;
 
@@ -22,10 +30,13 @@ public class BillFinishFrame extends javax.swing.JFrame {
      * Creates new form BillFrame
      */
     private String LocalId;
-    HoaDonService hoaDonService = new HoaDonService();
-    HoaDonChiTietService hoaDonChiTietService = new HoaDonChiTietService();
-    double totalCheck = 0;
-    double localMoneyTake;
+    private HoaDonService hoaDonService = new HoaDonService();
+    private HoaDonChiTietService hoaDonChiTietService = new HoaDonChiTietService();
+    private ArrayList<HoaDonChiTiet> lstHoaDonChiTiet;
+    private HoaDon hoaDon;
+    private double totalCheck = 0;
+    private double localMoneyTake;
+
     public BillFinishFrame(String id) {
         initComponents();
         this.pack();
@@ -34,18 +45,16 @@ public class BillFinishFrame extends javax.swing.JFrame {
         LocalId = id;
         loadData();
     }
-    
-        
 
     public void loadData() {
         int stt = 0;
         double cellCheck = 0;
-        HoaDon hoaDon = hoaDonService.getHoaDonByID(LocalId);
+        hoaDon = hoaDonService.getHoaDonByID(LocalId);
         String checkStt;
         DefaultTableModel model = new DefaultTableModel();
         model = (DefaultTableModel) tblDrinkDetail.getModel();
         model.setRowCount(0);
-        ArrayList<HoaDonChiTiet> lstHoaDonChiTiet = hoaDonChiTietService.getListHoaDonChiTietByID(LocalId);
+        lstHoaDonChiTiet = hoaDonChiTietService.getListHoaDonChiTietByID(LocalId);
         lblMaHD.setText(hoaDon.getMa());
         lblBan.setText(hoaDon.getBan().getTen());
         if (hoaDon.getTinhTrangThanhToan() == 0) {
@@ -67,25 +76,211 @@ public class BillFinishFrame extends javax.swing.JFrame {
         double moneyChange = Double.parseDouble(String.valueOf(hoaDon.getMoneyTake())) - totalCheck;
         System.out.println(totalCheck);
         lblMoneyChange.setText(String.valueOf(moneyChange));
-        
-         lblTotalCheck.setText(String.valueOf(totalCheck) + " VNĐ");
+
+        lblTotalCheck.setText(String.valueOf(totalCheck) + " VNĐ");
         if (hoaDon.getMaGiamGia().getMaKM() != null) {
-            lblDiscountPer.setText(String.valueOf(hoaDon.getMaGiamGia().getGiaTri())+hoaDon.getMaGiamGia().getLoaiKM());
-            lblCheckAfterDiscount.setText(String.valueOf(totalCheck - totalCheck*(Double.valueOf(hoaDon.getMaGiamGia().getGiaTri())/100))+" VNĐ");
+            lblDiscountPer.setText(String.valueOf(hoaDon.getMaGiamGia().getGiaTri()) + hoaDon.getMaGiamGia().getLoaiKM());
+            lblCheckAfterDiscount.setText(String.valueOf(totalCheck - totalCheck * (Double.valueOf(hoaDon.getMaGiamGia().getGiaTri()) / 100)) + " VNĐ");
         } else {
             lblDiscountPer.setText("Không");
             lblCheckAfterDiscount.setText(totalCheck + " VNĐ");
         }
         if (hoaDon.getMoneyTake() != null) {
-            lblMoneyTake.setText(String.valueOf(hoaDon.getMoneyTake())+" VNĐ");
-            if(hoaDon.getMaGiamGia().getGiaTri()!=null)
-            moneyChange = Double.parseDouble(String.valueOf(hoaDon.getMoneyTake())) - totalCheck + totalCheck*(Double.valueOf(hoaDon.getMaGiamGia().getGiaTri())/100);
-            else
-            moneyChange =  Double.parseDouble(String.valueOf(hoaDon.getMoneyTake())) - totalCheck ;
-            lblMoneyChange.setText(String.valueOf(moneyChange)+" VNĐ");
+            lblMoneyTake.setText(String.valueOf(hoaDon.getMoneyTake()) + " VNĐ");
+            if (hoaDon.getMaGiamGia().getGiaTri() != null) {
+                moneyChange = Double.parseDouble(String.valueOf(hoaDon.getMoneyTake())) - totalCheck + totalCheck * (Double.valueOf(hoaDon.getMaGiamGia().getGiaTri()) / 100);
+            } else {
+                moneyChange = Double.parseDouble(String.valueOf(hoaDon.getMoneyTake())) - totalCheck;
+            }
+            lblMoneyChange.setText(String.valueOf(moneyChange) + " VNĐ");
         } else {
             lblMoneyTake.setText("");
         }
+    }
+
+    public static String deAccent(String str) {
+        String nfdNormalizedString = Normalizer.normalize(str, Normalizer.Form.NFD);
+        Pattern pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");
+        return pattern.matcher(nfdNormalizedString).replaceAll("");
+    }
+
+    public void WriteInvoice() {
+        //get the page
+        PDDocument invc = new PDDocument();
+        PDPage newPage = new PDPage();
+        invc.addPage(newPage);
+        int n = 0;
+        double cellCheckPrint = 0;
+        String ttThanhToan = null;
+        if (hoaDon.getTinhTrangThanhToan() == 1) {
+            ttThanhToan = "Da thanh toan";
+        } else {
+            ttThanhToan = "Chua thanh toan";
+        }
+        PDPage mypage = invc.getPage(0);
+        try {
+            //Prepare Content Stream
+            PDPageContentStream cs = new PDPageContentStream(invc, mypage);
+
+            //Writing Single Line text
+            //Writing the Invoice title
+            cs.beginText();
+            cs.setFont(PDType1Font.TIMES_ROMAN, 14);
+            cs.newLineAtOffset(420, 750);
+            cs.showText(hoaDon.getMa());
+            cs.endText();
+
+            cs.beginText();
+            cs.setFont(PDType1Font.TIMES_ROMAN, 18);
+            cs.newLineAtOffset(220, 690);
+            cs.showText("COFFEE CODER");
+            cs.endText();
+
+            //Writing Multiple Lines
+            //writing the customer details
+            cs.beginText();
+            cs.setFont(PDType1Font.TIMES_ROMAN, 14);
+            cs.setLeading(20f);
+            cs.newLineAtOffset(100, 610);
+            cs.showText("So ban: ");
+            cs.newLine();
+            cs.showText("Ma NV: ");
+            cs.newLine();
+            cs.showText("Ten NV: ");
+            cs.newLine();
+            cs.showText("Ngay vao: ");
+            cs.newLine();
+            cs.showText("Gio vao: ");
+            cs.newLine();
+            cs.showText("Thanh toan: ");
+            cs.endText();
+
+            cs.beginText();
+            cs.setFont(PDType1Font.TIMES_ROMAN, 14);
+            cs.setLeading(20f);
+            cs.newLineAtOffset(210, 610);
+            cs.showText(String.valueOf(hoaDon.getBan().getIdBan()));
+            cs.newLine();
+            cs.showText(hoaDon.getNhanVien().getMa());
+            cs.newLine();
+            cs.showText(deAccent(hoaDon.getNhanVien().getTen()));
+            cs.newLine();
+            cs.showText(hoaDon.getNgayTao().toString());
+            cs.newLine();
+            cs.showText(hoaDon.getThoiGian());
+            cs.newLine();
+            cs.showText(ttThanhToan);
+            cs.endText();
+
+            cs.beginText();
+            cs.setFont(PDType1Font.TIMES_ROMAN, 14);
+            cs.newLineAtOffset(100, 480);
+            cs.showText("San pham");
+            cs.endText();
+
+            cs.beginText();
+            cs.setFont(PDType1Font.TIMES_ROMAN, 14);
+            cs.newLineAtOffset(220, 480);
+            cs.showText("Don gia");
+            cs.endText();
+
+            cs.beginText();
+            cs.setFont(PDType1Font.TIMES_ROMAN, 14);
+            cs.newLineAtOffset(330, 480);
+            cs.showText("So luong");
+            cs.endText();
+
+            cs.beginText();
+            cs.setFont(PDType1Font.TIMES_ROMAN, 14);
+            cs.newLineAtOffset(430, 480);
+            cs.showText("Thanh tien");
+            cs.endText();
+
+            cs.beginText();
+            cs.setFont(PDType1Font.TIMES_ROMAN, 12);
+            cs.setLeading(20f);
+            cs.newLineAtOffset(100, 440);
+            for (HoaDonChiTiet hoaDonChiTiet : lstHoaDonChiTiet) {
+                String ten = deAccent(hoaDonChiTiet.getChiTietDoUong().getTenDoUong()).toString();
+                cs.showText(ten);
+                cs.newLine();
+                n++;
+            }
+            cs.endText();
+
+            cs.beginText();
+            cs.setFont(PDType1Font.TIMES_ROMAN, 12);
+            cs.setLeading(20f);
+            cs.newLineAtOffset(220, 440);
+            for (HoaDonChiTiet hoaDonChiTiet : lstHoaDonChiTiet) {
+                cs.showText(String.valueOf(hoaDonChiTiet.getChiTietDoUong().getGiaBan()));
+                cs.newLine();
+            }
+            cs.endText();
+
+            cs.beginText();
+            cs.setFont(PDType1Font.TIMES_ROMAN, 12);
+            cs.setLeading(20f);
+            cs.newLineAtOffset(330, 440);
+            for (HoaDonChiTiet hoaDonChiTiet : lstHoaDonChiTiet) {
+                cs.showText(String.valueOf(hoaDonChiTiet.getSoLuong()));
+                cs.newLine();
+            }
+            cs.endText();
+
+            cs.beginText();
+            cs.setFont(PDType1Font.TIMES_ROMAN, 12);
+            cs.setLeading(20f);
+            cs.newLineAtOffset(430, 440);
+            for (HoaDonChiTiet hoaDonChiTiet : lstHoaDonChiTiet) {
+                cellCheckPrint = Double.valueOf(hoaDonChiTiet.getSoLuong()) * Double.valueOf(hoaDonChiTiet.getChiTietDoUong().getGiaBan());
+                cs.showText(String.valueOf(cellCheckPrint));
+                cs.newLine();
+            }
+            cs.endText();
+
+            cs.beginText();
+            cs.setFont(PDType1Font.TIMES_ROMAN, 14);
+            cs.setLeading(20f);
+            cs.newLineAtOffset(330, (420 - (20 * n)));
+            cs.showText("Tong tien: ");
+            cs.newLine();
+            cs.showText("Giam gia: ");
+            cs.newLine();
+            cs.showText("Thuc thu: ");
+            cs.newLine();
+            cs.showText("Khach dua: ");
+            cs.newLine();
+            cs.showText("Tien thua: ");
+            cs.endText();
+
+            cs.beginText();
+            cs.setFont(PDType1Font.TIMES_ROMAN, 14);
+            cs.setLeading(20f);
+            cs.newLineAtOffset(430, (420 - (20 * n)));
+            cs.showText("#name8");
+            cs.newLine();
+            cs.showText("#name9");
+            cs.newLine();
+            cs.showText("#name10");
+            cs.newLine();
+            cs.showText("#name11");
+            cs.newLine();
+            cs.showText("#name12");
+            cs.endText();
+
+            //Close the content stream
+            cs.close();
+            //Save the PDF
+            invc.save(hoaDon.getMa());
+            JOptionPane.showMessageDialog(null, "In hóa đơn thành công");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void printInvoice() {
+        WriteInvoice();
     }
 
     /**
@@ -167,6 +362,11 @@ public class BillFinishFrame extends javax.swing.JFrame {
         lblMoneyChange.setText("#moneyChange");
 
         btnCheck.setText("In Hóa Đơn");
+        btnCheck.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCheckActionPerformed(evt);
+            }
+        });
 
         jLabel7.setText("Giảm giá:");
 
@@ -273,11 +473,12 @@ public class BillFinishFrame extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel12)
-                    .addComponent(jLabel7)
-                    .addComponent(lblDiscountPer)
-                    .addComponent(lblTotalCheck, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblTotalCheck, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel12)
+                        .addComponent(jLabel7)
+                        .addComponent(lblDiscountPer)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel9)
@@ -310,6 +511,11 @@ public class BillFinishFrame extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnCheckActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCheckActionPerformed
+        // TODO add your handling code here:
+        printInvoice();
+    }//GEN-LAST:event_btnCheckActionPerformed
 
     /**
      * @param args the command line arguments
