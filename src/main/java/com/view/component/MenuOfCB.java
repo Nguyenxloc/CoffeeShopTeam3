@@ -51,16 +51,16 @@ public class MenuOfCB extends javax.swing.JPanel {
         listMenu1.addItem(new Model_Menu("3", "Bán hàng", Model_Menu.MenuType.MENU));
         listMenu1.addItem(new Model_Menu("4", "QL Giao ca", Model_Menu.MenuType.MENU));
         listMenu1.addItem(new Model_Menu("5", "QL Menu", Model_Menu.MenuType.MENU));
-        listMenu1.addItem(new Model_Menu("1", "Quản lý khuyến mại", Model_Menu.MenuType.MENU));
-        listMenu1.addItem(new Model_Menu("7", "QL Hóa Đơn", Model_Menu.MenuType.MENU));
+        listMenu1.addItem(new Model_Menu("12", "Quản lý khuyến mại", Model_Menu.MenuType.MENU));
+        listMenu1.addItem(new Model_Menu("13", "QL Hóa Đơn", Model_Menu.MenuType.MENU));
         listMenu1.addItem(new Model_Menu("1", "Thống kê", Model_Menu.MenuType.MENU));
         listMenu1.addItem(new Model_Menu("8", "Quản lý nhân viên", Model_Menu.MenuType.MENU));
-        listMenu1.addItem(new Model_Menu("9", "Tạo tài khoản", Model_Menu.MenuType.MENU));
+        listMenu1.addItem(new Model_Menu("8", "Tạo tài khoản", Model_Menu.MenuType.MENU));
         listMenu1.addItem(new Model_Menu("9", "Chấm công", Model_Menu.MenuType.MENU));
-        listMenu1.addItem(new Model_Menu("10", "Quản lý nhập kho", Model_Menu.MenuType.MENU));
-        listMenu1.addItem(new Model_Menu("10", "Quản lý Loại Đồ Uống", Model_Menu.MenuType.MENU));
-        listMenu1.addItem(new Model_Menu("10", "Quản lý Cấp Bậc", Model_Menu.MenuType.MENU));
-        listMenu1.addItem(new Model_Menu("10", "Đăng xuất", Model_Menu.MenuType.MENU));
+        listMenu1.addItem(new Model_Menu("9", "Quản lý nhập kho", Model_Menu.MenuType.MENU));
+        listMenu1.addItem(new Model_Menu("9", "Quản lý Loại Đồ Uống", Model_Menu.MenuType.MENU));
+        listMenu1.addItem(new Model_Menu("9", "Quản lý Cấp Bậc", Model_Menu.MenuType.MENU));
+        listMenu1.addItem(new Model_Menu("11", "Đăng xuất", Model_Menu.MenuType.MENU));
 
         listMenu1.addItem(new Model_Menu("", "\n ", Model_Menu.MenuType.TITLE));
         listMenu1.addItem(new Model_Menu("", "\n ", Model_Menu.MenuType.TITLE));

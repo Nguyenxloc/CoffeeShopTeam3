@@ -16,8 +16,8 @@ public class HoaDonService {
 
     DAO_HoaDon dao_HoaDon = new DAO_HoaDon();
 
-    public void saveHoaDon(HoaDon hoaDon) {
-        dao_HoaDon.save(hoaDon);
+    public HoaDon saveHoaDon(HoaDon hoaDon) {
+        return dao_HoaDon.save(hoaDon);
     }
 
     public ArrayList<HoaDon> getListHoaDon() {

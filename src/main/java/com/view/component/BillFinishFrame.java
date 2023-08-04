@@ -78,7 +78,10 @@ public class BillFinishFrame extends javax.swing.JFrame {
         }
         if (hoaDon.getMoneyTake() != null) {
             lblMoneyTake.setText(String.valueOf(hoaDon.getMoneyTake())+" VNĐ");
+            if(hoaDon.getMaGiamGia().getGiaTri()!=null)
             moneyChange = Double.parseDouble(String.valueOf(hoaDon.getMoneyTake())) - totalCheck + totalCheck*(Double.valueOf(hoaDon.getMaGiamGia().getGiaTri())/100);
+            else
+            moneyChange =  Double.parseDouble(String.valueOf(hoaDon.getMoneyTake())) - totalCheck ;
             lblMoneyChange.setText(String.valueOf(moneyChange)+" VNĐ");
         } else {
             lblMoneyTake.setText("");

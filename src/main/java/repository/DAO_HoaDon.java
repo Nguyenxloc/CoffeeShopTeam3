@@ -8,6 +8,7 @@ import java.math.BigDecimal;
 import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 import model.Ban;
 import model.GiamGia;
 import model.HoaDon;
@@ -36,6 +37,7 @@ public class DAO_HoaDon {
     final String UPDATE_MONEYTAKE = "UPDATE dbo.HoaDon SET SoTienNhanVao=? WHERE Id=?";
     final String UPDATE_CHECKSTT = "UPDATE dbo.HoaDon SET TinhTrangThanhToan=? WHERE Id=?";
     final String UPDATE_DISCOUNT = "UPDATE dbo.HoaDon SET MaGiamGia=? WHERE Id=?";
+    final String SELECT_TOP1BYACENDING = "SELECT TOP 1*FROM dbo.HoaDon ORDER BY NumOrder DESC;";
     DAO_Ban dao_Ban = new DAO_Ban();
     DAO_KhachHang dao_KhachHang = new DAO_KhachHang();
     DAO_NhanVien dao_NhanVien = new DAO_NhanVien();
@@ -114,14 +116,28 @@ public class DAO_HoaDon {
         return hoaDon;
     }
 
-    public void save(HoaDon hoaDon) {
+    public HoaDon save(HoaDon hoaDon) {
         DBConnection1 dbConn = new DBConnection1();
+        HoaDon hoaDonAdded = null;
         try {
 //            "INSERT INTO dbo.HoaDon(IdBan,IdKH,IdNV,TinhTrangThanhToan,TrangThaiPhaChe,MaGiamGia,Stt)VALUES(?,?,?,0,0,?,?)"
-            dbConn.ExcuteSQL(INSERT_SQL, hoaDon.getBan().getIdBan(), null, hoaDon.getNhanVien().getId(), null, hoaDon.getStt());
+            int check = dbConn.ExcuteSQL(INSERT_SQL, hoaDon.getBan().getIdBan(), null, hoaDon.getNhanVien().getId(), null, hoaDon.getStt());
+            if (check == 1) {
+                ResultSet rs = dbConn.getDataFromQuery(SELECT_TOP1BYACENDING);
+                while (rs.next()) {
+                    Ban ban = dao_Ban.selectByID(rs.getInt("IdBan"));
+                    KhachHang khachHang = null;
+                    NhanVien nhanVien = dao_NhanVien.selectByID(rs.getString("IdNV"));
+                    GiamGia giamGia = dao_GiamGia.selectByID(rs.getString("MaGiamGia"));
+                    hoaDonAdded = new HoaDon(rs.getString("id"), ban, khachHang, nhanVien, rs.getString("Ma"), rs.getDate("NgayTao"),
+                            rs.getString("ThoiGian"), rs.getInt("TinhTrangThanhToan"), rs.getInt("TrangThaiPhaChe"), giamGia, rs.getInt("Stt"), rs.getBigDecimal("SoTienNhanVao"));
+                }
+                return hoaDonAdded;
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return null;
     }
 
     public void update(HoaDon hoaDon) {

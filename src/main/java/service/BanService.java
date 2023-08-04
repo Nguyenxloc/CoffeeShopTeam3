@@ -35,6 +35,10 @@ public class BanService {
     public void deleteBan(int idBan) {
         dao_ban.delete(idBan);
     }
+    
+    public int getMax(){
+         return dao_ban.getMaxTbl();
+    }
 
 //    public void updateHoaDon(HoaDon hoaDon){
 //       dao_HoaDon.update(hoaDon);
