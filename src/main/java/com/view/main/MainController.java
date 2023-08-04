@@ -4,17 +4,6 @@
  */
 package com.view.main;
 
-import ultilities.DBConnection;
-
-import ultilities.Utilitys;
-
-import ultilities.DBConnection;
-
-import ultilities.Utilitys;
-
-import ultilities.DBConnection;
-
-import ultilities.DBConnection;
 
 /**
  *
