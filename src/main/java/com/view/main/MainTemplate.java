@@ -119,22 +119,21 @@ public class MainTemplate extends javax.swing.JFrame {
                     setForm(form_GiaoCa1);
                 } else if (index == 3) {
                     setForm(form_QLDoUong);
-                }  else if (index == 9) {
-                    setForm(luongNhanVien);
-                } else if (index == 4) {
+                }  else if (index == 4) {
                     setForm(form_KhuyenMai);
                 }
                 
                 else if (index == 10) {
+                    setForm(luongNhanVien);
                 } else if (index == 9) {
                     setForm(form_ChamCong);
-                } else if (index == 10) {
-                    setForm(form_QuanLyKho);
                 } else if (index == 11) {
-                    setForm(form_LoaiDoUong);
+                    setForm(form_QuanLyKho);
                 } else if (index == 12) {
-                    setForm(form_CapBac);
+                    setForm(form_LoaiDoUong);
                 } else if (index == 13) {
+                    setForm(form_CapBac);
+                } else if (index == 14) {
                     MessageFrame messageFrame = new MessageFrame();
                     messageFrame.show();
                     messageFrame.setMessage("Bạn có chắc chắn muốn đăng xuất không?");

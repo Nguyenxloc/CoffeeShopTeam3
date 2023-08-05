@@ -206,12 +206,12 @@ public class Form_QLDoUong extends javax.swing.JPanel {
     }
 
 
-    public void timKiem() {
-        String tenDoUong = txtTimKiemTenDoUong.getText();
-        int count = cboTimKiemDanhMucDoUong.getSelectedIndex();
-        String idLoaiDoUong = lstLoaiDoUong.get(count).getId();
-        double giaBatDau = 0;
-        double giaKetThuc = 0;
+//    public void timKiem() {
+//        String tenDoUong = txtTimKiemTenDoUong.getText();
+//        int count = cboTimKiemDanhMucDoUong.getSelectedIndex();
+//        String idLoaiDoUong = lstLoaiDoUong.get(count).getId();
+//        double giaBatDau = 0;
+//        double giaKetThuc = 0;
 //    public void timKiem() {
 //        String tenDoUong = txtTimKiemTenDoUong.getText();
 //        if(tenDoUong.equalsIgnoreCase(""))
