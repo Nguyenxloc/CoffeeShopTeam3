@@ -1,10 +1,9 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package service;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Date;
+//import java.sql.*;
 import model.GiaoCa;
 import repository.DAO_GiaoCa;
 
@@ -34,6 +33,14 @@ public class GiaoCaService {
 
     public void update(String maGiaoCa, GiaoCa giaoCa) {
         giaoCaRepository.update(maGiaoCa, giaoCa);
+    }
+
+    public void save(GiaoCa giaoCa) {
+        giaoCaRepository.save(giaoCa);
+    }
+
+    public BigDecimal getTongDoanhThu(Date ngayTao, String caLamViec) {
+        return giaoCaRepository.getTongDoanhThu(ngayTao, caLamViec);
     }
 
 }

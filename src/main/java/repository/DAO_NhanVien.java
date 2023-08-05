@@ -4,6 +4,7 @@
  */
 package repository;
 
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -22,7 +23,9 @@ public class DAO_NhanVien {
             + "VALUES( ?,?,?,?,?,?,?,?,?,?,?,?,?)";
     final String UPDATE_SQL = "UPDATE dbo.NhanVien SET Ten=?, TenDem=?,Ho=?,GioiTinh=?,NgaySinh=?,DiaChi=?,Sdt=?,TaiKhoan=?,MatKhau=?,IdCB=?,TrangThai=?,HinhAnh=? WHERE Id=?";
     final String DELETE_SQL = "DELETE FROM [dbo].[NhanVien] WHERE [Id] = ?";
-    final String SELECT_BY_SQL = "SELECT * FROM [dbo].[NhanVien] WHERE Ma = ?";
+    final String SELECT_BY_SQL = "SELECT * FROM NhanVien JOIN CapBac \n"
+            + "            ON NhanVien.IdCB = CapBac.Id\n"
+            + "            WHERE NhanVien.Ma = ?";
     final String SELECT_BY_IDNV_SQL = " SELECT * FROM NhanVien WHERE Id = ?";
     final String SELECT_ALL_SQL = "SELECT * FROM [dbo].[NhanVien];";
     final String SELECT_CBONV_SQL = "  SELECT Id,Ho + ' ' + TenDem + ' ' + Ten AS HOTENNHANVIEN FROM NhanVien";
@@ -75,8 +78,8 @@ public class DAO_NhanVien {
         try {
             ResultSet rs = dbConn.getDataFromQuery(SELECT_BY_SQL, id);
             while (rs.next()) {
-//                CapBac capBac = dao_capBac.selectByID(rs.getString("IdCB"));
-                lstNhanVien.add(new NhanVien(rs.getString("Id"), rs.getString("Ma"), rs.getNString("Ten"), rs.getNString("TenDem"), rs.getNString("Ho"), rs.getNString("GioiTinh"), rs.getDate("NgaySinh"), rs.getString("DiaChi"), rs.getString("Sdt"), rs.getString("TaiKhoan"), rs.getString("MatKhau"), new CapBac(), rs.getInt("TrangThai"), rs.getBytes("HinhAnh"), rs.getString("NgayTao")));
+                CapBac capBac = dao_capBac.selectByID(rs.getString("IdCB"));
+                lstNhanVien.add(new NhanVien(rs.getString("Id"), rs.getString("Ma"), rs.getNString("Ten"), rs.getNString("TenDem"), rs.getNString("Ho"), rs.getNString("GioiTinh"), rs.getDate("NgaySinh"), rs.getString("DiaChi"), rs.getString("Sdt"), rs.getString("TaiKhoan"), rs.getString("MatKhau"), capBac, rs.getInt("TrangThai"), rs.getBytes("HinhAnh"), rs.getString("NgayTao")));
 
                 nhanVien = lstNhanVien.get(0);
                 break;
@@ -157,4 +160,5 @@ public class DAO_NhanVien {
         }
         return idNhanVien;
     }
+
 }

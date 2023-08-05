@@ -489,7 +489,6 @@ public class Form_KhuyenMai extends javax.swing.JPanel {
         btnTimSp = new javax.swing.JButton();
         jLabel58 = new javax.swing.JLabel();
         cboLoaiSP = new javax.swing.JComboBox<>();
-        ckbTatCa = new javax.swing.JCheckBox();
         jScrollPane10 = new javax.swing.JScrollPane();
         tblSanPham = new javax.swing.JTable();
 
@@ -753,15 +752,6 @@ public class Form_KhuyenMai extends javax.swing.JPanel {
 
         cboLoaiSP.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        ckbTatCa.setBackground(new java.awt.Color(255, 255, 255));
-        ckbTatCa.setForeground(new java.awt.Color(51, 51, 51));
-        ckbTatCa.setText("Tất cả");
-        ckbTatCa.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ckbTatCaActionPerformed(evt);
-            }
-        });
-
         tblSanPham.setBackground(new java.awt.Color(255, 255, 255));
         tblSanPham.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -820,10 +810,7 @@ public class Form_KhuyenMai extends javax.swing.JPanel {
                                 .addGap(38, 38, 38)
                                 .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel58, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(jPanel12Layout.createSequentialGroup()
-                                        .addComponent(cboLoaiSP, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(31, 31, 31)
-                                        .addComponent(ckbTatCa)))))
+                                    .addComponent(cboLoaiSP, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addGap(0, 19, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel12Layout.createSequentialGroup()
                         .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -856,8 +843,7 @@ public class Form_KhuyenMai extends javax.swing.JPanel {
                 .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtTimSP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnTimSp)
-                    .addComponent(cboLoaiSP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(ckbTatCa))
+                    .addComponent(cboLoaiSP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane10, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(42, Short.MAX_VALUE))
@@ -959,14 +945,6 @@ public class Form_KhuyenMai extends javax.swing.JPanel {
         updateKhuyenMai();
     }//GEN-LAST:event_btnCapNhat1ActionPerformed
 
-    private void ckbTatCaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ckbTatCaActionPerformed
-        // TODO add your handling code here:
-        boolean selected = ckbTatCa.isSelected();
-        for (int row = 0; row < tblSanPham.getRowCount(); row++) {
-            tblSanPham.setValueAt(selected, row, 4);  // Cột 1 là cột "Selected"
-        }
-    }//GEN-LAST:event_ckbTatCaActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCapNhat;
@@ -981,7 +959,6 @@ public class Form_KhuyenMai extends javax.swing.JPanel {
     private javax.swing.JComboBox<String> cboLoaiSP;
     private javax.swing.JComboBox<String> cboStatus;
     private javax.swing.JComboBox<String> cboTrangThai;
-    private javax.swing.JCheckBox ckbTatCa;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel41;
     private javax.swing.JLabel jLabel42;
