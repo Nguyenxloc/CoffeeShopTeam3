@@ -75,21 +75,42 @@ public class Form_QuanLyKho extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "Không được để trống");
             return null;
         }
+       
+         if (tenSP.trim().length() != tenSP.length()) {
+        JOptionPane.showMessageDialog(this, "Tên không hợp lệ");
+        return null;
+         }
+         
+        if(tenSP.matches("^[\\p{L}\\p{M}0-9 ]+$")){
+            JOptionPane.showMessageDialog(this, " Tên không hợp lệ");
+            return null;
+        }
+//        else{
+//            
+//        }
 
-        int soLuong = Integer.parseInt(sLuong);
-        BigDecimal dGia = new BigDecimal(dGiaa);
-        Date nNhap = new Date(sdf.parse(nNhapp).getTime());
-        int cout = cbbtenNV.getSelectedIndex();
-        NhanVien nv = nhapkhoService.getCBBNV().get(cout);
+        try {
+            int soLuong = Integer.parseInt(sLuong);
+            BigDecimal dGia = new BigDecimal(dGiaa);
+            Date nNhap = new Date(sdf.parse(nNhapp).getTime());
+            int cout = cbbtenNV.getSelectedIndex();
+            NhanVien nv = nhapkhoService.getCBBNV().get(cout);
 
-        QLNhapKho nk = new QLNhapKho();
-        nk.setNhanVien(nv);
-        nk.setTenSP(tenSP);
-        nk.setNgayNhap(nNhap);
-        nk.setDonVi(dVi);
-        nk.setSoLuong(soLuong);
-        nk.setDonGia(dGia);
-        return nk;
+            QLNhapKho nk = new QLNhapKho();
+            nk.setNhanVien(nv);
+            nk.setTenSP(tenSP);
+            nk.setNgayNhap(nNhap);
+            nk.setDonVi(dVi);
+            nk.setSoLuong(soLuong);
+            nk.setDonGia(dGia);
+            return nk;
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Số lượng phải là số");
+            return null;
+        }
+
+        
+        
     }
     
 
@@ -490,7 +511,7 @@ public class Form_QuanLyKho extends javax.swing.JPanel {
         jPanel4.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 49, -1, -1));
 
         jLabel3.setText("Tên Sản Phẩm:");
-        jPanel4.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 89, 79, -1));
+        jPanel4.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(6, 89, 90, -1));
 
         jLabel5.setText("Đơn Vị: ");
         jPanel4.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 50, 58, -1));

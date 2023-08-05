@@ -11,6 +11,7 @@ import com.view.form.ThongBaoForm;
 import com.view.form.LichHocForm;
 import com.view.form.DiemForm;
 import com.view.form.QuanLyNhanVien;
+import com.view.form.TinhLuongNhanVien;
 import com.view.form.WalletForm;
 import com.view.form_Template.Container;
 import com.view.form_Template.FormLichHoc;
@@ -26,6 +27,7 @@ import com.view.form_Template.Form_QLDoUong;
 import com.view.form_Template.Form_QLHoaDon;
 import com.view.form_Template.Form_QuanLyKho;
 import com.view.form_Template.Form_TaoTaiKhoan;
+import com.view.form_Template.Form_ThongBao;
 import com.view.form_Template.Form_ThongKe;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -48,7 +50,7 @@ public class MainTemplate extends javax.swing.JFrame {
      * Creates new form Main
      */
     private WalletForm home;
-    private ThongBaoForm formThongbao;
+    private Form_ThongBao formThongbao;
     private Form_BanHang formBanHang;
     private Form_TaoTaiKhoan form_TaoTaiKhoan;
     private Form_QLDoUong form_QLDoUong;
@@ -56,6 +58,7 @@ public class MainTemplate extends javax.swing.JFrame {
     private com.view.component.paneOfProduct paneOfProduct2;
     private QuanLyNhanVien formQLNhanVien;
     private Form_QLHoaDon formQLHoaDon;
+    private TinhLuongNhanVien luongNhanVien;
     private Form_QuanLyKho form_QuanLyKho;
     private Form_GiaoCa form_GiaoCa1;
     private Form_ChamCong form_ChamCong;
@@ -67,19 +70,32 @@ public class MainTemplate extends javax.swing.JFrame {
 
     public MainTemplate() {
         initComponents();
-        home = new WalletForm();
-        formThongbao = new ThongBaoForm();
+        System.out.println("==========Loading Form_thongBao==========");
+        formThongbao = new Form_ThongBao();
+        System.out.println("==========Loading Form_BanHang==========");
         formBanHang = new Form_BanHang();
+        luongNhanVien = new TinhLuongNhanVien();
+        System.out.println("==========Loading Form_KhuyenMai==========");
         form_KhuyenMai = new Form_KhuyenMai();
+        System.out.println("==========Loading Form_QuanLyNhanVien==========");
         formQLNhanVien = new QuanLyNhanVien();
+        System.out.println("==========Loading Form_TaoTaiKhoan==========");
         form_TaoTaiKhoan = new Form_TaoTaiKhoan();
+        System.out.println("==========Loading Form_QuanLyDoUong==========");
         form_QLDoUong = new Form_QLDoUong();
+        System.out.println("==========Loading Form_QuanLyHoaDon==========");
         formQLHoaDon = new Form_QLHoaDon();
+        System.out.println("==========Loading Form_QuanLyNhapKho==========");
         form_QuanLyKho = new Form_QuanLyKho();
+        System.out.println("==========Loading Form_GiaoCa==========");
         form_GiaoCa1 = new Form_GiaoCa();
+        System.out.println("==========Loading Form_ChamCong==========");
         form_ChamCong = new Form_ChamCong();
+        System.out.println("==========Loading Form_QuanLyLoaiDoUong==========");
         form_LoaiDoUong = new Form_LoaiDoUong();
+        System.out.println("==========Loading Form_QuanLyCapBac==========");
         form_CapBac = new Form_CapBac();
+        System.out.println("==========Loading Form_QuanLyThongKe==========");
         form_ThongKe = new Form_ThongKe();
         setBackground(new Color(0, 0, 0, 0));
         menuOfCB1.initMoving(MainTemplate.this);
@@ -103,8 +119,13 @@ public class MainTemplate extends javax.swing.JFrame {
                     setForm(form_GiaoCa1);
                 } else if (index == 3) {
                     setForm(form_QLDoUong);
+                }  else if (index == 9) {
+                    setForm(luongNhanVien);
                 } else if (index == 4) {
                     setForm(form_KhuyenMai);
+                }
+                
+                else if (index == 10) {
                 } else if (index == 9) {
                     setForm(form_ChamCong);
                 } else if (index == 10) {
@@ -137,7 +158,7 @@ public class MainTemplate extends javax.swing.JFrame {
         });
 
         //  set when system open start with home form
-        setForm(new ThongBaoForm());
+        setForm(new Form_ThongBao());
 
     }
 

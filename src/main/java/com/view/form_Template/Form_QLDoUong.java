@@ -205,17 +205,78 @@ public class Form_QLDoUong extends javax.swing.JPanel {
         loadData();
     }
 
+
     public void timKiem() {
         String tenDoUong = txtTimKiemTenDoUong.getText();
         int count = cboTimKiemDanhMucDoUong.getSelectedIndex();
         String idLoaiDoUong = lstLoaiDoUong.get(count).getId();
         double giaBatDau = 0;
         double giaKetThuc = 0;
+//    public void timKiem() {
+//        String tenDoUong = txtTimKiemTenDoUong.getText();
+//        if(tenDoUong.equalsIgnoreCase(""))
+//           tenDoUong = null;
+//        int count = cboTimKiemDanhMucDoUong.getSelectedIndex();
+//        String idLoaiDoUong = lstLoaiDoUong.get(count).getId();
+//        double giaBatDau=0;
+//        double giaKetThuc=0;
+////        try {
+////            giaBatDau = Double.parseDouble(txtStartPrice.getText());
+////        } catch (Exception e) {
+////            giaBatDau = 0;
+////        }
+////
+////        try (FileOutputStream outputStream = new FileOutputStream("DSSanPham.xlsx")) {
+////            workbook.write(outputStream);
+////        }
+////    }
+////
+////    public void convertURLToBytes() throws IOException {
+////        BufferedImage bImage = ImageIO.read(new File(lblUrl.getText()));
+////        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+////        ImageIO.write(bImage, "jpg", bos);
+////        imgBytes = bos.toByteArray();
+////    }
+////
+////    public void clear() {
+////        lblHinhAnh.setIcon(null);
+////        lblHinhAnh.setText("Ảnh");
+////        lblUrl.setText("#url");
+////        txtTenDoUong.setText("");
+////        cboDanhMucDoUong.setSelectedIndex(0);
+////        txtGiaNhapDoUong.setText("");
+////        txtGiaBanDoUong.setText("");
+////        taraMota.setText("");
+////        index = -1;
+////        imgBytes = null;
+////        loadData();
+////    }
+//
+    public void timKiem() {
+        String tenDoUong = txtTimKiemTenDoUong.getText();
+        if(tenDoUong.equalsIgnoreCase(""))
+           tenDoUong = null;
+        int count = cboTimKiemDanhMucDoUong.getSelectedIndex();
+        String idLoaiDoUong = lstLoaiDoUong.get(count).getId();
+        double giaBatDau=0;
+        double giaKetThuc=0;
+//        try {
+//            giaBatDau = Double.parseDouble(txtStartPrice.getText());
+//        } catch (Exception e) {
+//            giaBatDau = 0;
+//        }
+//        
+//        try {
+//             giaKetThuc = Double.parseDouble(txtEndPrice.getText());
+//        } catch (Exception e) {
+//             giaKetThuc = 0;
+//        }
         try {
             DefaultTableModel model = new DefaultTableModel();
             model = (DefaultTableModel) tblDanhSachDoUong.getModel();
             model.setRowCount(0);
             lstChiTietDoUong = chiTietDoUongService.getTimKiem(tenDoUong, idLoaiDoUong, giaBatDau, giaKetThuc);
+            lstChiTietDoUong = chiTietDoUongService.getTimKiem(tenDoUong, idLoaiDoUong, giaBatDau,giaKetThuc);
             int i = 1;
             for (ChiTietDoUong chiTietDoUong : lstChiTietDoUong) {
                 model.addRow(new Object[]{
@@ -230,6 +291,13 @@ public class Form_QLDoUong extends javax.swing.JPanel {
             e.printStackTrace();
         }
 
+    }
+    public void loadHinhAnh(){
+        ImageIcon  oriImgIcon = new ImageIcon(lstChiTietDoUong.get(index).getHinhAnh());
+        Image image = oriImgIcon.getImage(); // transform it
+        Image newimg = image.getScaledInstance(79,120,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
+        ImageIcon imageIcon = new ImageIcon(newimg);
+        lblHinhAnh.setIcon(imageIcon);
     }
 
     /**
