@@ -20,6 +20,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import model.ChiTietDoUong;
 import model.GiaoCa;
@@ -40,6 +41,18 @@ import service.ChiTietDoUongService_Master;
 import service.GiaoCaService;
 import service.NhanVienService;
 import service.SaleService;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfWriter;
+
+import java.io.FileOutputStream;
+import com.itextpdf.text.*;
+import com.itextpdf.text.pdf.*;
+import java.sql.*;
+import java.util.Calendar;
 
 /**
  *
@@ -62,15 +75,17 @@ public class Form_GiaoCa extends javax.swing.JPanel {
 
     public Form_GiaoCa() {
         initComponents();
-        fillToTableGiaoCa();
+        listGiaoCa = giaoCaService.selectALL();
+        fillToTableGiaoCa(listGiaoCa);
         fillComboBoxNhanVien();
+        fillComboBoxCaLamViec();
     }
 
-    private void fillToTableGiaoCa() {
+    private void fillToTableGiaoCa(ArrayList<GiaoCa> listGiaoCa) {
         DefaultTableModel model = (DefaultTableModel) tblPhieuGiaoCa.getModel();
         model.setRowCount(0);
-        listGiaoCa = giaoCaService.selectALL();
-        DecimalFormat decimalFormat = new DecimalFormat("#,### VND");
+//        listGiaoCa = giaoCaService.selectALL();
+        DecimalFormat decimalFormat = new DecimalFormat("#,###");
         for (GiaoCa giaoCa : listGiaoCa) {
             NhanVien nguoiGiao = giaoCa.getNguoiGiao();
             NhanVien nguoiNhan = giaoCa.getNguoiNhan();
@@ -102,6 +117,40 @@ public class Form_GiaoCa extends javax.swing.JPanel {
         }
     }
 
+    // Chức năng fill dữ liệu lên ComboxBox Ca làm việc
+    private void fillComboBoxCaLamViec() {
+        DefaultComboBoxModel model = (DefaultComboBoxModel) cboCaLamViec.getModel();
+        model.removeAllElements();
+        listGiaoCa = giaoCaService.selectALL();
+        for (GiaoCa gc : listGiaoCa) {
+            model.addElement(gc.getCaLamViec());
+        }
+        // Lấy ngày và thời gian hiện tại
+        Date now = new Date();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(now);
+        int hour = calendar.get(Calendar.HOUR_OF_DAY);
+        int minute = calendar.get(Calendar.MINUTE);
+
+        // Xác định ca làm việc
+        String caLamViec = "";
+        if (hour >= 7 && hour < 12) {
+            caLamViec = "Ca Sáng";
+        } else if (hour >= 13 && hour < 18) {
+            caLamViec = "Ca Chiều";
+        } else {
+            caLamViec = "Ca Tối";
+        }
+
+        // Set giá trị cho cboCaLamViec
+        cboCaLamViecForm1.setSelectedItem(caLamViec);
+        cboCaLamViec.setSelectedItem(caLamViec);
+
+        // Set giá trị cho txtNgayGiaoCaForm1
+        txtNgayGiaoCa.setDate(now);
+        txtNgayGiaoCaForm1.setDate(now);
+    }
+
     // Chức năng set form khi click vào 1 dòng table
     private void showDetailtData() {
         row = tblPhieuGiaoCa.getSelectedRow();
@@ -111,25 +160,37 @@ public class Form_GiaoCa extends javax.swing.JPanel {
         }
         SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd");
         SimpleDateFormat outputFormat = new SimpleDateFormat("dd-MM-yyyy");
-
         try {
             Date ngayGiaoCalbl = inputFormat.parse(tblPhieuGiaoCa.getValueAt(row, 2).toString());
             String ngayGCFormat = outputFormat.format(ngayGiaoCalbl);
 
             lblMaPhieu.setText(tblPhieuGiaoCa.getValueAt(row, 0).toString());
-            lblCaLamViec.setText(tblPhieuGiaoCa.getValueAt(row, 1).toString());
-            lblDate.setText(ngayGCFormat);
+            cboCaLamViecForm1.setSelectedItem(tblPhieuGiaoCa.getValueAt(row, 1).toString());
+            txtNgayGiaoCaForm1.setDate(ngayGiaoCalbl);
             txtNgayGiaoCa.setDate(ngayGiaoCalbl);
-            lblDoanhThu.setText(tblPhieuGiaoCa.getValueAt(row, 5).toString());
+            String caLamViec = tblPhieuGiaoCa.getValueAt(row, 1).toString();
+            cboCaLamViec.setSelectedItem(caLamViec);
+            String tenNguoiGiao = tblPhieuGiaoCa.getValueAt(row, 3).toString();
+            cboNguoiGiao.setSelectedItem(tenNguoiGiao);
+            String tenNguoiNhan = tblPhieuGiaoCa.getValueAt(row, 4).toString();
+            cboNguoiNhan.setSelectedItem(tenNguoiNhan);
+
+            lblDoanhThu.setText(tblPhieuGiaoCa.getValueAt(row, 5).toString() + " VND");
 
             Date ngayGiaoCaFormat = outputFormat.parse(ngayGCFormat);
             txtNgayGiaoCa.setDate(ngayGiaoCaFormat);
+
+            // Chuyển đổi tổng tiền và tổng tiền thực kiểm
+            String tongTienStr = tblPhieuGiaoCa.getValueAt(row, 5).toString();
+            String tongTienThucKiemStr = tblPhieuGiaoCa.getValueAt(row, 6).toString();
+            lblTongTien.setText(tongTienStr);
+            txtThucKiem.setText(tongTienThucKiemStr);
+
+            // Các dòng mã không thay đổi
+            lblGioKiemKe.setText(tblPhieuGiaoCa.getValueAt(row, 7).toString());
         } catch (ParseException ex) {
             ex.printStackTrace(System.out);
         }
-        lblTongTien.setText(tblPhieuGiaoCa.getValueAt(row, 5).toString());
-        txtThucKiem.setText(tblPhieuGiaoCa.getValueAt(row, 6).toString());
-        lblGioKiemKe.setText(tblPhieuGiaoCa.getValueAt(row, 7).toString());
 
     }
 
@@ -146,10 +207,10 @@ public class Form_GiaoCa extends javax.swing.JPanel {
     // Chức năng xóa Trắng form
     private void clearForm() {
         lblMaPhieu.setText("");
-        lblCaLamViec.setText("#CaLV");
-        lblDate.setText("#Date");
+        cboCaLamViecForm1.setSelectedIndex(0);
+        txtNgayGiaoCaForm1.setDate(new Date());
         lblDoanhThu.setText("#Revenue");
-        lblTongTien.setText("0.000.000");
+        lblTongTien.setText("0.000.000 VND");
         lblGioKiemKe.setText("00:00");
         cboCaLamViec.setSelectedIndex(0);
         txtNgayGiaoCa.setDate(null);
@@ -168,14 +229,30 @@ public class Form_GiaoCa extends javax.swing.JPanel {
         if (validateForm()) {
             GiaoCa giaoCa = getForm();
 
+            if (giaoCa == null) {
+                JOptionPane.showMessageDialog(this, "Lỗi dữ liệu trống vui lòng kiểm tra lại");
+                return;
+            }
+
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
+            Date ngayGiaoCa = giaoCa.getNgayGiaoCa();
+            String ngayGiaoCaformat = simpleDateFormat.format(ngayGiaoCa);
+            try {
+                giaoCa.setNgayGiaoCa(simpleDateFormat.parse(ngayGiaoCaformat));
+            } catch (ParseException ex) {
+                ex.printStackTrace(System.out);
+            }
+
             int choice = JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn muốn thêm phiếu giao ca này ?", "ADD ?", JOptionPane.YES_NO_OPTION);
             if (choice == JOptionPane.YES_OPTION) {
-//                giaoCaService.delete(maPhieuGiaoCa);
+                giaoCaService.save(giaoCa);
                 JOptionPane.showMessageDialog(this, "Thêm phiếu giao ca thành công");
-                fillToTableGiaoCa();
+                listGiaoCa = giaoCaService.selectALL();
+                fillToTableGiaoCa(listGiaoCa);
                 clearForm();
             }
         }
+
     }
 
     // Chức năng xóa phiếu giao ca
@@ -189,10 +266,10 @@ public class Form_GiaoCa extends javax.swing.JPanel {
         int choice = JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn muốn xóa phiếu giao ca này ?", "Delete ?", JOptionPane.YES_NO_OPTION);
         if (choice == JOptionPane.YES_OPTION) {
             String maPhieuGiaoCa = tblPhieuGiaoCa.getValueAt(row, 0).toString();
-            System.out.println(maPhieuGiaoCa);
-//            giaoCaService.delete(maPhieuGiaoCa);
+            giaoCaService.delete(maPhieuGiaoCa);
             JOptionPane.showMessageDialog(this, "Xóa phiếu giao ca thành công");
-            fillToTableGiaoCa();
+            listGiaoCa = giaoCaService.selectALL();
+            fillToTableGiaoCa(listGiaoCa);
             clearForm();
         }
 
@@ -200,46 +277,86 @@ public class Form_GiaoCa extends javax.swing.JPanel {
 
     // Chức năng cập nhật Phiếu giao ca
     private void updatePhieuGiaoCa() {
-        int row = tblPhieuGiaoCa.getSelectedRow();
-        if (row == -1) {
-            JOptionPane.showMessageDialog(this, "Vui lòng chọn 1 phiếu giao ca trên table muốn xóa");
-            return;
+        if (validateForm()) {
+            GiaoCa giaoCa = getForm();
+
+            if (giaoCa == null) {
+                JOptionPane.showMessageDialog(this, "Lỗi dữ liệu trống vui lòng kiểm tra lại");
+                return;
+            }
+
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
+            Date ngayGiaoCa = giaoCa.getNgayGiaoCa();
+            String ngayGiaoCaformat = simpleDateFormat.format(ngayGiaoCa);
+            try {
+                giaoCa.setNgayGiaoCa(simpleDateFormat.parse(ngayGiaoCaformat));
+            } catch (ParseException ex) {
+                Logger.getLogger(Form_GiaoCa.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            int choice = JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn muốn sửa phiếu giao ca này ?", "Update ?", JOptionPane.YES_NO_OPTION);
+            if (choice == JOptionPane.YES_OPTION) {
+                String maGiaoCa = giaoCa.getMaGiaoCa();
+                giaoCaService.update(maGiaoCa, giaoCa);
+                JOptionPane.showMessageDialog(this, "Sửa phiếu giao ca thành công");
+                listGiaoCa = giaoCaService.selectALL();
+                fillToTableGiaoCa(listGiaoCa);
+                clearForm();
+            }
         }
     }
 
     // Chức năng lấy giá trị từ form
     private GiaoCa getForm() {
+
         GiaoCa giaoCa = new GiaoCa();
-        giaoCa.setCaLamViec(cboCaLamViec.getSelectedItem().toString());
+
         String idNhanVien = "";
         NhanVien nvGiaoCa = null;
         NhanVien nvNhanCa = null;
         String tenNguoiGiao = cboNguoiGiao.getSelectedItem().toString();
         String tenNguoiNhan = cboNguoiNhan.getSelectedItem().toString();
 
-        if (tenNguoiGiao.equals("Nguyễn Tuấn Tài")) {
-            idNhanVien = "B9994504-EE0C-47E3-96EB-1EFD01397241";
-            nvGiaoCa = nhanVienService.selectByIDNhanVien(idNhanVien);
-        } else {
-            idNhanVien = "226EEAF5-C082-477A-A701-598451CFBF47";
+        // Truy vấn cơ sở dữ liệu để lấy idNhanVien dựa vào tên người giao và tên người nhận
+        String idNhanVienGiao = "B9994504-EE0C-47E3-96EB-1EFD01397241";
+        String idNhanVienNhan = "226EEAF5-C082-477A-A701-598451CFBF47";
+
+        nvGiaoCa = nhanVienService.selectByIDNhanVien(idNhanVienGiao);
+        nvNhanCa = nhanVienService.selectByIDNhanVien(idNhanVienNhan);
+
+        giaoCa.setMaGiaoCa(lblMaPhieu.getText());
+        giaoCa.setCaLamViec(cboCaLamViec.getSelectedItem().toString());
+
+        // Định dạng ngày giao ca thành 'dd-MM-yyyy'
+        SimpleDateFormat inputFormat = new SimpleDateFormat("dd-MM-yyyy");
+        try {
+            Date ngayGiaoCaDate = txtNgayGiaoCa.getDate();
+            String ngayGiaoCaString = inputFormat.format(ngayGiaoCaDate);
+            Date ngayGiaoCa = inputFormat.parse(ngayGiaoCaString);
+            giaoCa.setNgayGiaoCa(ngayGiaoCa);
+        } catch (ParseException ex) {
+            ex.printStackTrace(System.out);
+            JOptionPane.showMessageDialog(this, "Ngày giao ca không hợp lệ. Vui lòng chọn ngày từ lịch.");
         }
 
-        if (tenNguoiNhan.equals("Nguyễn Tuấn Tài")) {
-            idNhanVien = "B9994504-EE0C-47E3-96EB-1EFD01397241";
-            nvNhanCa = nhanVienService.selectByIDNhanVien(idNhanVien);
-        } else {
-            idNhanVien = "226EEAF5-C082-477A-A701-598451CFBF47";
-            nvNhanCa = nhanVienService.selectByIDNhanVien(idNhanVien);
-
-        }
-
-        giaoCa.setNgayGiaoCa(txtNgayGiaoCa.getDate());
         giaoCa.setNguoiGiao(nvGiaoCa);
         giaoCa.setNguoiNhan(nvNhanCa);
-        Double tongTienDouble = Double.parseDouble(lblTongTien.getText());
-        Double tongTienTKDouble = Double.parseDouble(txtThucKiem.getText());
-        giaoCa.setTongCong(BigDecimal.valueOf(tongTienDouble));
-        giaoCa.setThucKiem(BigDecimal.valueOf(tongTienTKDouble));
+
+        // Xóa dấu phẩy trong chuỗi số và chuyển đổi thành số BigDecimal
+        try {
+            String tongTienString = lblTongTien.getText().replace(",", "");
+            String tongTienTKString = txtThucKiem.getText().replace(",", "");
+            BigDecimal tongTien = new BigDecimal(tongTienString);
+            BigDecimal tongTienTK = new BigDecimal(tongTienTKString);
+
+            giaoCa.setTongCong(tongTien);
+            giaoCa.setThucKiem(tongTienTK);
+        } catch (NumberFormatException ex) {
+            ex.printStackTrace(System.out);
+            JOptionPane.showMessageDialog(this, "Giá trị tổng tiền hoặc tiền thực kiểm không hợp lệ.");
+        }
+
+        Time gioKiemKe = Time.valueOf(lblGioKiemKe.getText());
+        giaoCa.setGioKiemKe(gioKiemKe);
         giaoCa.setTrangThai(cboTrangThai.getSelectedItem().toString());
         giaoCa.setGhiChu(txtGhiChu.getText());
 
@@ -249,27 +366,59 @@ public class Form_GiaoCa extends javax.swing.JPanel {
     // Chức năng Validate Form
     private boolean validateForm() {
 
-        if (txtNgayGiaoCa.getDate() == null) {
+        // Lấy giá trị từ các trường nhập liệu
+        Date ngayGiaoCa = txtNgayGiaoCa.getDate();
+        String gioKiemKe = lblGioKiemKe.getText().trim();
+        String thucKiem = txtThucKiem.getText().trim();
+        String trangThai = cboTrangThai.getSelectedItem().toString().trim();
+
+        // Kiểm tra ngày giao hợp lệ
+        if (ngayGiaoCa == null) {
             JOptionPane.showMessageDialog(this, "Vui lòng chọn vào ngày giao ca");
             return false;
         }
 
-        if (lblGioKiemKe.getText().trim().equals("")) {
+        // Kiểm tra định dạng ngày giao hợp lệ 'dd-MM-yyyy'
+//        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+//        String ngayGiaoString = sdf.format(ngayGiaoCa);
+//        if (!ngayGiaoString.equals(String.valueOf(txtNgayGiaoCa.getDate()))) {
+//            JOptionPane.showMessageDialog(this, "Ngày giao ca phải đúng định dạng 'dd-MM-yyyy'");
+//            return false;
+//        }
+        
+        // Kiểm tra giờ kiểm kê hợp lệ
+        if (gioKiemKe.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Vui lòng chọn vào nút giờ hiện tại");
             return false;
         }
 
-        if (txtThucKiem.getText().trim().equals("")) {
+        // Kiểm tra thực kiểm hợp lệ
+        if (thucKiem.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập vào giá trị thực kiểm");
+            return false;
+        }
+        if (thucKiem.endsWith("#getTimeNow")) {
             JOptionPane.showMessageDialog(this, "Vui lòng nhập vào giá trị thực kiểm");
             return false;
         }
 
-        Double giaThucKiem = Double.parseDouble(txtThucKiem.getText().trim());
-        if (giaThucKiem < 0) {
-            JOptionPane.showMessageDialog(this, "Vui lòng nhập vào giá trị thực kiểm phải lớn hơn không");
+        // Kiểm tra trạng thái
+        if (!trangThai.equals("Khớp")) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập vào ghi chú");
             return false;
         }
 
+        // Kiểm tra định dạng và giá trị thực kiểm
+        try {
+            double giaThucKiem = Double.parseDouble(thucKiem);
+            if (giaThucKiem < 0) {
+                JOptionPane.showMessageDialog(this, "Giá trị thực kiểm phải là số không âm");
+                return false;
+            }
+        } catch (NumberFormatException ex) {
+            JOptionPane.showMessageDialog(this, "Giá trị thực kiểm không hợp lệ");
+            return false;
+        }
         return true;
     }
 
@@ -398,6 +547,125 @@ public class Form_GiaoCa extends javax.swing.JPanel {
         }
     }
 
+    // Validate chức năng tìm kiếm
+    private boolean validateFind() {
+        if (txtTuNgay.getDate() == null) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập vào ngày bắt đầu tìm kiếm");
+            return false;
+        }
+
+        if (txtDenNgay.getDate() == null) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập vào ngày kết thúc tìm kiếm");
+            return false;
+        }
+        // Kiểm tra xem ngày bắt đầu có lớn hơn ngày kết thúc không
+        if (txtTuNgay.getDate().after(txtDenNgay.getDate())) {
+            JOptionPane.showMessageDialog(this, "Ngày bắt đầu phải trước ngày kết thúc");
+            return false;
+        }
+
+        return true;
+    }
+
+    // Chức năng in phiếu giao ca ra file PDF
+    private void printPhieuGiaoCa() {
+        GiaoCa giaoCa = getForm(); // Lấy đối tượng GiaoCa từ hàm getForm()
+
+        if (giaoCa == null) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn 1 phiếu muốn in ra trên table");
+            return;
+        }
+
+        String filePath = "E:\\File_PDF\\phieugiaoca.pdf"; // Đường dẫn đến file PDF bạn muốn tạo
+        try {
+            Document document = new Document();
+            PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(filePath));
+
+            // Sử dụng font Unicode để hỗ trợ tiếng Việt
+            BaseFont unicodeFont = BaseFont.createFont("c:\\windows\\fonts\\arial.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+            Font titleFont = new Font(unicodeFont, 16, Font.BOLD);
+            Font contentFont = new Font(unicodeFont, 12);
+
+            document.open();
+
+            // Tiêu đề thông tin phiếu giao ca căn giữa
+            Paragraph title = new Paragraph("Thông tin phiếu giao ca", titleFont);
+            title.setAlignment(Element.ALIGN_CENTER);
+            document.add(title);
+
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
+            Date ngayGiaoCa = giaoCa.getNgayGiaoCa();
+            String ngayGiaoCaFormat = simpleDateFormat.format(ngayGiaoCa);
+            String nguoiGiao = giaoCa.getNguoiGiao().getHo() + " " + giaoCa.getNguoiGiao().getTenDem() + " " + giaoCa.getNguoiGiao().getTen();
+            String nguoiNhan = giaoCa.getNguoiNhan().getHo() + " " + giaoCa.getNguoiNhan().getTenDem() + " " + giaoCa.getNguoiNhan().getTen();;
+            DecimalFormat decimalFormat = new DecimalFormat("#,### VND");
+            String tongTien = decimalFormat.format(giaoCa.getTongCong());
+            String tongTienThucKiem = decimalFormat.format(giaoCa.getThucKiem());
+
+            document.add(new Paragraph("Mã ca làm việc: " + giaoCa.getMaGiaoCa(), contentFont));
+            document.add(new Paragraph("Ca làm việc: " + giaoCa.getCaLamViec(), contentFont));
+            document.add(new Paragraph("Ngày giao ca: " + ngayGiaoCaFormat, contentFont));
+            document.add(new Paragraph("Người giao ca: " + nguoiGiao, contentFont));
+            document.add(new Paragraph("Người nhận ca: " + nguoiNhan, contentFont));
+            document.add(new Paragraph("Giờ thực kiểm: " + giaoCa.getGioKiemKe(), contentFont));
+            document.add(new Paragraph("Tổng tiền: " + tongTien, contentFont));
+            document.add(new Paragraph("Thực kiểm: " + tongTienThucKiem, contentFont));
+            document.add(new Paragraph("Trạng thái: " + giaoCa.getTrangThai(), contentFont));
+            // Add thêm các thông tin khác của đối tượng GiaoCa tương tự
+
+            document.close();
+            writer.close();
+
+            System.out.println("File PDF đã được tạo thành công tại đường dẫn: " + filePath);
+            JOptionPane.showMessageDialog(this, "Xuất File PDF thành công");
+        } catch (DocumentException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Chức năng tìm kiếm theo ngày
+    private void findDataByTime() {
+        if (validateFind()) {
+            Date tuNgayDate = txtTuNgay.getDate();
+            Date denNgayDate = txtDenNgay.getDate();
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
+
+            String tuNgay = simpleDateFormat.format(tuNgayDate);
+            String denNgay = simpleDateFormat.format(denNgayDate);
+
+            listGiaoCa = giaoCaService.selectAllByDate(tuNgay, denNgay);
+            fillToTableGiaoCa(listGiaoCa);
+        }
+    }
+
+    // Chức năng lấy doanhThu theo ca
+    private void getRevenueByShift() {
+        Date ngayGiaoCa = null;
+        String caLamViec = cboCaLamViecForm1.getSelectedItem().toString();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
+
+        try {
+            // Parse ngayGiaoCa from the formatted string to Date
+            ngayGiaoCa = simpleDateFormat.parse(simpleDateFormat.format(txtNgayGiaoCaForm1.getDate()));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+      
+
+        BigDecimal doanhThuTheoCa = giaoCaService.getTongDoanhThu(ngayGiaoCa, caLamViec);
+        if (doanhThuTheoCa == null) {
+            JOptionPane.showMessageDialog(this, "Ca làm việc của ngày này chưa có doanh thu");
+            return;
+        }
+        DecimalFormat formatter = new DecimalFormat("#,###");
+        String formattedAmount = formatter.format(doanhThuTheoCa);
+        lblDoanhThu.setText(formattedAmount + " VND");
+        lblTongTien.setText(formattedAmount);
+    }
+
 //    @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -440,7 +708,6 @@ public class Form_GiaoCa extends javax.swing.JPanel {
         btnXuatFileExcel = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        lblCaLamViec = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
@@ -448,9 +715,10 @@ public class Form_GiaoCa extends javax.swing.JPanel {
         cboNvTimKiem = new javax.swing.JComboBox<>();
         btnChon = new javax.swing.JButton();
         txtTuNgay = new com.toedter.calendar.JDateChooser();
-        txtDenNgay = new com.toedter.calendar.JDateChooser();
         lblDoanhThu = new javax.swing.JLabel();
-        lblDate = new javax.swing.JLabel();
+        txtDenNgay = new com.toedter.calendar.JDateChooser();
+        cboCaLamViecForm1 = new javax.swing.JComboBox<>();
+        txtNgayGiaoCaForm1 = new com.toedter.calendar.JDateChooser();
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setForeground(new java.awt.Color(255, 255, 255));
@@ -467,7 +735,7 @@ public class Form_GiaoCa extends javax.swing.JPanel {
             }
         });
 
-        cboCaLamViec.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Ca sáng", "Ca chiều", "Ca tối" }));
+        cboCaLamViec.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Ca Sáng", "Ca Chiều", "Ca Tối" }));
 
         jLabel41.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel41.setText("PHIẾU GiAO CA");
@@ -546,6 +814,11 @@ public class Form_GiaoCa extends javax.swing.JPanel {
 
         btnInPhieuGiaoCa.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnInPhieuGiaoCa.setText("In phiếu giao ca");
+        btnInPhieuGiaoCa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnInPhieuGiaoCaActionPerformed(evt);
+            }
+        });
 
         jLabel15.setText("Mã phiếu");
 
@@ -554,6 +827,8 @@ public class Form_GiaoCa extends javax.swing.JPanel {
         cboNguoiGiao.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         cboNguoiNhan.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        txtNgayGiaoCa.setDateFormatString("dd-MM-yyyy");
 
         javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
         jPanel11.setLayout(jPanel11Layout);
@@ -722,10 +997,6 @@ public class Form_GiaoCa extends javax.swing.JPanel {
         jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel6.setText("Doanh thu ca:");
 
-        lblCaLamViec.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        lblCaLamViec.setForeground(new java.awt.Color(204, 0, 0));
-        lblCaLamViec.setText("#CaLV");
-
         jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel9.setText("Ngày:");
 
@@ -739,14 +1010,23 @@ public class Form_GiaoCa extends javax.swing.JPanel {
 
         btnChon.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnChon.setText("Chọn");
+        btnChon.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnChonActionPerformed(evt);
+            }
+        });
+
+        txtTuNgay.setDateFormatString("dd-MM-yyyy");
 
         lblDoanhThu.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         lblDoanhThu.setForeground(new java.awt.Color(204, 0, 0));
         lblDoanhThu.setText("#Revenue");
 
-        lblDate.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        lblDate.setForeground(new java.awt.Color(204, 0, 0));
-        lblDate.setText("#date");
+        txtDenNgay.setDateFormatString("dd-MM-yyyy");
+
+        cboCaLamViecForm1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Ca Sáng", "Ca Chiều", "Ca Tối" }));
+
+        txtNgayGiaoCaForm1.setDateFormatString("dd-MM-yyyy");
 
         javax.swing.GroupLayout jPanel12Layout = new javax.swing.GroupLayout(jPanel12);
         jPanel12.setLayout(jPanel12Layout);
@@ -766,10 +1046,10 @@ public class Form_GiaoCa extends javax.swing.JPanel {
                                 .addGap(0, 0, Short.MAX_VALUE)
                                 .addComponent(btnChon))
                             .addGroup(jPanel12Layout.createSequentialGroup()
-                                .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(lblDoanhThu)
-                                    .addComponent(lblCaLamViec)
-                                    .addComponent(lblDate))
+                                .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(txtNgayGiaoCaForm1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 199, Short.MAX_VALUE)
+                                    .addComponent(lblDoanhThu, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(cboCaLamViecForm1, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addGap(0, 0, Short.MAX_VALUE))))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel12Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
@@ -786,8 +1066,8 @@ public class Form_GiaoCa extends javax.swing.JPanel {
                                     .addComponent(cboNvTimKiem, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addGap(18, 18, 18)
                                 .addComponent(jLabel14)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(txtDenNgay, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addGap(18, 18, 18)
+                                .addComponent(txtDenNgay, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addGap(15, 15, 15))
             .addGroup(jPanel12Layout.createSequentialGroup()
                 .addContainerGap()
@@ -814,33 +1094,35 @@ public class Form_GiaoCa extends javax.swing.JPanel {
                         .addGap(18, 18, 18)
                         .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel13)
-                            .addComponent(cboNvTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addComponent(txtDenNgay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
-                .addComponent(btnTimKiem)
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane10, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel12Layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(btnXuatFileExcel)
-                        .addGap(34, 34, 34)
-                        .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel4)
-                            .addComponent(lblCaLamViec))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(lblDate)
+                            .addComponent(cboNvTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
-                        .addComponent(btnChon)
-                        .addGap(43, 43, 43))
+                        .addComponent(btnTimKiem)
+                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane10, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel12Layout.createSequentialGroup()
+                                .addGap(18, 18, 18)
+                                .addComponent(btnXuatFileExcel)
+                                .addGap(34, 34, 34)
+                                .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel4)
+                                    .addComponent(cboCaLamViecForm1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnChon)
+                                .addGap(43, 43, 43))
+                            .addGroup(jPanel12Layout.createSequentialGroup()
+                                .addGap(116, 116, 116)
+                                .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel9)
+                                    .addComponent(txtNgayGiaoCaForm1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel6)
+                                    .addComponent(lblDoanhThu))
+                                .addContainerGap(60, Short.MAX_VALUE))))
                     .addGroup(jPanel12Layout.createSequentialGroup()
-                        .addGap(116, 116, 116)
-                        .addComponent(jLabel9)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel6)
-                            .addComponent(lblDoanhThu))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addComponent(txtDenNgay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -911,7 +1193,7 @@ public class Form_GiaoCa extends javax.swing.JPanel {
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     private void btnTimKiemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTimKiemActionPerformed
-
+        findDataByTime();
     }//GEN-LAST:event_btnTimKiemActionPerformed
 
     private void tblPhieuGiaoCaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblPhieuGiaoCaMouseClicked
@@ -938,6 +1220,27 @@ public class Form_GiaoCa extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_btnXuatFileExcelActionPerformed
 
+    private void btnInPhieuGiaoCaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInPhieuGiaoCaActionPerformed
+        row = tblPhieuGiaoCa.getSelectedRow();
+        if (row == -1) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn một phiếu giao ca trong bảng", "Lỗi", JOptionPane.ERROR_MESSAGE);
+        } else {
+            int choice = JOptionPane.showConfirmDialog(this, "Bạn chắc chắn muốn in phiếu giao ca này ?", "Xác nhận in phiếu", JOptionPane.YES_NO_OPTION);
+            if (choice == JOptionPane.YES_OPTION) {
+                printPhieuGiaoCa();
+            }
+        }
+
+
+    }//GEN-LAST:event_btnInPhieuGiaoCaActionPerformed
+
+    private void btnChonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChonActionPerformed
+        // TODO add your handling code here:
+        getRevenueByShift();
+
+
+    }//GEN-LAST:event_btnChonActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnChon;
@@ -950,6 +1253,7 @@ public class Form_GiaoCa extends javax.swing.JPanel {
     private javax.swing.JButton btnXoa;
     private javax.swing.JButton btnXuatFileExcel;
     private javax.swing.JComboBox<String> cboCaLamViec;
+    private javax.swing.JComboBox<String> cboCaLamViecForm1;
     private javax.swing.JComboBox<String> cboNguoiGiao;
     private javax.swing.JComboBox<String> cboNguoiNhan;
     private javax.swing.JComboBox<String> cboNvTimKiem;
@@ -977,8 +1281,6 @@ public class Form_GiaoCa extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel12;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane10;
-    private javax.swing.JLabel lblCaLamViec;
-    private javax.swing.JLabel lblDate;
     private javax.swing.JLabel lblDoanhThu;
     private javax.swing.JLabel lblGioKiemKe;
     private javax.swing.JLabel lblMaPhieu;
@@ -987,6 +1289,7 @@ public class Form_GiaoCa extends javax.swing.JPanel {
     private com.toedter.calendar.JDateChooser txtDenNgay;
     private javax.swing.JTextArea txtGhiChu;
     private com.toedter.calendar.JDateChooser txtNgayGiaoCa;
+    private com.toedter.calendar.JDateChooser txtNgayGiaoCaForm1;
     private javax.swing.JTextField txtThucKiem;
     private com.toedter.calendar.JDateChooser txtTuNgay;
     // End of variables declaration//GEN-END:variables

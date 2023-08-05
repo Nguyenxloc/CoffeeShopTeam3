@@ -15,6 +15,9 @@ public class MainController {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
 //                new LoginFrame().setVisible(true);
+
+                new MainTemplate().setVisible(true);
+
 //                new LoginFrame().setVisible(true);
                   new LoginFrame().setVisible(true);
 //                new MainTemplate().setVisible(true);

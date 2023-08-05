@@ -15,7 +15,8 @@ import com.view.form.WalletForm;
 import com.view.form_Template.Container;
 import com.view.form_Template.FormLichHoc;
 import com.view.form_Template.Form_BanHang;
-import com.view.form_Template.Form_GiaoCa1;
+import com.view.form_Template.Form_GiaoCa;
+//import com.view.form_Template.Form_GiaoCa1;
 import com.view.form_Template.Form_KhuyenMai;
 import com.view.form_Template.Form_LopHoc;
 import com.view.form_Template.Form_QLDoUong;
@@ -54,10 +55,12 @@ public class MainOfNV extends javax.swing.JFrame {
     private Form_QLHoaDon formQLHoaDon;
     private Form_ThongKe form_ThongKe;
 //    private Form_QuanLyKho form_QuanLyKho;
-    private Form_GiaoCa1 form_GiaoCa1;
+    private Form_GiaoCa form_GiaoCa;
 
     public MainOfNV() {
         initComponents();
+        home = new WalletForm();
+        formThongbao = new ThongBaoForm();
         home = new WalletForm();         
         formThongbao = new Form_ThongBao();
         formBanHang = new Form_BanHang();
@@ -68,7 +71,7 @@ public class MainOfNV extends javax.swing.JFrame {
         formQLHoaDon = new Form_QLHoaDon();
         form_ThongKe = new Form_ThongKe();
 //        form_QuanLyKho = new Form_QuanLyKho();
-        form_GiaoCa1 = new Form_GiaoCa1();
+        form_GiaoCa = new Form_GiaoCa();
         setBackground(new Color(0, 0, 0, 0));
         menuOfNV1.initMoving(MainOfNV.this);
         menuOfNV1.addEventMenuSelected(new EventMenuSelected() {
@@ -82,16 +85,14 @@ public class MainOfNV extends javax.swing.JFrame {
                     setForm(formThongbao);
                 } else if (index == 1) {
                     setForm(formBanHang);
-                }   else if (index == 2) {
+                } else if (index == 2) {
 //                    DoanhThu_singleton.getInstance().doanhThuNow =  ;
-                    setForm(form_GiaoCa1);
+                    setForm(form_GiaoCa);
                 } else if (index == 3) {
                     setForm(formQLHoaDon);
                 } else if (index == 4) {
                     setForm(form_ThongKe);
-                }
-
-                else if (index == 7) {
+                } else if (index == 7) {
                     MessageFrame messageFrame = new MessageFrame();
                     messageFrame.show();
                     messageFrame.setMessage("Bạn có chắc chắn muốn đăng xuất không?");

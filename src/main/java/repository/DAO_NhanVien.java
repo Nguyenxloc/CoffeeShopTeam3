@@ -4,6 +4,9 @@
  */
 package repository;
 
+import java.math.BigDecimal;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import model.CapBac;
@@ -20,10 +23,13 @@ public class DAO_NhanVien {
             + "VALUES( ?,?,?,?,?,?,?,?,?,?,?,?,?)";
     final String UPDATE_SQL = "UPDATE dbo.NhanVien SET Ten=?, TenDem=?,Ho=?,GioiTinh=?,NgaySinh=?,DiaChi=?,Sdt=?,TaiKhoan=?,MatKhau=?,IdCB=?,TrangThai=?,HinhAnh=? WHERE Id=?";
     final String DELETE_SQL = "DELETE FROM [dbo].[NhanVien] WHERE [Id] = ?";
-    final String SELECT_BY_SQL = "SELECT * FROM [dbo].[NhanVien] WHERE Ma = ?";
+    final String SELECT_BY_SQL = "SELECT * FROM NhanVien JOIN CapBac \n"
+            + "            ON NhanVien.IdCB = CapBac.Id\n"
+            + "            WHERE NhanVien.Ma = ?";
     final String SELECT_BY_IDNV_SQL = " SELECT * FROM NhanVien WHERE Id = ?";
     final String SELECT_ALL_SQL = "SELECT * FROM [dbo].[NhanVien];";
     final String SELECT_CBONV_SQL = "  SELECT Id,Ho + ' ' + TenDem + ' ' + Ten AS HOTENNHANVIEN FROM NhanVien";
+    final String SELECT_BY_TenNV_SQL = " SELECT Id FROM NhanVien WHERE Ten like ?";
 
     public DAO_NhanVien() {
     }
@@ -53,7 +59,6 @@ public class DAO_NhanVien {
         try {
             ResultSet rs = dbConn.getDataFromQuery(SELECT_CBONV_SQL);
             while (rs.next()) {
-//                CapBac capBac = dao_capBac.selectByID(rs.getString("IdCB"));
                 NhanVien nv = new NhanVien();
                 nv.setId(rs.getString("Id"));
                 nv.setTen(rs.getString("HOTENNHANVIEN"));
@@ -74,6 +79,9 @@ public class DAO_NhanVien {
             ResultSet rs = dbConn.getDataFromQuery(SELECT_BY_IDNV_SQL, id);
             while (rs.next()) {
                 CapBac capBac = dao_capBac.selectByID(rs.getString("IdCB"));
+
+                lstNhanVien.add(new NhanVien(rs.getString("Id"), rs.getString("Ma"), rs.getNString("Ten"), rs.getNString("TenDem"), rs.getNString("Ho"), rs.getNString("GioiTinh"), rs.getDate("NgaySinh"), rs.getString("DiaChi"), rs.getString("Sdt"), rs.getString("TaiKhoan"), rs.getString("MatKhau"), capBac, rs.getInt("TrangThai"), rs.getBytes("HinhAnh"), rs.getString("NgayTao")));
+
                 lstNhanVien.add(new NhanVien(rs.getString("Id"), rs.getString("Ma"), rs.getNString("Ten"), rs.getNString("TenDem"), rs.getNString("Ho"), rs.getNString("GioiTinh"), rs.getDate("NgaySinh"), rs.getString("DiaChi"), rs.getString("Sdt"), rs.getString("TaiKhoan"), rs.getString("MatKhau"),capBac, rs.getInt("TrangThai"), rs.getBytes("HinhAnh"), rs.getString("NgayTao")));
 
                 nhanVien = lstNhanVien.get(0);
@@ -136,4 +144,25 @@ public class DAO_NhanVien {
             e.printStackTrace();
         }
     }
+
+    public String selectByTenNhanVien(String tenNV) {
+        DBConnection1 dbConn = new DBConnection1();
+        NhanVien nhanVien = new NhanVien();
+        ArrayList<NhanVien> lstNhanVien = new ArrayList<>();
+        DAO_CapBac dao_capBac = new DAO_CapBac();
+        String idNhanVien = null;
+        try {
+            Connection connection = dbConn.openDbConnection();
+            PreparedStatement ps = connection.prepareStatement(SELECT_BY_TenNV_SQL);
+            ps.setString(1, "%" + tenNV + "%");
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                idNhanVien = rs.getString("Id");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return idNhanVien;
+    }
+
 }
