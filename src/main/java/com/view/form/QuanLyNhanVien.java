@@ -26,7 +26,9 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTabbedPane;
+import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 
 /**
  *
@@ -40,7 +42,7 @@ public class QuanLyNhanVien extends javax.swing.JPanel {
     private NhanVienDao nhanVienDao = new NhanVienDao();
     private NhanVienService nhanVienService = new NhanVienService();
     //
-
+     ArrayList<CapBac> listCapBac = new ArrayList<>();
     //
     static String url = null;
     byte[] imgBytes = new byte[5000];
@@ -57,10 +59,12 @@ public class QuanLyNhanVien extends javax.swing.JPanel {
     }
 
     private void loadCbo() {
-        ArrayList<CapBac> lit = nhanVienDao.getCboCapbac();
+         
         comboBoxModel = (DefaultComboBoxModel) cboVaitro.getModel();
-        for (CapBac capBac : lit) {
-            comboBoxModel.addElement(capBac);
+        comboBoxModel.removeAllElements();
+        listCapBac = nhanVienDao.getCboCapbac();
+        for (CapBac capBac : listCapBac) {
+            comboBoxModel.addElement(capBac.getTen().toString());
         }
     }
 
@@ -68,7 +72,7 @@ public class QuanLyNhanVien extends javax.swing.JPanel {
 
         defaultTableModel = (DefaultTableModel) tblForm.getModel();
         defaultTableModel.setRowCount(0);
-        listNhanVien = nhanVienDao.getList();
+        listNhanVien = nhanVienDao.selectALl();
         for (NhanVien nv : listNhanVien) {
             defaultTableModel.addRow(new Object[]{
                 nv.getMa(),
@@ -79,7 +83,7 @@ public class QuanLyNhanVien extends javax.swing.JPanel {
                 nv.getSdt(),
                 nv.getTaiKhoan(),
                 nv.getMatKhau(),
-                nv.getIdCB(),
+                nv.getCapBac().getTen(),
                 nv.getTrangThai() == 1 ? "Làm việc" : "Nghỉ việc",
                 nv.getImg()
             });
@@ -96,36 +100,36 @@ public class QuanLyNhanVien extends javax.swing.JPanel {
     }
     //
 
-    public void showDetail() {
-        count = tblForm.getSelectedRow();
-        txtMa.setText(listNhanVien.get(count).getMa());
-        txtTen.setText(listNhanVien.get(count).getTen());
-        rdoNam.setSelected(listNhanVien.get(count).getGioiTinh().equalsIgnoreCase("Nam"));
-        rdoNu.setSelected(listNhanVien.get(count).getGioiTinh().equalsIgnoreCase("Nữ"));
-        txtNgaySinh.setText(listNhanVien.get(count).getNgaySinh());
-        txtDiachi.setText(listNhanVien.get(count).getDiaChi());
-        txtSDT.setText(listNhanVien.get(count).getSdt());
-        txtTK.setText(listNhanVien.get(count).getTaiKhoan());
-        txtMK.setText(listNhanVien.get(count).getMatKhau());
-
-        cboVaitro.setSelectedItem(listNhanVien.get(count).getIdCB());
-        //txtTrangthai.setText(Integer.parseInt(listNhanVien.get(count).getTrangThai()));
-        //txtTrangthai.setText(listNhanVien.get(count).getTrangThai() + "");
-        if (listNhanVien.get(count).getTrangThai() == 1) {
-            rdoLamviec.setSelected(true);
-        } else {
-            rdoNghiviec.setSelected(true);
-        }
-        //rdoLamviec.setSelected(listNhanVien.get(count).getTrangThai()==1?"Nam":"Nữ");
-
-        lblAvatar.setText("");
-        ImageIcon oriImgIcon = new ImageIcon(listNhanVien.get(count).getImg());
-        Image image = oriImgIcon.getImage(); // transform it
-        Image newimg = image.getScaledInstance(140, 150, java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
-        ImageIcon imageIcon = new ImageIcon(newimg);
-        lblAvatar.setIcon(imageIcon);
-
-    }
+//    public void showDetail() {
+//        count = tblForm.getSelectedRow();
+//        txtMa.setText(listNhanVien.get(count).getMa());
+//        txtTen.setText(listNhanVien.get(count).getTen());
+//        rdoNam.setSelected(listNhanVien.get(count).getGioiTinh().equalsIgnoreCase("Nam"));
+//        rdoNu.setSelected(listNhanVien.get(count).getGioiTinh().equalsIgnoreCase("Nữ"));
+//        txtNgaySinh.setText(listNhanVien.get(count).getNgaySinh());
+//        txtDiachi.setText(listNhanVien.get(count).getDiaChi());
+//        txtSDT.setText(listNhanVien.get(count).getSdt());
+//        txtTK.setText(listNhanVien.get(count).getTaiKhoan());
+//        txtMK.setText(listNhanVien.get(count).getMatKhau());
+//
+//        cboVaitro.setSelectedItem(listNhanVien.get(count).getIdCB());
+//        //txtTrangthai.setText(Integer.parseInt(listNhanVien.get(count).getTrangThai()));
+//        //txtTrangthai.setText(listNhanVien.get(count).getTrangThai() + "");
+//        if (listNhanVien.get(count).getTrangThai() == 1) {
+//            rdoLamviec.setSelected(true);
+//        } else {
+//            rdoNghiviec.setSelected(true);
+//        }
+//        //rdoLamviec.setSelected(listNhanVien.get(count).getTrangThai()==1?"Nam":"Nữ");
+//
+//        lblAvatar.setText("");
+//        ImageIcon oriImgIcon = new ImageIcon(listNhanVien.get(count).getImg());
+//        Image image = oriImgIcon.getImage(); // transform it
+//        Image newimg = image.getScaledInstance(140, 150, java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
+//        ImageIcon imageIcon = new ImageIcon(newimg);
+//        lblAvatar.setIcon(imageIcon);
+//
+//    }
 
     public void save() {
         try {
@@ -147,8 +151,10 @@ public class QuanLyNhanVien extends javax.swing.JPanel {
         String sdt = txtSDT.getText();
         String taiKhoan = txtTK.getText();
         String matKhau = txtMK.getText();
-        CapBac cb = (CapBac) cboVaitro.getSelectedItem();
-        String vaiTro = cb.getId();
+//        CapBac cb = (CapBac) cboVaitro.getSelectedItem();
+//        String vaiTro = cb.getId();
+        int count = cboVaitro.getSelectedIndex();
+        CapBac capBac = listCapBac.get(count);
         Integer trangThai;
         if (rdoLamviec.isSelected()) {
             trangThai = 1;
@@ -156,10 +162,10 @@ public class QuanLyNhanVien extends javax.swing.JPanel {
             trangThai = 0;
         }
 
-        NhanVien nhanVien = new NhanVien(ma, ten, gioiTinh, ngaySinh, diaChi, sdt, taiKhoan, matKhau, vaiTro, trangThai, imgBytes);
+        NhanVien nhanVien = new NhanVien(ma, ten, gioiTinh, ngaySinh, diaChi, sdt, taiKhoan, matKhau, capBac, trangThai, imgBytes);
 
         try {
-            nhanVienDao.save(nhanVien);
+            nhanVienDao.addNew(nhanVien);
             JOptionPane.showMessageDialog(this, "Thêm thành công !");
         } catch (Exception e) {
             e.printStackTrace();
@@ -195,8 +201,8 @@ public class QuanLyNhanVien extends javax.swing.JPanel {
             String sdt = txtSDT.getText();
             String taiKhoan = txtTK.getText();
             String matKhau = txtMK.getText();
-            CapBac cb = (CapBac) cboVaitro.getSelectedItem();
-            String vaiTro = cb.getId();
+//            CapBac cb = (CapBac) cboVaitro.getSelectedItem();
+//            String vaiTro = cb.getId();
             Integer trangThai;
             if (rdoLamviec.isSelected()) {
                 trangThai = 1;
@@ -204,7 +210,7 @@ public class QuanLyNhanVien extends javax.swing.JPanel {
                 trangThai = 0;
             }
 
-            NhanVien nhanVien = new NhanVien(listNhanVien.get(count).getMa(), ten, gioiTinh, ngaySinh, diaChi, sdt, taiKhoan, matKhau, vaiTro, trangThai, imgBytes);
+            NhanVien nhanVien = new NhanVien(listNhanVien.get(count).getMa(), ten, gioiTinh, ngaySinh, diaChi, sdt, taiKhoan, matKhau, listCapBac.get(cboVaitro.getSelectedIndex()), trangThai, imgBytes);
             try {
                 nhanVienDao.update(nhanVien);
                 JOptionPane.showMessageDialog(this, "Cập nhật thành công !");
@@ -214,8 +220,27 @@ public class QuanLyNhanVien extends javax.swing.JPanel {
             }
             loadData();
         } else {
-            mes += "\n Thêm thất bại !";
+            mes += "\n Update thất bại !";
             JOptionPane.showMessageDialog(this, mes);
+        }
+    }
+    
+    
+    public void save(NhanVien nhanVien) {
+
+        try {
+            nhanVienService.saveNhanVien(nhanVien);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public void update(NhanVien nhanVien) {
+        try {
+            nhanVienService.updateNhanVien(nhanVien);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -224,6 +249,7 @@ public class QuanLyNhanVien extends javax.swing.JPanel {
     private void initComponents() {
 
         buttonGroup1 = new javax.swing.ButtonGroup();
+        buttonGroup2 = new javax.swing.ButtonGroup();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblForm = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
@@ -258,16 +284,19 @@ public class QuanLyNhanVien extends javax.swing.JPanel {
         rdoLamviec = new javax.swing.JRadioButton();
         rdoNghiviec = new javax.swing.JRadioButton();
         jLabel12 = new javax.swing.JLabel();
+        txtSearch = new javax.swing.JTextField();
+        jLabel13 = new javax.swing.JLabel();
+        jButton2 = new javax.swing.JButton();
 
         tblForm.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Mã NV", "Tên", "Giới tính", "Ngày sinh", "Địa chỉ", "Số điện thoại", "Tài khoản", "Mật khẩu", "Vai trò"
+                "Mã NV", "Tên", "Giới tính", "Ngày sinh", "Địa chỉ", "Số điện thoại", "Tài khoản", "Mật khẩu", "Vai trò", "Trang thai"
             }
         ));
         tblForm.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -287,9 +316,11 @@ public class QuanLyNhanVien extends javax.swing.JPanel {
 
         jLabel5.setText("Giới tính");
 
+        buttonGroup1.add(rdoNam);
         rdoNam.setSelected(true);
         rdoNam.setText("Nam");
 
+        buttonGroup1.add(rdoNu);
         rdoNu.setText("Nữ");
 
         jLabel6.setText("Ngày sinh");
@@ -355,12 +386,23 @@ public class QuanLyNhanVien extends javax.swing.JPanel {
             }
         });
 
+        buttonGroup2.add(rdoLamviec);
         rdoLamviec.setText("Làm việc");
 
+        buttonGroup2.add(rdoNghiviec);
         rdoNghiviec.setText("Nghỉ việc");
 
         jLabel12.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel12.setText("QUẢN LÝ NHÂN VIÊN");
+
+        jLabel13.setText("Tìm kiếm");
+
+        jButton2.setText("Search");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -412,25 +454,30 @@ public class QuanLyNhanVien extends javax.swing.JPanel {
                                             .addComponent(jLabel8)
                                             .addComponent(jLabel7)
                                             .addComponent(jLabel6)
-                                            .addComponent(jLabel9))
+                                            .addComponent(jLabel9)
+                                            .addComponent(jLabel13))
                                         .addGap(29, 29, 29)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                             .addComponent(txtSDT, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addComponent(txtDiachi, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addComponent(txtNgaySinh, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(cboVaitro, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                            .addComponent(cboVaitro, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jLabel4)
                                 .addGap(25, 25, 25)
                                 .addComponent(txtMK, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(85, 85, 85)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jButton1)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(btnThem, javax.swing.GroupLayout.Alignment.TRAILING)
                                 .addComponent(jButton4, javax.swing.GroupLayout.Alignment.TRAILING)
                                 .addComponent(jButton3, javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(btnSua))))
+                                .addComponent(btnSua))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(1, 1, 1))))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 886, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(40, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -461,7 +508,12 @@ public class QuanLyNhanVien extends javax.swing.JPanel {
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                         .addComponent(lblAvatar, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(layout.createSequentialGroup()
-                                        .addGap(74, 74, 74)
+                                        .addGap(18, 18, 18)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                            .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jLabel13)
+                                            .addComponent(jButton2))
+                                        .addGap(33, 33, 33)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                             .addComponent(jLabel1)
                                             .addComponent(txtMa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -524,6 +576,65 @@ public class QuanLyNhanVien extends javax.swing.JPanel {
 
     private void tblFormMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblFormMouseClicked
         // TODO add your handling code here:
+        
+        lblURL.setText("#url");
+        count = tblForm.getSelectedRow();
+        if (listNhanVien.get(count).getImg()!= null) {
+            ImageIcon oriImgIcon = new ImageIcon(listNhanVien.get(count).getImg());
+            Image image = oriImgIcon.getImage(); // transform it
+            Image newimg = image.getScaledInstance(145, 140, java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
+            ImageIcon imageIcon = new ImageIcon(newimg);
+            lblAvatar.setText("");
+            lblAvatar.setIcon(imageIcon);
+            txtMa.setText(tblForm.getValueAt(count, 0).toString());
+            txtTen.setText(tblForm.getValueAt(count, 1).toString());
+            String gioiTinh= tblForm.getValueAt(count, 2).toString();
+            if(gioiTinh.equalsIgnoreCase("Nam")){
+            rdoNam.setSelected(true);
+             }else{
+            rdoNu.setSelected(true);
+             }
+            txtNgaySinh.setText(tblForm.getValueAt(count, 3).toString());
+            txtDiachi.setText(tblForm.getValueAt(count, 4).toString());
+            txtSDT.setText(tblForm.getValueAt(count, 5).toString());
+            txtTK.setText(tblForm.getValueAt(count, 6).toString());      
+            txtMK.setText(tblForm.getValueAt(count, 7).toString());      
+            cboVaitro.setSelectedItem(tblForm.getValueAt(count, 8).toString());
+            String trangThai= tblForm.getValueAt(count, 9).toString();
+            if(trangThai.equalsIgnoreCase("Làm việc")){
+            rdoLamviec.setSelected(true);
+             }else{
+            rdoNghiviec.setSelected(true);
+             }
+        } else {
+            lblAvatar.setIcon(null);
+            lblAvatar.setText("Ảnh");
+            txtMa.setText(tblForm.getValueAt(count, 0).toString());
+            txtTen.setText(tblForm.getValueAt(count, 1).toString());
+            String gioiTinh= tblForm.getValueAt(count, 2).toString();
+            if(gioiTinh.equalsIgnoreCase("Nam")){
+            rdoNam.setSelected(true);
+             }else{
+            rdoNu.setSelected(true);
+             }
+            txtNgaySinh.setText(tblForm.getValueAt(count, 3).toString());
+            txtDiachi.setText(tblForm.getValueAt(count, 4).toString());
+            txtSDT.setText(tblForm.getValueAt(count, 5).toString());
+            txtTK.setText(tblForm.getValueAt(count, 6).toString()); 
+            txtMK.setText(tblForm.getValueAt(count, 7).toString()); 
+            cboVaitro.setSelectedItem(tblForm.getValueAt(count, 8).toString());
+            String trangThai= tblForm.getValueAt(count, 9).toString();
+            if(trangThai.equalsIgnoreCase("Làm việc")){
+            rdoLamviec.setSelected(true);
+             }else{
+            rdoNghiviec.setSelected(true);
+             }
+        }
+
+        
+        
+        
+        
 //        int index = tblForm.getSelectedRow();
 //        NhanVien nhanVien = nhanVienDao.getList().get(index);
 //        String ma= tblForm.getValueAt(index, 0).toString();
@@ -567,7 +678,7 @@ public class QuanLyNhanVien extends javax.swing.JPanel {
 //            }
 //            i++;
 //        }
-        showDetail();
+        //showDetail();
 
     }//GEN-LAST:event_tblFormMouseClicked
 
@@ -585,6 +696,14 @@ public class QuanLyNhanVien extends javax.swing.JPanel {
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
         // TODO add your handling code here:
+        
+//        try {
+//            convertURLToBytes();
+//        } catch (Exception e) {
+//            imgBytes = new byte[5000];
+//            e.printStackTrace();
+//        }
+//        
 //        String ma = txtMa.getText();
 //        String ten = txtTen.getText();
 //        String gioiTinh;
@@ -597,15 +716,55 @@ public class QuanLyNhanVien extends javax.swing.JPanel {
 //        String diaChi = txtDiachi.getText();
 //        String sdt = txtSDT.getText();
 //        String taiKhoan = txtTK.getText();
-//      btnSua  String matKhau = txtMK.getText();
-//        CapBac cb = (CapBac) cboVaitro.getSelectedItem();
-//        String vaiTro = cb.getId();
-//        Integer trangThai = Integer.parseInt(txtTrangthai.getText());
-//       
+//        String matKhau = txtMK.getText();
+//        int count = cboVaitro.getSelectedIndex();
+//        CapBac capBac = listCapBac.get(count);
+//        Integer trangThai;
+//        if(rdoLamviec.isSelected()){
+//            trangThai=1;
+//        }else{
+//            trangThai=0;
+//        }
 //        
-//        NhanVien nhanVien = new NhanVien(ma, ten, gioiTinh, ngaySinh, diaChi, sdt, taiKhoan, matKhau, vaiTro, trangThai, "");
+//        NhanVien nhanVien = new NhanVien("", ma, ten, gioiTinh, ngaySinh, diaChi, sdt, taiKhoan, matKhau, capBac, trangThai, imgBytes);
+////        save(nhanVien);
+////        loadData();
+////        JOptionPane.showMessageDialog(this, "Sửa thành công !");
 //        JOptionPane.showMessageDialog(this, nhanVienService.them(nhanVien));
 //        loadData();
+        
+    if(txtMa.getText().equalsIgnoreCase("")){
+        JOptionPane.showMessageDialog(this, "Bạn chưa nhập mã");
+        return;
+    }
+    if(txtMa.getText().equalsIgnoreCase(txtMa.getText())){
+        JOptionPane.showMessageDialog(this, "Mã đã tồn tại");
+        return;
+    }
+    if(txtTen.getText().equalsIgnoreCase("")){
+        JOptionPane.showMessageDialog(this, "Bạn chưa nhập tên");
+        return;
+    }
+    if(txtTK.getText().equalsIgnoreCase("")){
+        JOptionPane.showMessageDialog(this, "Bạn chưa nhập tài khoản");
+        return;
+    }
+    if(txtMK.getText().equalsIgnoreCase("")){
+        JOptionPane.showMessageDialog(this, "Bạn chưa nhập mật khẩu");
+        return;
+    }
+    if(txtNgaySinh.getText().equalsIgnoreCase("")){
+        JOptionPane.showMessageDialog(this, "Bạn chưa nhập ngày sinh");
+        return;
+    }
+    if(txtDiachi.getText().equalsIgnoreCase("")){
+        JOptionPane.showMessageDialog(this, "Bạn chưa nhập địa chỉ");
+        return;
+    }
+    if(txtSDT.getText().equalsIgnoreCase("")){
+        JOptionPane.showMessageDialog(this, "Bạn chưa nhập số điện thoại");
+        return;
+    }
         save();
     }//GEN-LAST:event_btnThemActionPerformed
 
@@ -648,20 +807,30 @@ public class QuanLyNhanVien extends javax.swing.JPanel {
 
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        DefaultTableModel ob = (DefaultTableModel) tblForm.getModel();
+         TableRowSorter<DefaultTableModel> obj = new TableRowSorter<>(ob);
+         tblForm.setRowSorter(obj);
+         obj.setRowFilter(RowFilter.regexFilter(txtSearch.getText()));
+    }//GEN-LAST:event_jButton2ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnChooseFile;
     private javax.swing.JButton btnSua;
     private javax.swing.JButton btnThem;
     private javax.swing.ButtonGroup buttonGroup1;
-    private javax.swing.JComboBox<Object> cboVaitro;
+    private javax.swing.ButtonGroup buttonGroup2;
+    private javax.swing.JComboBox<String> cboVaitro;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -683,6 +852,7 @@ public class QuanLyNhanVien extends javax.swing.JPanel {
     private javax.swing.JTextField txtMa;
     private javax.swing.JTextField txtNgaySinh;
     private javax.swing.JTextField txtSDT;
+    private javax.swing.JTextField txtSearch;
     private javax.swing.JTextField txtTK;
     private javax.swing.JTextField txtTen;
     // End of variables declaration//GEN-END:variables
