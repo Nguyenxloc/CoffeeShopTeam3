@@ -7,11 +7,10 @@ package DoUong_HoaDon_ThongKe_Repository;
 import DoUong_HoaDon_ThongKe_Model.HoaDonChiTiet;
 import DoUong_HoaDon_ThongKe_Model.LichSuHoaDon;
 import java.util.ArrayList;
-import java.util.Date;
 
 /**
  *
- * @author ADMIN
+ * @author Sang
  */
 public interface iLichSuHoaDon {
     
@@ -26,5 +25,5 @@ public interface iLichSuHoaDon {
     ArrayList<HoaDonChiTiet> loadDataByMa(String maHoaDon);
     
     ArrayList<LichSuHoaDon> getByMa(String maHoaDon);
-    
+
 }

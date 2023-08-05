@@ -9,12 +9,18 @@ import SingletonClass.LstHoaDonDangPhaChe_singleton;
 import SingletonClass.LstHoaDon_singleton;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import model.GiamGia;
 import model.HoaDon;
 import model.HoaDonChiTiet;
+import model.KhuyenMai;
 import service.HoaDonChiTietService;
 import service.HoaDonService;
+import service.SaleService;
 
 /**
  *
@@ -28,19 +34,23 @@ public class BillFrame extends javax.swing.JFrame {
     private String LocalId;
     HoaDonService hoaDonService = new HoaDonService();
     HoaDonChiTietService hoaDonChiTietService = new HoaDonChiTietService();
-    double totalCheck =0 ;
+    SaleService saleService = new SaleService();
+    double totalCheck = 0;
     double localMoneyTake = 0;
+    double discountPer = 0;
+    double checkAfterDiscount = 0;
     JTable localTblHoaDon;
     JTable localTblHoaDonDangPhaChe;
     JTable localTblHoaDonCho;
-    public BillFrame(String id,JTable tblHoaDon, JTable tblHoaDonDangPhaChe,JTable tblHoaDonCho) {
+
+    public BillFrame(String id, JTable tblHoaDon, JTable tblHoaDonDangPhaChe, JTable tblHoaDonCho) {
         initComponents();
         this.pack();
         this.setLocationRelativeTo(null);
         this.setVisible(true);
         LocalId = id;
-        localTblHoaDon=tblHoaDon;
-        localTblHoaDonDangPhaChe=tblHoaDonDangPhaChe;
+        localTblHoaDon = tblHoaDon;
+        localTblHoaDonDangPhaChe = tblHoaDonDangPhaChe;
         localTblHoaDonCho = tblHoaDonCho;
         loadData();
     }
@@ -71,19 +81,45 @@ public class BillFrame extends javax.swing.JFrame {
             model.addRow(new Object[]{stt, hoaDonChiTiet.getChiTietDoUong().getTenDoUong(), hoaDonChiTiet.getSoLuong(),
                 hoaDonChiTiet.getChiTietDoUong().getGiaBan(), cellCheck});
         }
-        lblTotalCheck.setText(String.valueOf(totalCheck));
-        txtEnterMoney.setText(String.valueOf(hoaDon.getMoneyTake()));
+        lblTotalCheck.setText(String.valueOf(totalCheck) + " VNĐ");
+        if (hoaDon.getMaGiamGia().getMaKM() != null) {
+            txtDiscount.setText(String.valueOf(hoaDon.getMaGiamGia().getMaKM()));
+            applyDiscount();
+        } else {
+            txtDiscount.setText("");
+        }
+        if (hoaDon.getMoneyTake() != null) {
+            txtEnterMoney.setText(String.valueOf(hoaDon.getMoneyTake()));
+            calMoneyChange();
+        } else {
+            txtEnterMoney.setText("");
+        }
+
     }
-    public void updateMoneyTake(){
-          
-          hoaDonService.updateMoneyTake(LocalId,localMoneyTake);
+
+    public void updateMoneyTake() {
+        hoaDonService.updateMoneyTake(LocalId, localMoneyTake);
     }
-    
-    public void updateSttCheckBill(){
-          hoaDonService.updateSttCheckBill(1,LocalId);
+
+    public void updateSttCheckBill() {
+        hoaDonService.updateSttCheckBill(1, LocalId);
     }
-    
-      public void loadHoaDonTbl() {
+
+    public void updateDiscount() {
+        try {
+            if (!txtDiscount.getText().strip().equals("")) {
+                hoaDonService.updateDiscount(txtDiscount.getText().strip(), LocalId);
+            } else {
+                hoaDonService.updateDiscount(null, LocalId);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Mã giảm giá không đúng !");
+        }
+
+    }
+
+    public void loadHoaDonTbl() {
         int stt = 0;
         LstHoaDon_singleton.getInstance().lstHoaDon = hoaDonService.getListHoaDon();
         DefaultTableModel model = new DefaultTableModel();
@@ -107,7 +143,8 @@ public class BillFrame extends javax.swing.JFrame {
             model.addRow(new Object[]{stt, hoaDon.getMa(), hoaDon.getBan().getTen(), thanhToanStt, phaCheStt});
         }
     }
-      public void loadHoaDonDangPhaChe() {
+
+    public void loadHoaDonDangPhaChe() {
         int stt = 0;
         LstHoaDonDangPhaChe_singleton.getInstance().lstHoaDonDangPhaChe = hoaDonService.getHoaDonDangPhaChe();
         DefaultTableModel model = new DefaultTableModel();
@@ -131,7 +168,8 @@ public class BillFrame extends javax.swing.JFrame {
             model.addRow(new Object[]{stt, hoaDon.getMa(), hoaDon.getBan().getTen(), thanhToanStt, phaCheStt});
         }
     }
-      public void loadHoaDonChoTbl() {
+
+    public void loadHoaDonChoTbl() {
         int stt = 0;
         LstHoaDonCho_SingLeTon.getInstance().lstHoaDonCho = hoaDonService.getListHoaDonCho();
         DefaultTableModel model = new DefaultTableModel();
@@ -154,13 +192,77 @@ public class BillFrame extends javax.swing.JFrame {
             model.addRow(new Object[]{stt, hoaDon.getMa(), hoaDon.getBan().getTen(), thanhToanStt, phaCheStt});
         }
     }
-      
-      
-      
-    public void reloadTbl(){
-         loadHoaDonTbl();
-         loadHoaDonDangPhaChe();
-         loadHoaDonChoTbl();
+
+    public void changeDataToTbl() {
+        HoaDon hoaDon = hoaDonService.getHoaDonByID(LocalId);
+        int checkHoaDon = 0;
+        int checkHoaDonCho = 0;
+        int checkHoaDonDangPhaChe = 0;
+        String maHd =  hoaDon.getMa();
+        Integer[] arr = {localTblHoaDon.getRowCount(),localTblHoaDonCho.getRowCount(),localTblHoaDonDangPhaChe.getRowCount()};
+        int max = Collections.max(Arrays.asList(arr));
+        System.out.println("max: "+ max);
+        for (int i = 0; i < max; i++) {
+
+            if (checkHoaDon == 0&&i<localTblHoaDon.getRowCount()) {
+                String maHDTblHoaDon = (String) localTblHoaDon.getValueAt(i, 1);
+                System.out.println("loop 1: "+maHDTblHoaDon);
+                System.out.println("id"+ LocalId);
+                if (maHDTblHoaDon.equalsIgnoreCase(maHd)) {
+                    System.out.println("case 1");
+                    localTblHoaDon.setValueAt("Đã TT", i, 3);
+                    checkHoaDon = 1;
+                }
+            }
+
+            if (checkHoaDonCho == 0 && i<localTblHoaDonCho.getRowCount()) {
+                String maHDTblHoaDonCho = (String) localTblHoaDonCho.getValueAt(i, 1);
+                System.out.println("loop2: "+maHDTblHoaDonCho);
+                System.out.println("id"+ LocalId);
+                if (maHDTblHoaDonCho.equalsIgnoreCase(maHd)) {
+                    System.out.println("case2");
+                    localTblHoaDonCho.setValueAt("Đã TT", i, 3);
+                    checkHoaDonCho = 1;
+                    break;
+                }
+            }
+
+            if (checkHoaDonDangPhaChe == 0 && i < localTblHoaDonDangPhaChe.getRowCount()) {  
+                String maHDTblHoaDonDangPhaChe = (String) localTblHoaDon.getValueAt(i, 1);
+                System.out.println("loop 3:"+maHDTblHoaDonDangPhaChe);
+                System.out.println("id"+ LocalId);
+                if (maHDTblHoaDonDangPhaChe.equalsIgnoreCase(maHd)) {
+                    System.out.println("case 3");
+                    localTblHoaDonDangPhaChe.setValueAt("Đã TT", i, 3);
+                    checkHoaDonDangPhaChe = 1;
+                }
+            }
+            
+            if (checkHoaDon == 1 && checkHoaDonCho == 1) {
+                break;
+            }
+        }
+    }
+
+    public void applyDiscount() {
+        KhuyenMai km = saleService.selectByID(txtDiscount.getText());
+        discountPer = Double.valueOf(km.getGiaTri()) / 100;
+        checkAfterDiscount = totalCheck - totalCheck * discountPer;
+        lblFinalCash.setText(String.valueOf(checkAfterDiscount) + " VNĐ");
+    }
+
+    public void calMoneyChange() {
+        if (checkAfterDiscount == 0) {
+            double moneyTake = Double.valueOf(txtEnterMoney.getText());
+            localMoneyTake = moneyTake;
+            double moneyChange = moneyTake - totalCheck;
+            lblMoneyChange.setText(String.valueOf(moneyChange) + " VNĐ");
+        } else {
+            double moneyTake = Double.valueOf(txtEnterMoney.getText());
+            localMoneyTake = moneyTake;
+            double moneyChange = moneyTake - totalCheck + totalCheck * discountPer;
+            lblMoneyChange.setText(String.valueOf(moneyChange) + " VNĐ");
+        }
     }
 
     /**
@@ -194,6 +296,12 @@ public class BillFrame extends javax.swing.JFrame {
         jLabel15 = new javax.swing.JLabel();
         lblMoneyChange = new javax.swing.JLabel();
         btnCheck = new javax.swing.JButton();
+        jLabel7 = new javax.swing.JLabel();
+        txtDiscount = new javax.swing.JTextField();
+        btnAddDiscount = new javax.swing.JButton();
+        jLabel8 = new javax.swing.JLabel();
+        lblFinalCash = new javax.swing.JLabel();
+        btnCancel = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -245,7 +353,7 @@ public class BillFrame extends javax.swing.JFrame {
 
         jLabel15.setText("Số tiền trả lại:");
 
-        lblMoneyChange.setText("#moneyChange");
+        lblMoneyChange.setText("...............................");
 
         btnCheck.setText("Thanh Toán");
         btnCheck.addActionListener(new java.awt.event.ActionListener() {
@@ -254,73 +362,99 @@ public class BillFrame extends javax.swing.JFrame {
             }
         });
 
+        jLabel7.setText("Mã giảm giá:");
+
+        btnAddDiscount.setText("Áp mã ");
+        btnAddDiscount.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddDiscountActionPerformed(evt);
+            }
+        });
+
+        jLabel8.setText("Thực thu: ");
+
+        lblFinalCash.setText("..................................");
+
+        btnCancel.setText("Hủy");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                    .addGap(18, 18, 18)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addComponent(jLabel3)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(lblDate))
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addComponent(jLabel2)
+                            .addGap(18, 18, 18)
+                            .addComponent(lblBan)))
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                            .addComponent(jLabel5)
+                            .addGap(18, 18, 18))
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addComponent(jLabel4)
+                            .addGap(32, 32, 32)))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(lblTime)
+                        .addComponent(lblCheckStt))
+                    .addGap(0, 0, Short.MAX_VALUE))
+                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                    .addGap(99, 99, 99)
+                    .addComponent(jLabel1)))
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel3)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(lblDate))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addGap(18, 18, 18)
-                                .addComponent(lblBan)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel5)
-                                .addGap(18, 18, 18))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel4)
-                                .addGap(32, 32, 32)))
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblTime)
-                            .addComponent(lblCheckStt))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                        .addGap(99, 99, 99)
-                        .addComponent(jLabel1)))
-                .addGap(0, 0, Short.MAX_VALUE))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(15, 15, 15)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jLabel6)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(lblMaHD)
-                        .addGap(45, 45, 45))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 322, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel12)
-                                .addGap(24, 24, 24)
-                                .addComponent(lblTotalCheck, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel15)
-                                .addGap(18, 18, 18)
-                                .addComponent(lblMoneyChange, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGap(133, 133, 133)))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel14)
+                        .addComponent(btnCheck)
                         .addGap(18, 18, 18)
-                        .addComponent(txtEnterMoney, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnCheck)
-                            .addComponent(btnCaculating))
-                        .addGap(36, 36, 36))))
+                        .addComponent(btnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(16, 16, 16))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jLabel6)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(lblMaHD))
+                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(jPanel1Layout.createSequentialGroup()
+                                            .addComponent(jLabel12)
+                                            .addGap(24, 24, 24)
+                                            .addComponent(lblTotalCheck, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGroup(jPanel1Layout.createSequentialGroup()
+                                            .addComponent(jLabel15)
+                                            .addGap(18, 18, 18)
+                                            .addComponent(lblMoneyChange, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGap(133, 133, 133))))
+                                .addGroup(jPanel1Layout.createSequentialGroup()
+                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(jLabel14)
+                                            .addComponent(jLabel7))
+                                        .addComponent(jLabel8))
+                                    .addGap(18, 18, 18)
+                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(lblFinalCash)
+                                        .addComponent(txtDiscount, javax.swing.GroupLayout.DEFAULT_SIZE, 113, Short.MAX_VALUE)
+                                        .addComponent(txtEnterMoney))
+                                    .addGap(30, 30, 30)
+                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(btnAddDiscount, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(btnCaculating, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                        .addContainerGap(16, Short.MAX_VALUE))))
         );
 
-        jPanel1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnCaculating, btnCheck});
+        jPanel1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnAddDiscount, btnCaculating, btnCancel, btnCheck});
 
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -349,7 +483,16 @@ public class BillFrame extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel12)
                     .addComponent(lblTotalCheck))
-                .addGap(18, 20, Short.MAX_VALUE)
+                .addGap(18, 18, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7)
+                    .addComponent(txtDiscount, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnAddDiscount))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel8)
+                    .addComponent(lblFinalCash))
+                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel14)
                     .addComponent(txtEnterMoney, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -358,9 +501,11 @@ public class BillFrame extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel15)
                     .addComponent(lblMoneyChange))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnCheck)
-                .addGap(17, 17, 17))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnCheck)
+                    .addComponent(btnCancel))
+                .addGap(28, 28, 28))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -383,32 +528,44 @@ public class BillFrame extends javax.swing.JFrame {
 
     private void btnCaculatingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCaculatingActionPerformed
         // TODO add your handling code here:
-        double moneyTake = Double.valueOf(txtEnterMoney.getText());
-        localMoneyTake = moneyTake;
-        double moneyChange = moneyTake - totalCheck;
-        lblMoneyChange.setText(String.valueOf(moneyChange));
+        calMoneyChange();
+
     }//GEN-LAST:event_btnCaculatingActionPerformed
 
     private void btnCheckActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCheckActionPerformed
         // TODO add your handling code here:
-        localMoneyTake = Double.valueOf(txtEnterMoney.getText());
-        updateMoneyTake();
-        updateSttCheckBill();
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new BillFinishFrame(LocalId).setVisible(true);
-            }
-        });
-        reloadTbl();
-        this.dispose();
+        try {
+            localMoneyTake = Double.valueOf(txtEnterMoney.getText());
+            updateMoneyTake();
+            updateSttCheckBill();
+            updateDiscount();
+            java.awt.EventQueue.invokeLater(new Runnable() {
+                public void run() {
+                    new BillFinishFrame(LocalId).setVisible(true);
+                }
+            });
+            changeDataToTbl();
+            this.dispose();
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, " Vui lòng nhập đầy đủ thông tin thanh toán !");
+        }
+
     }//GEN-LAST:event_btnCheckActionPerformed
+
+    private void btnAddDiscountActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddDiscountActionPerformed
+        // TODO add your handling code here:
+        applyDiscount();
+    }//GEN-LAST:event_btnAddDiscountActionPerformed
 
     /**
      * @param args the command line arguments
      */
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAddDiscount;
     private javax.swing.JButton btnCaculating;
+    private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnCheck;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel12;
@@ -419,16 +576,20 @@ public class BillFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblBan;
     private javax.swing.JLabel lblCheckStt;
     private javax.swing.JLabel lblDate;
+    private javax.swing.JLabel lblFinalCash;
     private javax.swing.JLabel lblMaHD;
     private javax.swing.JLabel lblMoneyChange;
     private javax.swing.JLabel lblTime;
     private javax.swing.JLabel lblTotalCheck;
     private javax.swing.JTable tblDrinkDetail;
+    private javax.swing.JTextField txtDiscount;
     private javax.swing.JTextField txtEnterMoney;
     // End of variables declaration//GEN-END:variables
 }

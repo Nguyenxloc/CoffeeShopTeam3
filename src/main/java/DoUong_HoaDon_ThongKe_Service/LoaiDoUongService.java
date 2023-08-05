@@ -7,11 +7,10 @@ package DoUong_HoaDon_ThongKe_Service;
 import DoUong_HoaDon_ThongKe_Repository.DAO_LoaiDoUong;
 import DoUong_HoaDon_ThongKe_Repository.iLoaiDoUong;
 import java.util.ArrayList;
-import model.LoaiDoUong;
 
 /**
  *
- * @author LENOVO T560
+ * @author Sang
  */
 
 
@@ -31,17 +30,5 @@ public class LoaiDoUongService implements iLoaiDoUong {
     public void save(DoUong_HoaDon_ThongKe_Model.LoaiDoUong loaiDoUong) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-
-    @Override
-    public void update(DoUong_HoaDon_ThongKe_Model.LoaiDoUong loaiDoUong) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public void delete(String id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-   
 
 }

@@ -16,19 +16,19 @@ public class HoaDonService {
 
     DAO_HoaDon dao_HoaDon = new DAO_HoaDon();
 
-    public void saveHoaDon(HoaDon hoaDon) {
-        dao_HoaDon.save(hoaDon);
+    public HoaDon saveHoaDon(HoaDon hoaDon) {
+        return dao_HoaDon.save(hoaDon);
     }
 
     public ArrayList<HoaDon> getListHoaDon() {
         ArrayList<HoaDon> lstHoaDon = new ArrayList<>();
-        lstHoaDon = dao_HoaDon.selectALl();
+        lstHoaDon = dao_HoaDon.selectALLNow();
         return lstHoaDon;
     }
 
     public ArrayList<HoaDon> getListHoaDonCho() {
         ArrayList<HoaDon> lstHoaDon = new ArrayList<>();
-        lstHoaDon = dao_HoaDon.selectHoaDonCho();
+        lstHoaDon = dao_HoaDon.selectHoaDonChoNow();
         return lstHoaDon;
     }
 
@@ -50,7 +50,7 @@ public class HoaDonService {
 //    }
     public ArrayList<HoaDon> getHoaDonDangPhaChe() {
         ArrayList<HoaDon> lstHoaDonDangPhaChe = new ArrayList<>();
-        lstHoaDonDangPhaChe = dao_HoaDon.selectHoaDonDangPhaChe();
+        lstHoaDonDangPhaChe = dao_HoaDon.selectHoaDonDangPhaCheNow();
         return lstHoaDonDangPhaChe;
     }
 
@@ -69,5 +69,9 @@ public class HoaDonService {
 
     public void updateSttCheckBill(int i, String LocalId) {
           dao_HoaDon.updateSttCheckBill(i,LocalId);
+    }
+
+    public void updateDiscount(String maGiamGia,String id) {
+         dao_HoaDon.updateDiscount(maGiamGia,id);
     }
 }

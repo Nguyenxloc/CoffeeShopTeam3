@@ -6,7 +6,9 @@ package repository;
 
 import java.math.BigDecimal;
 import java.sql.ResultSet;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 import model.Ban;
 import model.GiamGia;
 import model.HoaDon;
@@ -24,6 +26,9 @@ public class DAO_HoaDon {
     final String UPDATE_SQL = "UPDATE dbo.HoaDon SET IdBan=?, IdKH=?,IdNV=?,Ma=?,TinhTrangThanhToan=?,TrangThaiPhaChe=?,MaGiamGia=? WHERE Id=?";
     final String DELETE_SQL = "DELETE FROM [dbo].[HoaDon] WHERE [Id] = ?";
     final String SELECT_BY_SQL = "SELECT * FROM [dbo].[HoaDon] WHERE [Id] = ?";
+    final String SELECT_ALL_SQLNOW = "SELECT*FROM dbo.HoaDon where Stt = 1 and NgayTao = ? order by NumOrder;";
+    final String SELECT_ALL_SQL_HOADONCHONOW = "SELECT*FROM dbo.HoaDon where Stt = 0 and NgayTao = ? order by NumOrder;";
+    final String SELECT_ALL_SQL_HOADONDANGPHACHENOW = "SELECT*FROM dbo.HoaDon where TrangThaiPhaChe = 0 and Stt = 1 and NgayTao = ? order by NumOrder;";
     final String SELECT_ALL_SQL = "SELECT*FROM dbo.HoaDon where Stt = 1 order by NumOrder;";
     final String SELECT_ALL_SQL_HOADONCHO = "SELECT*FROM dbo.HoaDon where Stt = 0;";
     final String SELECT_ALL_SQL_HOADONDANGPHACHE = "SELECT*FROM dbo.HoaDon where TrangThaiPhaChe = 0 and Stt = 1;";
@@ -31,23 +36,28 @@ public class DAO_HoaDon {
     final String UPDATE_TTPHACHE = "UPDATE dbo.HoaDon SET TrangThaiPhaChe=? WHERE Id=?";
     final String UPDATE_MONEYTAKE = "UPDATE dbo.HoaDon SET SoTienNhanVao=? WHERE Id=?";
     final String UPDATE_CHECKSTT = "UPDATE dbo.HoaDon SET TinhTrangThanhToan=? WHERE Id=?";
+    final String UPDATE_DISCOUNT = "UPDATE dbo.HoaDon SET MaGiamGia=? WHERE Id=?";
+    final String SELECT_TOP1BYACENDING = "SELECT TOP 1*FROM dbo.HoaDon ORDER BY NumOrder DESC;";
     DAO_Ban dao_Ban = new DAO_Ban();
     DAO_KhachHang dao_KhachHang = new DAO_KhachHang();
     DAO_NhanVien dao_NhanVien = new DAO_NhanVien();
     DAO_GiamGia dao_GiamGia = new DAO_GiamGia();
+    SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+    java.util.Date date = new java.util.Date();
+    java.sql.Date sqlDateNow = new java.sql.Date(date.getTime());
 
-    public ArrayList<HoaDon> selectALl() {
+    public ArrayList<HoaDon> selectALLNow() {
         DBConnection1 dbConn = new DBConnection1();
         ArrayList<HoaDon> lstHoaDon = new ArrayList<>();
         try {
-            ResultSet rs = dbConn.getDataFromQuery(SELECT_ALL_SQL);
+            ResultSet rs = dbConn.getDataFromQuery(SELECT_ALL_SQLNOW, sqlDateNow);
             while (rs.next()) {
                 Ban ban = dao_Ban.selectByID(rs.getInt("IdBan"));
 //                KhachHang khachHang = dao_KhachHang.selectByID("IdKH");
 //                NhanVien nhanVien = dao_NhanVien.selectByID(rs.getString("IdNV"));
 //                GiamGia giamGia = dao_GiamGia.selectByID(rs.getString("MaGiamGia"));
                 KhachHang khachHang = null;
-                NhanVien nhanVien = null;
+                NhanVien nhanVien = dao_NhanVien.selectByID(rs.getString("IdNV"));
                 GiamGia giamGia = null;
                 lstHoaDon.add(new HoaDon(rs.getString("id"), ban, khachHang, nhanVien, rs.getString("Ma"), rs.getDate("NgayTao"),
                         rs.getString("ThoiGian"), rs.getInt("TinhTrangThanhToan"), rs.getInt("TrangThaiPhaChe"), giamGia, rs.getInt("Stt"), rs.getBigDecimal("SoTienNhanVao")));
@@ -58,19 +68,19 @@ public class DAO_HoaDon {
         return lstHoaDon;
     }
 
-    public ArrayList<HoaDon> selectHoaDonCho() {
+    public ArrayList<HoaDon> selectHoaDonChoNow() {
         DBConnection1 dbConn = new DBConnection1();
         ArrayList<HoaDon> lstHoaDon = new ArrayList<>();
         try {
-            ResultSet rs = dbConn.getDataFromQuery(SELECT_ALL_SQL_HOADONCHO);
+            ResultSet rs = dbConn.getDataFromQuery(SELECT_ALL_SQL_HOADONCHONOW, sqlDateNow);
             while (rs.next()) {
                 Ban ban = dao_Ban.selectByID(rs.getInt("IdBan"));
 //                KhachHang khachHang = dao_KhachHang.selectByID("IdKH");
 //                NhanVien nhanVien = dao_NhanVien.selectByID(rs.getString("IdNV"));
 //                GiamGia giamGia = dao_GiamGia.selectByID(rs.getString("MaGiamGia"));
                 KhachHang khachHang = null;
-                NhanVien nhanVien = null;
-                GiamGia giamGia = null;
+                NhanVien nhanVien = dao_NhanVien.selectByID(rs.getString("IdNV"));
+                GiamGia giamGia = dao_GiamGia.selectByID(rs.getString("MaGiamGia"));
                 lstHoaDon.add(new HoaDon(rs.getString("id"), ban, khachHang, nhanVien, rs.getString("Ma"), rs.getDate("NgayTao"),
                         rs.getString("ThoiGian"), rs.getInt("TinhTrangThanhToan"), rs.getInt("TrangThaiPhaChe"), giamGia, rs.getInt("Stt"), rs.getBigDecimal("SoTienNhanVao")));
             }
@@ -92,8 +102,8 @@ public class DAO_HoaDon {
 //                NhanVien nhanVien = dao_NhanVien.selectByID(rs.getString("IdNV"));
 //                GiamGia giamGia = dao_GiamGia.selectByID(rs.getString("MaGiamGia"));
                 KhachHang khachHang = null;
-                NhanVien nhanVien = null;
-                GiamGia giamGia = null;
+                NhanVien nhanVien = dao_NhanVien.selectByID(rs.getString("IdNV"));
+                GiamGia giamGia = dao_GiamGia.selectByID(rs.getString("MaGiamGia"));
                 lstHoaDon.add(new HoaDon(rs.getString("id"), ban, khachHang, nhanVien, rs.getString("Ma"), rs.getDate("NgayTao"),
                         rs.getString("ThoiGian"), rs.getInt("TinhTrangThanhToan"), rs.getInt("TrangThaiPhaChe"), giamGia, rs.getInt("Stt"), rs.getBigDecimal("SoTienNhanVao")));
                 hoaDon = lstHoaDon.get(0);
@@ -106,13 +116,28 @@ public class DAO_HoaDon {
         return hoaDon;
     }
 
-    public void save(HoaDon hoaDon) {
+    public HoaDon save(HoaDon hoaDon) {
         DBConnection1 dbConn = new DBConnection1();
+        HoaDon hoaDonAdded = null;
         try {
-            dbConn.ExcuteSQL(INSERT_SQL, hoaDon.getBan().getIdBan(), null, null, null, hoaDon.getStt());
+//            "INSERT INTO dbo.HoaDon(IdBan,IdKH,IdNV,TinhTrangThanhToan,TrangThaiPhaChe,MaGiamGia,Stt)VALUES(?,?,?,0,0,?,?)"
+            int check = dbConn.ExcuteSQL(INSERT_SQL, hoaDon.getBan().getIdBan(), null, hoaDon.getNhanVien().getId(), null, hoaDon.getStt());
+            if (check == 1) {
+                ResultSet rs = dbConn.getDataFromQuery(SELECT_TOP1BYACENDING);
+                while (rs.next()) {
+                    Ban ban = dao_Ban.selectByID(rs.getInt("IdBan"));
+                    KhachHang khachHang = null;
+                    NhanVien nhanVien = dao_NhanVien.selectByID(rs.getString("IdNV"));
+                    GiamGia giamGia = dao_GiamGia.selectByID(rs.getString("MaGiamGia"));
+                    hoaDonAdded = new HoaDon(rs.getString("id"), ban, khachHang, nhanVien, rs.getString("Ma"), rs.getDate("NgayTao"),
+                            rs.getString("ThoiGian"), rs.getInt("TinhTrangThanhToan"), rs.getInt("TrangThaiPhaChe"), giamGia, rs.getInt("Stt"), rs.getBigDecimal("SoTienNhanVao"));
+                }
+                return hoaDonAdded;
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return null;
     }
 
     public void update(HoaDon hoaDon) {
@@ -160,11 +185,11 @@ public class DAO_HoaDon {
 //        return lstChiTietDoUong;
 //
 //    }
-    public ArrayList<HoaDon> selectHoaDonDangPhaChe() {
+    public ArrayList<HoaDon> selectHoaDonDangPhaCheNow() {
         DBConnection1 dbConn = new DBConnection1();
         ArrayList<HoaDon> lstHoaDonDangPhaChe = new ArrayList<>();
         try {
-            ResultSet rs = dbConn.getDataFromQuery(SELECT_ALL_SQL_HOADONDANGPHACHE);
+            ResultSet rs = dbConn.getDataFromQuery(SELECT_ALL_SQL_HOADONDANGPHACHENOW, sqlDateNow);
             while (rs.next()) {
                 Ban ban = dao_Ban.selectByID(rs.getInt("IdBan"));
 //                KhachHang khachHang = dao_KhachHang.selectByID("IdKH");
@@ -172,7 +197,7 @@ public class DAO_HoaDon {
 //                GiamGia giamGia = dao_GiamGia.selectByID(rs.getString("MaGiamGia"));
                 KhachHang khachHang = null;
                 NhanVien nhanVien = null;
-                GiamGia giamGia = null;
+                GiamGia giamGia = dao_GiamGia.selectByID(rs.getString("MaGiamGia"));
                 lstHoaDonDangPhaChe.add(new HoaDon(rs.getString("id"), ban, khachHang, nhanVien, rs.getString("Ma"), rs.getDate("NgayTao"),
                         rs.getString("ThoiGian"), rs.getInt("TinhTrangThanhToan"), rs.getInt("TrangThaiPhaChe"), giamGia, rs.getInt("Stt"), rs.getBigDecimal("SoTienNhanVao")));
             }
@@ -209,5 +234,15 @@ public class DAO_HoaDon {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public void updateDiscount(String maGiamGia, String id) {
+        DBConnection1 dbConn = new DBConnection1();
+        try {
+            dbConn.ExcuteSQL(UPDATE_DISCOUNT, maGiamGia, id);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 }

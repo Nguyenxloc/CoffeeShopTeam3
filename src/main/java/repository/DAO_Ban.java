@@ -5,6 +5,7 @@
 package repository;
 
 import java.sql.ResultSet;
+import java.time.DayOfWeek;
 import java.util.ArrayList;
 import model.Ban;
 import ultilities.DBConnection1;
@@ -19,6 +20,7 @@ public class DAO_Ban {
     final String DELETE_SQL = "DELETE FROM [dbo].[Ban] WHERE [IdBan] = ?";
     final String SELECT_BY_SQL = "SELECT * FROM [dbo].[Ban] WHERE [IdBan] = ?";
     final String SELECT_ALL_SQL = "SELECT * FROM [dbo].[Ban]";
+    final String SELECT_MAXTABLE = "SELECT MAX(IdBan) FROM ban";
 
     public ArrayList<Ban> selectALl() {
         DBConnection1 dbConn = new DBConnection1();
@@ -71,5 +73,23 @@ public class DAO_Ban {
             e.printStackTrace();
         }
     }
+   
+   public int getMaxTbl(){
+       int max =0;
+       DBConnection1 dbConn = new DBConnection1();
+       try {
+            
+            ResultSet rs = dbConn.getDataFromQuery(SELECT_MAXTABLE);
+            while(rs.next()){
+                max = rs.getInt(1);
+            }
+            
+       } catch (Exception e) {
+           e.printStackTrace();
+       }
+       
+        return max;
+       
+   }
 
 }

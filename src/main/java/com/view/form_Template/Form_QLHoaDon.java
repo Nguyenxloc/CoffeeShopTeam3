@@ -7,26 +7,15 @@ package com.view.form_Template;
 import DoUong_HoaDon_ThongKe_Model.HoaDonChiTiet;
 import DoUong_HoaDon_ThongKe_Model.LichSuHoaDon;
 import DoUong_HoaDon_ThongKe_Service.LichSuHoaDonService;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.sql.Date;
 import java.util.ArrayList;
-import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.CellStyle;
-import org.apache.poi.ss.usermodel.CreationHelper;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 /**
  *
- * @author ADMIN
+ * @author Sang
  */
 public class Form_QLHoaDon extends javax.swing.JPanel {
 
@@ -43,6 +32,7 @@ public class Form_QLHoaDon extends javax.swing.JPanel {
 
     }
 
+    // Load dữ liệu lên table
     public void loadData() {
         try {
             model = (DefaultTableModel) tblLichSuHoaDon.getModel();
@@ -66,6 +56,7 @@ public class Form_QLHoaDon extends javax.swing.JPanel {
         }
     }
 
+    // Load dữ liệu theo thời gian truyền vào
     public void loadDataTheoTime(String d1, String d2) {
         try {
             model = (DefaultTableModel) tblLichSuHoaDon.getModel();
@@ -89,6 +80,7 @@ public class Form_QLHoaDon extends javax.swing.JPanel {
         }
     }
 
+    // Load dữ liệu theo mã để tìm kiếm theo mã
     public void loadDataTheoMa(String maHoaDon) {
         try {
             model = (DefaultTableModel) tblLichSuHoaDon.getModel();
@@ -111,7 +103,8 @@ public class Form_QLHoaDon extends javax.swing.JPanel {
             e.printStackTrace();
         }
     }
-
+    
+    // Load dữ liệu theo mã để tìm ra hóa đơn chi tiết của mã đó của mã đó
     public void loadDataHoaDon(String maHoaDon) {
         try {
             model = (DefaultTableModel) tblHoaDonChiTiet.getModel();
@@ -144,79 +137,6 @@ public class Form_QLHoaDon extends javax.swing.JPanel {
         lblTrangThai.setText(tblLichSuHoaDon.getValueAt(index, 8).toString());
     }
 
-    public void xuatFileExcel() throws FileNotFoundException, IOException {
-        System.out.println(lstLichSuHoaDon);
-        XSSFWorkbook workbook = new XSSFWorkbook();
-        XSSFSheet sheet = workbook.createSheet("Danh sách hóa đơn");
-
-        //format date 
-        CellStyle cellStyle = workbook.createCellStyle();
-        CreationHelper createHelper = workbook.getCreationHelper();
-        cellStyle.setDataFormat(
-                createHelper.createDataFormat().getFormat("m/d/yy"));
-
-        int rowCount = 0;
-        //header
-        Object[] header = {"Mã hóa đơn", "Tên nhân viên", "Thời gian tạo", "Thời gian thanh toán", "Tổng số lượng", "Tiền hóa đơn", "Khuyến mại", "Tiền nhận về", "Trạng thái"};
-        Row headerRow = sheet.createRow(0);
-
-        Cell headerCell0 = headerRow.createCell(0);
-        headerCell0.setCellValue((String) header[0]);
-
-        Cell headerCell1 = headerRow.createCell(1);
-        headerCell1.setCellValue((String) header[1]);
-
-        Cell headerCell2 = headerRow.createCell(2);
-        headerCell2.setCellValue((String) header[2]);
-
-        Cell headerCell3 = headerRow.createCell(3);
-        headerCell3.setCellValue((String) header[3]);
-
-        Cell headerCell4 = headerRow.createCell(4);
-        headerCell4.setCellValue((String) header[4]);
-
-        Cell headerCell5 = headerRow.createCell(5);
-        headerCell5.setCellValue((String) header[5]);
-
-        Cell headerCell6 = headerRow.createCell(6);
-        headerCell6.setCellValue((String) header[6]);
-
-        Cell headerCell7 = headerRow.createCell(7);
-        headerCell7.setCellValue((String) header[7]);
-
-        Cell headerCell8 = headerRow.createCell(8);
-        headerCell8.setCellValue((String) header[8]);
-
-        //
-        for (LichSuHoaDon lichSuHoaDon : lstLichSuHoaDon) {
-            //create a row
-            Row row = sheet.createRow(++rowCount);
-            int columnCount = -1;
-            // write a row
-            Object[] obj = {lichSuHoaDon.getMaHoaDon(), lichSuHoaDon.getTenNhanVien(), lichSuHoaDon.getTimeTao(), lichSuHoaDon.getTimeThanhToan(), lichSuHoaDon.getSoLuong(),
-                lichSuHoaDon.getTongTienHoaDon(), lichSuHoaDon.getChietKhau(), lichSuHoaDon.tienThucNhan(), lichSuHoaDon.getTrangThai()};
-            for (int colNum = 0; colNum < obj.length; colNum++) {
-                System.out.println(rowCount);
-                Cell cell = row.createCell(++columnCount);
-                if (obj[colNum] instanceof String) {
-                    cell.setCellValue((String) obj[colNum]);
-                } else if (obj[colNum] instanceof Integer) {
-                    cell.setCellValue((Integer) obj[colNum]);
-                } else if (obj[colNum] instanceof Integer) {
-                    cell.setCellValue((Integer) obj[colNum]);
-                } else if (obj[colNum] instanceof Double) {
-                    cell.setCellValue((Double) obj[colNum]);
-                } else if (obj[colNum] instanceof Date) {
-                    cell.setCellValue((Date) obj[colNum]);
-                    cell.setCellStyle(cellStyle);
-                }
-            }
-        }
-
-        try (FileOutputStream outputStream = new FileOutputStream("DSHoaDon.xlsx")) {
-            workbook.write(outputStream);
-        }
-    }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -234,7 +154,6 @@ public class Form_QLHoaDon extends javax.swing.JPanel {
         dateNgayKetThuc = new com.toedter.calendar.JDateChooser();
         jLabel4 = new javax.swing.JLabel();
         txtTimTheoMa = new javax.swing.JTextField();
-        btnTimTheoMa = new javax.swing.JButton();
         btnLoad = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -261,7 +180,6 @@ public class Form_QLHoaDon extends javax.swing.JPanel {
         lblSoLuongSP = new javax.swing.JLabel();
         jLabel32 = new javax.swing.JLabel();
         lblTrangThai = new javax.swing.JLabel();
-        tbnXuatFileExcel = new javax.swing.JButton();
 
         jLabel1.setText("jLabel1");
 
@@ -300,13 +218,6 @@ public class Form_QLHoaDon extends javax.swing.JPanel {
             }
         });
 
-        btnTimTheoMa.setText("Tìm kiếm");
-        btnTimTheoMa.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnTimTheoMaActionPerformed(evt);
-            }
-        });
-
         btnLoad.setText("Load Data");
         btnLoad.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -329,13 +240,11 @@ public class Form_QLHoaDon extends javax.swing.JPanel {
                 .addComponent(dateNgayKetThuc, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(41, 41, 41)
                 .addComponent(btnTimKiemTheoNgay)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 62, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 137, Short.MAX_VALUE)
                 .addComponent(jLabel4)
                 .addGap(18, 18, 18)
                 .addComponent(txtTimTheoMa, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(btnTimTheoMa)
-                .addGap(29, 29, 29))
+                .addGap(51, 51, 51))
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(422, 422, 422)
                 .addComponent(btnLoad)
@@ -355,8 +264,7 @@ public class Form_QLHoaDon extends javax.swing.JPanel {
                         .addComponent(dateNgayKetThuc, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel4)
-                        .addComponent(txtTimTheoMa, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(btnTimTheoMa)))
+                        .addComponent(txtTimTheoMa, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18)
                 .addComponent(btnLoad)
                 .addContainerGap())
@@ -379,7 +287,7 @@ public class Form_QLHoaDon extends javax.swing.JPanel {
                 {null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Mã hóa đơn", "Tên nhân viên", "TG tạo", "TG thanh toán", "Tổng số lượng", "Thành tiền HĐ", "Khuyến mại", "Thực nhận", "Trạng thái"
+                "Mã hóa đơn", "Tên nhân viên", "TG tạo", "TG thanh toán", "Tổng số lượng", "Tiền hóa đơn", "Khuyến mại", "Thực nhận", "Trạng thái thanh toán"
             }
         ));
         tblLichSuHoaDon.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -403,7 +311,7 @@ public class Form_QLHoaDon extends javax.swing.JPanel {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 141, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 167, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -489,13 +397,6 @@ public class Form_QLHoaDon extends javax.swing.JPanel {
         lblTrangThai.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lblTrangThai.setText("...");
 
-        tbnXuatFileExcel.setText("Xuất file");
-        tbnXuatFileExcel.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                tbnXuatFileExcelActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
@@ -536,8 +437,7 @@ public class Form_QLHoaDon extends javax.swing.JPanel {
                                             .addComponent(lblSoLuongSP, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addComponent(lblTongTienHoaDon, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addComponent(lblChietKhau, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(lblTrangThai, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(tbnXuatFileExcel)))
+                                            .addComponent(lblTrangThai, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                     .addComponent(jLabel18))))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 137, Short.MAX_VALUE)
                         .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 438, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -578,8 +478,7 @@ public class Form_QLHoaDon extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel19)
-                            .addComponent(lblThucNhan)
-                            .addComponent(tbnXuatFileExcel)))
+                            .addComponent(lblThucNhan)))
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addGap(18, 18, Short.MAX_VALUE)
                         .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -604,7 +503,7 @@ public class Form_QLHoaDon extends javax.swing.JPanel {
                 .addGap(19, 19, 19)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -622,16 +521,6 @@ public class Form_QLHoaDon extends javax.swing.JPanel {
 
     }//GEN-LAST:event_tblLichSuHoaDonMouseClicked
 
-    private void tbnXuatFileExcelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tbnXuatFileExcelActionPerformed
-        try {
-            xuatFileExcel();
-            JOptionPane.showMessageDialog(this, "Xuất file thành công !");
-        } catch (Exception e) {
-            JOptionPane.showConfirmDialog(this, "Không thể xuất file excel !");
-            e.printStackTrace();
-        }
-    }//GEN-LAST:event_tbnXuatFileExcelActionPerformed
-
     private void btnTimKiemTheoNgayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTimKiemTheoNgayActionPerformed
         String d1 = ((JTextField) dateNgayBatDau.getDateEditor().getUiComponent()).getText();
         String d2 = ((JTextField) dateNgayKetThuc.getDateEditor().getUiComponent()).getText();
@@ -641,17 +530,16 @@ public class Form_QLHoaDon extends javax.swing.JPanel {
     private void btnLoadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoadActionPerformed
         // TODO add your handling code here:
         loadData();
+        lblMaHD.setText("...");
+        lblTenNV.setText("...");
+        lblTGTao.setText("...");
+        lblTGThanhToan.setText("...");;
+        lblSoLuongSP.setText("...");;
+        lblTongTienHoaDon.setText("...");;
+        lblChietKhau.setText("...");
+        lblThucNhan.setText("...");;
+        lblTrangThai.setText("...");
     }//GEN-LAST:event_btnLoadActionPerformed
-
-    private void btnTimTheoMaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTimTheoMaActionPerformed
-        // TODO add your handling code here:
-        LichSuHoaDon lichSuHoaDon = new LichSuHoaDon();
-        String maHoaDon = txtTimTheoMa.getText();
-//        if (maHoaDon.equals(lichSuHoaDonService.getByMa(maHoaDon))) {
-            loadDataTheoMa(maHoaDon);
-//        }
-        
-    }//GEN-LAST:event_btnTimTheoMaActionPerformed
 
     private void txtTimTheoMaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTimTheoMaKeyReleased
         // TODO add your handling code here:
@@ -665,7 +553,6 @@ public class Form_QLHoaDon extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnLoad;
     private javax.swing.JButton btnTimKiemTheoNgay;
-    private javax.swing.JButton btnTimTheoMa;
     private com.toedter.calendar.JDateChooser dateNgayBatDau;
     private com.toedter.calendar.JDateChooser dateNgayKetThuc;
     private javax.swing.JLabel jLabel1;
@@ -701,7 +588,6 @@ public class Form_QLHoaDon extends javax.swing.JPanel {
     private javax.swing.JLabel lblTrangThai;
     private javax.swing.JTable tblHoaDonChiTiet;
     private javax.swing.JTable tblLichSuHoaDon;
-    private javax.swing.JButton tbnXuatFileExcel;
     private javax.swing.JTextField txtTimTheoMa;
     // End of variables declaration//GEN-END:variables
 

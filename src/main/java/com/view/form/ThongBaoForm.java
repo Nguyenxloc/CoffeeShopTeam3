@@ -4,6 +4,8 @@
  */
 package com.view.form;
 
+import com.view.form_Template.Form_ChamCong;
+
 /**
  *
  * @author 84374
@@ -14,6 +16,7 @@ public class ThongBaoForm extends javax.swing.JPanel {
      * Creates new form ThongBaoForm
      */
     public ThongBaoForm() {
+        new Form_ChamCong().setVisible(true);
         initComponents();
     }
 
@@ -43,9 +46,9 @@ public class ThongBaoForm extends javax.swing.JPanel {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(115, 115, 115)
+                .addGap(119, 119, 119)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(103, Short.MAX_VALUE))
+                .addContainerGap(99, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 

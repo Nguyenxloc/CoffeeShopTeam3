@@ -2,13 +2,10 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package DoUong_ThongKe_Repository;
-
+package DoUong_HoaDon_ThongKe_Repository111;
 
 import DoUong_HoaDon_ThongKe_Model.ChiTietDoUong;
 import DoUong_HoaDon_ThongKe_Model.LoaiDoUong;
-import DoUong_HoaDon_ThongKe_Repository.DAO_LoaiDoUong;
-import DoUong_HoaDon_ThongKe_Repository.iChiTietDoUong;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import ultilities.DBConnection1;
@@ -20,7 +17,7 @@ import ultilities.DBConnection1;
 public class DAO_ChiTietDoUong implements iChiTietDoUong {
 
     final String INSERT_SQL = "INSERT INTO dbo.ChiTietDoUong(idLoaiDoUong,TenDoUong,GiaNhap,GiaBan,HinhAnh,MoTa)VALUES(?,?,?,?,?,?)";
-    final String UPDATE_SQL = "UPDATE dbo.ChiTietDoUong SET TenDoUong=?, GiaNhap=?,GiaBan=?,MoTa=?,HinhAnh=? WHERE Id=?";
+    final String UPDATE_SQL = "UPDATE dbo.ChiTietDoUong SET IdLoaiDoUong=?, TenDoUong=?, GiaNhap=?,GiaBan=?,MoTa=?,HinhAnh=? WHERE Id=?";
     final String DELETE_SQL = "DELETE FROM [dbo].[ChiTietDoUong] WHERE [Id] = ?";
     final String SELECT_BY_SQL = "SELECT * FROM [dbo].[ChiTietDoUong] WHERE [Id] = ?";
     final String SELECT_ALL_SQL = "SELECT * FROM [dbo].[ChiTietDoUong] order by TenDoUong";
@@ -87,7 +84,7 @@ public class DAO_ChiTietDoUong implements iChiTietDoUong {
     public void update(ChiTietDoUong chiTietDoUong) {
         DBConnection1 dbConn = new DBConnection1();
         try {
-            dbConn.ExcuteSQL(UPDATE_SQL, chiTietDoUong.getTenDoUong(), chiTietDoUong.getGiaNhap(), chiTietDoUong.getGiaBan(), chiTietDoUong.getMoTa(), chiTietDoUong.getHinhAnh(), chiTietDoUong.getId());
+            dbConn.ExcuteSQL(UPDATE_SQL,chiTietDoUong.getLoaiDoUong().getId(), chiTietDoUong.getTenDoUong(), chiTietDoUong.getGiaNhap(), chiTietDoUong.getGiaBan(), chiTietDoUong.getMoTa(), chiTietDoUong.getHinhAnh(), chiTietDoUong.getId());
         } catch (Exception e) {
             e.printStackTrace();
         }

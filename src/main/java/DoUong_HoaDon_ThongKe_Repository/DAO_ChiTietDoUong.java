@@ -12,7 +12,7 @@ import ultilities.DBConnection1;
 
 /**
  *
- * @author ADMIN
+ * @author Sang
  */
 public class DAO_ChiTietDoUong implements iChiTietDoUong {
 
