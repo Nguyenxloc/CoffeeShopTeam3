@@ -51,6 +51,15 @@ public class MenuOfCB extends javax.swing.JPanel {
         listMenu1.addItem(new Model_Menu("3", "Bán hàng", Model_Menu.MenuType.MENU));
         listMenu1.addItem(new Model_Menu("4", "QL Giao ca", Model_Menu.MenuType.MENU));
         listMenu1.addItem(new Model_Menu("5", "QL Menu", Model_Menu.MenuType.MENU));
+        //listMenu1.addItem(new Model_Menu("6", "Icons", Model_Menu.MenuType.MENU)); Khang
+        listMenu1.addItem(new Model_Menu("1", "Quản lý khuyến mại", Model_Menu.MenuType.MENU));
+        listMenu1.addItem(new Model_Menu("7", "QL Hóa Đơn", Model_Menu.MenuType.MENU));
+        listMenu1.addItem(new Model_Menu("8", "Thống kê", Model_Menu.MenuType.MENU));
+        listMenu1.addItem(new Model_Menu("6", "Quản lý nhân viên", Model_Menu.MenuType.MENU));
+        listMenu1.addItem(new Model_Menu("9", "Tạo tài khoản", Model_Menu.MenuType.MENU));
+        listMenu1.addItem(new Model_Menu("5", "Tính lương", Model_Menu.MenuType.MENU));
+        listMenu1.addItem(new Model_Menu("10", "Đăng xuất", Model_Menu.MenuType.MENU));
+        listMenu1.addItem(new Model_Menu("", "cetera cetera ", Model_Menu.MenuType.EMPTY));
         listMenu1.addItem(new Model_Menu("12", "Quản lý khuyến mại", Model_Menu.MenuType.MENU));
         listMenu1.addItem(new Model_Menu("13", "QL Hóa Đơn", Model_Menu.MenuType.MENU));
         listMenu1.addItem(new Model_Menu("1", "Thống kê", Model_Menu.MenuType.MENU));
