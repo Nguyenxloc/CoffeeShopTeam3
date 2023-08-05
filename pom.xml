@@ -75,13 +75,13 @@
         <!-- https://mvnrepository.com/artifact/javax.json/javax.json-api -->
         <!-- https://mvnrepository.com/artifact/javax.json/javax.json-api -->
 
-        <dependency>
+<!--        <dependency>
             <groupId>com.sample</groupId>
             <artifactId>sample</artifactId>
             <version>1.0</version>
             <scope>system</scope>
             <systemPath>${pom.basedir}\lib\javax.json-1.1.jar</systemPath>
-        </dependency>
+        </dependency>-->
         <dependency>
             <groupId>com.itextpdf</groupId>
             <artifactId>itextpdf</artifactId>
@@ -173,5 +173,5 @@
         </resources>
   
     </build>
-    <name>CoffeeShop_MasterTai</name>
+    <name>CoffeeShop_Master</name>
 </project>
