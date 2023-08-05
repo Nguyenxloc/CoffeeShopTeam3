@@ -44,13 +44,42 @@ public class Form_CapBac extends javax.swing.JPanel {
         String ten = txtTen.getText();
         String luog = txtLuong.getText();
         
-        if(ma.trim().equals("") | ten.trim().equals("") || luog.trim().equals("")){
+        if(ma.trim().equals("") | ten.trim().equals("")){
             JOptionPane.showMessageDialog(this, "Không được để trống");
             return null;
         }
-        BigDecimal luong = new BigDecimal(luog);
         
-        QLCapBac cb = new QLCapBac("", ma, ten, luong);
+        if(!ma.matches("[a-zA-Z0-9]+$")){
+            JOptionPane.showMessageDialog(this, "Mã không hợp lệ");
+            return null;
+        }
+        
+        if(ten.trim().length() != ten.length()){
+            JOptionPane.showMessageDialog(this, "Tên không hợp lệ");
+            return null;
+        }
+        
+        if(!ten.matches("^[\\p{L}\\p{M}0-9 ]+$")){
+            JOptionPane.showMessageDialog(this, "Tên không hợp lệ");
+            return null;
+        }
+        
+        BigDecimal luong = null;
+        if(!luog.trim().isEmpty()){
+        try {
+            luong = new BigDecimal(luog);
+       } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Nhập lương không hợp lệ");
+            return null;
+        }
+        }
+        
+        QLCapBac cb = new QLCapBac();
+        cb.setMaCB(ma);
+        cb.setTenCB(ten);
+        if(luong != null){
+            cb.setLuongPastTime(luong);
+        }
         return cb;
         
     }
@@ -284,14 +313,14 @@ public class Form_CapBac extends javax.swing.JPanel {
     private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
         QLCapBac ld = getForm();
         int row = tblTable.getSelectedRow();
+        String id = tblTable.getValueAt(row, 0).toString();
 
         if(row == -1){
             JOptionPane.showMessageDialog(this, "Chọn 1 dòng để sửa");
             return;
         }
         if(ld != null){
-            JOptionPane.showMessageDialog(this, "Sửa thành công");
-            capBacService.sua(ld);
+            capBacService.sua(ld, id);
             loadTable();
             clear();
         }else{
@@ -304,7 +333,6 @@ public class Form_CapBac extends javax.swing.JPanel {
         QLCapBac ql = getForm();
 
         if(ql != null){
-            JOptionPane.showMessageDialog(this, "Thêm thành công");
             capBacService.them(ql);
             loadTable();
             clear();

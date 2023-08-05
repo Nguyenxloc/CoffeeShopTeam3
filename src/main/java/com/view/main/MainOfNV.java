@@ -23,6 +23,7 @@ import com.view.form_Template.Form_QLDoUong;
 import com.view.form_Template.Form_QLHoaDon;
 import com.view.form_Template.Form_QuanLyKho;
 import com.view.form_Template.Form_TaoTaiKhoan;
+import com.view.form_Template.Form_ThongBao;
 import com.view.form_Template.Form_ThongKe;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -44,7 +45,7 @@ public class MainOfNV extends javax.swing.JFrame {
      * Creates new form Main
      */
     private WalletForm home;
-    private ThongBaoForm formThongbao;
+    private Form_ThongBao formThongbao;
     private Form_BanHang formBanHang;
     private Form_TaoTaiKhoan form_TaoTaiKhoan;
     private Form_QLDoUong form_QLDoUong;
@@ -60,6 +61,8 @@ public class MainOfNV extends javax.swing.JFrame {
         initComponents();
         home = new WalletForm();
         formThongbao = new ThongBaoForm();
+        home = new WalletForm();         
+        formThongbao = new Form_ThongBao();
         formBanHang = new Form_BanHang();
         form_KhuyenMai = new Form_KhuyenMai();
         formQLNhanVien = new QuanLyNhanVien();
@@ -113,7 +116,7 @@ public class MainOfNV extends javax.swing.JFrame {
         });
 
         //  set when system open start with home form
-        setForm(new ThongBaoForm());
+        setForm(new Form_ThongBao());
 
     }
 

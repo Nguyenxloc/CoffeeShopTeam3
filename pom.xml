@@ -74,6 +74,7 @@
         <!-- https://mvnrepository.com/artifact/org.apache.poi/poi-ooxml -->
         <!-- https://mvnrepository.com/artifact/javax.json/javax.json-api -->
         <!-- https://mvnrepository.com/artifact/javax.json/javax.json-api -->
+
         <dependency>
             <groupId>com.sample</groupId>
             <artifactId>sample</artifactId>
@@ -92,6 +93,12 @@
             <version>1.1</version>
             <type>jar</type>
         </dependency>
+        <dependency>
+            <groupId>org.glassfish</groupId>
+            <artifactId>javax.json</artifactId>
+            <version>1.0.4</version>
+        </dependency>
+
 
         <dependency>
             <groupId>org.apache.poi</groupId>
@@ -120,6 +127,12 @@
             <groupId>org.codehaus.jackson</groupId>
             <artifactId>jackson-core-asl</artifactId>
             <version>1.9.2</version>
+            <type>jar</type>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.pdfbox</groupId>
+            <artifactId>pdfbox</artifactId>
+            <version>3.0.0-RC1</version>
             <type>jar</type>
         </dependency>
     </dependencies>
@@ -160,10 +173,5 @@
         </resources>
   
     </build>
-
     <name>CoffeeShop_MasterTai</name>
-
-
-
-
 </project>

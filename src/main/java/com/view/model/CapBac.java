@@ -36,16 +36,15 @@ public class CapBac {
         this.ten = ten;
     }
 
-    @Override
-    public String toString() {
-        return ten;
-    }
-    
-
 //    @Override
 //    public String toString() {
-//        return "CapBac{" + "id=" + id + ", ten=" + ten + '}';
+//        return ten;
 //    }
+    
+    @Override
+    public String toString() {
+        return "CapBac{" + "id=" + id + ", ten=" + ten + '}';
+    }
     
     
 }

@@ -21,6 +21,14 @@ public class NhanVienService {
             return "Thêm thất bại";
         }
     }
+      
+      public void saveNhanVien(NhanVien nhanVien) {
+        repository.save(nhanVien);
+    }
+
+       public void updateNhanVien(NhanVien nhanVien) {
+        repository.update(nhanVien);
+    }
     
       public String xoaNhanVien(String ma){
           if(repository.deleteNew(ma)){

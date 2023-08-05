@@ -76,12 +76,16 @@ public class DAO_NhanVien {
         ArrayList<NhanVien> lstNhanVien = new ArrayList<>();
         DAO_CapBac dao_capBac = new DAO_CapBac();
         try {
-            ResultSet rs = dbConn.getDataFromQuery(SELECT_BY_SQL, id);
+            ResultSet rs = dbConn.getDataFromQuery(SELECT_BY_IDNV_SQL, id);
             while (rs.next()) {
                 CapBac capBac = dao_capBac.selectByID(rs.getString("IdCB"));
+
                 lstNhanVien.add(new NhanVien(rs.getString("Id"), rs.getString("Ma"), rs.getNString("Ten"), rs.getNString("TenDem"), rs.getNString("Ho"), rs.getNString("GioiTinh"), rs.getDate("NgaySinh"), rs.getString("DiaChi"), rs.getString("Sdt"), rs.getString("TaiKhoan"), rs.getString("MatKhau"), capBac, rs.getInt("TrangThai"), rs.getBytes("HinhAnh"), rs.getString("NgayTao")));
 
+                lstNhanVien.add(new NhanVien(rs.getString("Id"), rs.getString("Ma"), rs.getNString("Ten"), rs.getNString("TenDem"), rs.getNString("Ho"), rs.getNString("GioiTinh"), rs.getDate("NgaySinh"), rs.getString("DiaChi"), rs.getString("Sdt"), rs.getString("TaiKhoan"), rs.getString("MatKhau"),capBac, rs.getInt("TrangThai"), rs.getBytes("HinhAnh"), rs.getString("NgayTao")));
+
                 nhanVien = lstNhanVien.get(0);
+                System.out.println("dao nhan vien :"+ nhanVien.toString());
                 break;
             }
 

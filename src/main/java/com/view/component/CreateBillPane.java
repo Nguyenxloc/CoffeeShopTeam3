@@ -4,12 +4,14 @@
  */
 package com.view.component;
 
+import SingletonClass.LstHoaDonDangPhaChe_singleton;
 import SingletonClass.LstHoaDon_singleton;
 import SingletonClass.NV_singleton;
 import com.view.form_Template.Container;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import model.Ban;
@@ -29,55 +31,73 @@ public class CreateBillPane extends javax.swing.JFrame {
      */
     HoaDonService hoaDonService = new HoaDonService();
     BanService banService = new BanService();
-    JTable localTbl = new JTable();
+    JTable localTblHoaDon = new JTable();
+    JTable localTblHoaDonDangPhaChe = new JTable();
     ArrayList<HoaDon> localLstHoaDon = LstHoaDon_singleton.getInstance().lstHoaDon;
-    public CreateBillPane(JTable tbl) {
+
+    public CreateBillPane(JTable tblHoaDon, JTable tblHoaDonDangPhaChe) {
         initComponents();
         this.pack();
         this.setLocationRelativeTo(null);
         this.setVisible(true);
-        localTbl = tbl;
+        localTblHoaDon = tblHoaDon;
+        localTblHoaDonDangPhaChe = tblHoaDonDangPhaChe;
         lblMaNV.setText(NV_singleton.getInstance().nv.getMa());
         lblTenNV.setText(NV_singleton.getInstance().nv.getTen());
         SimpleDateFormat formatterDate = new SimpleDateFormat("dd/MM/yyyy");
         SimpleDateFormat formatterTime = new SimpleDateFormat("HH:MM");
-        java.util.Date  date = new java.util.Date();
+        java.util.Date date = new java.util.Date();
         lblDateNow.setText(formatterDate.format(date));
         lblTimeNow.setText(formatterTime.format(date));
     }
 
-    public void save() {
-        int idBan = Integer.valueOf(txtBan.getText());
-        Ban ban = banService.getBanByID(idBan);
-        NhanVien nv = NV_singleton.getInstance().nv;
-        HoaDon hoaDon = new HoaDon(null, ban, null,nv, null, null, null, 0, 0, null,1,null); 
-        hoaDonService.saveHoaDon(hoaDon);
+    public int validateTxt(String txt) {
+        int max = banService.getMax();
+        int stt = 0;
+        try {
+            int txtNum = Integer.valueOf(txtBan.getText());
+            if (txtNum <= max&&txtNum>0) {
+                stt= 1;
+            } else {
+                stt= 0;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return stt;
     }
 
-    public void reLoadParentTbl() {
-        int stt = 0;
-        LstHoaDon_singleton.getInstance().lstHoaDon = hoaDonService.getListHoaDon();
-        DefaultTableModel model = new DefaultTableModel();
-        model = (DefaultTableModel) localTbl.getModel();
-        model.setRowCount(0);
+    public void save() {
+        if(validateTxt(txtBan.getText())==1){
+              int idBan = Integer.valueOf(txtBan.getText());
+        Ban ban = banService.getBanByID(idBan);
+        NhanVien nv = NV_singleton.getInstance().nv;
+        HoaDon hoaDon = new HoaDon(null, ban, null, nv, null, null, null, 0, 0, null, 1, null);
+        HoaDon hoaDonAdded = hoaDonService.saveHoaDon(hoaDon);
+        LstHoaDon_singleton.getInstance().lstHoaDon.add(hoaDonAdded);
+        LstHoaDonDangPhaChe_singleton.getInstance().lstHoaDonDangPhaChe.add(hoaDonAdded);
+        DefaultTableModel modelHoaDon = new DefaultTableModel();
+        modelHoaDon = (DefaultTableModel) localTblHoaDon.getModel();
+        DefaultTableModel modelHoaDonDangPhaChe = new DefaultTableModel();
+        modelHoaDonDangPhaChe = (DefaultTableModel) localTblHoaDonDangPhaChe.getModel();
         String thanhToanStt;
         String phaCheStt;
-        for (HoaDon hoaDon : LstHoaDon_singleton.getInstance().lstHoaDon) {
-            stt++;
-            if (hoaDon.getTinhTrangThanhToan() == 0) {
-                thanhToanStt = "Chưa TT";
-            } else {
-                thanhToanStt = "Đã TT";
-            }
-            if (hoaDon.getTrangThaiPhaChe() == 0) {
-                phaCheStt = "Chưa pha";
-            } else {
-                phaCheStt = "Đã pha";
-            }
-
-            model.addRow(new Object[]{stt, hoaDon.getMa(), hoaDon.getBan().getTen(), thanhToanStt, phaCheStt});
+        if (hoaDonAdded.getTinhTrangThanhToan() == 0) {
+            thanhToanStt = "Chưa TT";
+        } else {
+            thanhToanStt = "Đã TT";
         }
-        System.out.println("local: " + localLstHoaDon);
+        if (hoaDonAdded.getTrangThaiPhaChe() == 0) {
+            phaCheStt = "Chưa pha";
+        } else {
+            phaCheStt = "Đã pha";
+        }
+        modelHoaDon.addRow(new Object[]{LstHoaDon_singleton.getInstance().lstHoaDon.size(), hoaDonAdded.getMa(), hoaDonAdded.getBan().getTen(), thanhToanStt, phaCheStt});
+        modelHoaDonDangPhaChe.addRow(new Object[]{LstHoaDonDangPhaChe_singleton.getInstance().lstHoaDonDangPhaChe.size(), hoaDonAdded.getMa(), hoaDonAdded.getBan().getTen(), thanhToanStt, phaCheStt});
+        this.dispose();
+        }
+        else
+            JOptionPane.showMessageDialog(null,"Bàn không tồn tại trong hệ thống !");
     }
 
     /**
@@ -247,9 +267,12 @@ public class CreateBillPane extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        save();
-        reLoadParentTbl();
-        this.dispose();
+        try {
+            save();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**

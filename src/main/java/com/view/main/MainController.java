@@ -4,17 +4,6 @@
  */
 package com.view.main;
 
-import ultilities.DBConnection;
-
-import ultilities.Utilitys;
-
-import ultilities.DBConnection;
-
-import ultilities.Utilitys;
-
-import ultilities.DBConnection;
-
-import ultilities.DBConnection;
 
 /**
  *
@@ -26,7 +15,13 @@ public class MainController {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
 //                new LoginFrame().setVisible(true);
+
                 new MainTemplate().setVisible(true);
+
+//                new LoginFrame().setVisible(true);
+                  new LoginFrame().setVisible(true);
+//                new MainTemplate().setVisible(true);
+//                new LoginFrame().setVisible(true);
             }
         });
     }

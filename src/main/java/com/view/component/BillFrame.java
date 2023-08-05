@@ -9,6 +9,8 @@ import SingletonClass.LstHoaDonDangPhaChe_singleton;
 import SingletonClass.LstHoaDon_singleton;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -96,7 +98,6 @@ public class BillFrame extends javax.swing.JFrame {
     }
 
     public void updateMoneyTake() {
-
         hoaDonService.updateMoneyTake(LocalId, localMoneyTake);
     }
 
@@ -192,10 +193,55 @@ public class BillFrame extends javax.swing.JFrame {
         }
     }
 
-    public void reloadTbl() {
-        loadHoaDonTbl();
-        loadHoaDonDangPhaChe();
-        loadHoaDonChoTbl();
+    public void changeDataToTbl() {
+        HoaDon hoaDon = hoaDonService.getHoaDonByID(LocalId);
+        int checkHoaDon = 0;
+        int checkHoaDonCho = 0;
+        int checkHoaDonDangPhaChe = 0;
+        String maHd =  hoaDon.getMa();
+        Integer[] arr = {localTblHoaDon.getRowCount(),localTblHoaDonCho.getRowCount(),localTblHoaDonDangPhaChe.getRowCount()};
+        int max = Collections.max(Arrays.asList(arr));
+        System.out.println("max: "+ max);
+        for (int i = 0; i < max; i++) {
+
+            if (checkHoaDon == 0&&i<localTblHoaDon.getRowCount()) {
+                String maHDTblHoaDon = (String) localTblHoaDon.getValueAt(i, 1);
+                System.out.println("loop 1: "+maHDTblHoaDon);
+                System.out.println("id"+ LocalId);
+                if (maHDTblHoaDon.equalsIgnoreCase(maHd)) {
+                    System.out.println("case 1");
+                    localTblHoaDon.setValueAt("Đã TT", i, 3);
+                    checkHoaDon = 1;
+                }
+            }
+
+            if (checkHoaDonCho == 0 && i<localTblHoaDonCho.getRowCount()) {
+                String maHDTblHoaDonCho = (String) localTblHoaDonCho.getValueAt(i, 1);
+                System.out.println("loop2: "+maHDTblHoaDonCho);
+                System.out.println("id"+ LocalId);
+                if (maHDTblHoaDonCho.equalsIgnoreCase(maHd)) {
+                    System.out.println("case2");
+                    localTblHoaDonCho.setValueAt("Đã TT", i, 3);
+                    checkHoaDonCho = 1;
+                    break;
+                }
+            }
+
+            if (checkHoaDonDangPhaChe == 0 && i < localTblHoaDonDangPhaChe.getRowCount()) {  
+                String maHDTblHoaDonDangPhaChe = (String) localTblHoaDon.getValueAt(i, 1);
+                System.out.println("loop 3:"+maHDTblHoaDonDangPhaChe);
+                System.out.println("id"+ LocalId);
+                if (maHDTblHoaDonDangPhaChe.equalsIgnoreCase(maHd)) {
+                    System.out.println("case 3");
+                    localTblHoaDonDangPhaChe.setValueAt("Đã TT", i, 3);
+                    checkHoaDonDangPhaChe = 1;
+                }
+            }
+            
+            if (checkHoaDon == 1 && checkHoaDonCho == 1) {
+                break;
+            }
+        }
     }
 
     public void applyDiscount() {
@@ -210,12 +256,12 @@ public class BillFrame extends javax.swing.JFrame {
             double moneyTake = Double.valueOf(txtEnterMoney.getText());
             localMoneyTake = moneyTake;
             double moneyChange = moneyTake - totalCheck;
-            lblMoneyChange.setText(String.valueOf(moneyChange)+" VNĐ");
+            lblMoneyChange.setText(String.valueOf(moneyChange) + " VNĐ");
         } else {
             double moneyTake = Double.valueOf(txtEnterMoney.getText());
             localMoneyTake = moneyTake;
             double moneyChange = moneyTake - totalCheck + totalCheck * discountPer;
-            lblMoneyChange.setText(String.valueOf(moneyChange)+" VNĐ");
+            lblMoneyChange.setText(String.valueOf(moneyChange) + " VNĐ");
         }
     }
 
@@ -498,11 +544,11 @@ public class BillFrame extends javax.swing.JFrame {
                     new BillFinishFrame(LocalId).setVisible(true);
                 }
             });
-            reloadTbl();
+            changeDataToTbl();
             this.dispose();
         } catch (Exception e) {
             e.printStackTrace();
-            JOptionPane.showMessageDialog(this," Vui lòng nhập đầy đủ thông tin thanh toán !");
+            JOptionPane.showMessageDialog(this, " Vui lòng nhập đầy đủ thông tin thanh toán !");
         }
 
     }//GEN-LAST:event_btnCheckActionPerformed
