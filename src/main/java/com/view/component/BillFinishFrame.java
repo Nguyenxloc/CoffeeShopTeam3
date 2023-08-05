@@ -35,7 +35,9 @@ public class BillFinishFrame extends javax.swing.JFrame {
     private ArrayList<HoaDonChiTiet> lstHoaDonChiTiet;
     private HoaDon hoaDon;
     private double totalCheck = 0;
+    private double totalCheckWithDiscount=0;
     private double localMoneyTake;
+    private double moneyChange =0;
 
     public BillFinishFrame(String id) {
         initComponents();
@@ -73,17 +75,19 @@ public class BillFinishFrame extends javax.swing.JFrame {
                 hoaDonChiTiet.getChiTietDoUong().getGiaBan(), cellCheck});
         }
         lblTotalCheck.setText(String.valueOf(totalCheck));
-        double moneyChange = Double.parseDouble(String.valueOf(hoaDon.getMoneyTake())) - totalCheck;
+        moneyChange = Double.parseDouble(String.valueOf(hoaDon.getMoneyTake())) - totalCheck;
         System.out.println(totalCheck);
         lblMoneyChange.setText(String.valueOf(moneyChange));
 
         lblTotalCheck.setText(String.valueOf(totalCheck) + " VNĐ");
         if (hoaDon.getMaGiamGia().getMaKM() != null) {
+            totalCheckWithDiscount = totalCheck - totalCheck * (Double.valueOf(hoaDon.getMaGiamGia().getGiaTri()) / 100);
             lblDiscountPer.setText(String.valueOf(hoaDon.getMaGiamGia().getGiaTri()) + hoaDon.getMaGiamGia().getLoaiKM());
             lblCheckAfterDiscount.setText(String.valueOf(totalCheck - totalCheck * (Double.valueOf(hoaDon.getMaGiamGia().getGiaTri()) / 100)) + " VNĐ");
         } else {
             lblDiscountPer.setText("Không");
             lblCheckAfterDiscount.setText(totalCheck + " VNĐ");
+            totalCheckWithDiscount = totalCheck;
         }
         if (hoaDon.getMoneyTake() != null) {
             lblMoneyTake.setText(String.valueOf(hoaDon.getMoneyTake()) + " VNĐ");
@@ -102,6 +106,17 @@ public class BillFinishFrame extends javax.swing.JFrame {
         String nfdNormalizedString = Normalizer.normalize(str, Normalizer.Form.NFD);
         Pattern pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");
         return pattern.matcher(nfdNormalizedString).replaceAll("");
+    }
+
+    public static String toKhongDau(String str) {
+        try {
+            String temp = Normalizer.normalize(str, Normalizer.Form.NFD);
+            Pattern pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");
+            return pattern.matcher(temp).replaceAll("").toLowerCase().replaceAll(" ", " ").replaceAll("đ", "d");
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return "";
     }
 
     public void WriteInvoice() {
@@ -163,7 +178,7 @@ public class BillFinishFrame extends javax.swing.JFrame {
             cs.newLine();
             cs.showText(hoaDon.getNhanVien().getMa());
             cs.newLine();
-            cs.showText(deAccent(hoaDon.getNhanVien().getTen()));
+            cs.showText(toKhongDau(hoaDon.getNhanVien().getTen()));
             cs.newLine();
             cs.showText(hoaDon.getNgayTao().toString());
             cs.newLine();
@@ -201,7 +216,7 @@ public class BillFinishFrame extends javax.swing.JFrame {
             cs.setLeading(20f);
             cs.newLineAtOffset(100, 440);
             for (HoaDonChiTiet hoaDonChiTiet : lstHoaDonChiTiet) {
-                String ten = deAccent(hoaDonChiTiet.getChiTietDoUong().getTenDoUong()).toString();
+                String ten = toKhongDau(hoaDonChiTiet.getChiTietDoUong().getTenDoUong()).toString();
                 cs.showText(ten);
                 cs.newLine();
                 n++;
@@ -258,15 +273,15 @@ public class BillFinishFrame extends javax.swing.JFrame {
             cs.setFont(PDType1Font.TIMES_ROMAN, 14);
             cs.setLeading(20f);
             cs.newLineAtOffset(430, (420 - (20 * n)));
-            cs.showText("#name8");
+            cs.showText(String.valueOf(totalCheck+" VND"));
             cs.newLine();
-            cs.showText("#name9");
+            cs.showText(hoaDon.getMaGiamGia().getGiaTri()+"%");//giamgia
             cs.newLine();
-            cs.showText("#name10");
+            cs.showText(String.valueOf(totalCheckWithDiscount)+" VND");//thucthu
             cs.newLine();
-            cs.showText("#name11");
+            cs.showText(String.valueOf(hoaDon.getMoneyTake())+" VND");//khachdua
             cs.newLine();
-            cs.showText("#name12");
+            cs.showText(String.valueOf(moneyChange)+" VND");//tienthua
             cs.endText();
 
             //Close the content stream

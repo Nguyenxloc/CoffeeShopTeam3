@@ -104,7 +104,6 @@ public class Form_BanHang extends javax.swing.JPanel {
     public void loadHoaDonChoTbl() {
         int stt = 0;
         LstHoaDonCho_SingLeTon.getInstance().lstHoaDonCho = hoaDonService.getListHoaDonCho();
-
         modelHoaDonChoTbl = (DefaultTableModel) tblHoaDonCho.getModel();
         modelHoaDonChoTbl.setRowCount(0);
         String thanhToanStt;
