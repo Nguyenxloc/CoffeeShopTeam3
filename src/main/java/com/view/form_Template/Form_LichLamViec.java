@@ -17,7 +17,7 @@ import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.jfree.ui.DateCellRenderer;
+
 
 /**
  *
@@ -82,18 +82,18 @@ public class Form_LichLamViec extends javax.swing.JPanel {
         }
     }
 
-    public void aligeCenterTbale() {
-        DefaultTableCellRenderer tableCellRenderer = new DateCellRenderer();
-        tableCellRenderer.setHorizontalAlignment(DefaultTableCellRenderer.CENTER);
-        
-        this.tblLichLamViec.getColumnModel().getColumn(0).setCellRenderer(tableCellRenderer);
-        this.tblLichLamViec.getColumnModel().getColumn(1).setCellRenderer(tableCellRenderer);
-        this.tblLichLamViec.getColumnModel().getColumn(2).setCellRenderer(tableCellRenderer);
-        this.tblLichLamViec.getColumnModel().getColumn(3).setCellRenderer(tableCellRenderer);
-        this.tblLichLamViec.getColumnModel().getColumn(4).setCellRenderer(tableCellRenderer);
-        this.tblLichLamViec.getColumnModel().getColumn(5).setCellRenderer(tableCellRenderer);
-        this.tblLichLamViec.getColumnModel().getColumn(6).setCellRenderer(tableCellRenderer);
-    }
+//    public void aligeCenterTbale() {
+//        DefaultTableCellRenderer tableCellRenderer = new DateCellRenderer();
+//        tableCellRenderer.setHorizontalAlignment(DefaultTableCellRenderer.CENTER);
+//        
+//        this.tblLichLamViec.getColumnModel().getColumn(0).setCellRenderer(tableCellRenderer);
+//        this.tblLichLamViec.getColumnModel().getColumn(1).setCellRenderer(tableCellRenderer);
+//        this.tblLichLamViec.getColumnModel().getColumn(2).setCellRenderer(tableCellRenderer);
+//        this.tblLichLamViec.getColumnModel().getColumn(3).setCellRenderer(tableCellRenderer);
+//        this.tblLichLamViec.getColumnModel().getColumn(4).setCellRenderer(tableCellRenderer);
+//        this.tblLichLamViec.getColumnModel().getColumn(5).setCellRenderer(tableCellRenderer);
+//        this.tblLichLamViec.getColumnModel().getColumn(6).setCellRenderer(tableCellRenderer);
+//    }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -173,7 +173,7 @@ public class Form_LichLamViec extends javax.swing.JPanel {
         // TODO add your handling code here:
 
         importExcel();
-        aligeCenterTbale();
+//        aligeCenterTbale();
     }//GEN-LAST:event_jButton1ActionPerformed
 
 
