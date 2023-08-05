@@ -37,10 +37,10 @@ public class LoginFrame extends javax.swing.JFrame {
         File file = new File(path);
         String absolutePath = file.getAbsolutePath();
         dir = absolutePath;
-
         initComponents();
         setLocationRelativeTo(null);
         btnLogin.setkBorderRadius(30);
+        
     }
 
     /**
@@ -234,8 +234,9 @@ public class LoginFrame extends javax.swing.JFrame {
                 } else {
                     System.out.println("case 2 ");
                     this.setVisible(false);
-                    MainOfNV viewNV = new MainOfNV();
-                    viewNV.setVisible(true);
+//                    MainOfNV viewNV = new MainOfNV();
+                    MainTemplate view = new MainTemplate();
+                    view.setVisible(true);
                 }
 
                 JOptionPane.showMessageDialog(null, "Đăng nhập thành công");

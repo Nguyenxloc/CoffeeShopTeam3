@@ -28,12 +28,6 @@ import org.apache.poi.ss.usermodel.CreationHelper;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-//import org.apache.poi.ss.usermodel.Cell;
-//import org.apache.poi.ss.usermodel.CellStyle;
-//import org.apache.poi.ss.usermodel.CreationHelper;
-//import org.apache.poi.ss.usermodel.Row;
-//import org.apache.poi.xssf.usermodel.XSSFSheet;
-//import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public class Form_QLDoUong extends javax.swing.JPanel {
 
@@ -131,61 +125,6 @@ public class Form_QLDoUong extends javax.swing.JPanel {
     }
 
     public void xuatFileExcel() throws FileNotFoundException, IOException {
-//        System.out.println(lstChiTietDoUong);
-//        XSSFWorkbook workbook = new XSSFWorkbook();
-//        XSSFSheet sheet = workbook.createSheet("Danh sách sản phẩm");
-//
-//        //format date 
-//        CellStyle cellStyle = workbook.createCellStyle();
-//        CreationHelper createHelper = workbook.getCreationHelper();
-//        cellStyle.setDataFormat(
-//                createHelper.createDataFormat().getFormat("m/d/yy"));
-//
-//        int rowCount = 0;
-//        //header
-//        Object[] header = {"Tên đồ uống", "Loại đồ uống", "Giá nhập", "Giá bán", "Mô tả"};
-//        Row headerRow = sheet.createRow(0);
-//
-//        Cell headerCell0 = headerRow.createCell(0);
-//        headerCell0.setCellValue((String) header[0]);
-//
-//        Cell headerCell1 = headerRow.createCell(1);
-//        headerCell1.setCellValue((String) header[1]);
-//
-//        Cell headerCell2 = headerRow.createCell(2);
-//        headerCell2.setCellValue((String) header[2]);
-//
-//        Cell headerCell3 = headerRow.createCell(3);
-//        headerCell3.setCellValue((String) header[3]);
-//
-//        Cell headerCell4 = headerRow.createCell(4);
-//        headerCell4.setCellValue((String) header[4]);
-//
-//        //
-//        for (ChiTietDoUong sp : lstChiTietDoUong) {
-//            System.out.println("test loop1");
-//            //create a row
-//            Row row = sheet.createRow(++rowCount);
-//            int columnCount = -1;
-//            // write a row
-//            Object[] obj = {sp.getTenDoUong(), sp.getLoaiDoUong().getTenLoaiDoUong(), sp.getGiaNhap(), sp.getGiaBan(), sp.getMoTa()};
-//            for (int colNum = 0; colNum < obj.length; colNum++) {
-//                System.out.println(rowCount);
-//                Cell cell = row.createCell(++columnCount);
-//                if (obj[colNum] instanceof String) {
-//                    cell.setCellValue((String) obj[colNum]);
-//                } else if (obj[colNum] instanceof Integer) {
-//                    cell.setCellValue((Integer) obj[colNum]);
-//                } else if (obj[colNum] instanceof Integer) {
-//                    cell.setCellValue((Integer) obj[colNum]);
-//                } else if (obj[colNum] instanceof Double) {
-//                    cell.setCellValue((Double) obj[colNum]);
-//                } else if (obj[colNum] instanceof Date) {
-//                    System.out.println("test date");
-//                    cell.setCellValue((Date) obj[colNum]);
-//                    cell.setCellStyle(cellStyle);
-//                }
-//            }
         System.out.println(lstChiTietDoUong);
         XSSFWorkbook workbook = new XSSFWorkbook();
         XSSFSheet sheet = workbook.createSheet("Danh sách sản phẩm");
@@ -266,6 +205,13 @@ public class Form_QLDoUong extends javax.swing.JPanel {
         loadData();
     }
 
+
+    public void timKiem() {
+        String tenDoUong = txtTimKiemTenDoUong.getText();
+        int count = cboTimKiemDanhMucDoUong.getSelectedIndex();
+        String idLoaiDoUong = lstLoaiDoUong.get(count).getId();
+        double giaBatDau = 0;
+        double giaKetThuc = 0;
 //    public void timKiem() {
 //        String tenDoUong = txtTimKiemTenDoUong.getText();
 //        if(tenDoUong.equalsIgnoreCase(""))
@@ -329,6 +275,7 @@ public class Form_QLDoUong extends javax.swing.JPanel {
             DefaultTableModel model = new DefaultTableModel();
             model = (DefaultTableModel) tblDanhSachDoUong.getModel();
             model.setRowCount(0);
+            lstChiTietDoUong = chiTietDoUongService.getTimKiem(tenDoUong, idLoaiDoUong, giaBatDau, giaKetThuc);
             lstChiTietDoUong = chiTietDoUongService.getTimKiem(tenDoUong, idLoaiDoUong, giaBatDau,giaKetThuc);
             int i = 1;
             for (ChiTietDoUong chiTietDoUong : lstChiTietDoUong) {
@@ -697,6 +644,56 @@ public class Form_QLDoUong extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
+        //Check rỗng
+
+        if (txtTenDoUong.getText().equalsIgnoreCase("")) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập tên sản phẩm");
+            txtTenDoUong.requestFocus();
+            return;
+        }
+
+        if (txtGiaNhapDoUong.getText().equalsIgnoreCase("")) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập giá nhập sản phẩm");
+            txtGiaNhapDoUong.requestFocus();
+            return;
+        }
+
+        if (txtGiaBanDoUong.getText().equalsIgnoreCase("")) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập giá bán sản phẩm");
+            txtGiaBanDoUong.requestFocus();
+            return;
+        }
+
+        if (taraMota.getText().equalsIgnoreCase("")) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập mô tả sản phẩm");
+            taraMota.requestFocus();
+            return;
+        }
+
+        //Check trùng tên sản phẩm
+        for (int i = 0; i < chiTietDoUongService.getListChiTietDoUong().size(); i++) {
+            if (txtTenDoUong.getText().equalsIgnoreCase(chiTietDoUongService.getListChiTietDoUong().get(i).getTenDoUong())) {
+                JOptionPane.showMessageDialog(this, "Tên đồ uống đã tồn tại");
+                return;
+            }
+        }
+
+        //Check giá nhập và giá bán phải là số
+        try {
+            double giaNhap = Double.parseDouble(txtGiaNhapDoUong.getText());
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập giá nhập bằng số");
+            txtGiaNhapDoUong.requestFocus();
+            return;
+        }
+        
+        try {
+            double giaBan = Double.parseDouble(txtGiaBanDoUong.getText());
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập giá bán bằng số");
+            txtGiaBanDoUong.requestFocus();
+            return;
+        }
 
         try {
             convertURLToBytes();
@@ -746,7 +743,59 @@ public class Form_QLDoUong extends javax.swing.JPanel {
     }//GEN-LAST:event_tblDanhSachDoUongMouseClicked
 
     private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
+        
+        // Check rỗng
+        if (txtTenDoUong.getText().equalsIgnoreCase("")) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập tên sản phẩm");
+            txtTenDoUong.requestFocus();
+            return;
+        }
 
+        if (txtGiaNhapDoUong.getText().equalsIgnoreCase("")) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập giá nhập sản phẩm");
+            txtGiaNhapDoUong.requestFocus();
+            return;
+        }
+
+        if (txtGiaBanDoUong.getText().equalsIgnoreCase("")) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập giá bán sản phẩm");
+            txtGiaBanDoUong.requestFocus();
+            return;
+        }
+
+        if (taraMota.getText().equalsIgnoreCase("")) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập mô tả sản phẩm");
+            taraMota.requestFocus();
+            return;
+        }
+
+        //Check trùng tên sản phẩm
+        for (int i = 0; i < chiTietDoUongService.getListChiTietDoUong().size(); i++) {
+            if (txtTenDoUong.getText().equalsIgnoreCase(chiTietDoUongService.getListChiTietDoUong().get(i).getTenDoUong())) {
+                JOptionPane.showMessageDialog(this, "Tên đồ uống đã tồn tại");
+                return;
+            }
+        }
+
+        //Check giá nhập và giá bán phải là số
+        try {
+            double giaNhap = Double.parseDouble(txtGiaNhapDoUong.getText());
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập giá nhập bằng số");
+            txtGiaNhapDoUong.requestFocus();
+            return;
+        }
+        
+        try {
+            double giaBan = Double.parseDouble(txtGiaBanDoUong.getText());
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập giá bán bằng số");
+            txtGiaBanDoUong.requestFocus();
+            return;
+        }
+        
+        
+        
         String tenDoUong = txtTenDoUong.getText();
         Double giaNhap = Double.parseDouble(txtGiaNhapDoUong.getText());
         Double giaBan = Double.parseDouble(txtGiaBanDoUong.getText());
