@@ -20,6 +20,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ScrollPaneConstants;
 import model.HoaDon;
+import viewModel.ChiTietDoUongNoIMG;
 
 /**
  *
@@ -32,17 +33,19 @@ public class paneOfProduct extends JPanel {
 
     static ArrayList<ProductCell> lstCell = new ArrayList<>();
     static ChiTietDoUong drinkDetail = new ChiTietDoUong();
+    static ChiTietDoUongNoIMG drinkDetailNoIMG = new ChiTietDoUongNoIMG();
     static HoaDon localHoaDon = new HoaDon();
     static JTable localTbl = new JTable();
     static JLabel localLblCheck = new JLabel();
-    public paneOfProduct(ArrayList<ChiTietDoUong> lstPerson,JTable tbl,HoaDon hoaDon, JLabel lblTotalCheck) {
-      
+
+    public paneOfProduct(ArrayList<ChiTietDoUong> lstPerson, JTable tbl, HoaDon hoaDon, JLabel lblTotalCheck) {
+
         GridLayout grid = new GridLayout(Integer.valueOf(lstPerson.size() / 3) + 1, 3);
         grid.setVgap(-5);
         grid.setHgap(0);
         this.setLayout(grid);
-        localHoaDon  = hoaDon;
-        localTbl =  tbl;
+        localHoaDon = hoaDon;
+        localTbl = tbl;
         localLblCheck = lblTotalCheck;
         for (int i = 0; i < lstPerson.size(); i++) {
             System.out.println("test");
@@ -56,11 +59,13 @@ public class paneOfProduct extends JPanel {
                     int index = Integer.valueOf(e.getComponent().getName());
                     //
                     System.out.println("index: " + index);
-                    System.out.println("test localHoaDon: "+localHoaDon.getId());
+                    System.out.println("test localHoaDon: " + localHoaDon.getId());
                     drinkDetail = LstChiTietDoUong_singleton.getInstance().lstChiTietDoUongs.get(index);
+                    drinkDetailNoIMG = new ChiTietDoUongNoIMG(drinkDetail.getId(), drinkDetail.getTenDoUong(), drinkDetail.getGiaNhap(),
+                             drinkDetail.getGiaBan(), drinkDetail.getMoTa(), drinkDetail.getLoaiDoUong(), drinkDetail.getKhuyenMai());
                     java.awt.EventQueue.invokeLater(new Runnable() {
                         public void run() {
-                            new EnterAmountFrame(drinkDetail,localTbl,localLblCheck).setVisible(true);
+                            new EnterAmountFrame(drinkDetailNoIMG, localTbl, localLblCheck).setVisible(true);
                         }
                     });
 //////////////////////handling  folow old style, too much risk                    

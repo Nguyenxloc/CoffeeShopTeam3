@@ -4,6 +4,8 @@
  */
 package com.view.component;
 
+import SingletonClass.LstChiTietDoUong_singleton;
+import SingletonClass.LstHoaDonChiTiet_singleton;
 import SingletonClass.LstHoaDonCho_SingLeTon;
 import SingletonClass.LstHoaDonDangPhaChe_singleton;
 import SingletonClass.LstHoaDon_singleton;
@@ -21,6 +23,7 @@ import model.KhuyenMai;
 import service.HoaDonChiTietService;
 import service.HoaDonService;
 import service.SaleService;
+import viewModel.HoaDonChiTietNoIMG;
 
 /**
  *
@@ -58,12 +61,28 @@ public class BillFrame extends javax.swing.JFrame {
     public void loadData() {
         int stt = 0;
         double cellCheck = 0;
-        HoaDon hoaDon = hoaDonService.getHoaDonByID(LocalId);
+        int checkStage = 0;
+        HoaDon hoaDon = null;
+        for (HoaDon hd : LstHoaDon_singleton.getInstance().lstHoaDon) {
+            if (hd.getId().equalsIgnoreCase(LocalId)) {
+                hoaDon = hd;
+                checkStage = 1;
+                break;
+            }
+        }
+
+        if (checkStage == 0) {
+            for (HoaDon hdCho : LstHoaDonCho_SingLeTon.getInstance().lstHoaDonCho) {
+                if (hdCho.getId().equalsIgnoreCase(LocalId)) {
+                    hoaDon = hdCho;
+                    break;
+                }
+            }
+        }
         String checkStt;
         DefaultTableModel model = new DefaultTableModel();
         model = (DefaultTableModel) tblDrinkDetail.getModel();
         model.setRowCount(0);
-        ArrayList<HoaDonChiTiet> lstHoaDonChiTiet = hoaDonChiTietService.getListHoaDonChiTietByID(LocalId);
         lblMaHD.setText(hoaDon.getMa());
         lblBan.setText(hoaDon.getBan().getTen());
         if (hoaDon.getTinhTrangThanhToan() == 0) {
@@ -74,12 +93,14 @@ public class BillFrame extends javax.swing.JFrame {
         lblCheckStt.setText(checkStt);
         lblDate.setText(String.valueOf(hoaDon.getNgayTao()));
         lblTime.setText(hoaDon.getThoiGian());
-        for (HoaDonChiTiet hoaDonChiTiet : lstHoaDonChiTiet) {
-            stt++;
-            cellCheck = Double.valueOf(hoaDonChiTiet.getSoLuong()) * Double.valueOf(hoaDonChiTiet.getChiTietDoUong().getGiaBan());
-            totalCheck += cellCheck;
-            model.addRow(new Object[]{stt, hoaDonChiTiet.getChiTietDoUong().getTenDoUong(), hoaDonChiTiet.getSoLuong(),
-                hoaDonChiTiet.getChiTietDoUong().getGiaBan(), cellCheck});
+        for (HoaDonChiTietNoIMG hoaDonChiTietNoIMG : LstHoaDonChiTiet_singleton.getInstance().lstHoaDonChiTietNoIMG) {
+            if (hoaDonChiTietNoIMG.getHoaDon().getId().equalsIgnoreCase(LocalId)) {
+                stt++;
+                cellCheck = Double.valueOf(hoaDonChiTietNoIMG.getSoLuong()) * Double.valueOf(hoaDonChiTietNoIMG.getChiTietDoUongNoIMG().getGiaBan());
+                totalCheck += cellCheck;
+                model.addRow(new Object[]{stt, hoaDonChiTietNoIMG.getChiTietDoUongNoIMG().getTenDoUong(), hoaDonChiTietNoIMG.getSoLuong(),
+                    hoaDonChiTietNoIMG.getChiTietDoUongNoIMG().getGiaBan(), cellCheck});
+            }
         }
         lblTotalCheck.setText(String.valueOf(totalCheck) + " VNĐ");
         if (hoaDon.getMaGiamGia().getMaKM() != null) {
@@ -98,17 +119,68 @@ public class BillFrame extends javax.swing.JFrame {
     }
 
     public void updateMoneyTake() {
+        int checkStage = 0;
         hoaDonService.updateMoneyTake(LocalId, localMoneyTake);
+        for (HoaDon hd : LstHoaDon_singleton.getInstance().lstHoaDon) {
+            if (hd.getId().equalsIgnoreCase(LocalId)) {
+                hd.setMoneyTake(BigDecimal.valueOf(localMoneyTake));
+                checkStage = 1;
+                break;
+            }
+        }
+
+        if (checkStage == 0) {
+            for (HoaDon hdCho : LstHoaDonCho_SingLeTon.getInstance().lstHoaDonCho) {
+                if (hdCho.getId().equalsIgnoreCase(LocalId)) {
+                    hdCho.setMoneyTake(BigDecimal.valueOf(localMoneyTake));
+                    break;
+                }
+            }
+        }
     }
 
     public void updateSttCheckBill() {
         hoaDonService.updateSttCheckBill(1, LocalId);
+        int checkStage = 0;
+        for (HoaDon hd : LstHoaDon_singleton.getInstance().lstHoaDon) {
+            if (hd.getId().equalsIgnoreCase(LocalId)) {
+                hd.setTinhTrangThanhToan(1);
+                checkStage = 1;
+                break;
+            }
+        }
+        if (checkStage == 0) {
+            for (HoaDon hdCho : LstHoaDonCho_SingLeTon.getInstance().lstHoaDonCho) {
+                if (hdCho.getId().equalsIgnoreCase(LocalId)) {
+                    hdCho.setTinhTrangThanhToan(1);
+                    break;
+                }
+            }
+        }
     }
 
     public void updateDiscount() {
         try {
             if (!txtDiscount.getText().strip().equals("")) {
                 hoaDonService.updateDiscount(txtDiscount.getText().strip(), LocalId);
+                int checkStage = 0;
+//                for (HoaDon hd : LstHoaDon_singleton.getInstance().lstHoaDon) {
+//                    if (hd.getId().equalsIgnoreCase(LocalId)) {
+//                        GiamGia
+//                        hd.setMaGiamGia(BigDecimal.valueOf(localMoneyTake));
+//                        checkStage = 1;
+//                        break;
+//                    }
+//                }
+
+                if (checkStage == 0) {
+                    for (HoaDon hdCho : LstHoaDonCho_SingLeTon.getInstance().lstHoaDonCho) {
+                        if (hdCho.getId().equalsIgnoreCase(LocalId)) {
+                            hdCho.setMoneyTake(BigDecimal.valueOf(localMoneyTake));
+                            break;
+                        }
+                    }
+                }
             } else {
                 hoaDonService.updateDiscount(null, LocalId);
             }
@@ -198,16 +270,16 @@ public class BillFrame extends javax.swing.JFrame {
         int checkHoaDon = 0;
         int checkHoaDonCho = 0;
         int checkHoaDonDangPhaChe = 0;
-        String maHd =  hoaDon.getMa();
-        Integer[] arr = {localTblHoaDon.getRowCount(),localTblHoaDonCho.getRowCount(),localTblHoaDonDangPhaChe.getRowCount()};
+        String maHd = hoaDon.getMa();
+        Integer[] arr = {localTblHoaDon.getRowCount(), localTblHoaDonCho.getRowCount(), localTblHoaDonDangPhaChe.getRowCount()};
         int max = Collections.max(Arrays.asList(arr));
-        System.out.println("max: "+ max);
+        System.out.println("max: " + max);
         for (int i = 0; i < max; i++) {
 
-            if (checkHoaDon == 0&&i<localTblHoaDon.getRowCount()) {
+            if (checkHoaDon == 0 && i < localTblHoaDon.getRowCount()) {
                 String maHDTblHoaDon = (String) localTblHoaDon.getValueAt(i, 1);
-                System.out.println("loop 1: "+maHDTblHoaDon);
-                System.out.println("id"+ LocalId);
+                System.out.println("loop 1: " + maHDTblHoaDon);
+                System.out.println("id" + LocalId);
                 if (maHDTblHoaDon.equalsIgnoreCase(maHd)) {
                     System.out.println("case 1");
                     localTblHoaDon.setValueAt("Đã TT", i, 3);
@@ -215,10 +287,10 @@ public class BillFrame extends javax.swing.JFrame {
                 }
             }
 
-            if (checkHoaDonCho == 0 && i<localTblHoaDonCho.getRowCount()) {
+            if (checkHoaDonCho == 0 && i < localTblHoaDonCho.getRowCount()) {
                 String maHDTblHoaDonCho = (String) localTblHoaDonCho.getValueAt(i, 1);
-                System.out.println("loop2: "+maHDTblHoaDonCho);
-                System.out.println("id"+ LocalId);
+                System.out.println("loop2: " + maHDTblHoaDonCho);
+                System.out.println("id" + LocalId);
                 if (maHDTblHoaDonCho.equalsIgnoreCase(maHd)) {
                     System.out.println("case2");
                     localTblHoaDonCho.setValueAt("Đã TT", i, 3);
@@ -227,17 +299,17 @@ public class BillFrame extends javax.swing.JFrame {
                 }
             }
 
-            if (checkHoaDonDangPhaChe == 0 && i < localTblHoaDonDangPhaChe.getRowCount()) {  
+            if (checkHoaDonDangPhaChe == 0 && i < localTblHoaDonDangPhaChe.getRowCount()) {
                 String maHDTblHoaDonDangPhaChe = (String) localTblHoaDon.getValueAt(i, 1);
-                System.out.println("loop 3:"+maHDTblHoaDonDangPhaChe);
-                System.out.println("id"+ LocalId);
+                System.out.println("loop 3:" + maHDTblHoaDonDangPhaChe);
+                System.out.println("id" + LocalId);
                 if (maHDTblHoaDonDangPhaChe.equalsIgnoreCase(maHd)) {
                     System.out.println("case 3");
                     localTblHoaDonDangPhaChe.setValueAt("Đã TT", i, 3);
                     checkHoaDonDangPhaChe = 1;
                 }
             }
-            
+
             if (checkHoaDon == 1 && checkHoaDonCho == 1) {
                 break;
             }

@@ -6,6 +6,8 @@ package com.view.form_Template;
 
 import SingletonClass.IdHD_singleton;
 import SingletonClass.LstChiTietDoUong_singleton;
+import SingletonClass.LstDiscount_singleton;
+import SingletonClass.LstHoaDonChiTiet_singleton;
 import SingletonClass.LstHoaDonCho_SingLeTon;
 import SingletonClass.LstHoaDonDangPhaChe_singleton;
 import SingletonClass.LstHoaDon_singleton;
@@ -32,8 +34,11 @@ import javax.swing.table.TableRowSorter;
 import model.HoaDon;
 import model.HoaDonChiTiet;
 import service.ChiTietDoUongService_Master;
+import service.HoaDonChiTietNoIMGService;
 import service.HoaDonChiTietService;
 import service.HoaDonService;
+import service.SaleService;
+import viewModel.HoaDonChiTietNoIMG;
 
 public class Form_BanHang extends javax.swing.JPanel {
 
@@ -43,9 +48,10 @@ public class Form_BanHang extends javax.swing.JPanel {
     private HoaDon localHoaDon = new HoaDon();
     private HoaDonService hoaDonService = new HoaDonService();
     private HoaDonChiTietService hoaDonChiTietService = new HoaDonChiTietService();
+    private HoaDonChiTietNoIMGService hoaDonChiTietNoIMGService = new HoaDonChiTietNoIMGService();
+    private SaleService  khuyenMaiService  = new SaleService(); 
     private ArrayList<HoaDon> lstHoaDon = new ArrayList<>();
     private ArrayList<HoaDon> lstHoaDonCho = new ArrayList<>();
-    ;
     private hoaDonModel modelHD = new Container.DefaultHoaDonModel();
     private int countHoaDonTbl = -1;
     private int countHoaDonChoTbl = -1;
@@ -68,6 +74,7 @@ public class Form_BanHang extends javax.swing.JPanel {
         loadHoaDonTbl();
         loadHoaDonChoTbl();
         loadHoaDonDangPhaChe();
+        loadBucketHoaDonChiTietNoIMG();
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
         java.util.Date date = new java.util.Date();
         lblDayNow.setText(formatter.format(date));
@@ -75,6 +82,10 @@ public class Form_BanHang extends javax.swing.JPanel {
         localDateNow = sqlDate;
         //Truyền biến vào panel productOfPane
 //      paneProduct.setVisible(true);
+    }
+
+    public void loadBucketHoaDonChiTietNoIMG() {
+        LstHoaDonChiTiet_singleton.getInstance().lstHoaDonChiTietNoIMG = hoaDonChiTietNoIMGService.getListHoaDonChiTiet();
     }
 
     public void loadHoaDonTbl() {
@@ -339,20 +350,18 @@ public class Form_BanHang extends javax.swing.JPanel {
         DefaultTableModel model = new DefaultTableModel();
         model = (DefaultTableModel) tblDrinkDetail.getModel();
         model.setRowCount(0);
-        ArrayList<HoaDonChiTiet> lstHoaDonChiTiet = new ArrayList<>();
-        lstHoaDonChiTiet = hoaDonChiTietService.getListHoaDonChiTietByID(IdHD_singleton.getInstance().id);
-        for (HoaDonChiTiet hdChiTiet : lstHoaDonChiTiet) {
-            System.out.println("test");
-            stt++;
-            cellCheck = Double.valueOf(hdChiTiet.getSoLuong()) * Double.valueOf(hdChiTiet.getChiTietDoUong().getGiaBan());
-            totalCheck += cellCheck;
-            model.addRow(new Object[]{stt, hdChiTiet.getChiTietDoUong().getTenDoUong(), hdChiTiet.getSoLuong(),
-                hdChiTiet.getChiTietDoUong().getGiaBan(), cellCheck});
+        for (HoaDonChiTietNoIMG hdChiTiet : LstHoaDonChiTiet_singleton.getInstance().lstHoaDonChiTietNoIMG) {
+            if (hdChiTiet.getHoaDon().getId().equalsIgnoreCase(IdHD_singleton.getInstance().id)) {
+                stt++;
+                cellCheck = Double.valueOf(hdChiTiet.getSoLuong()) * Double.valueOf(hdChiTiet.getChiTietDoUongNoIMG().getGiaBan());
+                totalCheck += cellCheck;
+                model.addRow(new Object[]{stt, hdChiTiet.getChiTietDoUongNoIMG().getTenDoUong(), hdChiTiet.getSoLuong(),
+                    hdChiTiet.getChiTietDoUongNoIMG().getGiaBan(), cellCheck});
+            }
         }
         lblTotalCash.setText(String.valueOf(totalCheck));
     }
-    
-   
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
