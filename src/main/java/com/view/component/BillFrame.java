@@ -20,6 +20,7 @@ import model.GiamGia;
 import model.HoaDon;
 import model.HoaDonChiTiet;
 import model.KhuyenMai;
+import service.GiamGiaService;
 import service.HoaDonChiTietService;
 import service.HoaDonService;
 import service.SaleService;
@@ -37,7 +38,7 @@ public class BillFrame extends javax.swing.JFrame {
     private String LocalId;
     HoaDonService hoaDonService = new HoaDonService();
     HoaDonChiTietService hoaDonChiTietService = new HoaDonChiTietService();
-    SaleService saleService = new SaleService();
+    GiamGiaService giamGiaService = new GiamGiaService();
     double totalCheck = 0;
     double localMoneyTake = 0;
     double discountPer = 0;
@@ -104,6 +105,7 @@ public class BillFrame extends javax.swing.JFrame {
         }
         lblTotalCheck.setText(String.valueOf(totalCheck) + " VNĐ");
         if (hoaDon.getMaGiamGia().getMaKM() != null) {
+            System.out.println("test discount");
             txtDiscount.setText(String.valueOf(hoaDon.getMaGiamGia().getMaKM()));
             applyDiscount();
         } else {
@@ -164,19 +166,20 @@ public class BillFrame extends javax.swing.JFrame {
             if (!txtDiscount.getText().strip().equals("")) {
                 hoaDonService.updateDiscount(txtDiscount.getText().strip(), LocalId);
                 int checkStage = 0;
-//                for (HoaDon hd : LstHoaDon_singleton.getInstance().lstHoaDon) {
-//                    if (hd.getId().equalsIgnoreCase(LocalId)) {
-//                        GiamGia
-//                        hd.setMaGiamGia(BigDecimal.valueOf(localMoneyTake));
-//                        checkStage = 1;
-//                        break;
-//                    }
-//                }
+                for (HoaDon hd : LstHoaDon_singleton.getInstance().lstHoaDon) {
+                    if (hd.getId().equalsIgnoreCase(LocalId)) {
+                        GiamGia giamGia = giamGiaService.selectByID(txtDiscount.getText().strip());
+                        hd.setMaGiamGia(giamGia);
+                        checkStage = 1;
+                        break;
+                    }
+                }
 
                 if (checkStage == 0) {
                     for (HoaDon hdCho : LstHoaDonCho_SingLeTon.getInstance().lstHoaDonCho) {
                         if (hdCho.getId().equalsIgnoreCase(LocalId)) {
-                            hdCho.setMoneyTake(BigDecimal.valueOf(localMoneyTake));
+                            GiamGia giamGia = giamGiaService.selectByID(txtDiscount.getText().strip());
+                            hdCho.setMaGiamGia(giamGia);
                             break;
                         }
                     }
@@ -275,7 +278,6 @@ public class BillFrame extends javax.swing.JFrame {
         int max = Collections.max(Arrays.asList(arr));
         System.out.println("max: " + max);
         for (int i = 0; i < max; i++) {
-
             if (checkHoaDon == 0 && i < localTblHoaDon.getRowCount()) {
                 String maHDTblHoaDon = (String) localTblHoaDon.getValueAt(i, 1);
                 System.out.println("loop 1: " + maHDTblHoaDon);
@@ -286,7 +288,16 @@ public class BillFrame extends javax.swing.JFrame {
                     checkHoaDon = 1;
                 }
             }
-
+            if (checkHoaDonDangPhaChe == 0 && i <localTblHoaDonDangPhaChe.getRowCount()) {
+                String maHDTblHoaDonDangPhaChe = (String) localTblHoaDonDangPhaChe.getValueAt(i, 1);
+                System.out.println("loop 3:" + maHDTblHoaDonDangPhaChe);
+                System.out.println("id" + LocalId);
+                if (maHDTblHoaDonDangPhaChe.equalsIgnoreCase(maHd)) {
+                    System.out.println("case 3");
+                    localTblHoaDonDangPhaChe.setValueAt("Đã TT", i, 3);
+                    checkHoaDonDangPhaChe = 1;
+                }
+            }
             if (checkHoaDonCho == 0 && i < localTblHoaDonCho.getRowCount()) {
                 String maHDTblHoaDonCho = (String) localTblHoaDonCho.getValueAt(i, 1);
                 System.out.println("loop2: " + maHDTblHoaDonCho);
@@ -299,16 +310,7 @@ public class BillFrame extends javax.swing.JFrame {
                 }
             }
 
-            if (checkHoaDonDangPhaChe == 0 && i < localTblHoaDonDangPhaChe.getRowCount()) {
-                String maHDTblHoaDonDangPhaChe = (String) localTblHoaDon.getValueAt(i, 1);
-                System.out.println("loop 3:" + maHDTblHoaDonDangPhaChe);
-                System.out.println("id" + LocalId);
-                if (maHDTblHoaDonDangPhaChe.equalsIgnoreCase(maHd)) {
-                    System.out.println("case 3");
-                    localTblHoaDonDangPhaChe.setValueAt("Đã TT", i, 3);
-                    checkHoaDonDangPhaChe = 1;
-                }
-            }
+            
 
             if (checkHoaDon == 1 && checkHoaDonCho == 1) {
                 break;
@@ -317,8 +319,8 @@ public class BillFrame extends javax.swing.JFrame {
     }
 
     public void applyDiscount() {
-        KhuyenMai km = saleService.selectByID(txtDiscount.getText());
-        discountPer = Double.valueOf(km.getGiaTri()) / 100;
+        GiamGia giamGia = giamGiaService.selectByID(txtDiscount.getText());
+        discountPer = Double.valueOf(giamGia.getGiaTri()) / 100;
         checkAfterDiscount = totalCheck - totalCheck * discountPer;
         lblFinalCash.setText(String.valueOf(checkAfterDiscount) + " VNĐ");
     }
