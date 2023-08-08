@@ -27,6 +27,7 @@ public class DAO_NhanVien {
             + "            ON NhanVien.IdCB = CapBac.Id\n"
             + "            WHERE NhanVien.Ma = ?";
     final String SELECT_BY_IDNV_SQL = " SELECT * FROM NhanVien WHERE Id = ?";
+    final String SELECT_BY_MANV = " SELECT * FROM NhanVien WHERE Ma = ?";
     final String SELECT_ALL_SQL = "SELECT * FROM [dbo].[NhanVien];";
     final String SELECT_CBONV_SQL = "  SELECT Id,Ho + ' ' + TenDem + ' ' + Ten AS HOTENNHANVIEN FROM NhanVien";
     final String SELECT_BY_TenNV_SQL = " SELECT Id FROM NhanVien WHERE Ten like ?";
@@ -90,6 +91,27 @@ public class DAO_NhanVien {
         }
         return nhanVien;
     }
+    public NhanVien selectByMa(String ma) {
+        DBConnection1 dbConn = new DBConnection1();
+        NhanVien nhanVien = new NhanVien();
+        ArrayList<NhanVien> lstNhanVien = new ArrayList<>();
+        DAO_CapBac dao_capBac = new DAO_CapBac();
+        try {
+            ResultSet rs = dbConn.getDataFromQuery(SELECT_BY_MANV, ma);
+            while (rs.next()) {
+                CapBac capBac = dao_capBac.selectByID(rs.getString("IdCB"));
+                lstNhanVien.add(new NhanVien(rs.getString("Id"), rs.getString("Ma"), rs.getNString("Ten"), rs.getNString("TenDem"), rs.getNString("Ho"), rs.getNString("GioiTinh"), rs.getDate("NgaySinh"), rs.getString("DiaChi"), rs.getString("Sdt"), rs.getString("TaiKhoan"), rs.getString("MatKhau"), capBac, rs.getInt("TrangThai"), rs.getBytes("HinhAnh"), rs.getString("NgayTao")));
+                nhanVien = lstNhanVien.get(0);
+                System.out.println("dao nhan vien :"+ nhanVien.toString());
+                break;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return nhanVien;
+    }
+    
 
     public NhanVien selectByIDNhanVien(String idNV) {
         DBConnection1 dbConn = new DBConnection1();

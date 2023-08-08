@@ -40,4 +40,8 @@ public class NhanVienService {
      public String selectByTenNhanVien(String tenNV) {
         return repositoryNhanVien.selectByTenNhanVien(tenNV);
     }
+     
+    public NhanVien selectByMa(String ma){
+        return repositoryNhanVien.selectByMa(ma);
+    }
 }

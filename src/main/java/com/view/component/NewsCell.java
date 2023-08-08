@@ -35,7 +35,9 @@ public class NewsCell extends javax.swing.JPanel {
 //        dir = absolutePath;
         localImg = news.getHinhAnh();
         initComponents();
-        lblTittle.setText("<html><p style=\"width:100px\">" + news.getTitle() + "</p></html>");
+        lblTittle.setText("<html><p style=\"width:170px\">" + news.getTitle() + "</p></html>");
+        lblDes.setText("<html><p style=\"width:170px\">" + news.getDes() + "</p></html>");
+        
     }
 
     public String getDir() {
@@ -68,6 +70,14 @@ public class NewsCell extends javax.swing.JPanel {
 
     public static void setLocalImg(byte[] localImg) {
         NewsCell.localImg = localImg;
+    }
+
+    public JLabel getLblDes() {
+        return lblDes;
+    }
+
+    public void setLblDes(JLabel lblDes) {
+        this.lblDes = lblDes;
     }
 
     public JLabel getLblIMGNews() {
@@ -110,6 +120,8 @@ public class NewsCell extends javax.swing.JPanel {
         this.accessibleContext = accessibleContext;
     }
 
+  
+
    
     /**
      * This method is called from within the constructor to initialize the form.
@@ -120,16 +132,19 @@ public class NewsCell extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        lblTittle = new javax.swing.JLabel();
+        lblDes = new javax.swing.JLabel();
         lblIMGNews = new javax.swing.JLabel();
+        lblTittle = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
+        setBorder(new javax.swing.border.MatteBorder(null));
 
-        lblTittle.setText("#NameOfProduct");
+        lblDes.setText("#NameOfProduct");
+        lblDes.setVerticalAlignment(javax.swing.SwingConstants.TOP);
 
         ImageIcon oriImgIcon = new ImageIcon(localImg);
         Image image = oriImgIcon.getImage(); // transform it
-        Image newimg = image.getScaledInstance(79, 120, java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
+        Image newimg = image.getScaledInstance(203, 115, java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
         ImageIcon imageIcon = new ImageIcon(newimg);
         lblIMGNews.setIcon(imageIcon);
 
@@ -139,30 +154,40 @@ public class NewsCell extends javax.swing.JPanel {
         //imageIcon = new ImageIcon(newimg);
         //lblmgProduct.setIcon(imageIcon);
 
+        lblTittle.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lblTittle.setText("#NameOfProduct");
+        lblTittle.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(lblIMGNews, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(lblTittle, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(lblIMGNews, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblDes, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblTittle, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(15, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(lblTittle, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(14, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(lblTittle, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(4, 4, 4)
+                        .addComponent(lblDes, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(lblIMGNews, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(15, Short.MAX_VALUE))
+                .addContainerGap(14, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel lblDes;
     private javax.swing.JLabel lblIMGNews;
     private javax.swing.JLabel lblTittle;
     // End of variables declaration//GEN-END:variables

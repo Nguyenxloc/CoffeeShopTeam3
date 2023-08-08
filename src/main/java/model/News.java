@@ -13,6 +13,7 @@ import java.sql.Date;
 public class News {
     private String idBaiViet;
     private String title;
+    private String des;
     private String content;
     private NhanVien  nv;
     private Date date;
@@ -21,19 +22,16 @@ public class News {
     public News() {
     }
 
-    public News(String idBaiViet, String title, String content, NhanVien nv, Date date, byte[] hinhAnh) {
+    public News(String idBaiViet, String title, String des, String content, NhanVien nv, Date date, byte[] hinhAnh) {
         this.idBaiViet = idBaiViet;
         this.title = title;
+        this.des = des;
         this.content = content;
         this.nv = nv;
         this.date = date;
         this.hinhAnh = hinhAnh;
     }
 
-    
-    
-    
-    
     public String getIdBaiViet() {
         return idBaiViet;
     }
@@ -48,6 +46,14 @@ public class News {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getDes() {
+        return des;
+    }
+
+    public void setDes(String des) {
+        this.des = des;
     }
 
     public String getContent() {
@@ -84,7 +90,7 @@ public class News {
 
     @Override
     public String toString() {
-        return "News{" + "idBaiViet=" + idBaiViet + ", title=" + title + ", content=" + content + ", nv=" + nv + ", date=" + date + ", hinhAnh=" + hinhAnh + '}';
+        return "News{" + "idBaiViet=" + idBaiViet + ", title=" + title + ", des=" + des + ", content=" + content + ", nv=" + nv + ", date=" + date + ", hinhAnh=" + hinhAnh + '}';
     }
 
     

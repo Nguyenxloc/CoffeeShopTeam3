@@ -72,6 +72,7 @@ public class MainTemplate extends javax.swing.JFrame {
         Thread t1 = new Thread(
                 () -> {
                     formThongbao = new Form_ThongBao();
+                    setForm(formThongbao);
                 }
         );
         Thread t2 = new Thread(
@@ -168,7 +169,7 @@ public class MainTemplate extends javax.swing.JFrame {
 //        form_LoaiDoUong = new Form_LoaiDoUong();
 //        form_CapBac = new Form_CapBac();
 //        form_ThongKe = new Form_ThongKe();
-
+//        
         setBackground(new Color(0, 0, 0, 0));
         menuOfCB1.initMoving(MainTemplate.this);
         menuOfCB1.addEventMenuSelected(new EventMenuSelected() {
@@ -227,7 +228,7 @@ public class MainTemplate extends javax.swing.JFrame {
         });
 
         //  set when system open start with home form
-        setForm(new Form_ThongBao());
+        
 
     }
 

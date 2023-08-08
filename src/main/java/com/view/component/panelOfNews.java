@@ -12,7 +12,12 @@ import java.awt.GridLayout;
 import java.awt.HeadlessException;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.util.ArrayList;
+import javax.imageio.ImageIO;
+import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -35,12 +40,13 @@ public class panelOfNews extends JPanel {
 
     static ArrayList<NewsCell> lstCell = new ArrayList<>();
     static News localNews = new News();
+
+//    public panelOfNews(ArrayList<News> lstNews) {
     public panelOfNews(ArrayList<News> lstNews) {
-        GridLayout grid = new GridLayout(Integer.valueOf(lstNews.size() / 3) + 1, 3);
-        grid.setVgap(-5);
-        grid.setHgap(0);
-        this.setLayout(grid);
+        BoxLayout boxLayout = new BoxLayout(this, BoxLayout.Y_AXIS);
+        this.setLayout(boxLayout);
         for (int i = 0; i < lstNews.size(); i++) {
+            System.out.println("testpainting");
             NewsCell cell = new NewsCell(lstNews.get(i));
             lstCell.add(cell);
             lstCell.get(i).setName(String.valueOf(i));
@@ -75,6 +81,7 @@ public class panelOfNews extends JPanel {
                 public void mousePressed(MouseEvent e) {
                     cell.getLblIMGNews().setForeground(Color.blue);
                     cell.getLblTittle().setForeground(Color.blue);
+                    cell.getLblDes().setForeground(Color.blue);
 
                 }
 
@@ -82,18 +89,21 @@ public class panelOfNews extends JPanel {
                 public void mouseReleased(MouseEvent e) {
                     cell.getLblIMGNews().setForeground(Color.red);
                     cell.getLblTittle().setForeground(Color.red);
+                    cell.getLblDes().setForeground(Color.red);
                 }
 
                 @Override
                 public void mouseEntered(MouseEvent e) {
                     cell.getLblIMGNews().setForeground(Color.red);
                     cell.getLblTittle().setForeground(Color.red);
+                    cell.getLblDes().setForeground(Color.red);
                 }
 
                 @Override
                 public void mouseExited(MouseEvent e) {
                     cell.getLblIMGNews().setForeground(Color.black);
                     cell.getLblTittle().setForeground(Color.black);
+                    cell.getLblDes().setForeground(Color.black);
                 }
 
             });

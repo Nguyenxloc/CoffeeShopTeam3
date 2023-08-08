@@ -97,7 +97,7 @@ public class Form_ChamCong extends javax.swing.JPanel implements Runnable {
 
     private void chamCongGioVao() {
         if (validateData()) {
-            NhanVien nv = nhanVineService.selectByID(txtMaNhanVien.getText().trim());
+            NhanVien nv = nhanVineService.selectByMa(txtMaNhanVien.getText().trim());
 
             lblHoTenNV.setText(nv.getHo() + " " + nv.getTenDem() + " " + nv.getTen());
             lblGioiTinh.setText(nv.getGioiTinh());
@@ -139,7 +139,7 @@ public class Form_ChamCong extends javax.swing.JPanel implements Runnable {
     private void chamCongGioRa() {
         if (validateData()) {
 
-            NhanVien nv = nhanVineService.selectByID(txtMaNhanVien.getText().trim());
+            NhanVien nv = nhanVineService.selectByMa(txtMaNhanVien.getText().trim());
             lblHoTenNV.setText(nv.getHo() + " " + nv.getTenDem() + " " + nv.getTen());
             setTime();
             byte[] hinhAnh = nv.getImg();
@@ -176,7 +176,7 @@ public class Form_ChamCong extends javax.swing.JPanel implements Runnable {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(now);
 
-        NhanVien nv = nhanVineService.selectByID(txtMaNhanVien.getText().trim());
+        NhanVien nv = nhanVineService.selectByMa(txtMaNhanVien.getText().trim());
         if (nv == null) {
             JOptionPane.showMessageDialog(this, "Lỗi để trốn dữ liệu");
             return null;
@@ -209,7 +209,7 @@ public class Form_ChamCong extends javax.swing.JPanel implements Runnable {
         ChamCong chamCong = new ChamCong();
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(now);
-        NhanVien nv = nhanVineService.selectByID(txtMaNhanVien.getText().trim());
+        NhanVien nv = nhanVineService.selectByMa(txtMaNhanVien.getText().trim());
         if (nv == null) {
             JOptionPane.showMessageDialog(this, "Lỗi để trốn dữ liệu");
             return null;

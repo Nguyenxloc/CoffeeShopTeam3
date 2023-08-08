@@ -4,6 +4,13 @@
  */
 package com.view.form_Template;
 
+import SingletonClass.LstChiTietDoUong_singleton;
+import SingletonClass.LstNews_singleton;
+import com.view.component.paneOfProduct;
+import com.view.component.panelOfNews;
+import java.util.ArrayList;
+import model.News;
+
 /**
  *
  * @author 84374
@@ -13,10 +20,28 @@ public class Form_ThongBao extends javax.swing.JPanel {
     /**
      * Creates new form Form_ThongBao
      */
+    private panelOfNews paneNews;
+    private ArrayList<News> lstNews;
     public Form_ThongBao() {
         initComponents();
+        jScrollPane1.setBorder(null);
+        this.setBorder(null);
+        reLoadProduct();
     }
+    private void reLoadProduct() {
+        lstNews = LstNews_singleton.getInstance().lstNews;
+        paneNews = new panelOfNews(lstNews);
+        jScrollPane1.setViewportView(paneNews);
+        jScrollPane1.getViewport().repaint();
+        jScrollPane1.getViewport().revalidate();
+    }
+//gọi từ service list sản phầm theo order by desc để sql trả về danh sách từng loại đồ uống
 
+    public void LoadlstProduct() {
+//        lstChiTietDoUongs.clear();
+//        lstChiTietDoUongs = LstChiTietDoUong_singleton.getInstance().lstChiTietDoUongs;
+        reLoadProduct();
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -28,27 +53,36 @@ public class Form_ThongBao extends javax.swing.JPanel {
 
         jPanel1 = new javax.swing.JPanel();
         bachGroundColor1 = new com.view.component.WeatherPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
-        bachGroundColor1.setColor1(new java.awt.Color(204, 51, 0));
-        bachGroundColor1.setColor2(new java.awt.Color(255, 51, 0));
+        bachGroundColor1.setColor1(new java.awt.Color(107, 175, 169));
+        bachGroundColor1.setColor2(new java.awt.Color(107, 175, 169));
+
+        jScrollPane1.setBorder(javax.swing.BorderFactory.createCompoundBorder());
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(550, Short.MAX_VALUE)
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 453, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 79, Short.MAX_VALUE)
                 .addComponent(bachGroundColor1, javax.swing.GroupLayout.PREFERRED_SIZE, 498, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(45, 45, 45))
+                .addGap(57, 57, 57))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(bachGroundColor1, javax.swing.GroupLayout.DEFAULT_SIZE, 684, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 685, Short.MAX_VALUE)
+                .addContainerGap(11, Short.MAX_VALUE))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(31, 31, 31)
+                .addComponent(bachGroundColor1, javax.swing.GroupLayout.PREFERRED_SIZE, 644, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -71,5 +105,6 @@ public class Form_ThongBao extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private com.view.component.WeatherPanel bachGroundColor1;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 }
