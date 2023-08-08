@@ -47,7 +47,7 @@ public class DanhSachChamCongDAO {
                 + "	SUM(DATEDIFF(HOUR, [GioVao], [GioRa])) * ([CapBac].LuongPartime) as Luong\n"
                 + "FROM [dbo].[ChamCong] \n"
                 + "JOIN [dbo].[NhanVien] ON [NhanVien].[Id] = [ChamCong].[IdNV] join CapBac on CapBac.Id=NhanVien.IdCB\n"
-                + "where ([Ngay] BETWEEN ? and ?) \n"
+                + "where (convert(varchar, ChamCong.Ngay, 105) BETWEEN ? and ?) \n"
                 + "group by ChamCong.IdNV,[NhanVien].Ten,[CapBac].LuongPartime";
         try ( Connection con = connection1.getConnection();  PreparedStatement st = con.prepareStatement(sql)) {
             st.setObject(1, ngayA);

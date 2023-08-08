@@ -8,6 +8,7 @@ import com.view.DAO1.DanhSachChamCongDAO;
 import com.view.model.ChamCongK;
 import com.view.model.LuongK;
 import java.util.ArrayList;
+import javax.swing.JTextField;
 import javax.swing.RowFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
@@ -53,10 +54,10 @@ public class TinhLuongNhanVien extends javax.swing.JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         tblLuong = new javax.swing.JTable();
         jLabel2 = new javax.swing.JLabel();
-        txtNgayA = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        txtNgayB = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
+        txtNgayA = new com.toedter.calendar.JDateChooser();
+        txtNgayB = new com.toedter.calendar.JDateChooser();
 
         txtSearch.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
@@ -127,6 +128,10 @@ public class TinhLuongNhanVien extends javax.swing.JPanel {
             }
         });
 
+        txtNgayA.setDateFormatString("dd-MM-yyyy");
+
+        txtNgayB.setDateFormatString("dd-MM-yyyy");
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -134,34 +139,37 @@ public class TinhLuongNhanVien extends javax.swing.JPanel {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(52, 52, 52)
-                        .addComponent(jLabel2)
-                        .addGap(18, 18, 18)
-                        .addComponent(txtNgayA, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(60, 60, 60)
-                        .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtNgayB, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(133, 133, 133)
-                        .addComponent(jButton1))
-                    .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGap(29, 29, 29)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 757, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(343, 343, 343)
-                        .addComponent(jLabel4)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(52, 52, 52)
+                        .addComponent(jLabel2)
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addGap(228, 228, 228)
+                                .addComponent(jLabel4))
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addComponent(txtNgayA, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(50, 50, 50)
+                                .addComponent(jLabel3)
+                                .addGap(18, 18, 18)
+                                .addComponent(txtNgayB, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(117, 117, 117)
+                                .addComponent(jButton1)))))
+                .addContainerGap(28, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(28, 28, 28)
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(txtNgayA, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3)
-                    .addComponent(txtNgayB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1))
+                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel2)
+                        .addComponent(jLabel3)
+                        .addComponent(jButton1))
+                    .addComponent(txtNgayB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
                 .addComponent(jLabel4)
                 .addGap(30, 30, 30)
@@ -215,9 +223,13 @@ public class TinhLuongNhanVien extends javax.swing.JPanel {
 
     
     private void loadLuong() {
-         String nA = txtNgayA.getText();
-        String nB = txtNgayB.getText();
-         ArrayList<LuongK> list = congDAO.getLuong(nA, nB);
+//         String nA = txtNgayC.getText();
+//        String nB = txtNgayD.getText();
+        
+        String d1 = ((JTextField) txtNgayA.getDateEditor().getUiComponent()).getText();
+        String d2 = ((JTextField) txtNgayB.getDateEditor().getUiComponent()).getText();
+        
+         ArrayList<LuongK> list = congDAO.getLuong(d1, d2);
          defaultTableModel = (DefaultTableModel) tblLuong.getModel();
          defaultTableModel.setRowCount(0);
          for (LuongK c : list) {
@@ -241,8 +253,8 @@ public class TinhLuongNhanVien extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable tblFormDanhSach;
     private javax.swing.JTable tblLuong;
-    private javax.swing.JTextField txtNgayA;
-    private javax.swing.JTextField txtNgayB;
+    private com.toedter.calendar.JDateChooser txtNgayA;
+    private com.toedter.calendar.JDateChooser txtNgayB;
     private javax.swing.JTextField txtSearch;
     // End of variables declaration//GEN-END:variables
 

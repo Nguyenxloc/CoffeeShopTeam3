@@ -5,6 +5,7 @@
 package com.view.model;
 
 import java.sql.Date;
+import java.text.SimpleDateFormat;
 
 /**
  *
@@ -48,8 +49,9 @@ public class ChamCongK {
         this.ten = ten;
     }
 
-    public Date getNgay() {
-        return ngay;
+    public String getNgay() {
+         SimpleDateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+        return df.format(ngay);
     }
 
     public void setNgay(Date ngay) {
