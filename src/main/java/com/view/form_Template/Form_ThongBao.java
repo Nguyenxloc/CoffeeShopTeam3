@@ -7,7 +7,7 @@ package com.view.form_Template;
 import SingletonClass.LstChiTietDoUong_singleton;
 import SingletonClass.LstNews_singleton;
 import com.view.component.paneOfProduct;
-import com.view.component.panelOfNews;
+import com.view.component.NewsPanel;
 import java.util.ArrayList;
 import model.News;
 
@@ -20,7 +20,7 @@ public class Form_ThongBao extends javax.swing.JPanel {
     /**
      * Creates new form Form_ThongBao
      */
-    private panelOfNews paneNews;
+    private NewsPanel paneNews;
     private ArrayList<News> lstNews;
     public Form_ThongBao() {
         initComponents();
@@ -30,7 +30,7 @@ public class Form_ThongBao extends javax.swing.JPanel {
     }
     private void reLoadProduct() {
         lstNews = LstNews_singleton.getInstance().lstNews;
-        paneNews = new panelOfNews(lstNews);
+        paneNews = new NewsPanel(lstNews);
         jScrollPane1.setViewportView(paneNews);
         jScrollPane1.getViewport().repaint();
         jScrollPane1.getViewport().revalidate();

@@ -5,6 +5,7 @@
 package com.view.component;
 
 import SingletonClass.LstChiTietDoUong_singleton;
+import SingletonClass.LstNews_singleton;
 import model.ChiTietDoUong;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -33,7 +34,7 @@ import viewModel.ChiTietDoUongNoIMG;
  *
  * @author 84374
  */
-public class panelOfNews extends JPanel {
+public class NewsPanel extends JPanel {
 //        setLayout(new BorderLayout());
 //        add(BorderLayout.WEST, new JScrollPane(paneOfProduct1));
 //        paneOfProduct1.setVisible(true);
@@ -42,7 +43,7 @@ public class panelOfNews extends JPanel {
     static News localNews = new News();
 
 //    public panelOfNews(ArrayList<News> lstNews) {
-    public panelOfNews(ArrayList<News> lstNews) {
+    public NewsPanel(ArrayList<News> lstNews) {
         BoxLayout boxLayout = new BoxLayout(this, BoxLayout.Y_AXIS);
         this.setLayout(boxLayout);
         for (int i = 0; i < lstNews.size(); i++) {
@@ -60,7 +61,7 @@ public class panelOfNews extends JPanel {
 //                    localNews = LstChiTietDoUong_singleton.getInstance().lstChiTietDoUongs.get(index);
                     java.awt.EventQueue.invokeLater(new Runnable() {
                         public void run() {
-                            ///show news panel
+                             new NewsDetailFrame(LstNews_singleton.getInstance().lstNews.get(index)).setVisible(true);
                         }
                     });
 //////////////////////handling  folow old style, too much risk                    

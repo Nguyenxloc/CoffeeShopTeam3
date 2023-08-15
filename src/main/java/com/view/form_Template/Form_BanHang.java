@@ -267,8 +267,10 @@ public class Form_BanHang extends javax.swing.JPanel {
         addToTblAtLast(modelHoaDonTbl, LstHoaDonCho_SingLeTon.getInstance().lstHoaDonCho.get(count));
         removeToTblAtIndex(modelHoaDonChoTbl, count);
         popArrayAtIndex(LstHoaDonCho_SingLeTon.getInstance().lstHoaDonCho, count);
-        LstHoaDonDangPhaChe_singleton.getInstance().lstHoaDonDangPhaChe.add(hoaDon);
-        addToTblAtLast(modelHoaDonDangPhaCheTbl, hoaDon);
+        if (hoaDon.getTrangThaiPhaChe() == 0) {
+            LstHoaDonDangPhaChe_singleton.getInstance().lstHoaDonDangPhaChe.add(hoaDon);
+            addToTblAtLast(modelHoaDonDangPhaCheTbl, hoaDon);
+        }
 
 //        loadHoaDonTbl();
 //        loadHoaDonChoTbl();
@@ -306,6 +308,9 @@ public class Form_BanHang extends javax.swing.JPanel {
 
     public void showDetailHoaDonTab() {
         tblHoaDonCho.clearSelection();
+        tblDangPhaChe.clearSelection();
+        countHoaDonDangPhaCheTbl = -1;
+        countHoaDonChoTbl = -1;
         countHoaDonTbl = tblHoaDon.getSelectedRow();
         String checkStt;
         lblMaHD.setText(LstHoaDon_singleton.getInstance().lstHoaDon.get(countHoaDonTbl).getMa());
@@ -331,6 +336,9 @@ public class Form_BanHang extends javax.swing.JPanel {
 
     public void showDetailHoaDonTab_Waiting() {
         tblHoaDon.clearSelection();
+        tblDangPhaChe.clearSelection();
+        countHoaDonTbl = -1;
+        countHoaDonDangPhaCheTbl = -1;
         countHoaDonChoTbl = tblHoaDonCho.getSelectedRow();
         System.out.println(LstHoaDonCho_SingLeTon.getInstance().lstHoaDonCho.get(countHoaDonChoTbl));
         String checkStt;
@@ -358,6 +366,8 @@ public class Form_BanHang extends javax.swing.JPanel {
     public void showDetailHoaDonDangPhaCheTab() {
         tblHoaDonCho.clearSelection();
         tblHoaDon.clearSelection();
+        countHoaDonChoTbl = -1;
+        countHoaDonTbl = -1;
         countHoaDonDangPhaCheTbl = tblDangPhaChe.getSelectedRow();
         String checkStt;
         lblMaHD.setText(LstHoaDonDangPhaChe_singleton.getInstance().lstHoaDonDangPhaChe.get(countHoaDonDangPhaCheTbl).getMa());
@@ -465,7 +475,15 @@ public class Form_BanHang extends javax.swing.JPanel {
             new String [] {
                 "STT", "Mã HĐ", "Bàn", "Thanh Toán", "Pha chế"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         tblDangPhaChe.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tblDangPhaCheMouseClicked(evt);
@@ -486,7 +504,15 @@ public class Form_BanHang extends javax.swing.JPanel {
             new String [] {
                 "STT", "Mã HĐ", "Bàn", "Thanh Toán", "Pha chế"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         tblHoaDonCho.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tblHoaDonChoMouseClicked(evt);
@@ -525,7 +551,15 @@ public class Form_BanHang extends javax.swing.JPanel {
             new String [] {
                 "STT", "Mã HĐ", "Bàn", "Thanh Toán", "Pha chế"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         tblHoaDon.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tblHoaDonMouseClicked(evt);
@@ -552,7 +586,15 @@ public class Form_BanHang extends javax.swing.JPanel {
             new String [] {
                 "STT", "Tên", "Số lượng", "Đơn giá", "Thành tiền"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane3.setViewportView(tblDrinkDetail);
 
         btnCheck.setText("Thanh toán");
@@ -847,7 +889,13 @@ public class Form_BanHang extends javax.swing.JPanel {
 
     private void btnWatingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnWatingActionPerformed
         // TODO add your handling code here:
-        moveToHoaDonChoTbl();
+        try {
+            moveToHoaDonChoTbl();
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn hóa đơn trước !");
+        }
+
 //        loadHoaDonDangPhaChe();
     }//GEN-LAST:event_btnWatingActionPerformed
 
@@ -857,13 +905,13 @@ public class Form_BanHang extends javax.swing.JPanel {
             moveToHoaDon();
         } catch (Exception e) {
             e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn hóa đơn chờ trước !");
         }
 
     }//GEN-LAST:event_btnUseActionPerformed
 
     private void tblHoaDonChoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblHoaDonChoMouseClicked
         // TODO add your handling code here:
-        countHoaDonTbl = -1;
         showDetailHoaDonTab_Waiting();
         showLstDrink();
     }//GEN-LAST:event_tblHoaDonChoMouseClicked
@@ -876,7 +924,13 @@ public class Form_BanHang extends javax.swing.JPanel {
 
     private void btnCompleteOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCompleteOrderActionPerformed
         // TODO add your handling code here:
-        hoanThanhPhaChe();
+        try {
+            hoanThanhPhaChe();
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn hóa đơn đang pha chế trước !");
+        }
+
     }//GEN-LAST:event_btnCompleteOrderActionPerformed
 
     private void btnCheckActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCheckActionPerformed

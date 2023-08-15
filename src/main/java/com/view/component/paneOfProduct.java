@@ -68,18 +68,6 @@ public class paneOfProduct extends JPanel {
                             new EnterAmountFrame(drinkDetailNoIMG, localTbl, localLblCheck).setVisible(true);
                         }
                     });
-//////////////////////handling  folow old style, too much risk                    
-//                    System.out.println("source: "+ e.getSource());
-//                    System.out.println(e.getComponent().getX());
-//                    System.out.println(e.getComponent().getY());
-//                    System.out.println((e.getComponent().getX() / 198) + 1);
-//                    System.out.println((e.getComponent().getY() / 289) + 1);
-//                    int colNum = (e.getComponent().getX() / 198) + 1;
-//                    int rowNum = (e.getComponent().getY() / 289) + 1;
-//                    int index = 4 * (rowNum - 1) + (colNum);
-//                    System.out.println("index: " + index);
-//                    System.out.println(getFromSelectedProduct(index - 1).getName());
-//////////////////////
                 }
 
                 @Override
@@ -87,7 +75,6 @@ public class paneOfProduct extends JPanel {
                     cell.getLblNameProduct().setForeground(Color.blue);
                     cell.getLblPriceProduct().setForeground(Color.blue);
                     cell.getLblDes().setForeground(Color.blue);
-
                 }
 
                 @Override
@@ -116,9 +103,6 @@ public class paneOfProduct extends JPanel {
         }
     }
 
-//    public static Person getFromSelectedProduct(int count) {
-//        return lstPerson.get(count);
-//    }
     public static void MoveToHDChiTiet(int count) {
         //////lấy id sản phẩm rồi chuyển sang hóa đơn chi tiết;
     }
