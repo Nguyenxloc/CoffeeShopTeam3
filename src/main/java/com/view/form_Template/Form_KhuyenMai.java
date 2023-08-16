@@ -4,11 +4,13 @@
  */
 package com.view.form_Template;
 
+import DoUong_HoaDon_ThongKe_Model.LichSuHoaDon;
 import DoUong_HoaDon_ThongKe_Model.LoaiDoUong;
 import DoUong_HoaDon_ThongKe_Service.LoaiDoUongService;
 
 import com.view.form_Template.*;
 import DoUong_HoaDon_ThongKe_Model.LoaiDoUong;
+import DoUong_HoaDon_ThongKe_Service.LichSuHoaDonService;
 import com.view.form.ThemSanPhamGiamGiaJDialog;
 import model.ChiTietDoUong;
 
@@ -25,9 +27,11 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import model.CapBac;
+import model.HoaDon;
 import model.KhuyenMai;
 import model.TaiKhoan;
 import service.ChiTietDoUongService_Master;
+import service.HoaDonService;
 import service.SaleService;
 import service.TaoTaiKhoanService;
 
@@ -37,22 +41,19 @@ import service.TaoTaiKhoanService;
  */
 public class Form_KhuyenMai extends javax.swing.JPanel {
 
+    // Service Sale
     private SaleService service = new SaleService();
-    private ChiTietDoUongService_Master chiTietDoUongService = new ChiTietDoUongService_Master();
-    private LoaiDoUongService loadDoUongService = new LoaiDoUongService();
     private ArrayList<KhuyenMai> listSale = new ArrayList<>();
-    private ArrayList<ChiTietDoUong> listChiTietSP = new ArrayList<>();
-    private ArrayList<LoaiDoUong> listLoaiDoUong = new ArrayList<>();
-    private int row;
+    // Service HoaDon
+    private HoaDonService hoaDonService = new HoaDonService();
+    ArrayList<HoaDon> listHoaDon = new ArrayList<>();
 
     public Form_KhuyenMai() {
         initComponents();
         fillToTableKhuyenMai();
         fillComboboxLoaiKM();
         fillComboboxTrangThai();
-        fillComboboxLoaiSP();
-//        fillComboboxTrangThaiSale();
-
+        loadData();
     }
 
     // Chức năng load dữ liệu lên bảng Khuyến mại
@@ -71,41 +72,6 @@ public class Form_KhuyenMai extends javax.swing.JPanel {
         listKM = service.selectALLByTrangThai(trangThai);
         for (KhuyenMai km : listKM) {
             model.addRow(new Object[]{km.getMaKM(), km.getTenKM(), km.getLoaiKM(), km.getGiaTri(), km.getTrangThai()});
-        }
-    }
-
-    // Chức năng load dữ liệu lên bảng CHi Tiet Do Uong
-    private void fillToTableSanPhamDoUong() {
-        DefaultTableModel model = (DefaultTableModel) tblSanPham.getModel();
-        model.setRowCount(0);
-
-        row = tblKhuyenMai.getSelectedRow();
-        if (row == -1) {
-            listChiTietSP = chiTietDoUongService.getListChiTietDoUong();
-        } else {
-            String maKM = tblKhuyenMai.getValueAt(row, 0).toString();
-            listChiTietSP = chiTietDoUongService.selectAllByMaGiamGia(maKM);
-        }
-        DecimalFormat decimalFormat = new DecimalFormat("#,### VND");
-        System.out.println(listChiTietSP);
-        for (ChiTietDoUong ctdu : listChiTietSP) {
-            String loaiKM = ctdu.getKhuyenMai().getLoaiKM();
-            if (loaiKM.equals("%")) {
-                String formattedNumber = decimalFormat.format(ctdu.getGiaBan());
-                double giaBan = ctdu.getGiaBan();
-                double giaTriGiamGia = ctdu.getKhuyenMai().getGiaTri();
-                double giaTriDaGiamGia = giaBan - (giaBan * (giaTriGiamGia / 100));
-                String formattedNumber2 = decimalFormat.format(giaTriDaGiamGia);
-
-                model.addRow(new Object[]{ctdu.getId(), ctdu.getTenDoUong(), formattedNumber, formattedNumber2});
-            } else {
-                String formattedNumber = decimalFormat.format(ctdu.getGiaBan());
-                double giaBan = ctdu.getGiaBan();
-                double giaTriGiamGia = ctdu.getKhuyenMai().getGiaTri();
-                double giaTriDaGiamGia = giaBan - giaTriGiamGia;
-                String formattedNumber2 = decimalFormat.format(giaTriDaGiamGia);
-                model.addRow(new Object[]{ctdu.getId(), ctdu.getTenDoUong(), formattedNumber, formattedNumber2});
-            }
         }
     }
 
@@ -133,14 +99,59 @@ public class Form_KhuyenMai extends javax.swing.JPanel {
         }
     }
 
-    //Chức năng load dữ liệu loại sản phẩm lên Combobox
-    private void fillComboboxLoaiSP() {
-        DefaultComboBoxModel model = (DefaultComboBoxModel) cboLoaiSP.getModel();
-        model.removeAllElements();
-        listLoaiDoUong = loadDoUongService.selectALl();
-        model.addElement("Tất cả");
-        for (LoaiDoUong ldu : listLoaiDoUong) {
-            model.addElement(ldu.getTenLoaiDoUong());
+    // Load dữ liệu lên table
+    public void loadData() {
+        try {
+            DefaultTableModel model = (DefaultTableModel) tblHoaDon.getModel();
+            model.setRowCount(0);
+            listHoaDon = hoaDonService.selectHoaDonBySale();
+            String hoTenNV = "";
+            for (HoaDon hd : listHoaDon) {
+                hoTenNV = hd.getNhanVien().getHo() + " " + hd.getNhanVien().getTenDem() + " " + hd.getNhanVien().getTen();
+                model.addRow(new Object[]{
+                    hd.getMa(),
+                    hd.getNgayTao(),
+                    hd.getTinhTrangThanhToan() == 1 ? "Đã thanh toán" : "Chưa thanh toán",
+                    hd.getMaGiamGia().getMaKM(),
+                    hoTenNV
+                });
+                ;
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void loadDataByMaKM() {
+        try {
+
+            int row = tblKhuyenMai.getSelectedRow();
+            if (row == -1) {
+                JOptionPane.showMessageDialog(this, ":Vui lòng chọn vào 1 dòng trên table");
+                return;
+            }
+
+            String maKM = tblKhuyenMai.getValueAt(row, 0).toString();
+
+            DefaultTableModel model = (DefaultTableModel) tblHoaDon.getModel();
+            model.setRowCount(0);
+            listHoaDon = hoaDonService.selectHoaDonByMaGiamGia(maKM);
+            String hoTenNV = "";
+            for (HoaDon hd : listHoaDon) {
+                hoTenNV = hd.getNhanVien().getHo() + " " + hd.getNhanVien().getTenDem() + " " + hd.getNhanVien().getTen();
+                model.addRow(new Object[]{
+                    hd.getMa(),
+                    hd.getNgayTao(),
+                    hd.getTinhTrangThanhToan() == 1 ? "Đã thanh toán" : "Chưa thanh toán",
+                    hd.getMaGiamGia().getMaKM(),
+                    hoTenNV
+                });
+                ;
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -268,7 +279,7 @@ public class Form_KhuyenMai extends javax.swing.JPanel {
     }
 
     // Chức năng tìm kiếm trong bảng khuyến mại
-    private void serchKhuyenMai() {
+    private void searchKhuyenMai() {
         DefaultTableModel model = (DefaultTableModel) tblKhuyenMai.getModel();
         TableRowSorter<DefaultTableModel> search = new TableRowSorter<>(model);
         tblKhuyenMai.setRowSorter(search);
@@ -276,14 +287,14 @@ public class Form_KhuyenMai extends javax.swing.JPanel {
     }
 
     // Chức năng tìm kiếm
-    private void serchSP() {
-        DefaultTableModel model = (DefaultTableModel) tblSanPham.getModel();
+    private void searchHoaDon() {
+        DefaultTableModel model = (DefaultTableModel) tblHoaDon.getModel();
         TableRowSorter<DefaultTableModel> search = new TableRowSorter<>(model);
-        tblSanPham.setRowSorter(search);
-        search.setRowFilter(javax.swing.RowFilter.regexFilter(txtTimSP.getText()));
+        tblHoaDon.setRowSorter(search);
+        search.setRowFilter(javax.swing.RowFilter.regexFilter(txtTimHD.getText()));
     }
-    //Chức năng lọc dữ liệu
 
+    //Chức năng validate Form
     private boolean validateForm() {
         // Validate để trống trường dữ liệu
         if (txtMaKM.getText().trim().equals("")) {
@@ -458,64 +469,7 @@ public class Form_KhuyenMai extends javax.swing.JPanel {
 
     }
 
-    // Lọc dữ liệu theo ComboBox 
-    public void timKiem() {
-        String tenDoUong = txtTimSP.getText();
-        if (tenDoUong.equalsIgnoreCase("")) {
-            tenDoUong = null;
-        }
-        int count = cboLoaiSP.getSelectedIndex();
-        String idLoaiDoUong = listLoaiDoUong.get(count).getId();
-        double giaBatDau = 0;
-        double giaKetThuc = 0;
-//        try {
-//            giaBatDau = Double.parseDouble(txtStartPrice.getText());
-//        } catch (Exception e) {
-//            giaBatDau = 0;
-//        }
-//        
-//        try {
-//             giaKetThuc = Double.parseDouble(txtEndPrice.getText());
-//        } catch (Exception e) {
-//             giaKetThuc = 0;
-//        }
-
-        try {
-            DefaultTableModel model = new DefaultTableModel();
-            model = (DefaultTableModel) tblSanPham.getModel();
-            model.setRowCount(0);
-            listChiTietSP = chiTietDoUongService.getTimKiem(tenDoUong, idLoaiDoUong, giaBatDau, giaKetThuc);
-            int i = 1;
-            for (ChiTietDoUong chiTietDoUong : listChiTietSP) {
-                model.addRow(new Object[]{
-                    i++,
-                    chiTietDoUong.getTenDoUong(),
-                    chiTietDoUong.getLoaiDoUong().getTenLoaiDoUong(),
-                    chiTietDoUong.getGiaNhap(),
-                    chiTietDoUong.getGiaBan(),
-                    chiTietDoUong.getMoTa(),});
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void filteDataByLoaiKM() {
-//        ArrayList<KhuyenMai> filteredList;
-//
-//        if (loaiKM.equals("Tất cả")) {
-//            filteredList = service.selectALL();
-//        } else if (loaiKM.equals("%")) {
-//            filteredList = service.selectALLByLoaiKM(loaiKM, "");
-//        } else if (loaiKM.equals("Tiền")) {
-//            filteredList = service.selectALLByLoaiKM(loaiKM, "");
-//        } else {
-//            filteredList = new ArrayList<>(); // Xử lý tùy thuộc vào trường hợp không khớp với giá trị nào
-//        }
-
-        //fillToTableKhuyenMai(filteredList);
-    }
-
+    // Lọc dữ liệu theo ComboBox
     private void setDataTabeleByStatus() {
         cboLoaiKM.setSelectedItem("Tất cả");
         Object selectedStatus = cboStatus.getSelectedItem(); // Lấy giá trị được chọn
@@ -527,6 +481,7 @@ public class Form_KhuyenMai extends javax.swing.JPanel {
                 fillToTableKhuyenMaiByTrangThai(trangThai, listKM);
             } else {
                 fillToTableKhuyenMai();
+                loadData();
             }
         }
 
@@ -571,14 +526,12 @@ public class Form_KhuyenMai extends javax.swing.JPanel {
         btnTimKM = new javax.swing.JButton();
         cboStatus = new javax.swing.JComboBox<>();
         jLabel57 = new javax.swing.JLabel();
-        txtTimSP = new javax.swing.JTextField();
+        txtTimHD = new javax.swing.JTextField();
         btnTimSp = new javax.swing.JButton();
-        jLabel58 = new javax.swing.JLabel();
-        cboLoaiSP = new javax.swing.JComboBox<>();
-        jScrollPane10 = new javax.swing.JScrollPane();
-        tblSanPham = new javax.swing.JTable();
         jScrollPane11 = new javax.swing.JScrollPane();
         tblKhuyenMai = new javax.swing.JTable();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tblHoaDon = new javax.swing.JTable();
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -781,11 +734,11 @@ public class Form_KhuyenMai extends javax.swing.JPanel {
         });
 
         jLabel57.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel57.setText("Tìm sản phẩm");
+        jLabel57.setText("Tìm kiếm:");
 
-        txtTimSP.addKeyListener(new java.awt.event.KeyAdapter() {
+        txtTimHD.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
-                txtTimSPKeyReleased(evt);
+                txtTimHDKeyReleased(evt);
             }
         });
 
@@ -795,35 +748,6 @@ public class Form_KhuyenMai extends javax.swing.JPanel {
                 btnTimSpActionPerformed(evt);
             }
         });
-
-        jLabel58.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel58.setText("Loại Sản phẩm");
-
-        cboLoaiSP.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        tblSanPham.setBackground(new java.awt.Color(255, 255, 255));
-        tblSanPham.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-                "Mã SP", "Tên SP", "Giá cũ", "Giá mới"
-            }
-        ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false
-            };
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        tblSanPham.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tblSanPhamMouseClicked(evt);
-            }
-        });
-        jScrollPane10.setViewportView(tblSanPham);
 
         tblKhuyenMai.setBackground(new java.awt.Color(255, 255, 255));
         tblKhuyenMai.setModel(new javax.swing.table.DefaultTableModel(
@@ -849,6 +773,31 @@ public class Form_KhuyenMai extends javax.swing.JPanel {
         });
         jScrollPane11.setViewportView(tblKhuyenMai);
 
+        tblHoaDon.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
+            },
+            new String [] {
+                "Mã hóa đơn", "TG tạo", "Tình trạng thanh toán", "Mã KM", "Họ tên nhân viên"
+            }
+        ));
+        tblHoaDon.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        tblHoaDon.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblHoaDonMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tblHoaDon);
+
         javax.swing.GroupLayout jPanel12Layout = new javax.swing.GroupLayout(jPanel12);
         jPanel12.setLayout(jPanel12Layout);
         jPanel12Layout.setHorizontalGroup(
@@ -856,9 +805,7 @@ public class Form_KhuyenMai extends javax.swing.JPanel {
             .addGroup(jPanel12Layout.createSequentialGroup()
                 .addGap(10, 10, 10)
                 .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel12Layout.createSequentialGroup()
-                        .addComponent(jScrollPane10)
-                        .addContainerGap())
+                    .addComponent(jScrollPane1)
                     .addGroup(jPanel12Layout.createSequentialGroup()
                         .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(jScrollPane11, javax.swing.GroupLayout.Alignment.LEADING)
@@ -874,17 +821,12 @@ public class Form_KhuyenMai extends javax.swing.JPanel {
                                     .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(jLabel56)
                                         .addComponent(cboStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGroup(jPanel12Layout.createSequentialGroup()
-                                    .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jLabel57, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGroup(jPanel12Layout.createSequentialGroup()
-                                            .addComponent(txtTimSP, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addGap(18, 18, 18)
-                                            .addComponent(btnTimSp, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                    .addGap(38, 38, 38)
-                                    .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jLabel58, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(cboLoaiSP, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel57, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(jPanel12Layout.createSequentialGroup()
+                                        .addComponent(txtTimHD, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(btnTimSp, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                         .addGap(0, 19, Short.MAX_VALUE))))
         );
         jPanel12Layout.setVerticalGroup(
@@ -903,16 +845,13 @@ public class Form_KhuyenMai extends javax.swing.JPanel {
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane11, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(9, 9, 9)
-                .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel57)
-                    .addComponent(jLabel58))
+                .addComponent(jLabel57)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtTimSP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnTimSp)
-                    .addComponent(cboLoaiSP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane10, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtTimHD, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnTimSp))
+                .addGap(33, 33, 33)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 217, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -937,11 +876,6 @@ public class Form_KhuyenMai extends javax.swing.JPanel {
         deleteKhuyeMai();
     }//GEN-LAST:event_btnXoaActionPerformed
 
-    // chức năng Lấy giá trị trong bảng Table
-    private void tblSanPhamMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblSanPhamMouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tblSanPhamMouseClicked
-
     private void btnCapNhatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCapNhatActionPerformed
         // TODO add your handling code here:
         clearForm();
@@ -949,12 +883,12 @@ public class Form_KhuyenMai extends javax.swing.JPanel {
 
     private void txtTimKMKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTimKMKeyReleased
         // TODO add your handling code here:
-        serchKhuyenMai();
+        searchKhuyenMai();
     }//GEN-LAST:event_txtTimKMKeyReleased
 
     private void btnTimKMActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTimKMActionPerformed
         // TODO add your handling code here:
-        serchKhuyenMai();
+        searchKhuyenMai();
     }//GEN-LAST:event_btnTimKMActionPerformed
 
     private void btnThem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThem1ActionPerformed
@@ -962,20 +896,14 @@ public class Form_KhuyenMai extends javax.swing.JPanel {
         addKhuyenMai();
     }//GEN-LAST:event_btnThem1ActionPerformed
 
-    private void txtTimSPKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTimSPKeyReleased
+    private void txtTimHDKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTimHDKeyReleased
         // TODO add your handling code here:
-        serchSP();
-    }//GEN-LAST:event_txtTimSPKeyReleased
+        searchHoaDon();
+    }//GEN-LAST:event_txtTimHDKeyReleased
 
     private void btnTimSpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTimSpActionPerformed
-        row = tblKhuyenMai.getSelectedRow();
-        if (row == -1) {
-            listChiTietSP = chiTietDoUongService.getListChiTietDoUong();
-        } else {
-            String maKM = tblKhuyenMai.getValueAt(row, 0).toString();
-            listChiTietSP = chiTietDoUongService.selectAllByMaGiamGia(maKM);
-        }
-        timKiem();
+        searchHoaDon();
+
     }//GEN-LAST:event_btnTimSpActionPerformed
 
     private void btnCapNhat1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCapNhat1ActionPerformed
@@ -986,6 +914,8 @@ public class Form_KhuyenMai extends javax.swing.JPanel {
     private void tblKhuyenMaiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblKhuyenMaiMouseClicked
         // TODO add your handling code here:
         setForm();
+        loadDataByMaKM();
+
 
     }//GEN-LAST:event_tblKhuyenMaiMouseClicked
 
@@ -994,6 +924,10 @@ public class Form_KhuyenMai extends javax.swing.JPanel {
         // TODO add your handling code here:
         setDataTabeleByStatus();
     }//GEN-LAST:event_cboStatusActionPerformed
+
+    private void tblHoaDonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblHoaDonMouseClicked
+
+    }//GEN-LAST:event_tblHoaDonMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -1005,7 +939,6 @@ public class Form_KhuyenMai extends javax.swing.JPanel {
     private javax.swing.JButton btnXoa;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JComboBox<String> cboLoaiKM;
-    private javax.swing.JComboBox<String> cboLoaiSP;
     private javax.swing.JComboBox<String> cboStatus;
     private javax.swing.JComboBox<String> cboTrangThai;
     private javax.swing.JLabel jLabel12;
@@ -1020,20 +953,19 @@ public class Form_KhuyenMai extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel54;
     private javax.swing.JLabel jLabel56;
     private javax.swing.JLabel jLabel57;
-    private javax.swing.JLabel jLabel58;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel12;
-    private javax.swing.JScrollPane jScrollPane10;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane11;
+    private javax.swing.JTable tblHoaDon;
     private javax.swing.JTable tblKhuyenMai;
-    private javax.swing.JTable tblSanPham;
     private javax.swing.JTextField txtGiaTriKM;
     private javax.swing.JTextField txtMaKM;
     private com.toedter.calendar.JDateChooser txtNgayBatDau;
     private com.toedter.calendar.JDateChooser txtNgayKetThuc;
     private javax.swing.JTextField txtTenKM;
+    private javax.swing.JTextField txtTimHD;
     private javax.swing.JTextField txtTimKM;
-    private javax.swing.JTextField txtTimSP;
     // End of variables declaration//GEN-END:variables
 }

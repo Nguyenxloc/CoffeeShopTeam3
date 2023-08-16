@@ -194,4 +194,17 @@ public class DAO_TaoTaiKhoan {
         }
     }
 
+    public boolean checkUsernameExists(String username) {
+        String query = "SELECT * FROM NhanVien WHERE TaiKhoan like ? ";
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, username);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            return resultSet.next(); // Trả về true nếu có kết quả (tên tài khoản đã tồn tại)
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
 }

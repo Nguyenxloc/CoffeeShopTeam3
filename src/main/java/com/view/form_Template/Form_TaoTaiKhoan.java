@@ -79,9 +79,8 @@ public class Form_TaoTaiKhoan extends javax.swing.JPanel {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        createAcount.setMaNV("NV");
-        
-        
+        createAcount.setMaNV("''");
+
         createAcount.setGioiTinh(gioiTinh);
         createAcount.setDiaChi(txtDiaChi.getText());
         createAcount.setSoDT(txtSoDienThoai.getText());
@@ -121,6 +120,18 @@ public class Form_TaoTaiKhoan extends javax.swing.JPanel {
             return false;
         }
 
+        // Kiểm tra tên tài khoản không chứa ký tự đặc biệt
+        if (!isValidUsername(txtUsername.getText().trim())) {
+            JOptionPane.showMessageDialog(this, "Tên tài khoản không được chứa ký tự đặc biệt");
+            return false;
+        }
+
+        // Kiểm tra tên tài khoản đã tồn tại hay chưa
+        if (isUsernameAlreadyExists(txtUsername.getText().trim())) {
+            JOptionPane.showMessageDialog(this, "Tên tài khoản đã tồn tại");
+            return false;
+        }
+
         if (txtHoTenNV.getText().trim().equals("")) {
             JOptionPane.showMessageDialog(this, "Vui lòng nhập vào họ tên nhân viên");
             return false;
@@ -148,22 +159,6 @@ public class Form_TaoTaiKhoan extends javax.swing.JPanel {
             return false;
         }
 
-        // Tạo Regex hợp lệ cho ngày sinh
-//        String dobRegex = "^(0[1-9]|[12][0-9]|3[01])/(0[1-9]|1[0-2])/(19|20)\\d{2}$";
-//        String dob = String.valueOf(txtNgaySinh.getDate()).trim();
-//        if (!dob.matches(dobRegex)) {
-//            JOptionPane.showMessageDialog(this, "Ngày sinh không hợp lệ");
-//            return false;
-//        }
-        // Validate ngày sinh hợp lệ
-//        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-//        sdf.setLenient(false);
-//        try {
-//            sdf.parse(dob);
-//        } catch (ParseException e) {
-//            JOptionPane.showMessageDialog(this, "Ngày sinh không hợp lệ");
-//            return false;
-//        }
         // Validate Phone đúng định dạng
         String[] phoneNumbers = txtSoDienThoai.getText().trim().split(",");
         for (String phoneNumber : phoneNumbers) {
@@ -217,6 +212,16 @@ public class Form_TaoTaiKhoan extends javax.swing.JPanel {
     private boolean isValidEmployeeName(String employeeName) {
         String vietnameseRegex = "^[\\p{Lu}][\\p{L}\\s]*$";
         return employeeName.matches(vietnameseRegex);
+    }
+
+    // Kiểm tra tên tài khoản không chứa ký tự đặc biệt
+    private boolean isValidUsername(String username) {
+        return username.matches("^[a-zA-Z0-9]+$");
+    }
+
+    private boolean isUsernameAlreadyExists(String username) {
+        boolean exists = service.checkUsernameExists(username);
+        return exists;
     }
 
     // Chức năng Clear Form

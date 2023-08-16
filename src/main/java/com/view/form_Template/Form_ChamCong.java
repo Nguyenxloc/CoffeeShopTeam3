@@ -59,7 +59,6 @@ public class Form_ChamCong extends javax.swing.JPanel implements Runnable {
         return dateFormat.format(now);
 
     }
-////
 
     private void setForm() {
         // Lấy ngày và thời gian hiện tại
@@ -115,7 +114,6 @@ public class Form_ChamCong extends javax.swing.JPanel implements Runnable {
             lblGioiTinh.setText(nv.getGioiTinh());
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
             Date ngaySinh = nv.getDob();
-            System.out.println(ngaySinh);
             String ngaySinFormat = simpleDateFormat.format(ngaySinh);
             lblNgaySinh.setText(ngaySinFormat);
             lblDiaChi.setText(nv.getDiaChi());
@@ -158,7 +156,6 @@ public class Form_ChamCong extends javax.swing.JPanel implements Runnable {
             lblGioiTinh.setText(nv.getGioiTinh());
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
             Date ngaySinh = nv.getDob();
-            System.out.println(ngaySinh);
             String ngaySinFormat = simpleDateFormat.format(ngaySinh);
             lblNgaySinh.setText(ngaySinFormat);
             lblDiaChi.setText(nv.getDiaChi());

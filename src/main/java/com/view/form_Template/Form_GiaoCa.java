@@ -97,7 +97,7 @@ public class Form_GiaoCa extends javax.swing.JPanel {
             String tongTienFormat = decimalFormat.format(tongTien);
             String tongTienTKFormat = decimalFormat.format(tongTienThucKiem);
 
-            model.addRow(new Object[]{giaoCa.getMaGiaoCa(), giaoCa.getCaLamViec(), giaoCa.getNgayGiaoCa(), hoTenNguoiGiao, hoTenNguoiNhan, tongTienFormat, tongTienTKFormat, giaoCa.getGioKiemKe()});
+            model.addRow(new Object[]{giaoCa.getMaGiaoCa(), giaoCa.getCaLamViec(), giaoCa.getNgayGiaoCa(), hoTenNguoiGiao, hoTenNguoiNhan, tongTienFormat, tongTienTKFormat, giaoCa.getGioKiemKe(), giaoCa.getTrangThai(), giaoCa.getGhiChu()});
         }
     }
 
@@ -186,12 +186,20 @@ public class Form_GiaoCa extends javax.swing.JPanel {
             lblTongTien.setText(tongTienStr);
             txtThucKiem.setText(tongTienThucKiemStr);
 
-            // Các dòng mã không thay đổi
             lblGioKiemKe.setText(tblPhieuGiaoCa.getValueAt(row, 7).toString());
+            cboTrangThai.setSelectedItem(tblPhieuGiaoCa.getValueAt(row, 8).toString());
+
+            Object objghiChu = tblPhieuGiaoCa.getValueAt(row, 9); // Không cần gọi toString() ở đây
+            String ghiChu = "";
+            if (objghiChu == null) {
+                txtGhiChu.setText("");
+            } else {
+                ghiChu = objghiChu.toString(); // Chỉ gọi toString() nếu objghiChu không phải là null
+                txtGhiChu.setText(ghiChu);
+            }
         } catch (ParseException ex) {
             ex.printStackTrace(System.out);
         }
-
     }
 
     // Chức năng Set thời gian hiện tại
@@ -405,17 +413,11 @@ public class Form_GiaoCa extends javax.swing.JPanel {
             return false;
         }
 
-        if (txtGhiChu.getText().trim().equals("")) {
-            JOptionPane.showMessageDialog(this, "Vui lòng nhập vào ghi chú");
-            return false;
-        }
-
         // Kiểm tra trạng thái
-        if (!trangThai.equals("Khớp")) {
-            JOptionPane.showMessageDialog(this, "Vui lòng nhập vào ghi chú");
-            return false;
-        }
-
+//        if (trangThai.equals("Không khớp")) {
+//            JOptionPane.showMessageDialog(this, "Vui lòng nhập vào ghi chú");
+//            return false;
+//        }
         // Kiểm tra định dạng và giá trị thực kiểm
         try {
 
@@ -797,9 +799,6 @@ public class Form_GiaoCa extends javax.swing.JPanel {
             BigDecimal tongTien = new BigDecimal(tongTienString);
             BigDecimal tongTienTK = new BigDecimal(tongTienTKString);
 
-            System.out.println(tongTien);
-            System.out.println(tongTienTK);
-
             if (tongTien.compareTo(tongTienTK) < 0) {
                 cboTrangThai.setSelectedItem("Không khớp");
             } else if (tongTien.compareTo(tongTienTK) > 0) {
@@ -937,6 +936,19 @@ public class Form_GiaoCa extends javax.swing.JPanel {
 
         txtGhiChu.setColumns(20);
         txtGhiChu.setRows(5);
+        txtGhiChu.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtGhiChuFocusLost(evt);
+            }
+        });
+        txtGhiChu.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtGhiChuKeyPressed(evt);
+            }
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtGhiChuKeyTyped(evt);
+            }
+        });
         jScrollPane1.setViewportView(txtGhiChu);
 
         jLabel8.setText("Ghi chú:");
@@ -1126,11 +1138,11 @@ public class Form_GiaoCa extends javax.swing.JPanel {
 
             },
             new String [] {
-                "Mã phiếu", "Ca", "Ngày", "Người giao", "Người nhận", "Tổng tiền", "Thực kiểm", "Giờ thực kiểm"
+                "Mã phiếu", "Ca", "Ngày", "Người giao", "Người nhận", "Tổng tiền", "Thực kiểm", "Giờ thực kiểm", "Trạng thái", "Ghi chú"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, true, true, true, true
+                false, false, false, false, true, true, true, true, true, true
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -1412,6 +1424,26 @@ public class Form_GiaoCa extends javax.swing.JPanel {
         // TODO add your handling code here:
         setTrangThaiByThucKiem();
     }//GEN-LAST:event_txtThucKiemFocusLost
+
+    private void txtGhiChuKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtGhiChuKeyPressed
+        // TODO add your handling code here:
+
+    }//GEN-LAST:event_txtGhiChuKeyPressed
+
+    private void txtGhiChuKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtGhiChuKeyTyped
+
+    }//GEN-LAST:event_txtGhiChuKeyTyped
+
+    private void txtGhiChuFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtGhiChuFocusLost
+        // TODO add your handling code here:
+        if (!cboTrangThai.getSelectedItem().toString().equals("Khớp")) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập vào ghi chú");
+
+            if (txtGhiChu.getText().trim().equals("") || txtGhiChu.getText().trim() == null) {
+                JOptionPane.showMessageDialog(this, "Vui lòng nhập vào ghi chú");
+            }
+        }
+    }//GEN-LAST:event_txtGhiChuFocusLost
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
