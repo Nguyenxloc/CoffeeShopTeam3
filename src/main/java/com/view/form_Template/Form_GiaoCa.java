@@ -370,7 +370,7 @@ public class Form_GiaoCa extends javax.swing.JPanel {
         Date ngayGiaoCa = txtNgayGiaoCa.getDate();
         String gioKiemKe = lblGioKiemKe.getText().trim();
         String thucKiem = txtThucKiem.getText().trim();
-        String trangThai = cboTrangThai.getSelectedItem().toString().trim();
+        String trangThai = cboTrangThai.getSelectedItem().toString();
 
         // Kiểm tra ngày giao hợp lệ
         if (ngayGiaoCa == null) {
@@ -379,13 +379,16 @@ public class Form_GiaoCa extends javax.swing.JPanel {
         }
 
         // Kiểm tra định dạng ngày giao hợp lệ 'dd-MM-yyyy'
-//        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
-//        String ngayGiaoString = sdf.format(ngayGiaoCa);
-//        if (!ngayGiaoString.equals(String.valueOf(txtNgayGiaoCa.getDate()))) {
-//            JOptionPane.showMessageDialog(this, "Ngày giao ca phải đúng định dạng 'dd-MM-yyyy'");
-//            return false;
-//        }
-        
+        String dobRegex = "^(0[1-9]|[12][0-9]|3[01])-(0[1-9]|1[0-2])-(19|20)\\d{2}$";
+
+        Date ngayBatDau = txtNgayGiaoCa.getDate();
+        String dob = new SimpleDateFormat("dd-MM-yyyy").format(ngayBatDau);
+
+        if (!dob.matches(dobRegex)) {
+            JOptionPane.showMessageDialog(this, "Ngày giao ca không hợp lệ");
+            return false;
+        }
+
         // Kiểm tra giờ kiểm kê hợp lệ
         if (gioKiemKe.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Vui lòng chọn vào nút giờ hiện tại");
@@ -402,6 +405,11 @@ public class Form_GiaoCa extends javax.swing.JPanel {
             return false;
         }
 
+        if (txtGhiChu.getText().trim().equals("")) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập vào ghi chú");
+            return false;
+        }
+
         // Kiểm tra trạng thái
         if (!trangThai.equals("Khớp")) {
             JOptionPane.showMessageDialog(this, "Vui lòng nhập vào ghi chú");
@@ -410,9 +418,14 @@ public class Form_GiaoCa extends javax.swing.JPanel {
 
         // Kiểm tra định dạng và giá trị thực kiểm
         try {
+
             double giaThucKiem = Double.parseDouble(thucKiem);
             if (giaThucKiem < 0) {
                 JOptionPane.showMessageDialog(this, "Giá trị thực kiểm phải là số không âm");
+                return false;
+            }
+            if (giaThucKiem > 10000000) {
+                JOptionPane.showMessageDialog(this, "Giá trị thực kiểm vượt quá mức quy định");
                 return false;
             }
         } catch (NumberFormatException ex) {
@@ -584,43 +597,155 @@ public class Form_GiaoCa extends javax.swing.JPanel {
             // Sử dụng font Unicode để hỗ trợ tiếng Việt
             BaseFont unicodeFont = BaseFont.createFont("c:\\windows\\fonts\\arial.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
             Font titleFont = new Font(unicodeFont, 16, Font.BOLD);
+            Font titleFont2 = new Font(unicodeFont, 14);
             Font contentFont = new Font(unicodeFont, 12);
 
             document.open();
 
-            // Tiêu đề thông tin phiếu giao ca căn giữa
+            // Tiêu đề phiếu giao ca căn giữa
             Paragraph title = new Paragraph("Thông tin phiếu giao ca", titleFont);
             title.setAlignment(Element.ALIGN_CENTER);
             document.add(title);
+            // Tiêu đề "Coffee Coder" ở dưới
+            Paragraph footer = new Paragraph("Coffee Coder", titleFont2);
+            footer.setAlignment(Element.ALIGN_CENTER);
+            document.add(footer);
 
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
             Date ngayGiaoCa = giaoCa.getNgayGiaoCa();
             String ngayGiaoCaFormat = simpleDateFormat.format(ngayGiaoCa);
             String nguoiGiao = giaoCa.getNguoiGiao().getHo() + " " + giaoCa.getNguoiGiao().getTenDem() + " " + giaoCa.getNguoiGiao().getTen();
-            String nguoiNhan = giaoCa.getNguoiNhan().getHo() + " " + giaoCa.getNguoiNhan().getTenDem() + " " + giaoCa.getNguoiNhan().getTen();;
+            String nguoiNhan = giaoCa.getNguoiNhan().getHo() + " " + giaoCa.getNguoiNhan().getTenDem() + " " + giaoCa.getNguoiNhan().getTen();
             DecimalFormat decimalFormat = new DecimalFormat("#,### VND");
             String tongTien = decimalFormat.format(giaoCa.getTongCong());
             String tongTienThucKiem = decimalFormat.format(giaoCa.getThucKiem());
 
-            document.add(new Paragraph("Mã ca làm việc: " + giaoCa.getMaGiaoCa(), contentFont));
-            document.add(new Paragraph("Ca làm việc: " + giaoCa.getCaLamViec(), contentFont));
-            document.add(new Paragraph("Ngày giao ca: " + ngayGiaoCaFormat, contentFont));
-            document.add(new Paragraph("Người giao ca: " + nguoiGiao, contentFont));
-            document.add(new Paragraph("Người nhận ca: " + nguoiNhan, contentFont));
-            document.add(new Paragraph("Giờ thực kiểm: " + giaoCa.getGioKiemKe(), contentFont));
-            document.add(new Paragraph("Tổng tiền: " + tongTien, contentFont));
-            document.add(new Paragraph("Thực kiểm: " + tongTienThucKiem, contentFont));
-            document.add(new Paragraph("Trạng thái: " + giaoCa.getTrangThai(), contentFont));
-            // Add thêm các thông tin khác của đối tượng GiaoCa tương tự
+            // Các thông tin phiếu giao ca
+            PdfPTable tableContent = new PdfPTable(2);
+            tableContent.setWidthPercentage(80);
+            tableContent.setSpacingBefore(20);
+            PdfPCell cellLeft, cellRight;
+
+            cellLeft = new PdfPCell(new Phrase("Tổng kết", contentFont));
+            cellRight = new PdfPCell(new Phrase("Chi tiết", contentFont));
+            tableContent.addCell(cellLeft);
+            tableContent.addCell(cellRight);
+
+            cellLeft = new PdfPCell(new Phrase("Mã phiếu giao ca:", contentFont));
+            cellRight = new PdfPCell(new Phrase(giaoCa.getMaGiaoCa(), contentFont));
+            tableContent.addCell(cellLeft);
+            tableContent.addCell(cellRight);
+
+            cellLeft = new PdfPCell(new Phrase("Ca làm việc: ", contentFont));
+            cellRight = new PdfPCell(new Phrase(giaoCa.getCaLamViec(), contentFont));
+            tableContent.addCell(cellLeft);
+            tableContent.addCell(cellRight);
+
+            cellLeft = new PdfPCell(new Phrase("Ngày giao ca: ", contentFont));
+            cellRight = new PdfPCell(new Phrase(simpleDateFormat.format(giaoCa.getNgayGiaoCa()), contentFont));
+            tableContent.addCell(cellLeft);
+            tableContent.addCell(cellRight);
+
+            cellLeft = new PdfPCell(new Phrase("Nhân viên giao ca: ", contentFont));
+            cellRight = new PdfPCell(new Phrase(giaoCa.getNguoiGiao().getHo() + " " + giaoCa.getNguoiGiao().getTenDem() + " " + giaoCa.getNguoiGiao().getTen(), contentFont));
+            tableContent.addCell(cellLeft);
+            tableContent.addCell(cellRight);
+
+            cellLeft = new PdfPCell(new Phrase("Giờ thực kiểm: ", contentFont));
+            cellRight = new PdfPCell(new Phrase(String.valueOf(giaoCa.getGioKiemKe()), contentFont));
+            tableContent.addCell(cellLeft);
+            tableContent.addCell(cellRight);
+
+            cellLeft = new PdfPCell(new Phrase("Tổng tiền bàn giao:", contentFont));
+            cellRight = new PdfPCell(new Phrase(tongTien, contentFont));
+            tableContent.addCell(cellLeft);
+            tableContent.addCell(cellRight);
+
+            cellLeft = new PdfPCell(new Phrase("Tiền Thực kiểm: ", contentFont));
+            cellRight = new PdfPCell(new Phrase(tongTienThucKiem, contentFont));
+            tableContent.addCell(cellLeft);
+            tableContent.addCell(cellRight);
+
+            cellLeft = new PdfPCell(new Phrase("Trạng thái: ", contentFont));
+            cellRight = new PdfPCell(new Phrase(giaoCa.getTrangThai(), contentFont));
+            tableContent.addCell(cellLeft);
+            tableContent.addCell(cellRight);
+
+            cellLeft = new PdfPCell(new Phrase("Ghi chú: ", contentFont));
+            if (giaoCa.getGhiChu() == null) {
+                cellRight = new PdfPCell(new Phrase("", contentFont));
+                tableContent.addCell(cellLeft);
+                tableContent.addCell(cellRight);
+            } else {
+                cellRight = new PdfPCell(new Phrase(giaoCa.getGhiChu(), contentFont));
+                tableContent.addCell(cellLeft);
+                tableContent.addCell(cellRight);
+            }
+
+            cellLeft = new PdfPCell(new Phrase("Chênh lệch:", contentFont));
+            if (!giaoCa.getTrangThai().equals("Khớp")) {
+                BigDecimal tongTienBigdecimal = giaoCa.getTongCong();
+                BigDecimal tienThucKiem = giaoCa.getThucKiem();
+                // So sánh hai đối tượng BigDecimal
+                int comparisonResult = tongTienBigdecimal.compareTo(tienThucKiem);
+
+                if (comparisonResult > 0) {
+                    System.out.println("Tổng tiền lớn hơn tiền thực kiểm");
+                    BigDecimal tienChenhLenh = tongTienBigdecimal.subtract(tienThucKiem);
+                    cellRight = new PdfPCell(new Phrase(String.valueOf(tienChenhLenh) + " VND", contentFont));
+
+                } else if (comparisonResult < 0) {
+                    BigDecimal tienChenhLenh = tienThucKiem.subtract(tongTienBigdecimal);
+                    cellRight = new PdfPCell(new Phrase(String.valueOf(tienChenhLenh) + " VND", contentFont));
+                    System.out.println("Tổng tiền nhỏ hơn thực kiểm");
+                } else {
+                    System.out.println("Tổng tiền và thực kiểm bằng nhau");
+                    cellRight = new PdfPCell(new Phrase("0" + " VND", contentFont));
+                }
+                tableContent.addCell(cellLeft);
+                tableContent.addCell(cellRight);
+            } else {
+                cellRight = new PdfPCell(new Phrase("0" + " VND", contentFont));
+                tableContent.addCell(cellLeft);
+                tableContent.addCell(cellRight);
+            }
+
+            PdfPCell cellEmpty = new PdfPCell(new Phrase(" ", contentFont));
+            cellEmpty.setBorder(Rectangle.NO_BORDER);
+            cellEmpty.setColspan(2);
+            tableContent.addCell(cellEmpty);
+
+            // Chữ ký và tên người giao và người nhận ở trên cùng một dòng
+            Paragraph kyNhan = new Paragraph("Ký nhận:", contentFont);
+            Paragraph nvNhanCa = new Paragraph("Nhân viên nhận ca: " + nguoiNhan, contentFont);
+
+            kyNhan.setAlignment(Element.ALIGN_LEFT);
+            PdfPCell cellKyNhan = new PdfPCell(kyNhan);
+            cellKyNhan.setBorder(Rectangle.NO_BORDER);
+            cellKyNhan.setColspan(2);
+            tableContent.addCell(cellKyNhan);
+
+            PdfPCell cellNhanVien = new PdfPCell();
+            cellNhanVien.setBorder(Rectangle.NO_BORDER);
+            cellNhanVien.setColspan(2);
+            cellNhanVien.addElement(nvNhanCa);
+            tableContent.addCell(cellNhanVien);
+
+            // Thêm dòng trống
+            Paragraph emptyLine = new Paragraph(" ", contentFont);
+            PdfPCell cellEmptyLine = new PdfPCell(emptyLine);
+            cellEmptyLine.setBorder(Rectangle.NO_BORDER);
+            cellEmptyLine.setColspan(2);
+            tableContent.addCell(cellEmptyLine);
+
+            document.add(tableContent);
 
             document.close();
             writer.close();
 
             System.out.println("File PDF đã được tạo thành công tại đường dẫn: " + filePath);
             JOptionPane.showMessageDialog(this, "Xuất File PDF thành công");
-        } catch (DocumentException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
+        } catch (DocumentException | IOException e) {
             e.printStackTrace();
         }
     }
@@ -653,8 +778,6 @@ public class Form_GiaoCa extends javax.swing.JPanel {
             e.printStackTrace();
         }
 
-      
-
         BigDecimal doanhThuTheoCa = giaoCaService.getTongDoanhThu(ngayGiaoCa, caLamViec);
         if (doanhThuTheoCa == null) {
             JOptionPane.showMessageDialog(this, "Ca làm việc của ngày này chưa có doanh thu");
@@ -664,6 +787,30 @@ public class Form_GiaoCa extends javax.swing.JPanel {
         String formattedAmount = formatter.format(doanhThuTheoCa);
         lblDoanhThu.setText(formattedAmount + " VND");
         lblTongTien.setText(formattedAmount);
+    }
+
+    // Chức năng thay đổi trạng thái khi nhập tiền thực kiểm
+    private void setTrangThaiByThucKiem() {
+        try {
+            String tongTienString = lblTongTien.getText().replace(",", "");
+            String tongTienTKString = txtThucKiem.getText().replace(",", "");
+            BigDecimal tongTien = new BigDecimal(tongTienString);
+            BigDecimal tongTienTK = new BigDecimal(tongTienTKString);
+
+            System.out.println(tongTien);
+            System.out.println(tongTienTK);
+
+            if (tongTien.compareTo(tongTienTK) < 0) {
+                cboTrangThai.setSelectedItem("Không khớp");
+            } else if (tongTien.compareTo(tongTienTK) > 0) {
+                cboTrangThai.setSelectedItem("Không khớp");
+            } else {
+                cboTrangThai.setSelectedItem("Khớp");
+            }
+        } catch (NumberFormatException ex) {
+            ex.printStackTrace(System.out);
+            JOptionPane.showMessageDialog(this, "Giá trị tổng tiền hoặc tiền thực kiểm không hợp lệ.");
+        }
     }
 
 //    @SuppressWarnings("unchecked")
@@ -739,6 +886,20 @@ public class Form_GiaoCa extends javax.swing.JPanel {
 
         jLabel41.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel41.setText("PHIẾU GiAO CA");
+
+        txtThucKiem.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtThucKiemFocusLost(evt);
+            }
+        });
+        txtThucKiem.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtThucKiemKeyPressed(evt);
+            }
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtThucKiemKeyReleased(evt);
+            }
+        });
 
         jLabel42.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel42.setText("Người giao");
@@ -1237,9 +1398,20 @@ public class Form_GiaoCa extends javax.swing.JPanel {
     private void btnChonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnChonActionPerformed
         // TODO add your handling code here:
         getRevenueByShift();
-
-
     }//GEN-LAST:event_btnChonActionPerformed
+
+    private void txtThucKiemKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtThucKiemKeyReleased
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtThucKiemKeyReleased
+
+    private void txtThucKiemKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtThucKiemKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtThucKiemKeyPressed
+    // Sự kiện thay đổi trạng thái
+    private void txtThucKiemFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtThucKiemFocusLost
+        // TODO add your handling code here:
+        setTrangThaiByThucKiem();
+    }//GEN-LAST:event_txtThucKiemFocusLost
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

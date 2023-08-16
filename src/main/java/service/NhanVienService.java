@@ -36,8 +36,12 @@ public class NhanVienService {
     public ArrayList<NhanVien> selectCBONhanVien() {
         return repositoryNhanVien.selectCBONhanVien();
     }
-    
-     public String selectByTenNhanVien(String tenNV) {
+
+    public String selectByTenNhanVien(String tenNV) {
         return repositoryNhanVien.selectByTenNhanVien(tenNV);
+    }
+
+    public NhanVien selectByMa(String ma) {
+        return repositoryNhanVien.selectByMa(ma);
     }
 }

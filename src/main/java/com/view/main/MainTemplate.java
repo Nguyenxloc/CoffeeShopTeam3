@@ -88,7 +88,7 @@ public class MainTemplate extends javax.swing.JFrame {
         form_QuanLyKho = new Form_QuanLyKho();
         form_GiaoCa = new Form_GiaoCa();
         System.out.println("==========Loading Form_GiaoCa==========");
-        form_GiaoCa1 = new Form_GiaoCa();
+        form_GiaoCa = new Form_GiaoCa();
         System.out.println("==========Loading Form_ChamCong==========");
         form_ChamCong = new Form_ChamCong();
         System.out.println("==========Loading Form_QuanLyLoaiDoUong==========");

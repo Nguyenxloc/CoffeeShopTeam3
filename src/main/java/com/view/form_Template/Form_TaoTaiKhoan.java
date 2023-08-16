@@ -63,7 +63,7 @@ public class Form_TaoTaiKhoan extends javax.swing.JPanel {
 
         String gioiTinh = "";
         TaiKhoan createAcount = new TaiKhoan();
-        createAcount.setMaNV(txtMaNV.getText());
+        createAcount.setTaiKhoan(txtUsername.getText());
         createAcount.setHoNV(ho);
         createAcount.setTenDemNV(tenDem);
         createAcount.setTenNV(ten);
@@ -74,12 +74,14 @@ public class Form_TaoTaiKhoan extends javax.swing.JPanel {
         }
         try {
             SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
-            Date ngaySinh = format.parse(txtNgaySinh.getText());
+            Date ngaySinh = txtNgaySinh.getDate();
             createAcount.setNgaySinh(ngaySinh);
         } catch (Exception e) {
             e.printStackTrace();
         }
-
+        createAcount.setMaNV("NV");
+        
+        
         createAcount.setGioiTinh(gioiTinh);
         createAcount.setDiaChi(txtDiaChi.getText());
         createAcount.setSoDT(txtSoDienThoai.getText());
@@ -94,28 +96,28 @@ public class Form_TaoTaiKhoan extends javax.swing.JPanel {
 
     // Chức năng đăng ký form
     private void createAccount() {
+        if (validateForm()) {
+            int choice = JOptionPane.showConfirmDialog(this, "Bạn chắc chắn muốn tạo tài khoản?", "Create Account?", JOptionPane.YES_NO_OPTION);
+            if (choice == JOptionPane.YES_OPTION) {
 
-//    private void createAccount() {
-//        if (validateForm()) {
-//            TaiKhoan createAcount = getFomr();
-//
-//            if (createAcount == null) {
-//                JOptionPane.showMessageDialog(this, "Lỗi trống dữ liệu");
-//                return;
-//            }
-//            service.save(createAcount);
-//            JOptionPane.showMessageDialog(this, "Đăng ký tài khoản thành công");
-//            clearForm();
-//        }
+                TaiKhoan createAcount = getFomr();
+
+                if (createAcount == null) {
+                    JOptionPane.showMessageDialog(this, "Lỗi trống dữ liệu");
+                    return;
+                }
+                service.save(createAcount);
+                JOptionPane.showMessageDialog(this, "Đăng ký tài khoản thành công");
+                clearForm();
+            }
+        }
 
     }
-//
-//    }
 
     private boolean validateForm() {
         // Validate để trống trường dữ liệu
-        if (txtMaNV.getText().trim().equals("")) {
-            JOptionPane.showMessageDialog(this, "Vui lòng nhập vào mã nhân viên");
+        if (txtUsername.getText().trim().equals("")) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập vào tên tài khoản");
             return false;
         }
 
@@ -127,7 +129,7 @@ public class Form_TaoTaiKhoan extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "Vui lòng nhập vào mật khẩu");
             return false;
         }
-        if (txtNgaySinh.getText().trim().equals("")) {
+        if (String.valueOf(txtNgaySinh.getDate()).trim().equals("")) {
             JOptionPane.showMessageDialog(this, "Vui lòng nhập vào ngày sinh");
             return false;
         }
@@ -140,19 +142,6 @@ public class Form_TaoTaiKhoan extends javax.swing.JPanel {
             return false;
         }
 
-        // Check trùng mã nhân viên
-        int count = service.selectById(txtMaNV.getText().trim());
-        if (count > 0) {
-            JOptionPane.showMessageDialog(this, "Mã nhân viên đã tồn tại vui lòng nhập lại");
-            return false;
-        }
-
-        // Check mã nhân viên chứa ký tự đặc biệt
-        String employeeId = txtMaNV.getText().trim();
-        if (!isValidEmployeeId(employeeId)) {
-            JOptionPane.showMessageDialog(this, "Mã nhân viên không hợp lệ, vui lòng nhập lại");
-            return false;
-        }
         // Validate Tên nhân viên đúng định dạng không chứa ký tự đặc biệt hoặc số
         if (!isValidEmployeeName(txtHoTenNV.getText().trim())) {
             JOptionPane.showMessageDialog(this, "Họ tên nhân viên không hợp lệ, vui lòng nhập lại");
@@ -160,23 +149,21 @@ public class Form_TaoTaiKhoan extends javax.swing.JPanel {
         }
 
         // Tạo Regex hợp lệ cho ngày sinh
-        String dobRegex = "^(0[1-9]|[12][0-9]|3[01])/(0[1-9]|1[0-2])/(19|20)\\d{2}$";
-        String dob = txtNgaySinh.getText().trim();
-        if (!dob.matches(dobRegex)) {
-            JOptionPane.showMessageDialog(this, "Ngày sinh không hợp lệ");
-            return false;
-        }
-
+//        String dobRegex = "^(0[1-9]|[12][0-9]|3[01])/(0[1-9]|1[0-2])/(19|20)\\d{2}$";
+//        String dob = String.valueOf(txtNgaySinh.getDate()).trim();
+//        if (!dob.matches(dobRegex)) {
+//            JOptionPane.showMessageDialog(this, "Ngày sinh không hợp lệ");
+//            return false;
+//        }
         // Validate ngày sinh hợp lệ
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-        sdf.setLenient(false);
-        try {
-            sdf.parse(dob);
-        } catch (ParseException e) {
-            JOptionPane.showMessageDialog(this, "Ngày sinh không hợp lệ");
-            return false;
-        }
-
+//        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+//        sdf.setLenient(false);
+//        try {
+//            sdf.parse(dob);
+//        } catch (ParseException e) {
+//            JOptionPane.showMessageDialog(this, "Ngày sinh không hợp lệ");
+//            return false;
+//        }
         // Validate Phone đúng định dạng
         String[] phoneNumbers = txtSoDienThoai.getText().trim().split(",");
         for (String phoneNumber : phoneNumbers) {
@@ -234,10 +221,10 @@ public class Form_TaoTaiKhoan extends javax.swing.JPanel {
 
     // Chức năng Clear Form
     private void clearForm() {
-        txtMaNV.setText("");
+        txtUsername.setText("");
         txtHoTenNV.setText("");
         txtPassword.setText("");
-        txtNgaySinh.setText("");
+        txtNgaySinh.setDate(null);
         txtSoDienThoai.setText("");
         txtDiaChi.setText("");
         cboCapBac.setSelectedIndex(0);
@@ -263,8 +250,7 @@ public class Form_TaoTaiKhoan extends javax.swing.JPanel {
         rdoNam = new javax.swing.JRadioButton();
         rdoNu = new javax.swing.JRadioButton();
         txtHoTenNV = new javax.swing.JTextField();
-        txtMaNV = new javax.swing.JTextField();
-        txtNgaySinh = new javax.swing.JTextField();
+        txtUsername = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         txtSoDienThoai = new javax.swing.JTextField();
@@ -275,6 +261,7 @@ public class Form_TaoTaiKhoan extends javax.swing.JPanel {
         btnDangKy1 = new javax.swing.JButton();
         btnClearForm = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
+        txtNgaySinh = new com.toedter.calendar.JDateChooser();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setForeground(new java.awt.Color(255, 255, 255));
@@ -283,7 +270,7 @@ public class Form_TaoTaiKhoan extends javax.swing.JPanel {
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153)));
         jPanel1.setForeground(new java.awt.Color(255, 255, 255));
 
-        jLabel2.setText("Mã nhân viên");
+        jLabel2.setText("Tài khoản");
 
         jLabel3.setText("Họ tên nhân viên");
 
@@ -304,9 +291,7 @@ public class Form_TaoTaiKhoan extends javax.swing.JPanel {
 
         txtHoTenNV.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
 
-        txtMaNV.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-
-        txtNgaySinh.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        txtUsername.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
 
         jLabel5.setText("Ngày sinh");
 
@@ -353,6 +338,8 @@ public class Form_TaoTaiKhoan extends javax.swing.JPanel {
         jLabel1.setForeground(new java.awt.Color(0, 153, 255));
         jLabel1.setText("Create Account");
 
+        txtNgaySinh.setDateFormatString("dd/MM/yyyy");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -374,7 +361,7 @@ public class Form_TaoTaiKhoan extends javax.swing.JPanel {
                                 .addGap(12, 12, 12)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(txtHoTenNV)
-                                    .addComponent(txtMaNV, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(txtUsername, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(39, 39, 39))
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -397,7 +384,7 @@ public class Form_TaoTaiKhoan extends javax.swing.JPanel {
                             .addComponent(txtSoDienThoai)
                             .addComponent(txtDiaChi)
                             .addComponent(cboCapBac, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(txtNgaySinh, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(txtNgaySinh, javax.swing.GroupLayout.DEFAULT_SIZE, 220, Short.MAX_VALUE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(btnDangKy1, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
@@ -414,10 +401,11 @@ public class Form_TaoTaiKhoan extends javax.swing.JPanel {
                 .addContainerGap()
                 .addComponent(jLabel1)
                 .addGap(40, 40, 40)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(jLabel5)
-                    .addComponent(txtMaNV, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel2)
+                        .addComponent(jLabel5)
+                        .addComponent(txtUsername, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(txtNgaySinh, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(36, 36, 36)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -473,7 +461,7 @@ public class Form_TaoTaiKhoan extends javax.swing.JPanel {
 
     private void btnDangKy1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDangKy1ActionPerformed
         // TODO add your handling code here:
-//        createAccount();
+        createAccount();
     }//GEN-LAST:event_btnDangKy1ActionPerformed
 
 
@@ -496,9 +484,9 @@ public class Form_TaoTaiKhoan extends javax.swing.JPanel {
     private javax.swing.JRadioButton rdoNu;
     private javax.swing.JTextField txtDiaChi;
     private javax.swing.JTextField txtHoTenNV;
-    private javax.swing.JTextField txtMaNV;
-    private javax.swing.JTextField txtNgaySinh;
+    private com.toedter.calendar.JDateChooser txtNgaySinh;
     private javax.swing.JPasswordField txtPassword;
     private javax.swing.JTextField txtSoDienThoai;
+    private javax.swing.JTextField txtUsername;
     // End of variables declaration//GEN-END:variables
 }
