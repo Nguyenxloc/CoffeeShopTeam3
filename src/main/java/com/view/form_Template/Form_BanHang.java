@@ -20,6 +20,7 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Date;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -277,9 +278,8 @@ public class Form_BanHang extends javax.swing.JPanel {
     }
 
     public void hoanThanhPhaChe() {
-        countHoaDonDangPhaCheTbl = tblDangPhaChe.getSelectedRow();
-        String id = IdHD_singleton.getInstance().id;
-        String maHD = IdHD_singleton.getInstance().maHD;
+        String id = LstHoaDonDangPhaChe_singleton.getInstance().lstHoaDonDangPhaChe.get(countHoaDonDangPhaCheTbl).getId();
+        String maHD = LstHoaDonDangPhaChe_singleton.getInstance().lstHoaDonDangPhaChe.get(countHoaDonDangPhaCheTbl).getMa();
         hoaDonService.updateTTPhaChe(id, 1);
         removeToTblAtIndex(modelHoaDonDangPhaCheTbl, countHoaDonDangPhaCheTbl);
         LstHoaDonDangPhaChe_singleton.getInstance().lstHoaDonDangPhaChe.remove(countHoaDonDangPhaCheTbl);
@@ -288,7 +288,6 @@ public class Form_BanHang extends javax.swing.JPanel {
                 tblHoaDon.setValueAt("Đã pha", i, 4);
                 LstHoaDon_singleton.getInstance().lstHoaDon.get(i).setTrangThaiPhaChe(1);
             }
-
         }
     }
 
@@ -307,6 +306,8 @@ public class Form_BanHang extends javax.swing.JPanel {
     }
 
     public void showDetailHoaDonTab() {
+        tblHoaDonCho.clearSelection();
+        tblDangPhaChe.clearSelection();
         tblHoaDonCho.clearSelection();
         tblDangPhaChe.clearSelection();
         countHoaDonDangPhaCheTbl = -1;
@@ -337,6 +338,8 @@ public class Form_BanHang extends javax.swing.JPanel {
     public void showDetailHoaDonTab_Waiting() {
         tblHoaDon.clearSelection();
         tblDangPhaChe.clearSelection();
+        tblHoaDon.clearSelection();
+        tblDangPhaChe.clearSelection();
         countHoaDonTbl = -1;
         countHoaDonDangPhaCheTbl = -1;
         countHoaDonChoTbl = tblHoaDonCho.getSelectedRow();
@@ -364,6 +367,8 @@ public class Form_BanHang extends javax.swing.JPanel {
     }
 
     public void showDetailHoaDonDangPhaCheTab() {
+        tblHoaDonCho.clearSelection();
+        tblHoaDon.clearSelection();
         tblHoaDonCho.clearSelection();
         tblHoaDon.clearSelection();
         countHoaDonChoTbl = -1;
@@ -398,16 +403,17 @@ public class Form_BanHang extends javax.swing.JPanel {
         DefaultTableModel model = new DefaultTableModel();
         model = (DefaultTableModel) tblDrinkDetail.getModel();
         model.setRowCount(0);
+        DecimalFormat formatter = new DecimalFormat("###,###,###");
         for (HoaDonChiTietNoIMG hdChiTiet : LstHoaDonChiTiet_singleton.getInstance().lstHoaDonChiTietNoIMG) {
             if (hdChiTiet.getHoaDon().getId().equalsIgnoreCase(IdHD_singleton.getInstance().id)) {
                 stt++;
                 cellCheck = Double.valueOf(hdChiTiet.getSoLuong()) * Double.valueOf(hdChiTiet.getChiTietDoUongNoIMG().getGiaBan());
                 totalCheck += cellCheck;
                 model.addRow(new Object[]{stt, hdChiTiet.getChiTietDoUongNoIMG().getTenDoUong(), hdChiTiet.getSoLuong(),
-                    hdChiTiet.getChiTietDoUongNoIMG().getGiaBan(), cellCheck});
+                    formatter.format(hdChiTiet.getChiTietDoUongNoIMG().getGiaBan()), formatter.format(cellCheck)});
             }
         }
-        lblTotalCash.setText(String.valueOf(totalCheck));
+        lblTotalCash.setText(formatter.format(totalCheck)+"VNĐ");
     }
 
     /**
@@ -566,6 +572,9 @@ public class Form_BanHang extends javax.swing.JPanel {
             }
         });
         jScrollPane5.setViewportView(tblHoaDon);
+        if (tblHoaDon.getColumnModel().getColumnCount() > 0) {
+            tblHoaDon.getColumnModel().getColumn(0).setPreferredWidth(20);
+        }
 
         jLabel13.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel13.setText("Đang chờ pha chế");

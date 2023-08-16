@@ -97,7 +97,6 @@ public class paneOfProduct extends JPanel {
                     cell.getLblPriceProduct().setForeground(Color.black);
                     cell.getLblDes().setForeground(Color.black);
                 }
-
             });
             this.add(lstCell.get(i));
         }

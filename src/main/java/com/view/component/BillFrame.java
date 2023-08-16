@@ -10,6 +10,7 @@ import SingletonClass.LstHoaDonCho_SingLeTon;
 import SingletonClass.LstHoaDonDangPhaChe_singleton;
 import SingletonClass.LstHoaDon_singleton;
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -64,6 +65,7 @@ public class BillFrame extends javax.swing.JFrame {
         double cellCheck = 0;
         int checkStage = 0;
         HoaDon hoaDon = null;
+        DecimalFormat formatter = new DecimalFormat("###,###,###");
         for (HoaDon hd : LstHoaDon_singleton.getInstance().lstHoaDon) {
             if (hd.getId().equalsIgnoreCase(LocalId)) {
                 hoaDon = hd;
@@ -100,10 +102,10 @@ public class BillFrame extends javax.swing.JFrame {
                 cellCheck = Double.valueOf(hoaDonChiTietNoIMG.getSoLuong()) * Double.valueOf(hoaDonChiTietNoIMG.getChiTietDoUongNoIMG().getGiaBan());
                 totalCheck += cellCheck;
                 model.addRow(new Object[]{stt, hoaDonChiTietNoIMG.getChiTietDoUongNoIMG().getTenDoUong(), hoaDonChiTietNoIMG.getSoLuong(),
-                    hoaDonChiTietNoIMG.getChiTietDoUongNoIMG().getGiaBan(), cellCheck});
+                    formatter.format(hoaDonChiTietNoIMG.getChiTietDoUongNoIMG().getGiaBan()), formatter.format(cellCheck)});
             }
         }
-        lblTotalCheck.setText(String.valueOf(totalCheck) + " VNĐ");
+        lblTotalCheck.setText(formatter.format(totalCheck)+ " VNĐ");
         if (hoaDon.getMaGiamGia().getMaKM() != null) {
             System.out.println("test discount");
             txtDiscount.setText(String.valueOf(hoaDon.getMaGiamGia().getMaKM()));
@@ -319,23 +321,25 @@ public class BillFrame extends javax.swing.JFrame {
     }
 
     public void applyDiscount() {
+        DecimalFormat formatter = new DecimalFormat("###,###,###");
         GiamGia giamGia = giamGiaService.selectByID(txtDiscount.getText());
         discountPer = Double.valueOf(giamGia.getGiaTri()) / 100;
         checkAfterDiscount = totalCheck - totalCheck * discountPer;
-        lblFinalCash.setText(String.valueOf(checkAfterDiscount) + " VNĐ");
+        lblFinalCash.setText(formatter.format(checkAfterDiscount) + " VNĐ");
     }
 
     public void calMoneyChange() {
+        DecimalFormat formatter = new DecimalFormat("###,###,###");
         if (checkAfterDiscount == 0) {
             double moneyTake = Double.valueOf(txtEnterMoney.getText());
             localMoneyTake = moneyTake;
             double moneyChange = moneyTake - totalCheck;
-            lblMoneyChange.setText(String.valueOf(moneyChange) + " VNĐ");
+            lblMoneyChange.setText(formatter.format(moneyChange) + " VNĐ");
         } else {
             double moneyTake = Double.valueOf(txtEnterMoney.getText());
             localMoneyTake = moneyTake;
             double moneyChange = moneyTake - totalCheck + totalCheck * discountPer;
-            lblMoneyChange.setText(String.valueOf(moneyChange) + " VNĐ");
+            lblMoneyChange.setText(formatter.format(moneyChange) + " VNĐ");
         }
     }
 
@@ -395,10 +399,22 @@ public class BillFrame extends javax.swing.JFrame {
 
             },
             new String [] {
-                "STT", "Tên", "Số lượng", "Đơn giá", "Thành tiền"
+                "STT", "Tên", "SL", "Đơn giá", "Thành tiền"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane1.setViewportView(tblDrinkDetail);
+        if (tblDrinkDetail.getColumnModel().getColumnCount() > 0) {
+            tblDrinkDetail.getColumnModel().getColumn(0).setPreferredWidth(30);
+            tblDrinkDetail.getColumnModel().getColumn(2).setPreferredWidth(30);
+        }
 
         jLabel6.setText("Mã  HĐ:");
 
