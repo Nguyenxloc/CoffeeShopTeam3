@@ -75,23 +75,27 @@ public class Form_QuanLyKho extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "Không được để trống");
             return null;
         }
-       
-         if (tenSP.trim().length() != tenSP.length()) {
+
+        if (tenSP.trim().length() != tenSP.length()) {
         JOptionPane.showMessageDialog(this, "Tên không hợp lệ");
         return null;
          }
          
-        if(tenSP.matches("^[\\p{L}\\p{M}0-9 ]+$")){
+        if(!tenSP.matches("^[\\p{L}\\p{M}0-9 ]+$")){
             JOptionPane.showMessageDialog(this, " Tên không hợp lệ");
             return null;
         }
-//        else{
-//            
-//        }
-
+        
         try {
             int soLuong = Integer.parseInt(sLuong);
             BigDecimal dGia = new BigDecimal(dGiaa);
+            DecimalFormat dfDonGia = new DecimalFormat("#,##0.0");
+            String donGiaFormat = dfDonGia.format(dGia);
+            
+            Double donGioDouble = dfDonGia.parse(donGiaFormat).doubleValue();
+            BigDecimal dGiaFomat = BigDecimal.valueOf(donGioDouble);
+            
+            
             Date nNhap = new Date(sdf.parse(nNhapp).getTime());
             int cout = cbbtenNV.getSelectedIndex();
             NhanVien nv = nhapkhoService.getCBBNV().get(cout);
@@ -102,15 +106,14 @@ public class Form_QuanLyKho extends javax.swing.JPanel {
             nk.setNgayNhap(nNhap);
             nk.setDonVi(dVi);
             nk.setSoLuong(soLuong);
-            nk.setDonGia(dGia);
+            nk.setDonGia(dGiaFomat);
             return nk;
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this, "Số lượng phải là số");
             return null;
         }
 
-        
-        
+       
     }
     
 
