@@ -28,6 +28,7 @@ public class Form_ThongBao extends javax.swing.JPanel {
         this.setBorder(null);
         reLoadProduct();
     }
+    
     private void reLoadProduct() {
         lstNews = LstNews_singleton.getInstance().lstNews;
         paneNews = new NewsPanel(lstNews);
@@ -35,6 +36,7 @@ public class Form_ThongBao extends javax.swing.JPanel {
         jScrollPane1.getViewport().repaint();
         jScrollPane1.getViewport().revalidate();
     }
+    
 //gọi từ service list sản phầm theo order by desc để sql trả về danh sách từng loại đồ uống
 
     public void LoadlstProduct() {
