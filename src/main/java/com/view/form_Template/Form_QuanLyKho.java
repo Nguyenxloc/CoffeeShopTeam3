@@ -214,6 +214,7 @@ public class Form_QuanLyKho extends javax.swing.JPanel {
         btnNhapKho = new javax.swing.JButton();
         btnSua = new javax.swing.JButton();
         btnXoa = new javax.swing.JButton();
+        btnClear = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         txtdGia = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
@@ -465,18 +466,27 @@ public class Form_QuanLyKho extends javax.swing.JPanel {
             }
         });
 
+        btnClear.setText("Làm mới");
+        btnClear.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnClearActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel451Layout = new javax.swing.GroupLayout(jPanel451);
         jPanel451.setLayout(jPanel451Layout);
         jPanel451Layout.setHorizontalGroup(
             jPanel451Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel451Layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(22, 22, 22)
+                .addComponent(btnClear)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
                 .addComponent(btnNhapKho)
-                .addGap(55, 55, 55)
+                .addGap(41, 41, 41)
                 .addComponent(btnSua)
-                .addGap(74, 74, 74)
+                .addGap(42, 42, 42)
                 .addComponent(btnXoa)
-                .addContainerGap())
+                .addGap(24, 24, 24))
         );
         jPanel451Layout.setVerticalGroup(
             jPanel451Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -485,11 +495,12 @@ public class Form_QuanLyKho extends javax.swing.JPanel {
                 .addGroup(jPanel451Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSua)
                     .addComponent(btnNhapKho)
-                    .addComponent(btnXoa))
+                    .addComponent(btnXoa)
+                    .addComponent(btnClear))
                 .addContainerGap())
         );
 
-        jPanel437.add(jPanel451, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 260, -1, -1));
+        jPanel437.add(jPanel451, new org.netbeans.lib.awtextra.AbsoluteConstraints(568, 260, 470, -1));
 
         jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
         jPanel4.add(txtdGia, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 130, 180, -1));
@@ -705,8 +716,13 @@ public class Form_QuanLyKho extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_btnXoaActionPerformed
 
+    private void btnClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnClearActionPerformed
+        clear();
+    }//GEN-LAST:event_btnClearActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnClear;
     private javax.swing.JButton btnNhapKho;
     private javax.swing.JButton btnSua;
     private javax.swing.JButton btnTKiem;

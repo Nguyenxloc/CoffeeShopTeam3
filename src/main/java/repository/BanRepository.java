@@ -92,7 +92,7 @@ public class BanRepository {
                     + "WHERE  (IdBan = 1)";
             PreparedStatement st = con.prepareStatement(query);
             st.setString(1, ban.getTen());
-            st.setInt(1, ban.getIdBan());
+            st.setInt(2, ban.getIdBan());
             
             st.close();
             con.close();

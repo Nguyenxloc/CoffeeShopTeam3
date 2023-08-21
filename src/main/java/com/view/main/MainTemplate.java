@@ -22,6 +22,7 @@ import com.view.form_Template.Form_GiaoCa;
 import com.view.form_Template.Form_KhuyenMai;
 import com.view.form_Template.Form_LoaiDoUong;
 import com.view.form_Template.Form_LopHoc;
+import com.view.form_Template.Form_QLBan;
 import com.view.form_Template.Form_QLDoUong;
 import com.view.form_Template.Form_QLHoaDon;
 import com.view.form_Template.Form_QuanLyKho;
@@ -63,6 +64,7 @@ public class MainTemplate extends javax.swing.JFrame {
     private Form_ChamCong form_ChamCong;
     private Form_LoaiDoUong form_LoaiDoUong;
     private Form_CapBac form_CapBac;
+    private Form_QLBan form_QLBan;
     private Form_ThongKe form_ThongKe;
 //    private Form_QuanLyKho form_QuanLyKho;
 //    private Form_GiaoCa1 form_GiaoCa1;
@@ -134,6 +136,8 @@ public class MainTemplate extends javax.swing.JFrame {
                 } else if (index == 13) {
                     setForm(form_CapBac);
                 } else if (index == 14) {
+                    setForm(form_QLBan);
+                } else if (index == 15) {
                     MessageFrame messageFrame = new MessageFrame();
                     messageFrame.show();
                     messageFrame.setMessage("Bạn có chắc chắn muốn đăng xuất không?");
