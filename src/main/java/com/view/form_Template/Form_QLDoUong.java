@@ -98,13 +98,11 @@ public class Form_QLDoUong extends javax.swing.JPanel {
     }
 
     public void save(ChiTietDoUong chiTietDoUong) {
-
         try {
             chiTietDoUongService.saveChiTietDoUong(chiTietDoUong);
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
     public void update(ChiTietDoUong chiTietDoUong) {
@@ -205,7 +203,6 @@ public class Form_QLDoUong extends javax.swing.JPanel {
         loadData();
     }
 
-
 //    public void timKiem() {
 //        String tenDoUong = txtTimKiemTenDoUong.getText();
 //        int count = cboTimKiemDanhMucDoUong.getSelectedIndex();
@@ -254,12 +251,13 @@ public class Form_QLDoUong extends javax.swing.JPanel {
 //
     public void timKiem() {
         String tenDoUong = txtTimKiemTenDoUong.getText();
-        if(tenDoUong.equalsIgnoreCase(""))
-           tenDoUong = null;
+        if (tenDoUong.equalsIgnoreCase("")) {
+            tenDoUong = null;
+        }
         int count = cboTimKiemDanhMucDoUong.getSelectedIndex();
         String idLoaiDoUong = lstLoaiDoUong.get(count).getId();
-        double giaBatDau=0;
-        double giaKetThuc=0;
+        double giaBatDau = 0;
+        double giaKetThuc = 0;
 //        try {
 //            giaBatDau = Double.parseDouble(txtStartPrice.getText());
 //        } catch (Exception e) {
@@ -276,7 +274,7 @@ public class Form_QLDoUong extends javax.swing.JPanel {
             model = (DefaultTableModel) tblDanhSachDoUong.getModel();
             model.setRowCount(0);
             lstChiTietDoUong = chiTietDoUongService.getTimKiem(tenDoUong, idLoaiDoUong, giaBatDau, giaKetThuc);
-            lstChiTietDoUong = chiTietDoUongService.getTimKiem(tenDoUong, idLoaiDoUong, giaBatDau,giaKetThuc);
+            lstChiTietDoUong = chiTietDoUongService.getTimKiem(tenDoUong, idLoaiDoUong, giaBatDau, giaKetThuc);
             int i = 1;
             for (ChiTietDoUong chiTietDoUong : lstChiTietDoUong) {
                 model.addRow(new Object[]{
@@ -292,10 +290,11 @@ public class Form_QLDoUong extends javax.swing.JPanel {
         }
 
     }
-    public void loadHinhAnh(){
-        ImageIcon  oriImgIcon = new ImageIcon(lstChiTietDoUong.get(index).getHinhAnh());
+
+    public void loadHinhAnh() {
+        ImageIcon oriImgIcon = new ImageIcon(lstChiTietDoUong.get(index).getHinhAnh());
         Image image = oriImgIcon.getImage(); // transform it
-        Image newimg = image.getScaledInstance(79,120,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
+        Image newimg = image.getScaledInstance(79, 120, java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
         ImageIcon imageIcon = new ImageIcon(newimg);
         lblHinhAnh.setIcon(imageIcon);
     }
@@ -330,6 +329,7 @@ public class Form_QLDoUong extends javax.swing.JPanel {
         btnXuatFileExcel = new javax.swing.JButton();
         lblUrl = new javax.swing.JLabel();
         btnClear = new javax.swing.JButton();
+        btnPrinMenu = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         txtTimKiemTenDoUong = new javax.swing.JTextField();
@@ -347,19 +347,15 @@ public class Form_QLDoUong extends javax.swing.JPanel {
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(0, 0, 0));
         jLabel2.setText("Tên đồ uống:");
 
         jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(0, 0, 0));
         jLabel7.setText("Loại đồ uống:");
 
         jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel8.setForeground(new java.awt.Color(0, 0, 0));
         jLabel8.setText("Giá nhập:");
 
         jLabel10.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel10.setForeground(new java.awt.Color(0, 0, 0));
         jLabel10.setText("Mô tả:");
 
         taraMota.setColumns(20);
@@ -388,7 +384,6 @@ public class Form_QLDoUong extends javax.swing.JPanel {
         });
 
         jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel9.setForeground(new java.awt.Color(0, 0, 0));
         jLabel9.setText("Giá bán:");
 
         lblHinhAnh.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -419,6 +414,13 @@ public class Form_QLDoUong extends javax.swing.JPanel {
         btnClear.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnClearActionPerformed(evt);
+            }
+        });
+
+        btnPrinMenu.setText("In menu");
+        btnPrinMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPrinMenuActionPerformed(evt);
             }
         });
 
@@ -455,11 +457,12 @@ public class Form_QLDoUong extends javax.swing.JPanel {
                                         .addComponent(btnXuatFileExcel))
                                     .addGap(34, 34, 34)
                                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(jPanel1Layout.createSequentialGroup()
-                                            .addComponent(btnSua, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addGap(37, 37, 37)
-                                            .addComponent(btnXoa, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addComponent(btnClear)))
+                                        .addComponent(btnSua, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(btnClear))
+                                    .addGap(37, 37, 37)
+                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(btnPrinMenu)
+                                        .addComponent(btnXoa, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(143, 143, 143)
@@ -471,6 +474,8 @@ public class Form_QLDoUong extends javax.swing.JPanel {
         );
 
         jPanel1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnClear, btnSua, btnThem, btnXuatFileExcel});
+
+        jPanel1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnPrinMenu, btnXoa});
 
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -509,7 +514,8 @@ public class Form_QLDoUong extends javax.swing.JPanel {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnClear)
-                    .addComponent(btnXuatFileExcel))
+                    .addComponent(btnXuatFileExcel)
+                    .addComponent(btnPrinMenu))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -517,12 +523,12 @@ public class Form_QLDoUong extends javax.swing.JPanel {
 
         jPanel1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnClear, btnSua, btnThem, btnXuatFileExcel});
 
+        jPanel1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnPrinMenu, btnXoa});
+
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Tìm kiếm sản phẩm", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 14), new java.awt.Color(0, 0, 0))); // NOI18N
-        jPanel4.setForeground(new java.awt.Color(0, 0, 0));
+        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Tìm kiếm sản phẩm", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 14))); // NOI18N
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(0, 0, 0));
         jLabel4.setText("Tên đồ uống: ");
 
         cboTimKiemDanhMucDoUong.addActionListener(new java.awt.event.ActionListener() {
@@ -532,7 +538,6 @@ public class Form_QLDoUong extends javax.swing.JPanel {
         });
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(0, 0, 0));
         jLabel5.setText("Loại đồ uống: ");
 
         btnTimKiem.setText("Tìm kiếm");
@@ -579,7 +584,7 @@ public class Form_QLDoUong extends javax.swing.JPanel {
         );
 
         jPanel5.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Danh sách sản phẩm", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 14), new java.awt.Color(0, 0, 0))); // NOI18N
+        jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Danh sách sản phẩm", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 14))); // NOI18N
 
         tblDanhSachDoUong.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -645,7 +650,7 @@ public class Form_QLDoUong extends javax.swing.JPanel {
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
         //Check rỗng
-
+//
         if (txtTenDoUong.getText().equalsIgnoreCase("")) {
             JOptionPane.showMessageDialog(this, "Vui lòng nhập tên sản phẩm");
             txtTenDoUong.requestFocus();
@@ -669,15 +674,15 @@ public class Form_QLDoUong extends javax.swing.JPanel {
             taraMota.requestFocus();
             return;
         }
-
-        //Check trùng tên sản phẩm
-        for (int i = 0; i < chiTietDoUongService.getListChiTietDoUong().size(); i++) {
-            if (txtTenDoUong.getText().equalsIgnoreCase(chiTietDoUongService.getListChiTietDoUong().get(i).getTenDoUong())) {
-                JOptionPane.showMessageDialog(this, "Tên đồ uống đã tồn tại");
-                return;
-            }
-        }
-
+//
+//        //Check trùng tên sản phẩm
+//        for (int i = 0; i < chiTietDoUongService.getListChiTietDoUong().size(); i++) {
+//            if (txtTenDoUong.getText().equalsIgnoreCase(chiTietDoUongService.getListChiTietDoUong().get(i).getTenDoUong())) {
+//                JOptionPane.showMessageDialog(this, "Tên đồ uống đã tồn tại");
+//                return;
+//            }
+//        }
+//
         //Check giá nhập và giá bán phải là số
         try {
             double giaNhap = Double.parseDouble(txtGiaNhapDoUong.getText());
@@ -686,7 +691,7 @@ public class Form_QLDoUong extends javax.swing.JPanel {
             txtGiaNhapDoUong.requestFocus();
             return;
         }
-        
+
         try {
             double giaBan = Double.parseDouble(txtGiaBanDoUong.getText());
         } catch (Exception e) {
@@ -743,7 +748,7 @@ public class Form_QLDoUong extends javax.swing.JPanel {
     }//GEN-LAST:event_tblDanhSachDoUongMouseClicked
 
     private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
-        
+
         // Check rỗng
         if (txtTenDoUong.getText().equalsIgnoreCase("")) {
             JOptionPane.showMessageDialog(this, "Vui lòng nhập tên sản phẩm");
@@ -768,14 +773,14 @@ public class Form_QLDoUong extends javax.swing.JPanel {
             taraMota.requestFocus();
             return;
         }
-
-        //Check trùng tên sản phẩm
-        for (int i = 0; i < chiTietDoUongService.getListChiTietDoUong().size(); i++) {
-            if (txtTenDoUong.getText().equalsIgnoreCase(chiTietDoUongService.getListChiTietDoUong().get(i).getTenDoUong())) {
-                JOptionPane.showMessageDialog(this, "Tên đồ uống đã tồn tại");
-                return;
-            }
-        }
+//
+//        //Check trùng tên sản phẩm
+//        for (int i = 0; i < chiTietDoUongService.getListChiTietDoUong().size(); i++) {
+//            if (txtTenDoUong.getText().equalsIgnoreCase(chiTietDoUongService.getListChiTietDoUong().get(i).getTenDoUong())) {
+//                JOptionPane.showMessageDialog(this, "Tên đồ uống đã tồn tại");
+//                return;
+//            }
+//        }
 
         //Check giá nhập và giá bán phải là số
         try {
@@ -785,7 +790,7 @@ public class Form_QLDoUong extends javax.swing.JPanel {
             txtGiaNhapDoUong.requestFocus();
             return;
         }
-        
+
         try {
             double giaBan = Double.parseDouble(txtGiaBanDoUong.getText());
         } catch (Exception e) {
@@ -793,9 +798,7 @@ public class Form_QLDoUong extends javax.swing.JPanel {
             txtGiaBanDoUong.requestFocus();
             return;
         }
-        
-        
-        
+
         String tenDoUong = txtTenDoUong.getText();
         Double giaNhap = Double.parseDouble(txtGiaNhapDoUong.getText());
         Double giaBan = Double.parseDouble(txtGiaBanDoUong.getText());
@@ -858,10 +861,21 @@ public class Form_QLDoUong extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_cboTimKiemDanhMucDoUongActionPerformed
 
+    private void btnPrinMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrinMenuActionPerformed
+        // TODO add your handling code here:
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new GenMenuFrame().setVisible(true);
+            }
+        });
+
+    }//GEN-LAST:event_btnPrinMenuActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnChonAnh;
     private javax.swing.JButton btnClear;
+    private javax.swing.JButton btnPrinMenu;
     private javax.swing.JButton btnSua;
     private javax.swing.JButton btnThem;
     private javax.swing.JButton btnTimKiem;
