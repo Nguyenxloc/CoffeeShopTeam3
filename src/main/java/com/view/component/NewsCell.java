@@ -7,36 +7,37 @@ package com.view.component;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.text.DecimalFormat;
 import javax.accessibility.AccessibleContext;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.event.EventListenerList;
 import javax.swing.plaf.ComponentUI;
+import model.News;
 
 /**
  *
  * @author 84374
  */
-public class ProductCell extends javax.swing.JPanel {
+public class NewsCell extends javax.swing.JPanel {
 
     /**
      * Creates new form NewJPanel
      */
     private String dir = null;
     private int index = 0;
+    private String localTitle = null;
     private static byte[] localImg = new byte[5000];
-    public ProductCell(byte[] img, String nameOfProduct, Double priceOfProduct, String des ) {
+
+    public NewsCell(News news) {
 //        String path = "C:\\Users\\84374\\Documents\\NetBeansProjects\\CoffeeShop\\src\\main\\java\\com\\view\\icon\\coffe.png";
 //        File file = new File(path);
 //        String absolutePath = file.getAbsolutePath();
 //        dir = absolutePath;
-        DecimalFormat formatter = new DecimalFormat("###,###,###");
-        localImg = img;
+        localImg = news.getHinhAnh();
         initComponents();
-        lblNameProduct.setText(nameOfProduct);
-        lblPriceProduct.setText(formatter.format(priceOfProduct)+"VNĐ");
-        lblDes.setText(des);
+        lblTittle.setText("<html><p style=\"width:170px\">" + news.getTitle() + "</p></html>");
+        lblDes.setText("<html><p style=\"width:170px\">" + news.getDes() + "</p></html>");
+        
     }
 
     public String getDir() {
@@ -55,6 +56,22 @@ public class ProductCell extends javax.swing.JPanel {
         this.index = index;
     }
 
+    public String getLocalTitle() {
+        return localTitle;
+    }
+
+    public void setLocalTitle(String localTitle) {
+        this.localTitle = localTitle;
+    }
+
+    public static byte[] getLocalImg() {
+        return localImg;
+    }
+
+    public static void setLocalImg(byte[] localImg) {
+        NewsCell.localImg = localImg;
+    }
+
     public JLabel getLblDes() {
         return lblDes;
     }
@@ -63,28 +80,20 @@ public class ProductCell extends javax.swing.JPanel {
         this.lblDes = lblDes;
     }
 
-    public JLabel getLblNameProduct() {
-        return lblNameProduct;
+    public JLabel getLblIMGNews() {
+        return lblIMGNews;
     }
 
-    public void setLblNameProduct(JLabel lblNameProduct) {
-        this.lblNameProduct = lblNameProduct;
+    public void setLblIMGNews(JLabel lblIMGNews) {
+        this.lblIMGNews = lblIMGNews;
     }
 
-    public JLabel getLblPriceProduct() {
-        return lblPriceProduct;
+    public JLabel getLblTittle() {
+        return lblTittle;
     }
 
-    public void setLblPriceProduct(JLabel lblPriceProduct) {
-        this.lblPriceProduct = lblPriceProduct;
-    }
-
-    public JLabel getLblmgProduct() {
-        return lblmgProduct;
-    }
-
-    public void setLblmgProduct(JLabel lblmgProduct) {
-        this.lblmgProduct = lblmgProduct;
+    public void setLblTittle(JLabel lblTittle) {
+        this.lblTittle = lblTittle;
     }
 
     public ComponentUI getUi() {
@@ -111,7 +120,9 @@ public class ProductCell extends javax.swing.JPanel {
         this.accessibleContext = accessibleContext;
     }
 
- 
+  
+
+   
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -121,20 +132,21 @@ public class ProductCell extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        lblNameProduct = new javax.swing.JLabel();
-        lblmgProduct = new javax.swing.JLabel();
-        lblPriceProduct = new javax.swing.JLabel();
         lblDes = new javax.swing.JLabel();
+        lblIMGNews = new javax.swing.JLabel();
+        lblTittle = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
+        setBorder(new javax.swing.border.MatteBorder(null));
 
-        lblNameProduct.setText("#NameOfProduct");
+        lblDes.setText("#NameOfProduct");
+        lblDes.setVerticalAlignment(javax.swing.SwingConstants.TOP);
 
         ImageIcon oriImgIcon = new ImageIcon(localImg);
         Image image = oriImgIcon.getImage(); // transform it
-        Image newimg = image.getScaledInstance(79, 120, java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
+        Image newimg = image.getScaledInstance(203, 115, java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
         ImageIcon imageIcon = new ImageIcon(newimg);
-        lblmgProduct.setIcon(imageIcon);
+        lblIMGNews.setIcon(imageIcon);
 
         //ImageIcon imageIcon = new ImageIcon(img); // load the image to a imageIcon
         //Image image = imageIcon.getImage(); // transform it
@@ -142,45 +154,41 @@ public class ProductCell extends javax.swing.JPanel {
         //imageIcon = new ImageIcon(newimg);
         //lblmgProduct.setIcon(imageIcon);
 
-        lblPriceProduct.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        lblPriceProduct.setText("#PriceOfProduct");
-
-        lblDes.setBackground(new java.awt.Color(51, 51, 51));
-        lblDes.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
-        lblDes.setText("#Description");
+        lblTittle.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lblTittle.setText("#NameOfProduct");
+        lblTittle.setVerticalAlignment(javax.swing.SwingConstants.TOP);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(lblNameProduct, javax.swing.GroupLayout.DEFAULT_SIZE, 104, Short.MAX_VALUE)
-                    .addComponent(lblPriceProduct)
-                    .addComponent(lblDes)
-                    .addComponent(lblmgProduct, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addContainerGap()
+                .addComponent(lblIMGNews, javax.swing.GroupLayout.PREFERRED_SIZE, 203, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblDes, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblTittle, javax.swing.GroupLayout.PREFERRED_SIZE, 206, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(lblmgProduct, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(12, 12, 12)
-                .addComponent(lblNameProduct)
-                .addGap(12, 12, 12)
-                .addComponent(lblPriceProduct)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(lblDes)
-                .addContainerGap(18, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap(14, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(lblTittle, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(4, 4, 4)
+                        .addComponent(lblDes, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lblIMGNews, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(14, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel lblDes;
-    private javax.swing.JLabel lblNameProduct;
-    private javax.swing.JLabel lblPriceProduct;
-    private javax.swing.JLabel lblmgProduct;
+    private javax.swing.JLabel lblIMGNews;
+    private javax.swing.JLabel lblTittle;
     // End of variables declaration//GEN-END:variables
 }

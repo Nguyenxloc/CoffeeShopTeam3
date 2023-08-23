@@ -62,6 +62,7 @@ public class MainOfNV extends javax.swing.JFrame {
         home = new WalletForm();
         formThongbao = new Form_ThongBao();
         home = new WalletForm();         
+        home = new WalletForm();   
         formThongbao = new Form_ThongBao();
         formBanHang = new Form_BanHang();
         form_KhuyenMai = new Form_KhuyenMai();

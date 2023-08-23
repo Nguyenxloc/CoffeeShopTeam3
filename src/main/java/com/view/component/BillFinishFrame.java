@@ -5,6 +5,7 @@
 package com.view.component;
 
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.regex.Pattern;
@@ -35,7 +36,9 @@ public class BillFinishFrame extends javax.swing.JFrame {
     private ArrayList<HoaDonChiTiet> lstHoaDonChiTiet;
     private HoaDon hoaDon;
     private double totalCheck = 0;
+    private double totalCheckWithDiscount = 0;
     private double localMoneyTake;
+    private double moneyChange = 0;
 
     public BillFinishFrame(String id) {
         initComponents();
@@ -47,6 +50,7 @@ public class BillFinishFrame extends javax.swing.JFrame {
     }
 
     public void loadData() {
+        DecimalFormat formatter = new DecimalFormat("###,###,###");
         int stt = 0;
         double cellCheck = 0;
         hoaDon = hoaDonService.getHoaDonByID(LocalId);
@@ -72,27 +76,29 @@ public class BillFinishFrame extends javax.swing.JFrame {
             model.addRow(new Object[]{stt, hoaDonChiTiet.getChiTietDoUong().getTenDoUong(), hoaDonChiTiet.getSoLuong(),
                 hoaDonChiTiet.getChiTietDoUong().getGiaBan(), cellCheck});
         }
-        lblTotalCheck.setText(String.valueOf(totalCheck));
-        double moneyChange = Double.parseDouble(String.valueOf(hoaDon.getMoneyTake())) - totalCheck;
+        lblTotalCheck.setText(formatter.format(totalCheck));
+        moneyChange = Double.parseDouble(String.valueOf(hoaDon.getMoneyTake())) - totalCheck;
         System.out.println(totalCheck);
-        lblMoneyChange.setText(String.valueOf(moneyChange));
+        lblMoneyChange.setText(formatter.format(moneyChange));
 
-        lblTotalCheck.setText(String.valueOf(totalCheck) + " VNĐ");
+        lblTotalCheck.setText(formatter.format(totalCheck) + " VNĐ");
         if (hoaDon.getMaGiamGia().getMaKM() != null) {
+            totalCheckWithDiscount = totalCheck - totalCheck * (Double.valueOf(hoaDon.getMaGiamGia().getGiaTri()) / 100);
             lblDiscountPer.setText(String.valueOf(hoaDon.getMaGiamGia().getGiaTri()) + hoaDon.getMaGiamGia().getLoaiKM());
-            lblCheckAfterDiscount.setText(String.valueOf(totalCheck - totalCheck * (Double.valueOf(hoaDon.getMaGiamGia().getGiaTri()) / 100)) + " VNĐ");
+            lblCheckAfterDiscount.setText(formatter.format(totalCheck - totalCheck * (Double.valueOf(hoaDon.getMaGiamGia().getGiaTri()) / 100)) + " VNĐ");
         } else {
             lblDiscountPer.setText("Không");
-            lblCheckAfterDiscount.setText(totalCheck + " VNĐ");
+            lblCheckAfterDiscount.setText(formatter.format(totalCheck) + " VNĐ");
+            totalCheckWithDiscount = totalCheck;
         }
         if (hoaDon.getMoneyTake() != null) {
-            lblMoneyTake.setText(String.valueOf(hoaDon.getMoneyTake()) + " VNĐ");
+            lblMoneyTake.setText(formatter.format(hoaDon.getMoneyTake()) + " VNĐ");
             if (hoaDon.getMaGiamGia().getGiaTri() != null) {
                 moneyChange = Double.parseDouble(String.valueOf(hoaDon.getMoneyTake())) - totalCheck + totalCheck * (Double.valueOf(hoaDon.getMaGiamGia().getGiaTri()) / 100);
             } else {
                 moneyChange = Double.parseDouble(String.valueOf(hoaDon.getMoneyTake())) - totalCheck;
             }
-            lblMoneyChange.setText(String.valueOf(moneyChange) + " VNĐ");
+            lblMoneyChange.setText(formatter.format(moneyChange) + " VNĐ");
         } else {
             lblMoneyTake.setText("");
         }
@@ -104,8 +110,20 @@ public class BillFinishFrame extends javax.swing.JFrame {
         return pattern.matcher(nfdNormalizedString).replaceAll("");
     }
 
+    public static String toKhongDau(String str) {
+        try {
+            String temp = Normalizer.normalize(str, Normalizer.Form.NFD);
+            Pattern pattern = Pattern.compile("\\p{InCombiningDiacriticalMarks}+");
+            return pattern.matcher(temp).replaceAll("").toLowerCase().replaceAll(" ", " ").replaceAll("đ", "d");
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return "";
+    }
+
     public void WriteInvoice() {
         //get the page
+        DecimalFormat formatter = new DecimalFormat("###,###,###");
         PDDocument invc = new PDDocument();
         PDPage newPage = new PDPage();
         invc.addPage(newPage);
@@ -133,7 +151,7 @@ public class BillFinishFrame extends javax.swing.JFrame {
             cs.beginText();
             cs.setFont(PDType1Font.TIMES_ROMAN, 18);
             cs.newLineAtOffset(220, 690);
-            cs.showText("COFFEE CODER");
+            cs.showText("HOA DON THANH TOAN");
             cs.endText();
 
             //Writing Multiple Lines
@@ -141,7 +159,7 @@ public class BillFinishFrame extends javax.swing.JFrame {
             cs.beginText();
             cs.setFont(PDType1Font.TIMES_ROMAN, 14);
             cs.setLeading(20f);
-            cs.newLineAtOffset(100, 610);
+            cs.newLineAtOffset(150, 610);
             cs.showText("So ban: ");
             cs.newLine();
             cs.showText("Ma NV: ");
@@ -158,12 +176,12 @@ public class BillFinishFrame extends javax.swing.JFrame {
             cs.beginText();
             cs.setFont(PDType1Font.TIMES_ROMAN, 14);
             cs.setLeading(20f);
-            cs.newLineAtOffset(210, 610);
+            cs.newLineAtOffset(260, 610);
             cs.showText(String.valueOf(hoaDon.getBan().getIdBan()));
             cs.newLine();
             cs.showText(hoaDon.getNhanVien().getMa());
             cs.newLine();
-            cs.showText(deAccent(hoaDon.getNhanVien().getTen()));
+            cs.showText(toKhongDau(hoaDon.getNhanVien().getTen()));
             cs.newLine();
             cs.showText(hoaDon.getNgayTao().toString());
             cs.newLine();
@@ -174,34 +192,34 @@ public class BillFinishFrame extends javax.swing.JFrame {
 
             cs.beginText();
             cs.setFont(PDType1Font.TIMES_ROMAN, 14);
-            cs.newLineAtOffset(100, 480);
+            cs.newLineAtOffset(150, 480);
             cs.showText("San pham");
             cs.endText();
 
             cs.beginText();
             cs.setFont(PDType1Font.TIMES_ROMAN, 14);
-            cs.newLineAtOffset(220, 480);
+            cs.newLineAtOffset(250, 480);
             cs.showText("Don gia");
             cs.endText();
 
             cs.beginText();
             cs.setFont(PDType1Font.TIMES_ROMAN, 14);
-            cs.newLineAtOffset(330, 480);
+            cs.newLineAtOffset(320, 480);
             cs.showText("So luong");
             cs.endText();
 
             cs.beginText();
             cs.setFont(PDType1Font.TIMES_ROMAN, 14);
-            cs.newLineAtOffset(430, 480);
+            cs.newLineAtOffset(390, 480);
             cs.showText("Thanh tien");
             cs.endText();
 
             cs.beginText();
             cs.setFont(PDType1Font.TIMES_ROMAN, 12);
             cs.setLeading(20f);
-            cs.newLineAtOffset(100, 440);
+            cs.newLineAtOffset(150, 440);
             for (HoaDonChiTiet hoaDonChiTiet : lstHoaDonChiTiet) {
-                String ten = deAccent(hoaDonChiTiet.getChiTietDoUong().getTenDoUong()).toString();
+                String ten = toKhongDau(hoaDonChiTiet.getChiTietDoUong().getTenDoUong()).toString();
                 cs.showText(ten);
                 cs.newLine();
                 n++;
@@ -211,9 +229,9 @@ public class BillFinishFrame extends javax.swing.JFrame {
             cs.beginText();
             cs.setFont(PDType1Font.TIMES_ROMAN, 12);
             cs.setLeading(20f);
-            cs.newLineAtOffset(220, 440);
+            cs.newLineAtOffset(250, 440);
             for (HoaDonChiTiet hoaDonChiTiet : lstHoaDonChiTiet) {
-                cs.showText(String.valueOf(hoaDonChiTiet.getChiTietDoUong().getGiaBan()));
+                cs.showText(formatter.format(hoaDonChiTiet.getChiTietDoUong().getGiaBan()));
                 cs.newLine();
             }
             cs.endText();
@@ -221,7 +239,7 @@ public class BillFinishFrame extends javax.swing.JFrame {
             cs.beginText();
             cs.setFont(PDType1Font.TIMES_ROMAN, 12);
             cs.setLeading(20f);
-            cs.newLineAtOffset(330, 440);
+            cs.newLineAtOffset(320, 440);
             for (HoaDonChiTiet hoaDonChiTiet : lstHoaDonChiTiet) {
                 cs.showText(String.valueOf(hoaDonChiTiet.getSoLuong()));
                 cs.newLine();
@@ -231,10 +249,10 @@ public class BillFinishFrame extends javax.swing.JFrame {
             cs.beginText();
             cs.setFont(PDType1Font.TIMES_ROMAN, 12);
             cs.setLeading(20f);
-            cs.newLineAtOffset(430, 440);
+            cs.newLineAtOffset(390, 440);
             for (HoaDonChiTiet hoaDonChiTiet : lstHoaDonChiTiet) {
                 cellCheckPrint = Double.valueOf(hoaDonChiTiet.getSoLuong()) * Double.valueOf(hoaDonChiTiet.getChiTietDoUong().getGiaBan());
-                cs.showText(String.valueOf(cellCheckPrint));
+                cs.showText(formatter.format(cellCheckPrint));
                 cs.newLine();
             }
             cs.endText();
@@ -242,7 +260,7 @@ public class BillFinishFrame extends javax.swing.JFrame {
             cs.beginText();
             cs.setFont(PDType1Font.TIMES_ROMAN, 14);
             cs.setLeading(20f);
-            cs.newLineAtOffset(330, (420 - (20 * n)));
+            cs.newLineAtOffset(280, (420 - (20 * n)));
             cs.showText("Tong tien: ");
             cs.newLine();
             cs.showText("Giam gia: ");
@@ -257,18 +275,31 @@ public class BillFinishFrame extends javax.swing.JFrame {
             cs.beginText();
             cs.setFont(PDType1Font.TIMES_ROMAN, 14);
             cs.setLeading(20f);
-            cs.newLineAtOffset(430, (420 - (20 * n)));
-            cs.showText("#name8");
+            cs.newLineAtOffset(380, (420 - (20 * n)));
+            cs.showText(formatter.format(totalCheck) + " VND");
             cs.newLine();
-            cs.showText("#name9");
+            cs.showText(hoaDon.getMaGiamGia().getGiaTri() + "%");//giamgia
             cs.newLine();
-            cs.showText("#name10");
+            cs.showText(formatter.format(totalCheckWithDiscount) + " VND");//thucthu
             cs.newLine();
-            cs.showText("#name11");
+            cs.showText(formatter.format(hoaDon.getMoneyTake()) + " VND");//khachdua
             cs.newLine();
-            cs.showText("#name12");
+            cs.showText(formatter.format(moneyChange) + " VND");//tienthua
             cs.endText();
 
+            cs.beginText();
+            cs.setFont(PDType1Font.TIMES_ROMAN, 14);
+            cs.setLeading(20f);
+            cs.newLineAtOffset(250, (220 - (20 * n)));
+            cs.showText("COFFEE CODER");
+            cs.newLine();
+            cs.showText("Dia chi: Ha Noi");
+            cs.newLine();
+            cs.showText("So dien thoai: 0374223222");
+            cs.newLine();
+            cs.showText("Email: Phuclocub@gmail.com");
+            cs.endText();
+            
             //Close the content stream
             cs.close();
             //Save the PDF
@@ -321,7 +352,7 @@ public class BillFinishFrame extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel1.setText("COFFEE CODER");
+        jLabel1.setText("HÓA ĐƠN THANH TOÁN");
 
         jLabel2.setText("Bàn:");
 
@@ -336,10 +367,22 @@ public class BillFinishFrame extends javax.swing.JFrame {
 
             },
             new String [] {
-                "STT", "Tên", "Số lượng", "Đơn giá", "Thành tiền"
+                "STT", "Tên", "SL", "Đơn giá", "Thành tiền"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane1.setViewportView(tblDrinkDetail);
+        if (tblDrinkDetail.getColumnModel().getColumnCount() > 0) {
+            tblDrinkDetail.getColumnModel().getColumn(0).setPreferredWidth(30);
+            tblDrinkDetail.getColumnModel().getColumn(2).setPreferredWidth(30);
+        }
 
         jLabel6.setText("Mã  HĐ:");
 
@@ -385,35 +428,6 @@ public class BillFinishFrame extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                        .addGap(9, 9, 9)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel3)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(lblDate))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addGap(18, 18, 18)
-                                .addComponent(lblBan)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 53, Short.MAX_VALUE)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel5)
-                                .addGap(18, 18, 18))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel4)
-                                .addGap(32, 32, 32)))
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lblTime)
-                            .addComponent(lblCheckStt))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                        .addGap(99, 99, 99)
-                        .addComponent(jLabel1)))
-                .addGap(0, 0, Short.MAX_VALUE))
-            .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
@@ -448,6 +462,34 @@ public class BillFinishFrame extends javax.swing.JFrame {
                                         .addComponent(lblCheckAfterDiscount, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(lblTotalCheck, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 93, Short.MAX_VALUE)))))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(9, 9, 9)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel3)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(lblDate))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel2)
+                                .addGap(18, 18, 18)
+                                .addComponent(lblBan)))
+                        .addGap(48, 48, 48)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel5)
+                                .addGap(18, 18, 18))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel4)
+                                .addGap(32, 32, 32)))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblTime)
+                            .addComponent(lblCheckStt)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(41, 41, 41)
+                        .addComponent(jLabel1)))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -456,9 +498,9 @@ public class BillFinishFrame extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
                     .addComponent(lblMaHD))
-                .addGap(3, 3, 3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(35, 35, 35)
+                .addGap(32, 32, 32)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(jLabel5)

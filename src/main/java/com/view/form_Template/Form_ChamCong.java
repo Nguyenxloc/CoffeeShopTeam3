@@ -150,7 +150,6 @@ public class Form_ChamCong extends javax.swing.JPanel implements Runnable {
         if (validateData()) {
             //Lấy giờ hiện tại
             setTimeGioRa();
-            
             NhanVien nv = nhanVineService.selectByMa(txtMaNhanVien.getText().trim());
             lblHoTenNV.setText(nv.getHo() + " " + nv.getTenDem() + " " + nv.getTen());
             lblGioiTinh.setText(nv.getGioiTinh());
