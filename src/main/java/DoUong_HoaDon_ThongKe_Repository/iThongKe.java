@@ -13,13 +13,13 @@ import java.util.ArrayList;
  */
 public interface iThongKe {
     
-    double getTongDoanhThu();
+    long getTongDoanhThu();
     
     int getTongHoaDon();
     
     int getTongSanPham();
     
-    double getTongDonhThuTheoNgayChon(String d1, String d2);
+    long getTongDonhThuTheoNgayChon(String d1, String d2);
     
     int getTongHoaDonTheoNgayChon(String d1, String d2);
     
