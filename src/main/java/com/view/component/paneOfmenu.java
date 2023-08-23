@@ -104,7 +104,7 @@ public class paneOfmenu extends JPanel {
                     c.gridx = 0;
                     c.gridy = 0;
                     c.gridwidth = 1;
-                    c.insets = new Insets(1, 1, -30, 1);
+                    c.insets = new Insets(1, 1, -20, 1);
                     this.add(tittle, c);
                 }
                 try {
@@ -122,7 +122,7 @@ public class paneOfmenu extends JPanel {
                             c.gridx = j;
                             c.gridy = i-1;
                             c.gridwidth = 1;
-                            c.insets = new Insets(1, 1, -30, 1);
+                            c.insets = new Insets(1, 1, -20, 1);
                             this.add(tit, c);
                             break;
                         }
