@@ -355,7 +355,7 @@ public class LoginFrame extends javax.swing.JFrame {
             NhanVien User = dao.selectByAccount(manv);
             if (User != null) {
                 String matKhau2 = User.getPassword();
-                CapBac capBac = daoCapBac.selectByID(User.getIdCB());
+                CapBac capBac = daoCapBac.selectByID(User.getCapBac().getId());
                 String vaiTro = capBac.getTenCB();
                 if (matKhau.equals(matKhau2)) {
                     //ShareHelper.USER = User;

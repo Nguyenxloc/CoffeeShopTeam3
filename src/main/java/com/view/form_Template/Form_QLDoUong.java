@@ -205,78 +205,17 @@ public class Form_QLDoUong extends javax.swing.JPanel {
         loadData();
     }
 
-
     public void timKiem() {
         String tenDoUong = txtTimKiemTenDoUong.getText();
         int count = cboTimKiemDanhMucDoUong.getSelectedIndex();
         String idLoaiDoUong = lstLoaiDoUong.get(count).getId();
         double giaBatDau = 0;
         double giaKetThuc = 0;
-//    public void timKiem() {
-//        String tenDoUong = txtTimKiemTenDoUong.getText();
-//        if(tenDoUong.equalsIgnoreCase(""))
-//           tenDoUong = null;
-//        int count = cboTimKiemDanhMucDoUong.getSelectedIndex();
-//        String idLoaiDoUong = lstLoaiDoUong.get(count).getId();
-//        double giaBatDau=0;
-//        double giaKetThuc=0;
-////        try {
-////            giaBatDau = Double.parseDouble(txtStartPrice.getText());
-////        } catch (Exception e) {
-////            giaBatDau = 0;
-////        }
-////
-////        try (FileOutputStream outputStream = new FileOutputStream("DSSanPham.xlsx")) {
-////            workbook.write(outputStream);
-////        }
-////    }
-////
-////    public void convertURLToBytes() throws IOException {
-////        BufferedImage bImage = ImageIO.read(new File(lblUrl.getText()));
-////        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-////        ImageIO.write(bImage, "jpg", bos);
-////        imgBytes = bos.toByteArray();
-////    }
-////
-////    public void clear() {
-////        lblHinhAnh.setIcon(null);
-////        lblHinhAnh.setText("Ảnh");
-////        lblUrl.setText("#url");
-////        txtTenDoUong.setText("");
-////        cboDanhMucDoUong.setSelectedIndex(0);
-////        txtGiaNhapDoUong.setText("");
-////        txtGiaBanDoUong.setText("");
-////        taraMota.setText("");
-////        index = -1;
-////        imgBytes = null;
-////        loadData();
-////    }
-//
-    public void timKiem() {
-        String tenDoUong = txtTimKiemTenDoUong.getText();
-        if(tenDoUong.equalsIgnoreCase(""))
-           tenDoUong = null;
-        int count = cboTimKiemDanhMucDoUong.getSelectedIndex();
-        String idLoaiDoUong = lstLoaiDoUong.get(count).getId();
-        double giaBatDau=0;
-        double giaKetThuc=0;
-//        try {
-//            giaBatDau = Double.parseDouble(txtStartPrice.getText());
-//        } catch (Exception e) {
-//            giaBatDau = 0;
-//        }
-//        
-//        try {
-//             giaKetThuc = Double.parseDouble(txtEndPrice.getText());
-//        } catch (Exception e) {
-//             giaKetThuc = 0;
-//        }
         try {
             DefaultTableModel model = new DefaultTableModel();
             model = (DefaultTableModel) tblDanhSachDoUong.getModel();
             model.setRowCount(0);
             lstChiTietDoUong = chiTietDoUongService.getTimKiem(tenDoUong, idLoaiDoUong, giaBatDau, giaKetThuc);
-            lstChiTietDoUong = chiTietDoUongService.getTimKiem(tenDoUong, idLoaiDoUong, giaBatDau,giaKetThuc);
             int i = 1;
             for (ChiTietDoUong chiTietDoUong : lstChiTietDoUong) {
                 model.addRow(new Object[]{
@@ -291,13 +230,6 @@ public class Form_QLDoUong extends javax.swing.JPanel {
             e.printStackTrace();
         }
 
-    }
-    public void loadHinhAnh(){
-        ImageIcon  oriImgIcon = new ImageIcon(lstChiTietDoUong.get(index).getHinhAnh());
-        Image image = oriImgIcon.getImage(); // transform it
-        Image newimg = image.getScaledInstance(79,120,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
-        ImageIcon imageIcon = new ImageIcon(newimg);
-        lblHinhAnh.setIcon(imageIcon);
     }
 
     /**
@@ -347,19 +279,15 @@ public class Form_QLDoUong extends javax.swing.JPanel {
         jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(0, 0, 0));
         jLabel2.setText("Tên đồ uống:");
 
         jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(0, 0, 0));
         jLabel7.setText("Loại đồ uống:");
 
         jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel8.setForeground(new java.awt.Color(0, 0, 0));
         jLabel8.setText("Giá nhập:");
 
         jLabel10.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel10.setForeground(new java.awt.Color(0, 0, 0));
         jLabel10.setText("Mô tả:");
 
         taraMota.setColumns(20);
@@ -388,7 +316,6 @@ public class Form_QLDoUong extends javax.swing.JPanel {
         });
 
         jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel9.setForeground(new java.awt.Color(0, 0, 0));
         jLabel9.setText("Giá bán:");
 
         lblHinhAnh.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -518,11 +445,9 @@ public class Form_QLDoUong extends javax.swing.JPanel {
         jPanel1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnClear, btnSua, btnThem, btnXuatFileExcel});
 
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Tìm kiếm sản phẩm", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 14), new java.awt.Color(0, 0, 0))); // NOI18N
-        jPanel4.setForeground(new java.awt.Color(0, 0, 0));
+        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Tìm kiếm sản phẩm", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 14))); // NOI18N
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(0, 0, 0));
         jLabel4.setText("Tên đồ uống: ");
 
         cboTimKiemDanhMucDoUong.addActionListener(new java.awt.event.ActionListener() {
@@ -532,7 +457,6 @@ public class Form_QLDoUong extends javax.swing.JPanel {
         });
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(0, 0, 0));
         jLabel5.setText("Loại đồ uống: ");
 
         btnTimKiem.setText("Tìm kiếm");
@@ -579,7 +503,7 @@ public class Form_QLDoUong extends javax.swing.JPanel {
         );
 
         jPanel5.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Danh sách sản phẩm", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 14), new java.awt.Color(0, 0, 0))); // NOI18N
+        jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Danh sách sản phẩm", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 14))); // NOI18N
 
         tblDanhSachDoUong.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
