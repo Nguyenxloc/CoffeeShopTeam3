@@ -5,17 +5,17 @@
 package repository;
 
 import java.util.List;
-import model.Ban;
 import java.sql.*;
 import java.util.ArrayList;
+import model.BanHung;
 import ultilities.DBConnection;
 /**
  *
  * @author MSI-G8
  */
 public class BanRepository {
-    public List<Ban> getALL(){
-        List<Ban> bans = new ArrayList<>();
+    public List<BanHung> getALL(){
+        List<BanHung> bans = new ArrayList<>();
         try {
             Connection con = DBConnection.getConnection();
             String query = "SELECT IdBan, Ten "
@@ -23,7 +23,7 @@ public class BanRepository {
             Statement st = con.createStatement();
             ResultSet rs = st.executeQuery(query);
             while(rs.next()){
-                Ban ban = new Ban();
+                BanHung ban = new BanHung();
                 ban.setIdBan(rs.getInt("IdBan"));
                 ban.setTen(rs.getString("Ten"));
                 
@@ -40,8 +40,9 @@ public class BanRepository {
         int count = 0;
         try {
             Connection con = DBConnection.getConnection();
-            String query = "SELECT COUNT(*) FROM Ban WHERE Id";
+            String query = "SELECT COUNT(*) FROM Ban WHERE IdBan = ?";
             PreparedStatement st = con.prepareStatement(query);
+            st.setInt(1, id);
             ResultSet rs = st.executeQuery();
             while(rs.next()){
                 count = rs.getInt(1);
@@ -53,7 +54,7 @@ public class BanRepository {
         return count > 0;
     }
     
-    public void them(Ban ban){
+    public void them(BanHung ban){
         try {
             Connection con = DBConnection.getConnection();
             String query = "INSERT INTO Ban "
@@ -62,6 +63,8 @@ public class BanRepository {
             PreparedStatement st = con.prepareStatement(query);
             st.setInt(1, ban.getIdBan());
             st.setString(2, ban.getTen());
+            
+            st.execute();
             
             st.close();
             con.close();
@@ -77,6 +80,8 @@ public class BanRepository {
             PreparedStatement st = con.prepareStatement(query);
             st.setInt(1, id);
             
+            st.execute();
+            
             st.close();
             con.close();
         } catch (Exception e) {
@@ -84,15 +89,17 @@ public class BanRepository {
         }
     }
     
-    public void sua(Ban ban){
+    public void sua(BanHung ban){
         try {
             Connection con = DBConnection.getConnection();
             String query = "UPDATE Ban "
                     + "SET Ten =? "
-                    + "WHERE  (IdBan = 1)";
+                    + "WHERE  (IdBan = ?)";
             PreparedStatement st = con.prepareStatement(query);
             st.setString(1, ban.getTen());
             st.setInt(2, ban.getIdBan());
+            
+            st.executeUpdate();
             
             st.close();
             con.close();

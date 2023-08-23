@@ -7,7 +7,7 @@ package com.view.form_Template;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import service.BanServicee;
+import service.BanServiceHung;
 import service.IBanService;
 import viewModel.QLBan;
 
@@ -17,7 +17,7 @@ import viewModel.QLBan;
  */
 public class Form_QLBan extends javax.swing.JPanel {
 
-    private IBanService banService = new BanServicee();
+    private IBanService banService = new BanServiceHung();
     
     /**
      * Creates new form Form_QLBan
@@ -36,26 +36,42 @@ public class Form_QLBan extends javax.swing.JPanel {
             Object[] rowData = {b.getIdBan(), b.getTen()};
             dtm.addRow(rowData);
         }
-        
     }
     
     private QLBan getForm(){
+        String idd = txtIdBan.getText();
         String ten = txtTenBan.getText();
-        if(ten.trim().equals("")){
+        if(ten.trim().equals("") || idd.trim().equals("")){
             JOptionPane.showMessageDialog(this, "Không được đẻ trống");
             return null;
         }
         if(!ten.matches("^[\\p{L}\\p{M}0-9 ]+$")){
             JOptionPane.showMessageDialog(this, "Tên không hợp lệ");
         }
+        
+        
+        try {
+            int id = Integer.parseInt(idd);
+        
         QLBan ban = new QLBan();
+        ban.setIdBan(id);
         ban.setTen(ten);
         return ban;
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "ID không đúng định dạng");
+            return null;
+        }
+    }
+    
+    public void mouseClick(){
+        int row = tblBan.getSelectedRow();
+        txtIdBan.setText(tblBan.getValueAt(row, 0).toString());
+        txtTenBan.setText(tblBan.getValueAt(row, 1).toString());
     }
     
     public void clear(){
+        txtIdBan.getText();
         txtTenBan.getText();
-        txtThoiGian.getText();
     }
     
     /**
@@ -72,8 +88,8 @@ public class Form_QLBan extends javax.swing.JPanel {
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
+        txtIdBan = new javax.swing.JTextField();
         txtTenBan = new javax.swing.JTextField();
-        txtThoiGian = new javax.swing.JTextField();
         jPanel4 = new javax.swing.JPanel();
         btnClear = new javax.swing.JButton();
         btnThem = new javax.swing.JButton();
@@ -87,9 +103,15 @@ public class Form_QLBan extends javax.swing.JPanel {
         jLabel1.setForeground(new java.awt.Color(255, 51, 0));
         jLabel1.setText("QUẢN LÝ BÀN");
 
-        jLabel2.setText("Tên bàn: ");
+        jLabel2.setText("ID bàn: ");
 
-        jLabel3.setText("Thời gian:");
+        jLabel3.setText("Tên bàn:");
+
+        txtIdBan.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtIdBanKeyReleased(evt);
+            }
+        });
 
         btnClear.setText("Làm mới");
         btnClear.addActionListener(new java.awt.event.ActionListener() {
@@ -132,7 +154,7 @@ public class Form_QLBan extends javax.swing.JPanel {
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnXoa)
                     .addComponent(btnThem))
-                .addContainerGap(48, Short.MAX_VALUE))
+                .addContainerGap(55, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -159,8 +181,8 @@ public class Form_QLBan extends javax.swing.JPanel {
                     .addComponent(jLabel3))
                 .addGap(49, 49, 49)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(txtTenBan)
-                    .addComponent(txtThoiGian, javax.swing.GroupLayout.DEFAULT_SIZE, 222, Short.MAX_VALUE))
+                    .addComponent(txtIdBan)
+                    .addComponent(txtTenBan, javax.swing.GroupLayout.DEFAULT_SIZE, 222, Short.MAX_VALUE))
                 .addGap(47, 47, 47)
                 .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
@@ -171,11 +193,11 @@ public class Form_QLBan extends javax.swing.JPanel {
                 .addGap(25, 25, 25)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(txtTenBan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtIdBan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(txtThoiGian, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtTenBan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(29, 29, 29))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap(15, Short.MAX_VALUE)
@@ -194,6 +216,11 @@ public class Form_QLBan extends javax.swing.JPanel {
                 "ID", "Tên Bàn"
             }
         ));
+        tblBan.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblBanMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblBan);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -268,12 +295,13 @@ public class Form_QLBan extends javax.swing.JPanel {
 
     private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
         QLBan b = getForm();
-        int row = tblBan.getSelectedRow();
-        int id = (int) tblBan.getValueAt(0, row);
-        if(row == -1){
-            JOptionPane.showMessageDialog(this, " Chọn 1 dòng để Sửa");
-            return;
-        }
+//        int row = tblBan.getSelectedRow();
+//        String idd = tblBan.getValueAt(row, 0).toString();
+//        int id = Integer.parseInt(idd);
+//        if(row == -1){
+//            JOptionPane.showMessageDialog(this, " Chọn 1 dòng để Sửa");
+//            return;
+//        }
         if(b != null){
             banService.sua(b);
             loadTable();
@@ -285,14 +313,25 @@ public class Form_QLBan extends javax.swing.JPanel {
 
     private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
         int row = tblBan.getSelectedRow();
-        int id = (int) tblBan.getValueAt(0, row);
+        String id =  tblBan.getValueAt(row, 0).toString();
+        int idd = Integer.parseInt(id);
         if(row == -1){
             JOptionPane.showMessageDialog(this, " Chọn 1 dòng để xóa");
             return;
         }else{
-            banService.xoa(id);
+            banService.xoa(idd);
+            loadTable();
+            clear();
         }
     }//GEN-LAST:event_btnXoaActionPerformed
+
+    private void txtIdBanKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtIdBanKeyReleased
+//        if(Character.isDigit(0))
+    }//GEN-LAST:event_txtIdBanKeyReleased
+
+    private void tblBanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblBanMouseClicked
+        
+    }//GEN-LAST:event_tblBanMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -309,7 +348,7 @@ public class Form_QLBan extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tblBan;
+    private javax.swing.JTextField txtIdBan;
     private javax.swing.JTextField txtTenBan;
-    private javax.swing.JTextField txtThoiGian;
     // End of variables declaration//GEN-END:variables
 }

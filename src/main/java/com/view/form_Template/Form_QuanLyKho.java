@@ -109,7 +109,7 @@ public class Form_QuanLyKho extends javax.swing.JPanel {
             nk.setDonGia(dGiaFomat);
             return nk;
         } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "Số lượng phải là số");
+            JOptionPane.showMessageDialog(this, "Số lượng không hợp lệ");
             return null;
         }
 

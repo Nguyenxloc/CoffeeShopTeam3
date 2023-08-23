@@ -97,6 +97,8 @@ public class MainTemplate extends javax.swing.JFrame {
         form_LoaiDoUong = new Form_LoaiDoUong();
         System.out.println("==========Loading Form_QuanLyCapBac==========");
         form_CapBac = new Form_CapBac();
+        System.out.println("==========Loading Form_QLBan==========");
+        form_QLBan = new Form_QLBan();
         System.out.println("==========Loading Form_QuanLyThongKe==========");
         form_ThongKe = new Form_ThongKe();
         setBackground(new Color(0, 0, 0, 0));

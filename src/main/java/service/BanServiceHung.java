@@ -7,7 +7,7 @@ package service;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
-import model.Ban;
+import model.BanHung;
 import repository.BanRepository;
 import viewModel.QLBan;
 
@@ -15,16 +15,16 @@ import viewModel.QLBan;
  *
  * @author MSI-G8
  */
-public class BanServicee implements IBanService{
+public class BanServiceHung implements IBanService{
 
     private BanRepository banRepository = new BanRepository();
     
     @Override
     public List<QLBan> getALl() {
         List<QLBan> ds = new ArrayList<>();
-        List<Ban> list = banRepository.getALL();
-        for(Ban b : list){
-            QLBan ban = new QLBan(b.getIdBan(), b.getTen(), "");
+        List<BanHung> list = banRepository.getALL();
+        for(BanHung b : list){
+            QLBan ban = new QLBan(b.getIdBan(), b.getTen());
             ds.add(ban);
         }
         return ds;
@@ -32,7 +32,7 @@ public class BanServicee implements IBanService{
 
     @Override
     public void them(QLBan ban) {
-        Ban domainModel = new Ban(ban.getIdBan(), ban.getTen(), "");
+        BanHung domainModel = new BanHung(ban.getIdBan(), ban.getTen());
         if(banRepository.checkMa(ban.getIdBan())){
             JOptionPane.showMessageDialog(null, "Id đã tồn tại");
             return;
@@ -49,12 +49,12 @@ public class BanServicee implements IBanService{
 
     @Override
     public void sua(QLBan ban) {
-        Ban domainModel = new Ban(ban.getIdBan(), ban.getTen(), "");
+        BanHung domainModel = new BanHung(ban.getIdBan(), ban.getTen());
         if(banRepository.checkMa(ban.getIdBan())){
-            JOptionPane.showMessageDialog(null, "Thêm Thành Công");
-             banRepository.them(domainModel);
+            JOptionPane.showMessageDialog(null, "Sửa Thành Công");
+             banRepository.sua(domainModel);
         }else{
-            JOptionPane.showMessageDialog(null, "Id đã tồn tại");
+            JOptionPane.showMessageDialog(null, "Id không thể sửa");
             return;
         }
     }
