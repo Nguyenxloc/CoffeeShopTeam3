@@ -24,6 +24,7 @@ public class TaiKhoan {
     private String matKhau;
     private CapBac capBac;
     private String trangThai;
+    private String taiKhoan;
 
     public TaiKhoan() {
     }
@@ -42,6 +43,32 @@ public class TaiKhoan {
         this.capBac = capBac;
         this.trangThai = trangThai;
     }
+
+    public TaiKhoan(String idNV, String maNV, String tenNV, String tenDemNV, String hoNV, String gioiTinh, Date ngaySinh, String diaChi, String soDT, String matKhau, CapBac capBac, String trangThai, String taiKhoan) {
+        this.idNV = idNV;
+        this.maNV = maNV;
+        this.tenNV = tenNV;
+        this.tenDemNV = tenDemNV;
+        this.hoNV = hoNV;
+        this.gioiTinh = gioiTinh;
+        this.ngaySinh = ngaySinh;
+        this.diaChi = diaChi;
+        this.soDT = soDT;
+        this.matKhau = matKhau;
+        this.capBac = capBac;
+        this.trangThai = trangThai;
+        this.taiKhoan = taiKhoan;
+    }
+
+    public String getTaiKhoan() {
+        return taiKhoan;
+    }
+
+    public void setTaiKhoan(String taiKhoan) {
+        this.taiKhoan = taiKhoan;
+    }
+    
+    
 
     public String getIdNV() {
         return idNV;

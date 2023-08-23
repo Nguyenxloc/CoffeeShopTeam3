@@ -38,6 +38,11 @@ public class DAO_HoaDon {
     final String UPDATE_CHECKSTT = "UPDATE dbo.HoaDon SET TinhTrangThanhToan=? WHERE Id=?";
     final String UPDATE_DISCOUNT = "UPDATE dbo.HoaDon SET MaGiamGia=? WHERE Id=?";
     final String SELECT_TOP1BYACENDING = "SELECT TOP 1*FROM dbo.HoaDon ORDER BY NumOrder DESC;";
+    final String SELECT_ALL_BY_SALE = "SELECT HoaDon.Ma,HOADON.NgayTao,TinhTrangThanhToan,MaGiamGia,HoaDon.IdNV,NhanVien.Ho + ' '+ NhanVien.TenDem + ' ' + NhanVien.Ten AS HOTENNHANVIEN FROM HoaDon\n"
+            + "JOIN NhanVien ON HoaDon.IdNV = NhanVien.Id";
+    final String SELECT_ALL_BY_MAGIAMGIA = "SELECT HoaDon.Ma,HOADON.NgayTao,TinhTrangThanhToan,MaGiamGia,HoaDon.IdNV,NhanVien.Ho + ' '+ NhanVien.TenDem + ' ' + NhanVien.Ten AS HOTENNHANVIEN FROM HoaDon\n"
+            + "JOIN NhanVien ON HoaDon.IdNV = NhanVien.Id where MaGiamGia = ?";
+
     DAO_Ban dao_Ban = new DAO_Ban();
     DAO_KhachHang dao_KhachHang = new DAO_KhachHang();
     DAO_NhanVien dao_NhanVien = new DAO_NhanVien();
@@ -244,5 +249,51 @@ public class DAO_HoaDon {
             e.printStackTrace();
         }
 
+    }
+
+    // Hàm lấy hóa đơn trong màn Giảm giá(Sale) theo mã giảm giá
+    public ArrayList<HoaDon> selectHoaDonBySale() {
+        DBConnection1 dbConn = new DBConnection1();
+        ArrayList<HoaDon> lstHoaDon = new ArrayList<>();
+        try {
+            ResultSet rs = dbConn.getDataFromQuery(SELECT_ALL_BY_SALE);
+            while (rs.next()) {
+                NhanVien nhanVien = dao_NhanVien.selectByID(rs.getString("IdNV"));
+                GiamGia giamGia = dao_GiamGia.selectByID(rs.getString("MaGiamGia"));
+                HoaDon hoaDon = new HoaDon();
+                hoaDon.setNhanVien(nhanVien);
+                hoaDon.setMa(rs.getString("Ma"));
+                hoaDon.setNgayTao(rs.getDate("NgayTao"));
+                hoaDon.setTinhTrangThanhToan(rs.getInt("TinhTrangThanhToan"));
+                hoaDon.setMaGiamGia(giamGia);
+                lstHoaDon.add(hoaDon);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return lstHoaDon;
+    }
+
+    // Hàm lấy hóa đơn trong màn Giảm giá(Sale) theo mã giảm giá
+    public ArrayList<HoaDon> selectHoaDonByMaGiamGia(String maGiamGia) {
+        DBConnection1 dbConn = new DBConnection1();
+        ArrayList<HoaDon> lstHoaDon = new ArrayList<>();
+        try {
+            ResultSet rs = dbConn.getDataFromQuery(SELECT_ALL_BY_MAGIAMGIA, maGiamGia);
+            while (rs.next()) {
+                NhanVien nhanVien = dao_NhanVien.selectByID(rs.getString("IdNV"));
+                GiamGia giamGia = dao_GiamGia.selectByID(rs.getString("MaGiamGia"));
+                HoaDon hoaDon = new HoaDon();
+                hoaDon.setNhanVien(nhanVien);
+                hoaDon.setMa(rs.getString("Ma"));
+                hoaDon.setNgayTao(rs.getDate("NgayTao"));
+                hoaDon.setTinhTrangThanhToan(rs.getInt("TinhTrangThanhToan"));
+                hoaDon.setMaGiamGia(giamGia);
+                lstHoaDon.add(hoaDon);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return lstHoaDon;
     }
 }

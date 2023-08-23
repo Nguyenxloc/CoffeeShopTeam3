@@ -69,6 +69,34 @@ public class MainTemplate extends javax.swing.JFrame {
 
     public MainTemplate() {
         initComponents();
+        System.out.println("==========Loading Form_thongBao==========");
+        formThongbao = new Form_ThongBao();
+        System.out.println("==========Loading Form_BanHang==========");
+        formBanHang = new Form_BanHang();
+        luongNhanVien = new TinhLuongNhanVien();
+        System.out.println("==========Loading Form_KhuyenMai==========");
+        form_KhuyenMai = new Form_KhuyenMai();
+        System.out.println("==========Loading Form_QuanLyNhanVien==========");
+        formQLNhanVien = new QuanLyNhanVien();
+        System.out.println("==========Loading Form_TaoTaiKhoan==========");
+        form_TaoTaiKhoan = new Form_TaoTaiKhoan();
+        System.out.println("==========Loading Form_QuanLyDoUong==========");
+        form_QLDoUong = new Form_QLDoUong();
+        System.out.println("==========Loading Form_QuanLyHoaDon==========");
+        formQLHoaDon = new Form_QLHoaDon();
+        System.out.println("==========Loading Form_QuanLyNhapKho==========");
+        form_QuanLyKho = new Form_QuanLyKho();
+        form_GiaoCa = new Form_GiaoCa();
+        System.out.println("==========Loading Form_GiaoCa==========");
+        form_GiaoCa = new Form_GiaoCa();
+        System.out.println("==========Loading Form_ChamCong==========");
+        form_ChamCong = new Form_ChamCong();
+        System.out.println("==========Loading Form_QuanLyLoaiDoUong==========");
+        form_LoaiDoUong = new Form_LoaiDoUong();
+        System.out.println("==========Loading Form_QuanLyCapBac==========");
+        form_CapBac = new Form_CapBac();
+        System.out.println("==========Loading Form_QuanLyThongKe==========");
+        form_ThongKe = new Form_ThongKe();
         Thread t1 = new Thread(
                 () -> {
                     formThongbao = new Form_ThongBao();

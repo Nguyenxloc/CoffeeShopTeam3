@@ -59,11 +59,9 @@ public class Form_ChamCong extends javax.swing.JPanel implements Runnable {
         return dateFormat.format(now);
 
     }
-////
 
     private void setForm() {
         // Lấy ngày và thời gian hiện tại
-//        Date now = new Date();
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(now);
 
@@ -78,11 +76,10 @@ public class Form_ChamCong extends javax.swing.JPanel implements Runnable {
         String gioVao = String.format("%02d:%02d:%02d", hour, minute, second);
 
         txtNgay.setText(ngay);
-        txtGioVao.setText(gioVao);
 
     }
 
-    private void setTime() {
+    private void setTimeGioRa() {
         // Lấy ngày và thời gian hiện tại
         Date now = new Date();
         Calendar calendar = Calendar.getInstance();
@@ -91,19 +88,32 @@ public class Form_ChamCong extends javax.swing.JPanel implements Runnable {
         int minute = calendar.get(Calendar.MINUTE);
         int second = calendar.get(Calendar.SECOND);
 
-        String gioRa = hour + ":" + minute + ":" + second;
+        String gioRa = String.format("%02d:%02d:%02d", hour, minute, second);
         txtGioRa.setText(gioRa);
+    }
+    
+     private void setTimeGioVao() {
+        // Lấy ngày và thời gian hiện tại
+        Date now = new Date();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(now);
+        int hour = calendar.get(Calendar.HOUR_OF_DAY);
+        int minute = calendar.get(Calendar.MINUTE);
+        int second = calendar.get(Calendar.SECOND);
+
+         String gioVao = String.format("%02d:%02d:%02d", hour, minute, second);
+        txtGioVao.setText(gioVao);
     }
 
     private void chamCongGioVao() {
         if (validateData()) {
+            setTimeGioVao();
             NhanVien nv = nhanVineService.selectByMa(txtMaNhanVien.getText().trim());
 
             lblHoTenNV.setText(nv.getHo() + " " + nv.getTenDem() + " " + nv.getTen());
             lblGioiTinh.setText(nv.getGioiTinh());
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
             Date ngaySinh = nv.getDob();
-            System.out.println(ngaySinh);
             String ngaySinFormat = simpleDateFormat.format(ngaySinh);
             lblNgaySinh.setText(ngaySinFormat);
             lblDiaChi.setText(nv.getDiaChi());
@@ -138,10 +148,19 @@ public class Form_ChamCong extends javax.swing.JPanel implements Runnable {
 
     private void chamCongGioRa() {
         if (validateData()) {
-
+            //Lấy giờ hiện tại
+            setTimeGioRa();
             NhanVien nv = nhanVineService.selectByMa(txtMaNhanVien.getText().trim());
             lblHoTenNV.setText(nv.getHo() + " " + nv.getTenDem() + " " + nv.getTen());
-            setTime();
+            lblGioiTinh.setText(nv.getGioiTinh());
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
+            Date ngaySinh = nv.getDob();
+            String ngaySinFormat = simpleDateFormat.format(ngaySinh);
+            lblNgaySinh.setText(ngaySinFormat);
+            lblDiaChi.setText(nv.getDiaChi());
+            lblSoDienThoai.setText(nv.getSdt());
+            lblChucVu.setText(nv.getCapBac().getTenCB());
+
             byte[] hinhAnh = nv.getImg();
             lblHinhAnh2.setText("");
             ImageIcon oriImgIcon = new ImageIcon(hinhAnh);
@@ -157,16 +176,15 @@ public class Form_ChamCong extends javax.swing.JPanel implements Runnable {
 
             int choice = JOptionPane.showConfirmDialog(this, "Xác thực chấm công giờ ra", "Accuracy?", JOptionPane.YES_NO_OPTION);
             if (choice == JOptionPane.YES_OPTION) {
-                System.out.println(chamCong.getNv().getId());
-                System.out.println(chamCong.getNgay());
-                System.out.println(chamCong.getGioVao());
-                System.out.println(chamCong.getGioRa());
-                System.out.println(chamCong.getIdChamCong());
+
                 String idChamCong = chamCong.getIdChamCong();
                 chamCongService.update(idChamCong, chamCong);
                 JOptionPane.showMessageDialog(this, "Chấm công giờ Ra thành công");
                 clearForm();
+            } else {
+                clearForm();
             }
+
         }
 
     }
@@ -250,6 +268,9 @@ public class Form_ChamCong extends javax.swing.JPanel implements Runnable {
         lblHinhAnh2.setIcon(null);
         lblHinhAnh2.setText("Ảnh");
         txtMaNhanVien.setText("");
+        
+        txtGioVao.setText("00:00 AM");
+        txtGioRa.setText("00:00 AM");
     }
 
     /**
