@@ -15,10 +15,13 @@ import java.awt.GridLayout;
 import java.awt.HeadlessException;
 import java.awt.Image;
 import java.awt.Insets;
+import java.awt.Robot;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.ArrayList;
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -47,17 +50,18 @@ public class paneOfmenu extends JPanel {
     static HoaDon localHoaDon = new HoaDon();
     static JTable localTbl = new JTable();
     static JLabel localLblCheck = new JLabel();
-    String path = "C:\\Users\\84374\\Documents\\NetBeansProjects\\CoffeeShop\\src\\main\\java\\com\\view\\icon\\coffe.png";
+    String path = "src\\main\\java\\com\\view\\icon\\menufhd.jpg";
     File file = new File(path);
     String absolutePath = file.getAbsolutePath();
     String dir = absolutePath;
     ImageIcon oriImgIcon = new ImageIcon(dir);
     Image image = oriImgIcon.getImage(); // transform it
 
+
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        g.drawImage(image, 0, 0, 650, 700, null);
+        g.drawImage(image, 0, 0, 650, 800, null);
     }
 
     public paneOfmenu(ArrayList<ChiTietDoUong> lstMenu, byte[] img) {
@@ -68,7 +72,7 @@ public class paneOfmenu extends JPanel {
         GridBagConstraints c = new GridBagConstraints();
         JLabel lbl = new JLabel();
         lbl.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        lbl.setForeground(new java.awt.Color(102, 0, 0));
+        lbl.setForeground(new java.awt.Color(239, 204, 162));
         lbl.setText("Menu");
         lbl.setHorizontalAlignment(SwingConstants.CENTER);
         c.weighty = 1.0;
@@ -78,7 +82,7 @@ public class paneOfmenu extends JPanel {
         c.gridy = 0;
         c.gridwidth = 3;
         this.add(lbl, c);
-        
+
         for (int i = 0; i < lstMenu.size(); i++) {
             if (i > 0) {
                 if (lstMenu.get(i).getLoaiDoUong().getId().equals(lstMenu.get(i - 1).getLoaiDoUong().getId())) {
@@ -94,7 +98,7 @@ public class paneOfmenu extends JPanel {
                 if (i == 1 && j == 0) {
                     JLabel tittle = new JLabel();
                     tittle.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-                    tittle.setForeground(new java.awt.Color(102, 0, 0));
+                    tittle.setForeground(new java.awt.Color(239, 204, 162));
                     tittle.setText(lstMenu.get(0).getLoaiDoUong().getTenLoaiDoUong());
                     tittle.setHorizontalAlignment(SwingConstants.CENTER);
                     c.weighty = 1;
@@ -112,7 +116,7 @@ public class paneOfmenu extends JPanel {
                         if (lstMenu.get(count).getId().equals(lstMenu.get(lstFirstAppear.get(x)).getId())) {
                             JLabel tit = new JLabel();
                             tit.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-                            tit.setForeground(new java.awt.Color(102, 0, 0));
+                            tit.setForeground(new java.awt.Color(239, 204, 162));
                             tit.setText(lstMenu.get(lstFirstAppear.get(x)).getLoaiDoUong().getTenLoaiDoUong());
                             tit.setHorizontalAlignment(SwingConstants.CENTER);
                             c.weighty = 1;
@@ -120,7 +124,7 @@ public class paneOfmenu extends JPanel {
                             c.anchor = GridBagConstraints.LAST_LINE_START;
                             c.fill = GridBagConstraints.HORIZONTAL;
                             c.gridx = j;
-                            c.gridy = i-1;
+                            c.gridy = i - 1;
                             c.gridwidth = 1;
                             c.insets = new Insets(1, 1, -20, 1);
                             this.add(tit, c);

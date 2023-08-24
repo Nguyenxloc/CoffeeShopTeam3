@@ -75,7 +75,7 @@
         <!-- https://mvnrepository.com/artifact/javax.json/javax.json-api -->
         <!-- https://mvnrepository.com/artifact/javax.json/javax.json-api -->
 
-<!--        <dependency>
+        <!--        <dependency>
             <groupId>com.sample</groupId>
             <artifactId>sample</artifactId>
             <version>1.0</version>
@@ -135,6 +135,14 @@
             <version>3.0.0-RC1</version>
             <type>jar</type>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/com.itextpdf/itext7-core -->
+        <dependency>
+            <groupId>com.itextpdf</groupId>
+            <artifactId>itext7-core</artifactId>
+            <version>7.2.5</version>
+            <type>pom</type>
+        </dependency>
+        
     </dependencies>
     <build>
         <plugins>

@@ -7,7 +7,12 @@ package com.view.form_Template;
 import DoUong_HoaDon_ThongKe_Model.ChiTietDoUong;
 import DoUong_HoaDon_ThongKe_Service111.ChiTietDoUongService;
 import DoUong_HoaDon_ThongKe_Model.LoaiDoUong;
+import SingletonClass.LstChiTietDoUong_singleton;
 import com.view.component.ChooseFileFrame;
+import com.view.component.paneOfmenu;
+import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
@@ -20,6 +25,7 @@ import java.util.ArrayList;
 import javax.imageio.ImageIO;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import org.apache.poi.ss.usermodel.Cell;
@@ -34,6 +40,9 @@ public class Form_QLDoUong extends javax.swing.JPanel {
     ChiTietDoUongService chiTietDoUongService = new ChiTietDoUongService();
     ArrayList<LoaiDoUong> lstLoaiDoUong = new ArrayList<>();
     ArrayList<ChiTietDoUong> lstChiTietDoUong = new ArrayList<>();
+    private ArrayList<paneOfmenu> lstPaneMenu = new ArrayList<>();
+    private ArrayList<model.ChiTietDoUong> lstChiTietDoUongPrintMenu = new ArrayList<>();
+    private paneOfmenu paneMenu;
     int index = -1;
     byte[] imgBytes = new byte[5000];
     String url = null;
@@ -297,6 +306,50 @@ public class Form_QLDoUong extends javax.swing.JPanel {
         Image newimg = image.getScaledInstance(79, 120, java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
         ImageIcon imageIcon = new ImageIcon(newimg);
         lblHinhAnh.setIcon(imageIcon);
+    }
+
+    public void setPanelMenu() {
+        lstChiTietDoUongPrintMenu = LstChiTietDoUong_singleton.getInstance().lstChiTietDoUongs;
+        paneMenu = new paneOfmenu(lstChiTietDoUongPrintMenu, null);
+        paneMenu.setPreferredSize(new Dimension(640, 800));
+        paneMenu.setLayout(new BorderLayout());
+        paneMenu.repaint();
+        paneMenu.revalidate();
+    }
+
+    public static BufferedImage getScreenShot(
+            Component component) {
+        BufferedImage image = new BufferedImage(
+                640, 800,
+                BufferedImage.TYPE_INT_RGB
+        );
+        // call the Component's paint method, using
+        // the Graphics object of the image.
+        component.paint(image.getGraphics()); // alternately use .printAll(..)
+        return image;
+    }
+
+    public void saveScreenShot(Component f) {
+        BufferedImage img = getScreenShot(
+                f);
+        JOptionPane.showMessageDialog(
+                null,
+                new JLabel(
+                        new ImageIcon(
+                                img.getScaledInstance(
+                                        img.getWidth(null) / 2,
+                                        img.getHeight(null) / 2,
+                                        Image.SCALE_SMOOTH)
+                        )));
+        try {
+            // write the image as a PNG
+            ImageIO.write(
+                    img,
+                    "png",
+                    new File("menu.png"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**

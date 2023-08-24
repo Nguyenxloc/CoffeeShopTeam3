@@ -41,15 +41,15 @@ public class menuCell extends javax.swing.JPanel {
         jLabel1 = new javax.swing.JLabel();
 
         lblNameDrink.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        lblNameDrink.setForeground(new java.awt.Color(102, 0, 0));
+        lblNameDrink.setForeground(new java.awt.Color(239, 204, 162));
         lblNameDrink.setText("#tenDoUong");
 
         lblPriceOfDrink.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        lblPriceOfDrink.setForeground(new java.awt.Color(102, 0, 0));
+        lblPriceOfDrink.setForeground(new java.awt.Color(239, 204, 162));
         lblPriceOfDrink.setText("#giaBan");
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(102, 0, 0));
+        jLabel1.setForeground(new java.awt.Color(239, 204, 162));
         jLabel1.setText("........................");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
