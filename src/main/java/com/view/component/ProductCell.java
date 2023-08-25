@@ -7,6 +7,7 @@ package com.view.component;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.text.DecimalFormat;
 import javax.accessibility.AccessibleContext;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -30,10 +31,11 @@ public class ProductCell extends javax.swing.JPanel {
 //        File file = new File(path);
 //        String absolutePath = file.getAbsolutePath();
 //        dir = absolutePath;
+        DecimalFormat formatter = new DecimalFormat("###,###,###");
         localImg = img;
         initComponents();
         lblNameProduct.setText(nameOfProduct);
-        lblPriceProduct.setText(priceOfProduct+"VNĐ");
+        lblPriceProduct.setText(formatter.format(priceOfProduct)+"VNĐ");
         lblDes.setText(des);
     }
 

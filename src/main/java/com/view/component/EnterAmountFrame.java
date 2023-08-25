@@ -5,15 +5,20 @@
 package com.view.component;
 
 import SingletonClass.IdHD_singleton;
+import SingletonClass.LstHoaDonChiTiet_singleton;
 import java.util.ArrayList;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import model.ChiTietDoUong;
 import model.HoaDon;
 import model.HoaDonChiTiet;
+import service.HoaDonChiTietNoIMGService;
 import service.HoaDonChiTietService;
 import service.HoaDonService;
+import viewModel.ChiTietDoUongNoIMG;
+import viewModel.HoaDonChiTietNoIMG;
 
 /**
  *
@@ -24,23 +29,23 @@ public class EnterAmountFrame extends javax.swing.JFrame {
     /**
      * Creates new form EnterAmountFrame
      */
-    static ChiTietDoUong localDrinkDetail = new ChiTietDoUong();
-    HoaDonChiTietService hoaDonChiTietService = new HoaDonChiTietService();
+    static ChiTietDoUongNoIMG localDrinkDetailNoIMG = new ChiTietDoUongNoIMG();
+    HoaDonChiTietNoIMGService hoaDonChiTietService = new HoaDonChiTietNoIMGService();
     HoaDonService hoaDonService = new HoaDonService();
     JTable localTbl = new JTable();
     JLabel localLbl = new JLabel();
 
-    public EnterAmountFrame(ChiTietDoUong drinkDetail, JTable tbl, JLabel lbl) {
+    public EnterAmountFrame(ChiTietDoUongNoIMG drinkDetailNoIMG, JTable tbl, JLabel lbl) {
         initComponents();
         this.pack();
         this.setLocationRelativeTo(null);
         this.setVisible(true);
-        lblDrinkName.setText(drinkDetail.getTenDoUong());
+        lblDrinkName.setText(drinkDetailNoIMG.getTenDoUong());
         lblMaHoaDon.setText(IdHD_singleton.getInstance().maHD);
-        localDrinkDetail = drinkDetail;
+        localDrinkDetailNoIMG = drinkDetailNoIMG;
         localTbl = tbl;
         localLbl = lbl;
-        System.out.println(localDrinkDetail);
+        System.out.println(localDrinkDetailNoIMG);
     }
 
     public void addDrinkDetail() {
@@ -51,22 +56,37 @@ public class EnterAmountFrame extends javax.swing.JFrame {
         model = (DefaultTableModel) localTbl.getModel();
         model.setRowCount(0);
         HoaDon hoaDon = new HoaDon();
+        HoaDonChiTietNoIMG hoaDonChiTietNoIMGAdded = new HoaDonChiTietNoIMG();
         hoaDon = hoaDonService.getHoaDonByID(IdHD_singleton.getInstance().id);
-        HoaDonChiTiet hoaDonChiTiet = new HoaDonChiTiet();
-        hoaDonChiTiet.setHoaDon(hoaDon);
-        hoaDonChiTiet.setChiTietDoUong(localDrinkDetail);
-        hoaDonChiTiet.setSoLuong(Integer.valueOf(txtAmount.getText()));
-        hoaDonChiTietService.saveHoaDon(hoaDonChiTiet);
-        ArrayList<HoaDonChiTiet> lstHoaDonChiTiet = new ArrayList<>();
-        lstHoaDonChiTiet = hoaDonChiTietService.getListHoaDonChiTietByID(IdHD_singleton.getInstance().id);
-        for (HoaDonChiTiet hdChiTiet : lstHoaDonChiTiet) {
-            System.out.println("test");
-            stt++;
-            cellCheck = Double.valueOf(hdChiTiet.getSoLuong()) * Double.valueOf(hdChiTiet.getChiTietDoUong().getGiaBan());
-            totalCheck += cellCheck;
-            model.addRow(new Object[]{stt, hdChiTiet.getChiTietDoUong().getTenDoUong(), hdChiTiet.getSoLuong(),
-                hdChiTiet.getChiTietDoUong().getGiaBan(), cellCheck});
+        HoaDonChiTietNoIMG hoaDonChiTietNoIMG = new HoaDonChiTietNoIMG();
+        hoaDonChiTietNoIMG.setHoaDon(hoaDon);
+        hoaDonChiTietNoIMG.setChiTietDoUongNoIMG(localDrinkDetailNoIMG);
+        hoaDonChiTietNoIMG.setSoLuong(Integer.valueOf(txtAmount.getText()));
+        hoaDonChiTietNoIMGAdded = hoaDonChiTietService.saveHoaDon(hoaDonChiTietNoIMG);
+        if (hoaDonChiTietNoIMGAdded != null) {
+            LstHoaDonChiTiet_singleton.getInstance().lstHoaDonChiTietNoIMG.add(hoaDonChiTietNoIMGAdded);
+            for (HoaDonChiTietNoIMG hdChiTiet : LstHoaDonChiTiet_singleton.getInstance().lstHoaDonChiTietNoIMG) {
+                if (hdChiTiet.getHoaDon().getId().equalsIgnoreCase(IdHD_singleton.getInstance().id)) {
+                    stt++;
+                    cellCheck = Double.valueOf(hdChiTiet.getSoLuong()) * Double.valueOf(hdChiTiet.getChiTietDoUongNoIMG().getGiaBan());
+                    totalCheck += cellCheck;
+                    model.addRow(new Object[]{stt, hdChiTiet.getChiTietDoUongNoIMG().getTenDoUong(), hdChiTiet.getSoLuong(),
+                        hdChiTiet.getChiTietDoUongNoIMG().getGiaBan(), cellCheck});
+                }
+            }
+        } else {
+            for (HoaDonChiTietNoIMG hdChiTiet : LstHoaDonChiTiet_singleton.getInstance().lstHoaDonChiTietNoIMG) {
+                if (hdChiTiet.getHoaDon().getId().equalsIgnoreCase(IdHD_singleton.getInstance().id)) {
+                    stt++;
+                    cellCheck = Double.valueOf(hdChiTiet.getSoLuong()) * Double.valueOf(hdChiTiet.getChiTietDoUongNoIMG().getGiaBan());
+                    totalCheck += cellCheck;
+                    model.addRow(new Object[]{stt, hdChiTiet.getChiTietDoUongNoIMG().getTenDoUong(), hdChiTiet.getSoLuong(),
+                        hdChiTiet.getChiTietDoUongNoIMG().getGiaBan(), cellCheck});
+                }
+            }
+            JOptionPane.showMessageDialog(null, "Sản phẩm thêm vào không được trùng lặp");
         }
+
         localLbl.setText(String.valueOf(totalCheck));
     }
 

@@ -20,6 +20,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ScrollPaneConstants;
 import model.HoaDon;
+import viewModel.ChiTietDoUongNoIMG;
 
 /**
  *
@@ -32,17 +33,19 @@ public class paneOfProduct extends JPanel {
 
     static ArrayList<ProductCell> lstCell = new ArrayList<>();
     static ChiTietDoUong drinkDetail = new ChiTietDoUong();
+    static ChiTietDoUongNoIMG drinkDetailNoIMG = new ChiTietDoUongNoIMG();
     static HoaDon localHoaDon = new HoaDon();
     static JTable localTbl = new JTable();
     static JLabel localLblCheck = new JLabel();
-    public paneOfProduct(ArrayList<ChiTietDoUong> lstPerson,JTable tbl,HoaDon hoaDon, JLabel lblTotalCheck) {
-      
+
+    public paneOfProduct(ArrayList<ChiTietDoUong> lstPerson, JTable tbl, HoaDon hoaDon, JLabel lblTotalCheck) {
+
         GridLayout grid = new GridLayout(Integer.valueOf(lstPerson.size() / 3) + 1, 3);
         grid.setVgap(-5);
         grid.setHgap(0);
         this.setLayout(grid);
-        localHoaDon  = hoaDon;
-        localTbl =  tbl;
+        localHoaDon = hoaDon;
+        localTbl = tbl;
         localLblCheck = lblTotalCheck;
         for (int i = 0; i < lstPerson.size(); i++) {
             System.out.println("test");
@@ -56,25 +59,15 @@ public class paneOfProduct extends JPanel {
                     int index = Integer.valueOf(e.getComponent().getName());
                     //
                     System.out.println("index: " + index);
-                    System.out.println("test localHoaDon: "+localHoaDon.getId());
+                    System.out.println("test localHoaDon: " + localHoaDon.getId());
                     drinkDetail = LstChiTietDoUong_singleton.getInstance().lstChiTietDoUongs.get(index);
+                    drinkDetailNoIMG = new ChiTietDoUongNoIMG(drinkDetail.getId(), drinkDetail.getTenDoUong(), drinkDetail.getGiaNhap(),
+                             drinkDetail.getGiaBan(), drinkDetail.getMoTa(), drinkDetail.getLoaiDoUong(), drinkDetail.getKhuyenMai());
                     java.awt.EventQueue.invokeLater(new Runnable() {
                         public void run() {
-                            new EnterAmountFrame(drinkDetail,localTbl,localLblCheck).setVisible(true);
+                            new EnterAmountFrame(drinkDetailNoIMG, localTbl, localLblCheck).setVisible(true);
                         }
                     });
-//////////////////////handling  folow old style, too much risk                    
-//                    System.out.println("source: "+ e.getSource());
-//                    System.out.println(e.getComponent().getX());
-//                    System.out.println(e.getComponent().getY());
-//                    System.out.println((e.getComponent().getX() / 198) + 1);
-//                    System.out.println((e.getComponent().getY() / 289) + 1);
-//                    int colNum = (e.getComponent().getX() / 198) + 1;
-//                    int rowNum = (e.getComponent().getY() / 289) + 1;
-//                    int index = 4 * (rowNum - 1) + (colNum);
-//                    System.out.println("index: " + index);
-//                    System.out.println(getFromSelectedProduct(index - 1).getName());
-//////////////////////
                 }
 
                 @Override
@@ -82,7 +75,6 @@ public class paneOfProduct extends JPanel {
                     cell.getLblNameProduct().setForeground(Color.blue);
                     cell.getLblPriceProduct().setForeground(Color.blue);
                     cell.getLblDes().setForeground(Color.blue);
-
                 }
 
                 @Override
@@ -105,15 +97,11 @@ public class paneOfProduct extends JPanel {
                     cell.getLblPriceProduct().setForeground(Color.black);
                     cell.getLblDes().setForeground(Color.black);
                 }
-
             });
             this.add(lstCell.get(i));
         }
     }
 
-//    public static Person getFromSelectedProduct(int count) {
-//        return lstPerson.get(count);
-//    }
     public static void MoveToHDChiTiet(int count) {
         //////lấy id sản phẩm rồi chuyển sang hóa đơn chi tiết;
     }

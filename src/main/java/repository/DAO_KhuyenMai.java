@@ -35,7 +35,7 @@ public class DAO_KhuyenMai {
     final String DELETE_SQL = "DELETE FROM [dbo].[GiamGia] WHERE [MaGiamGia] =  ?";
     final String SELECT_BY_SQL = "SELECT COUNT(*) FROM GiamGia WHERE MaGiamGia = ?";
     final String SELECT_ALL_BY_MAGIAMGIA = "SELECT * FROM GiamGia WHERE MaGiamGia = ?";
-    final String SELECT_ALL_BY_LOAIKM = "SELECT * FROM GiamGia WHERE LOAIKHUYENMAI = ? OR TRANGTHAI = ? ";
+    final String SELECT_ALL_BY_TRANGTHAI = "SELECT * FROM GiamGia WHERE TRANGTHAI = ? ";
     final String SELECT_ALL_SQL = "SELECT MaGiamGia,TENKHUYENMAI,LOAIKHUYENMAI,GIATRI,NgayTao,NGAYKETTHUC,TRANGTHAI FROM GiamGia";
 
     // Lấy giá trị trong bảng Giảm giá
@@ -92,13 +92,13 @@ public class DAO_KhuyenMai {
     }
 
     // Lọc dữ liệu theo loại khuyến mại hoặc trạng thái
-    public ArrayList<KhuyenMai> selectALLByLoaiKM(String loaiKM, String trangThai) {
+    public ArrayList<KhuyenMai> selectALLByTrangThai(String trangThai) {
         DBConnection1 dbConn = new DBConnection1();
-        KhuyenMai km = new KhuyenMai();
         ArrayList<KhuyenMai> listKM = new ArrayList<>();
         try {
-            ResultSet rs = dbConn.getDataFromQuery(SELECT_ALL_BY_LOAIKM, loaiKM, trangThai);
+            ResultSet rs = dbConn.getDataFromQuery(SELECT_ALL_BY_TRANGTHAI, trangThai);
             while (rs.next()) {
+                KhuyenMai km = new KhuyenMai();
                 km.setMaKM(rs.getString("MaGiamGia"));
                 km.setNgayBatDau(Date.valueOf(rs.getString("NgayTao")));
                 km.setTenKM(rs.getString("TENKHUYENMAI"));
