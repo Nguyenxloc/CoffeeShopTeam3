@@ -19,7 +19,7 @@ public class DAO_ThongKe implements iThongKe {
     private DbConnection_Sang dbConnection_Sang;
 
     @Override
-    public double getTongDoanhThu() {
+    public long getTongDoanhThu() {
         String sql = "select  sum((ChiTietDoUong.GiaBan * HoaDonChiTiet.SoLuong)*(1 - CAST(isnull(GiamGia.GiaTri, 0)  AS Float(30))/100)) as 'TongTien' from HoaDonChiTiet\n"
                 + "join ChiTietDoUong on HoaDonChiTiet.IdChiTietDoUong = ChiTietDoUong.Id\n"
                 + "join HoaDon on HoaDonChiTiet.IdHoaDon = HoaDon.Id\n"
@@ -28,7 +28,7 @@ public class DAO_ThongKe implements iThongKe {
         try (Connection con = dbConnection_Sang.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                return rs.getDouble(1);
+                return rs.getLong(1);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -68,7 +68,7 @@ public class DAO_ThongKe implements iThongKe {
     }
 
     @Override
-    public double getTongDonhThuTheoNgayChon(String d1, String d2) {
+    public long getTongDonhThuTheoNgayChon(String d1, String d2) {
         String sql = "select  sum((ChiTietDoUong.GiaBan * HoaDonChiTiet.SoLuong)*(1 - CAST(isnull(GiamGia.GiaTri, 0)  AS Float(30))/100)) as 'TongTien' from HoaDonChiTiet\n"
                 + "join ChiTietDoUong on HoaDonChiTiet.IdChiTietDoUong = ChiTietDoUong.Id\n"
                 + "join HoaDon on HoaDonChiTiet.IdHoaDon = HoaDon.Id\n"
@@ -79,7 +79,7 @@ public class DAO_ThongKe implements iThongKe {
             ps.setObject(2, d2);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                return rs.getDouble(1);
+                return rs.getLong(1);
             }
         } catch (Exception e) {
             e.printStackTrace();
