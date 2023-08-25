@@ -58,8 +58,8 @@ public class SaleService {
     }
 
     // Lọc dữ liệu theo loại khuyến mại hoặc trạng thái
-    public ArrayList<KhuyenMai> selectALLByLoaiKM(String loaiKM, String trangThai) {
-        return khuyenMaiRepository.selectALLByLoaiKM(loaiKM, trangThai);
+    public ArrayList<KhuyenMai> selectALLByTrangThai(String trangThai) {
+        return khuyenMaiRepository.selectALLByTrangThai(trangThai);
     }
 
 }

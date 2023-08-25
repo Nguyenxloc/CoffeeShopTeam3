@@ -22,6 +22,7 @@ public class DAO_HoaDonChiTiet {
     final String DELETE_SQL = "DELETE FROM [dbo].[HoaDonChiTiet] WHERE IdHoaDon=?,IdChiTietDoUong=?";
     final String SELECT_BY_SQL = "SELECT * FROM [dbo].[HoaDonChiTiet] WHERE IdHoaDon=?";
     final String SELECT_ALL_SQL = "SELECT * FROM [dbo].[HoaDonChiTiet];";
+    final String SELECT_TOP1DESC = "SELECT TOP 1*FROM dbo.HoaDonChiTiet ORDER BY NUMORDER DESC ;";
 
     public ArrayList<HoaDonChiTiet> selectALl() {
         DBConnection1 dbConn = new DBConnection1();
@@ -72,8 +73,15 @@ public class DAO_HoaDonChiTiet {
     public void save(HoaDonChiTiet hoaDonChiTiet) {
         DBConnection1 dbConn = new DBConnection1();
         ArrayList<HoaDonChiTiet> lstHoaDonChiTiet = new ArrayList<>();
+        HoaDonChiTiet hdChiTiet;
+        HoaDon hd;
         try {
             dbConn.ExcuteSQL(INSERT_SQL, hoaDonChiTiet.getHoaDon().getId(), hoaDonChiTiet.getChiTietDoUong().getId(), hoaDonChiTiet.getSoLuong());
+            ResultSet rs = dbConn.getDataFromQuery(SELECT_TOP1DESC);
+//            while(rs.next()){
+//                
+//                hdChiTiet = new HoaDonChiTiet(hoaDon, chiTietDoUong, 0, INSERT_SQL)
+//            }
         } catch (Exception e) {
             e.printStackTrace();
         }

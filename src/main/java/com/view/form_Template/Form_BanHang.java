@@ -6,6 +6,8 @@ package com.view.form_Template;
 
 import SingletonClass.IdHD_singleton;
 import SingletonClass.LstChiTietDoUong_singleton;
+import SingletonClass.LstDiscount_singleton;
+import SingletonClass.LstHoaDonChiTiet_singleton;
 import SingletonClass.LstHoaDonCho_SingLeTon;
 import SingletonClass.LstHoaDonDangPhaChe_singleton;
 import SingletonClass.LstHoaDon_singleton;
@@ -18,6 +20,7 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Date;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -32,8 +35,11 @@ import javax.swing.table.TableRowSorter;
 import model.HoaDon;
 import model.HoaDonChiTiet;
 import service.ChiTietDoUongService_Master;
+import service.HoaDonChiTietNoIMGService;
 import service.HoaDonChiTietService;
 import service.HoaDonService;
+import service.SaleService;
+import viewModel.HoaDonChiTietNoIMG;
 
 public class Form_BanHang extends javax.swing.JPanel {
 
@@ -43,9 +49,10 @@ public class Form_BanHang extends javax.swing.JPanel {
     private HoaDon localHoaDon = new HoaDon();
     private HoaDonService hoaDonService = new HoaDonService();
     private HoaDonChiTietService hoaDonChiTietService = new HoaDonChiTietService();
+    private HoaDonChiTietNoIMGService hoaDonChiTietNoIMGService = new HoaDonChiTietNoIMGService();
+    private SaleService khuyenMaiService = new SaleService();
     private ArrayList<HoaDon> lstHoaDon = new ArrayList<>();
     private ArrayList<HoaDon> lstHoaDonCho = new ArrayList<>();
-    ;
     private hoaDonModel modelHD = new Container.DefaultHoaDonModel();
     private int countHoaDonTbl = -1;
     private int countHoaDonChoTbl = -1;
@@ -63,18 +70,53 @@ public class Form_BanHang extends javax.swing.JPanel {
         initComponents();
         jScrollPane1.setBorder(null);
         this.setBorder(null);
-        LoadlstProduct();
-        localHoaDon.setId("#idHoaDon");
-        loadHoaDonTbl();
-        loadHoaDonChoTbl();
-        loadHoaDonDangPhaChe();
+        Thread t1 = new Thread(
+                () -> {
+                    LoadlstProduct();
+                }
+        );
+        Thread t2 = new Thread(
+                () -> {
+                    loadHoaDonTbl();
+                }
+        );
+        Thread t3 = new Thread(
+                () -> {
+                    loadHoaDonChoTbl();
+                }
+        );
+        Thread t4 = new Thread(
+                () -> {
+                    loadHoaDonDangPhaChe();;
+                }
+        );
+        Thread t5 = new Thread(
+                () -> {
+                    loadBucketHoaDonChiTietNoIMG();
+                }
+        );
+        t5.start();
+        t1.start();
+        t2.start();
+        t3.start();
+        t4.start();
+//        LoadlstProduct();
+//        loadHoaDonTbl();
+//        loadHoaDonChoTbl();
+//        loadHoaDonDangPhaChe();
+//        loadBucketHoaDonChiTietNoIMG();
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
         java.util.Date date = new java.util.Date();
         lblDayNow.setText(formatter.format(date));
+        localHoaDon.setId("#idHoaDon");
         java.sql.Date sqlDate = new java.sql.Date(date.getTime());
         localDateNow = sqlDate;
         //Truyền biến vào panel productOfPane
 //      paneProduct.setVisible(true);
+    }
+
+    public void loadBucketHoaDonChiTietNoIMG() {
+        LstHoaDonChiTiet_singleton.getInstance().lstHoaDonChiTietNoIMG = hoaDonChiTietNoIMGService.getListHoaDonChiTiet();
     }
 
     public void loadHoaDonTbl() {
@@ -104,7 +146,6 @@ public class Form_BanHang extends javax.swing.JPanel {
     public void loadHoaDonChoTbl() {
         int stt = 0;
         LstHoaDonCho_SingLeTon.getInstance().lstHoaDonCho = hoaDonService.getListHoaDonCho();
-
         modelHoaDonChoTbl = (DefaultTableModel) tblHoaDonCho.getModel();
         modelHoaDonChoTbl.setRowCount(0);
         String thanhToanStt;
@@ -165,8 +206,8 @@ public class Form_BanHang extends javax.swing.JPanel {
         } else {
             ttThanhToan = "Chưa TT";
         }
-        if (hoaDon.getTrangThaiPhaChe() == 0) {
-            ttPhaChe = "Chưa pha";
+        if (hoaDon.getTrangThaiPhaChe() == 1) {
+            ttPhaChe = "Đã pha";
         } else {
             ttPhaChe = "Chưa pha";
         }
@@ -227,19 +268,27 @@ public class Form_BanHang extends javax.swing.JPanel {
         addToTblAtLast(modelHoaDonTbl, LstHoaDonCho_SingLeTon.getInstance().lstHoaDonCho.get(count));
         removeToTblAtIndex(modelHoaDonChoTbl, count);
         popArrayAtIndex(LstHoaDonCho_SingLeTon.getInstance().lstHoaDonCho, count);
-        LstHoaDonDangPhaChe_singleton.getInstance().lstHoaDonDangPhaChe.add(hoaDon);
-        addToTblAtLast(modelHoaDonDangPhaCheTbl, hoaDon);
+        if (hoaDon.getTrangThaiPhaChe() == 0) {
+            LstHoaDonDangPhaChe_singleton.getInstance().lstHoaDonDangPhaChe.add(hoaDon);
+            addToTblAtLast(modelHoaDonDangPhaCheTbl, hoaDon);
+        }
 
 //        loadHoaDonTbl();
 //        loadHoaDonChoTbl();
     }
 
     public void hoanThanhPhaChe() {
-        countHoaDonDangPhaCheTbl = tblDangPhaChe.getSelectedRow();
         String id = LstHoaDonDangPhaChe_singleton.getInstance().lstHoaDonDangPhaChe.get(countHoaDonDangPhaCheTbl).getId();
+        String maHD = LstHoaDonDangPhaChe_singleton.getInstance().lstHoaDonDangPhaChe.get(countHoaDonDangPhaCheTbl).getMa();
         hoaDonService.updateTTPhaChe(id, 1);
         removeToTblAtIndex(modelHoaDonDangPhaCheTbl, countHoaDonDangPhaCheTbl);
         LstHoaDonDangPhaChe_singleton.getInstance().lstHoaDonDangPhaChe.remove(countHoaDonDangPhaCheTbl);
+        for (int i = 0; i < tblHoaDon.getRowCount(); i++) {
+            if (tblHoaDon.getValueAt(i, 1).equals(maHD)) {
+                tblHoaDon.setValueAt("Đã pha", i, 4);
+                LstHoaDon_singleton.getInstance().lstHoaDon.get(i).setTrangThaiPhaChe(1);
+            }
+        }
     }
 
     private void reLoadProduct() {
@@ -258,6 +307,11 @@ public class Form_BanHang extends javax.swing.JPanel {
 
     public void showDetailHoaDonTab() {
         tblHoaDonCho.clearSelection();
+        tblDangPhaChe.clearSelection();
+        tblHoaDonCho.clearSelection();
+        tblDangPhaChe.clearSelection();
+        countHoaDonDangPhaCheTbl = -1;
+        countHoaDonChoTbl = -1;
         countHoaDonTbl = tblHoaDon.getSelectedRow();
         String checkStt;
         lblMaHD.setText(LstHoaDon_singleton.getInstance().lstHoaDon.get(countHoaDonTbl).getMa());
@@ -283,6 +337,11 @@ public class Form_BanHang extends javax.swing.JPanel {
 
     public void showDetailHoaDonTab_Waiting() {
         tblHoaDon.clearSelection();
+        tblDangPhaChe.clearSelection();
+        tblHoaDon.clearSelection();
+        tblDangPhaChe.clearSelection();
+        countHoaDonTbl = -1;
+        countHoaDonDangPhaCheTbl = -1;
         countHoaDonChoTbl = tblHoaDonCho.getSelectedRow();
         System.out.println(LstHoaDonCho_SingLeTon.getInstance().lstHoaDonCho.get(countHoaDonChoTbl));
         String checkStt;
@@ -310,27 +369,31 @@ public class Form_BanHang extends javax.swing.JPanel {
     public void showDetailHoaDonDangPhaCheTab() {
         tblHoaDonCho.clearSelection();
         tblHoaDon.clearSelection();
-        countHoaDonTbl = tblDangPhaChe.getSelectedRow();
+        tblHoaDonCho.clearSelection();
+        tblHoaDon.clearSelection();
+        countHoaDonChoTbl = -1;
+        countHoaDonTbl = -1;
+        countHoaDonDangPhaCheTbl = tblDangPhaChe.getSelectedRow();
         String checkStt;
-        lblMaHD.setText(LstHoaDonDangPhaChe_singleton.getInstance().lstHoaDonDangPhaChe.get(countHoaDonTbl).getMa());
-        lblBan.setText(LstHoaDonDangPhaChe_singleton.getInstance().lstHoaDonDangPhaChe.get(countHoaDonTbl).getBan().getTen());
-        lblTime.setText(LstHoaDonDangPhaChe_singleton.getInstance().lstHoaDonDangPhaChe.get(countHoaDonTbl).getThoiGian());
-        lblMaNV.setText(LstHoaDonDangPhaChe_singleton.getInstance().lstHoaDonDangPhaChe.get(countHoaDonTbl).getNhanVien().getMa());
-        lblTenNV.setText(LstHoaDonDangPhaChe_singleton.getInstance().lstHoaDonDangPhaChe.get(countHoaDonTbl).getNhanVien().getTen());
-        if (LstHoaDonDangPhaChe_singleton.getInstance().lstHoaDonDangPhaChe.get(countHoaDonTbl).getTinhTrangThanhToan() == 0) {
+        lblMaHD.setText(LstHoaDonDangPhaChe_singleton.getInstance().lstHoaDonDangPhaChe.get(countHoaDonDangPhaCheTbl).getMa());
+        lblBan.setText(LstHoaDonDangPhaChe_singleton.getInstance().lstHoaDonDangPhaChe.get(countHoaDonDangPhaCheTbl).getBan().getTen());
+        lblTime.setText(LstHoaDonDangPhaChe_singleton.getInstance().lstHoaDonDangPhaChe.get(countHoaDonDangPhaCheTbl).getThoiGian());
+        lblMaNV.setText(LstHoaDonDangPhaChe_singleton.getInstance().lstHoaDonDangPhaChe.get(countHoaDonDangPhaCheTbl).getNhanVien().getMa());
+        lblTenNV.setText(LstHoaDonDangPhaChe_singleton.getInstance().lstHoaDonDangPhaChe.get(countHoaDonDangPhaCheTbl).getNhanVien().getTen());
+        if (LstHoaDonDangPhaChe_singleton.getInstance().lstHoaDonDangPhaChe.get(countHoaDonDangPhaCheTbl).getTinhTrangThanhToan() == 0) {
             checkStt = "Chưa thanh toán";
         } else {
             checkStt = "Đã thanh toán";
         }
         lblCheckStt.setText(checkStt);
-        lblDate.setText(LstHoaDonDangPhaChe_singleton.getInstance().lstHoaDonDangPhaChe.get(countHoaDonTbl).getNgayTao().toString());
-        if (LstHoaDonDangPhaChe_singleton.getInstance().lstHoaDonDangPhaChe.get(countHoaDonTbl).getStt() == 0) {
+        lblDate.setText(LstHoaDonDangPhaChe_singleton.getInstance().lstHoaDonDangPhaChe.get(countHoaDonDangPhaCheTbl).getNgayTao().toString());
+        if (LstHoaDonDangPhaChe_singleton.getInstance().lstHoaDonDangPhaChe.get(countHoaDonDangPhaCheTbl).getStt() == 0) {
             lblStt.setText("Chờ");
         } else {
             lblStt.setText("Xử lý");
         }
-        IdHD_singleton.getInstance().id = LstHoaDon_singleton.getInstance().lstHoaDon.get(countHoaDonTbl).getId();
-        IdHD_singleton.getInstance().maHD = LstHoaDon_singleton.getInstance().lstHoaDon.get(countHoaDonTbl).getMa();
+        IdHD_singleton.getInstance().id = LstHoaDonDangPhaChe_singleton.getInstance().lstHoaDonDangPhaChe.get(countHoaDonDangPhaCheTbl).getId();
+        IdHD_singleton.getInstance().maHD = LstHoaDonDangPhaChe_singleton.getInstance().lstHoaDonDangPhaChe.get(countHoaDonDangPhaCheTbl).getMa();
     }
 
     public void showLstDrink() {
@@ -340,20 +403,19 @@ public class Form_BanHang extends javax.swing.JPanel {
         DefaultTableModel model = new DefaultTableModel();
         model = (DefaultTableModel) tblDrinkDetail.getModel();
         model.setRowCount(0);
-        ArrayList<HoaDonChiTiet> lstHoaDonChiTiet = new ArrayList<>();
-        lstHoaDonChiTiet = hoaDonChiTietService.getListHoaDonChiTietByID(IdHD_singleton.getInstance().id);
-        for (HoaDonChiTiet hdChiTiet : lstHoaDonChiTiet) {
-            System.out.println("test");
-            stt++;
-            cellCheck = Double.valueOf(hdChiTiet.getSoLuong()) * Double.valueOf(hdChiTiet.getChiTietDoUong().getGiaBan());
-            totalCheck += cellCheck;
-            model.addRow(new Object[]{stt, hdChiTiet.getChiTietDoUong().getTenDoUong(), hdChiTiet.getSoLuong(),
-                hdChiTiet.getChiTietDoUong().getGiaBan(), cellCheck});
+        DecimalFormat formatter = new DecimalFormat("###,###,###");
+        for (HoaDonChiTietNoIMG hdChiTiet : LstHoaDonChiTiet_singleton.getInstance().lstHoaDonChiTietNoIMG) {
+            if (hdChiTiet.getHoaDon().getId().equalsIgnoreCase(IdHD_singleton.getInstance().id)) {
+                stt++;
+                cellCheck = Double.valueOf(hdChiTiet.getSoLuong()) * Double.valueOf(hdChiTiet.getChiTietDoUongNoIMG().getGiaBan());
+                totalCheck += cellCheck;
+                model.addRow(new Object[]{stt, hdChiTiet.getChiTietDoUongNoIMG().getTenDoUong(), hdChiTiet.getSoLuong(),
+                    formatter.format(hdChiTiet.getChiTietDoUongNoIMG().getGiaBan()), formatter.format(cellCheck)});
+            }
         }
-        lblTotalCash.setText(String.valueOf(totalCheck));
+        lblTotalCash.setText(formatter.format(totalCheck)+"VNĐ");
     }
-    
-   
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -419,7 +481,15 @@ public class Form_BanHang extends javax.swing.JPanel {
             new String [] {
                 "STT", "Mã HĐ", "Bàn", "Thanh Toán", "Pha chế"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         tblDangPhaChe.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tblDangPhaCheMouseClicked(evt);
@@ -440,7 +510,15 @@ public class Form_BanHang extends javax.swing.JPanel {
             new String [] {
                 "STT", "Mã HĐ", "Bàn", "Thanh Toán", "Pha chế"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         tblHoaDonCho.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tblHoaDonChoMouseClicked(evt);
@@ -479,13 +557,24 @@ public class Form_BanHang extends javax.swing.JPanel {
             new String [] {
                 "STT", "Mã HĐ", "Bàn", "Thanh Toán", "Pha chế"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         tblHoaDon.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tblHoaDonMouseClicked(evt);
             }
         });
         jScrollPane5.setViewportView(tblHoaDon);
+        if (tblHoaDon.getColumnModel().getColumnCount() > 0) {
+            tblHoaDon.getColumnModel().getColumn(0).setPreferredWidth(20);
+        }
 
         jLabel13.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel13.setText("Đang chờ pha chế");
@@ -506,7 +595,15 @@ public class Form_BanHang extends javax.swing.JPanel {
             new String [] {
                 "STT", "Tên", "Số lượng", "Đơn giá", "Thành tiền"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane3.setViewportView(tblDrinkDetail);
 
         btnCheck.setText("Thanh toán");
@@ -801,7 +898,13 @@ public class Form_BanHang extends javax.swing.JPanel {
 
     private void btnWatingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnWatingActionPerformed
         // TODO add your handling code here:
-        moveToHoaDonChoTbl();
+        try {
+            moveToHoaDonChoTbl();
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn hóa đơn trước !");
+        }
+
 //        loadHoaDonDangPhaChe();
     }//GEN-LAST:event_btnWatingActionPerformed
 
@@ -811,13 +914,13 @@ public class Form_BanHang extends javax.swing.JPanel {
             moveToHoaDon();
         } catch (Exception e) {
             e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn hóa đơn chờ trước !");
         }
 
     }//GEN-LAST:event_btnUseActionPerformed
 
     private void tblHoaDonChoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblHoaDonChoMouseClicked
         // TODO add your handling code here:
-        countHoaDonTbl = -1;
         showDetailHoaDonTab_Waiting();
         showLstDrink();
     }//GEN-LAST:event_tblHoaDonChoMouseClicked
@@ -830,7 +933,13 @@ public class Form_BanHang extends javax.swing.JPanel {
 
     private void btnCompleteOrderActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCompleteOrderActionPerformed
         // TODO add your handling code here:
-        hoanThanhPhaChe();
+        try {
+            hoanThanhPhaChe();
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn hóa đơn đang pha chế trước !");
+        }
+
     }//GEN-LAST:event_btnCompleteOrderActionPerformed
 
     private void btnCheckActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCheckActionPerformed

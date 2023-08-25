@@ -111,12 +111,13 @@
                                       </Group>
                                       <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="0" attributes="0">
-                                          <Group type="102" attributes="0">
-                                              <Component id="btnSua" linkSize="3" min="-2" pref="102" max="-2" attributes="0"/>
-                                              <EmptySpace min="-2" pref="37" max="-2" attributes="0"/>
-                                              <Component id="btnXoa" min="-2" pref="102" max="-2" attributes="0"/>
-                                          </Group>
-                                          <Component id="btnClear" linkSize="3" min="-2" max="-2" attributes="0"/>
+                                          <Component id="btnSua" linkSize="3" alignment="0" min="-2" pref="102" max="-2" attributes="0"/>
+                                          <Component id="btnClear" linkSize="3" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      </Group>
+                                      <EmptySpace min="-2" pref="37" max="-2" attributes="0"/>
+                                      <Group type="103" groupAlignment="0" attributes="0">
+                                          <Component id="btnPrinMenu" linkSize="5" min="-2" max="-2" attributes="0"/>
+                                          <Component id="btnXoa" linkSize="5" min="-2" pref="102" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
                                   <Component id="jScrollPane1" alignment="1" min="-2" pref="275" max="-2" attributes="0"/>
@@ -174,12 +175,13 @@
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="btnThem" linkSize="4" alignment="3" min="-2" pref="38" max="-2" attributes="0"/>
                       <Component id="btnSua" linkSize="4" alignment="3" min="-2" pref="38" max="-2" attributes="0"/>
-                      <Component id="btnXoa" alignment="3" min="-2" pref="38" max="-2" attributes="0"/>
+                      <Component id="btnXoa" linkSize="6" alignment="3" min="-2" pref="38" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="btnClear" linkSize="4" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="btnXuatFileExcel" linkSize="4" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnPrinMenu" linkSize="6" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
@@ -332,6 +334,14 @@
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnClearActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JButton" name="btnPrinMenu">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="In menu"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnPrinMenuActionPerformed"/>
           </Events>
         </Component>
       </SubComponents>

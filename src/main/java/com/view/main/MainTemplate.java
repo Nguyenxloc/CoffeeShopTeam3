@@ -19,10 +19,10 @@ import com.view.form_Template.Form_BanHang;
 import com.view.form_Template.Form_CapBac;
 import com.view.form_Template.Form_ChamCong;
 import com.view.form_Template.Form_GiaoCa;
-import com.view.form_Template.Form_GiaoCa1;
 import com.view.form_Template.Form_KhuyenMai;
 import com.view.form_Template.Form_LoaiDoUong;
 import com.view.form_Template.Form_LopHoc;
+import com.view.form_Template.Form_QLBan;
 import com.view.form_Template.Form_QLDoUong;
 import com.view.form_Template.Form_QLHoaDon;
 import com.view.form_Template.Form_QuanLyKho;
@@ -60,43 +60,118 @@ public class MainTemplate extends javax.swing.JFrame {
     private Form_QLHoaDon formQLHoaDon;
     private TinhLuongNhanVien luongNhanVien;
     private Form_QuanLyKho form_QuanLyKho;
-    private Form_GiaoCa form_GiaoCa1;
+    private Form_GiaoCa form_GiaoCa;
     private Form_ChamCong form_ChamCong;
     private Form_LoaiDoUong form_LoaiDoUong;
     private Form_CapBac form_CapBac;
+    private Form_QLBan form_QLBan;
     private Form_ThongKe form_ThongKe;
 //    private Form_QuanLyKho form_QuanLyKho;
 //    private Form_GiaoCa1 form_GiaoCa1;
 
     public MainTemplate() {
         initComponents();
-        System.out.println("==========Loading Form_thongBao==========");
-        formThongbao = new Form_ThongBao();
-        System.out.println("==========Loading Form_BanHang==========");
-        formBanHang = new Form_BanHang();
-        luongNhanVien = new TinhLuongNhanVien();
-        System.out.println("==========Loading Form_KhuyenMai==========");
-        form_KhuyenMai = new Form_KhuyenMai();
-        System.out.println("==========Loading Form_QuanLyNhanVien==========");
-        formQLNhanVien = new QuanLyNhanVien();
-        System.out.println("==========Loading Form_TaoTaiKhoan==========");
-        form_TaoTaiKhoan = new Form_TaoTaiKhoan();
-        System.out.println("==========Loading Form_QuanLyDoUong==========");
-        form_QLDoUong = new Form_QLDoUong();
-        System.out.println("==========Loading Form_QuanLyHoaDon==========");
-        formQLHoaDon = new Form_QLHoaDon();
-        System.out.println("==========Loading Form_QuanLyNhapKho==========");
-        form_QuanLyKho = new Form_QuanLyKho();
-        System.out.println("==========Loading Form_GiaoCa==========");
-        form_GiaoCa1 = new Form_GiaoCa();
-        System.out.println("==========Loading Form_ChamCong==========");
-        form_ChamCong = new Form_ChamCong();
-        System.out.println("==========Loading Form_QuanLyLoaiDoUong==========");
-        form_LoaiDoUong = new Form_LoaiDoUong();
-        System.out.println("==========Loading Form_QuanLyCapBac==========");
-        form_CapBac = new Form_CapBac();
-        System.out.println("==========Loading Form_QuanLyThongKe==========");
-        form_ThongKe = new Form_ThongKe();
+        Thread t1 = new Thread(
+                () -> {
+                    formThongbao = new Form_ThongBao();
+                    setForm(formThongbao);
+                }
+        );
+        Thread t2 = new Thread(
+                () -> {
+                    formBanHang = new Form_BanHang();
+                }
+        );
+        Thread t3 = new Thread(
+                () -> {
+                    luongNhanVien = new TinhLuongNhanVien();
+                }
+        );
+        Thread t4 = new Thread(
+                () -> {
+                    form_KhuyenMai = new Form_KhuyenMai();
+                }
+        );
+        Thread t5 = new Thread(
+                () -> {
+                    formQLNhanVien = new QuanLyNhanVien();
+                }
+        );
+        Thread t6 = new Thread(
+                () -> {
+                    form_TaoTaiKhoan = new Form_TaoTaiKhoan();
+                }
+        );
+        Thread t7 = new Thread(
+                () -> {
+                    form_QLDoUong = new Form_QLDoUong();
+                }
+        );
+        Thread t8 = new Thread(
+                () -> {
+                    formQLHoaDon = new Form_QLHoaDon();
+                }
+        );
+        Thread t9 = new Thread(
+                () -> {
+                    form_QuanLyKho = new Form_QuanLyKho();
+                }
+        );
+        Thread t10 = new Thread(
+                () -> {
+                    form_GiaoCa = new Form_GiaoCa();
+                }
+        );
+        Thread t11 = new Thread(
+                () -> {
+                    form_ChamCong = new Form_ChamCong();
+                }
+        );
+        Thread t12 = new Thread(
+                () -> {
+                    form_LoaiDoUong = new Form_LoaiDoUong();
+                }
+        );
+        Thread t13 = new Thread(
+                () -> {
+                    form_CapBac = new Form_CapBac();
+                }
+        );
+        Thread t14 = new Thread(
+                () -> {
+                    form_ThongKe = new Form_ThongKe();
+                }
+        );
+        t1.start();
+        t2.start();
+        t3.start();
+        t4.start();
+        t5.start();
+        t6.start();
+        t7.start();
+        t8.start();
+        t9.start();
+        t10.start();
+        t11.start();
+        t12.start();
+        t13.start();
+        t14.start();
+        
+//        formThongbao = new Form_ThongBao();
+//        formBanHang = new Form_BanHang();
+//        luongNhanVien = new TinhLuongNhanVien();
+//        form_KhuyenMai = new Form_KhuyenMai();
+//        formQLNhanVien = new QuanLyNhanVien();
+//        form_TaoTaiKhoan = new Form_TaoTaiKhoan();
+//        form_QLDoUong = new Form_QLDoUong();
+//        formQLHoaDon = new Form_QLHoaDon();
+//        form_QuanLyKho = new Form_QuanLyKho();
+//        form_GiaoCa = new Form_GiaoCa();
+//        form_ChamCong = new Form_ChamCong();
+//        form_LoaiDoUong = new Form_LoaiDoUong();
+//        form_CapBac = new Form_CapBac();
+//        form_ThongKe = new Form_ThongKe();
+//        
         setBackground(new Color(0, 0, 0, 0));
         menuOfCB1.initMoving(MainTemplate.this);
         menuOfCB1.addEventMenuSelected(new EventMenuSelected() {
@@ -116,25 +191,24 @@ public class MainTemplate extends javax.swing.JFrame {
                     setForm(form_TaoTaiKhoan);
                 } else if (index == 2) {
 //                    DoanhThu_singleton.getInstance().doanhThuNow =  ;
-                    setForm(form_GiaoCa1);
+                    setForm(form_GiaoCa);
                 } else if (index == 3) {
                     setForm(form_QLDoUong);
-                }  else if (index == 9) {
-                    setForm(luongNhanVien);
                 } else if (index == 4) {
                     setForm(form_KhuyenMai);
-                }
-                
-                else if (index == 10) {
+                } else if (index == 10) {
+                    setForm(luongNhanVien);
                 } else if (index == 9) {
                     setForm(form_ChamCong);
-                } else if (index == 10) {
-                    setForm(form_QuanLyKho);
                 } else if (index == 11) {
-                    setForm(form_LoaiDoUong);
+                    setForm(form_QuanLyKho);
                 } else if (index == 12) {
-                    setForm(form_CapBac);
+                    setForm(form_LoaiDoUong);
                 } else if (index == 13) {
+                    setForm(form_CapBac);
+                } else if (index == 14) {
+                    setForm(form_QLBan);
+                } else if (index == 15) {
                     MessageFrame messageFrame = new MessageFrame();
                     messageFrame.show();
                     messageFrame.setMessage("Bạn có chắc chắn muốn đăng xuất không?");
@@ -158,7 +232,7 @@ public class MainTemplate extends javax.swing.JFrame {
         });
 
         //  set when system open start with home form
-        setForm(new Form_ThongBao());
+        
 
     }
 
