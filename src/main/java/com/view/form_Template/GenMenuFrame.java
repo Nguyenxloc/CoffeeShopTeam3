@@ -45,9 +45,14 @@ public class GenMenuFrame extends javax.swing.JFrame {
     private ArrayList<paneOfmenu> lstPaneMenu = new ArrayList<>();
     private ArrayList<ChiTietDoUong> lstChiTietDoUong = new ArrayList<>();
     private paneOfmenu paneMenu;
+
     public GenMenuFrame() {
         initComponents();
+        this.pack();
+        this.setLocationRelativeTo(null);
+        this.setVisible(true);
         panelMenuDisplay.setLayout(new BorderLayout());
+        panelMenuDisplay.setPreferredSize(new Dimension(650, 800));
         loadFirstAppear();
 //        this.setLayout(new BorderLayout());
     }
@@ -81,7 +86,7 @@ public class GenMenuFrame extends javax.swing.JFrame {
         panelMenuDisplay.setLayout(panelMenuDisplayLayout);
         panelMenuDisplayLayout.setHorizontalGroup(
             panelMenuDisplayLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 618, Short.MAX_VALUE)
+            .addGap(0, 629, Short.MAX_VALUE)
         );
         panelMenuDisplayLayout.setVerticalGroup(
             panelMenuDisplayLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -96,16 +101,19 @@ public class GenMenuFrame extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap(16, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButton3)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(17, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jButton3)
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 625, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(14, 14, 14))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 567, Short.MAX_VALUE)
+                .addComponent(jScrollPane1)
                 .addGap(18, 18, 18)
                 .addComponent(jButton3)
                 .addContainerGap())
@@ -124,7 +132,7 @@ public class GenMenuFrame extends javax.swing.JFrame {
     public void loadFirstAppear() {
         lstChiTietDoUong = LstChiTietDoUong_singleton.getInstance().lstChiTietDoUongs;
         paneMenu = new paneOfmenu(lstChiTietDoUong, null);
-        paneMenu.setPreferredSize(new Dimension(640, 800));
+        paneMenu.setPreferredSize(new Dimension(645, 800));
         lstPaneMenu.add(paneMenu);
         setForm(lstPaneMenu.get(0));
     }
@@ -166,7 +174,7 @@ public class GenMenuFrame extends javax.swing.JFrame {
     public static BufferedImage getScreenShot(
             Component component) {
         BufferedImage image = new BufferedImage(
-                640, 800,
+                645, 800,
                 BufferedImage.TYPE_INT_RGB
         );
         // call the Component's paint method, using
