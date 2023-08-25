@@ -19,8 +19,8 @@ public class Utilitys {//Lớp này giải quyết kết nối xử lý truy v�
 
     private static String hostName = "localhost";
     private static String acc = "sa";
-    private static String pass = "123456";
-    private static String dbName = "COFFEESHOP_DA1";
+    private static String pass = "1234";
+    private static String dbName = "COFFEESHOP_DA8";
     private static String connectionSql
             = "jdbc:sqlserver://" + hostName + ":1433;databaseName=" + dbName + ";user=" + acc + ";password=" + pass + ";encrypt=false";
     private static String driver = "com.microsoft.sqlserver.jdbc.SQLServerDriver";

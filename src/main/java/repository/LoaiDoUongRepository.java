@@ -91,12 +91,11 @@ public class LoaiDoUongRepository {
         
         try {
             Connection con = DBConnection.getConnection();
-            String query = "UPDATE LoaiDoUong " + "SET Ma = ?, Ten = ? " +
+            String query = "UPDATE LoaiDoUong " + "SET Ten = ? " +
                                                         "WHERE (Ma = ?)";
             PreparedStatement st = con.prepareStatement(query);
-            st.setString(1, ld.getMa());
-            st.setString(2, ld.getTenLoaiDoUong());
-            st.setString(3, ld.getMa());
+            st.setString(1, ld.getTenLoaiDoUong());
+            st.setString(2, ld.getMa());
             
             
             st.execute();
