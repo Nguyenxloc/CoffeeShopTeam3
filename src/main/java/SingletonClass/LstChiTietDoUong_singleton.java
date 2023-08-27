@@ -34,6 +34,4 @@ public class LstChiTietDoUong_singleton {
         }
         return single_instance;
     }
-    
-    
 }

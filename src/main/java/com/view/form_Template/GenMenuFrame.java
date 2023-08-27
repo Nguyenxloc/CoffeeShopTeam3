@@ -12,8 +12,10 @@ import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.layout.Document;
 import com.itextpdf.layout.element.IBlockElement;
+import com.view.component.menuCell;
 import com.view.component.paneOfmenu;
 import java.awt.BorderLayout;
+import java.awt.CardLayout;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Image;
@@ -32,6 +34,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import model.ChiTietDoUong;
+import service.ChiTietDoUongService_Master;
 
 /**
  *
@@ -39,22 +42,26 @@ import model.ChiTietDoUong;
  */
 public class GenMenuFrame extends javax.swing.JFrame {
 
-    /**
-     * Creates new form GenMenuFrame
-     */
+    private static service.ChiTietDoUongService_Master service = new ChiTietDoUongService_Master();
     private ArrayList<paneOfmenu> lstPaneMenu = new ArrayList<>();
     private ArrayList<ChiTietDoUong> lstChiTietDoUong = new ArrayList<>();
     private paneOfmenu paneMenu;
 
     public GenMenuFrame() {
+        try {
+            System.out.println(paneMenu);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         initComponents();
         this.pack();
         this.setLocationRelativeTo(null);
         this.setVisible(true);
+        panelMenuDisplay.setLayout(null);
         panelMenuDisplay.setLayout(new BorderLayout());
         panelMenuDisplay.setPreferredSize(new Dimension(650, 800));
         loadFirstAppear();
-//        this.setLayout(new BorderLayout());
+//      this.setLayout(new BorderLayout());
     }
 
     /**
@@ -128,13 +135,25 @@ public class GenMenuFrame extends javax.swing.JFrame {
 //        imgToPdf();
         saveScreenShot(paneMenu);
     }//GEN-LAST:event_jButton3ActionPerformed
+    public void loadTest() {
+        LstChiTietDoUong_singleton.getInstance().lstChiTietDoUongs = service.getListChiTietDoUong();
+        paneMenu = new paneOfmenu(LstChiTietDoUong_singleton.getInstance().lstChiTietDoUongs, null);
+        paneMenu.setPreferredSize(new Dimension(645, 800));
+        panelMenuDisplay.setLayout(null);
+        panelMenuDisplay.setLayout(new BorderLayout());
+        panelMenuDisplay.setPreferredSize(new Dimension(650, 800));
+        setForm(paneMenu);
+    }
 
     public void loadFirstAppear() {
-        lstChiTietDoUong = LstChiTietDoUong_singleton.getInstance().lstChiTietDoUongs;
-        paneMenu = new paneOfmenu(lstChiTietDoUong, null);
+        panelMenuDisplay.setLayout(null);
+        panelMenuDisplay.setLayout(new BorderLayout());
+        panelMenuDisplay.setPreferredSize(new Dimension(650, 800));
+        LstChiTietDoUong_singleton.getInstance().lstChiTietDoUongs = service.getListChiTietDoUong();
+        paneMenu = new paneOfmenu(LstChiTietDoUong_singleton.getInstance().lstChiTietDoUongs, null);
         paneMenu.setPreferredSize(new Dimension(645, 800));
         lstPaneMenu.add(paneMenu);
-        setForm(lstPaneMenu.get(0));
+        setForm(paneMenu);
     }
 
     public void next() {
@@ -165,6 +184,7 @@ public class GenMenuFrame extends javax.swing.JFrame {
     }
 
     private void setForm(JComponent com) {
+        System.out.println(LstChiTietDoUong_singleton.getInstance().lstChiTietDoUongs);
         panelMenuDisplay.removeAll();
         panelMenuDisplay.add(com);
         panelMenuDisplay.repaint();

@@ -25,11 +25,13 @@ public class ChiTietDoUong {
     private byte[] hinhAnh;
     
     private LoaiDoUong loaiDoUong;
+    
+    private int Status;
 
     public ChiTietDoUong() {
     }
 
-    public ChiTietDoUong(String id, String tenDoUong, double giaNhap, double giaBan, String moTa, byte[] hinhAnh, LoaiDoUong loaiDoUong) {
+    public ChiTietDoUong(String id, String tenDoUong, double giaNhap, double giaBan, String moTa, byte[] hinhAnh, LoaiDoUong loaiDoUong, int Status) {
         this.id = id;
         this.tenDoUong = tenDoUong;
         this.giaNhap = giaNhap;
@@ -37,8 +39,10 @@ public class ChiTietDoUong {
         this.moTa = moTa;
         this.hinhAnh = hinhAnh;
         this.loaiDoUong = loaiDoUong;
+        this.Status = Status;
     }
-
+    
+    
     public String getId() {
         return id;
     }
@@ -95,10 +99,17 @@ public class ChiTietDoUong {
         this.loaiDoUong = loaiDoUong;
     }
 
-    @Override
-    public String toString() {
-        return "ChiTietDoUong{" + "id=" + id + ", tenDoUong=" + tenDoUong + ", giaNhap=" + giaNhap + ", giaBan=" + giaBan + ", moTa=" + moTa + ", hinhAnh=" + hinhAnh + ", loaiDoUong=" + loaiDoUong + '}';
+    public int getStatus() {
+        return Status;
     }
 
-    
+    public void setStatus(int Status) {
+        this.Status = Status;
+    }
+
+    @Override
+    public String toString() {
+        return "ChiTietDoUong{" + "id=" + id + ", tenDoUong=" + tenDoUong + ", giaNhap=" + giaNhap + ", giaBan=" + giaBan + ", moTa=" + moTa + ", hinhAnh=" + hinhAnh + ", loaiDoUong=" + loaiDoUong + ", Status=" + Status + '}';
+    }
+
 }

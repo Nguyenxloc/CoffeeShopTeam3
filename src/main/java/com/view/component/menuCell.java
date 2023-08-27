@@ -9,6 +9,10 @@ import java.awt.Dimension;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.text.DecimalFormat;
+import javax.accessibility.AccessibleContext;
+import javax.swing.JLabel;
+import javax.swing.event.EventListenerList;
+import javax.swing.plaf.ComponentUI;
 
 /**
  *
@@ -21,12 +25,63 @@ public class menuCell extends javax.swing.JPanel {
      */
     public menuCell(String nameOfProduct, Double priceOfProduct) {
         DecimalFormat formatter = new DecimalFormat("###,###,###");
+        this.removeAll();
         initComponents();
         lblNameDrink.setText(nameOfProduct);
         lblPriceOfDrink.setText(formatter.format(priceOfProduct) + "VNĐ");
         this.setOpaque(false);
+        this.repaint();
+        this.revalidate();
     }
 
+    public JLabel getjLabel1() {
+        return jLabel1;
+    }
+
+    public void setjLabel1(JLabel jLabel1) {
+        this.jLabel1 = jLabel1;
+    }
+
+    public JLabel getLblNameDrink() {
+        return lblNameDrink;
+    }
+
+    public void setLblNameDrink(JLabel lblNameDrink) {
+        this.lblNameDrink = lblNameDrink;
+    }
+
+    public JLabel getLblPriceOfDrink() {
+        return lblPriceOfDrink;
+    }
+
+    public void setLblPriceOfDrink(JLabel lblPriceOfDrink) {
+        this.lblPriceOfDrink = lblPriceOfDrink;
+    }
+
+    public ComponentUI getUi() {
+        return ui;
+    }
+
+    public void setUi(ComponentUI ui) {
+        this.ui = ui;
+    }
+
+    public EventListenerList getListenerList() {
+        return listenerList;
+    }
+
+    public void setListenerList(EventListenerList listenerList) {
+        this.listenerList = listenerList;
+    }
+
+    public AccessibleContext getAccessibleContext() {
+        return accessibleContext;
+    }
+
+    public void setAccessibleContext(AccessibleContext accessibleContext) {
+        this.accessibleContext = accessibleContext;
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

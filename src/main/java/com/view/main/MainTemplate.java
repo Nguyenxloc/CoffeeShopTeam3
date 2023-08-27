@@ -135,6 +135,8 @@ public class MainTemplate extends javax.swing.JFrame {
         Thread t13 = new Thread(
                 () -> {
                     form_CapBac = new Form_CapBac();
+                    form_QLBan = new Form_QLBan();
+
                 }
         );
         Thread t14 = new Thread(
@@ -156,7 +158,7 @@ public class MainTemplate extends javax.swing.JFrame {
         t12.start();
         t13.start();
         t14.start();
-        
+
 //        formThongbao = new Form_ThongBao();
 //        formBanHang = new Form_BanHang();
 //        luongNhanVien = new TinhLuongNhanVien();
@@ -230,10 +232,7 @@ public class MainTemplate extends javax.swing.JFrame {
                 }
             }
         });
-
         //  set when system open start with home form
-        
-
     }
 
     private void setForm(JComponent com) {

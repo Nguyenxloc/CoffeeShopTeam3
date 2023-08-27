@@ -61,7 +61,7 @@ public class MenuOfCB extends javax.swing.JPanel {
         listMenu1.addItem(new Model_Menu("9", "Quản lý nhập kho", Model_Menu.MenuType.MENU));
         listMenu1.addItem(new Model_Menu("9", "Quản lý Loại Đồ Uống", Model_Menu.MenuType.MENU));
         listMenu1.addItem(new Model_Menu("9", "Quản lý Cấp Bậc", Model_Menu.MenuType.MENU));
-        listMenu1.addItem(new Model_Menu("14", "Quản lý Bàn", Model_Menu.MenuType.MENU));
+        listMenu1.addItem(new Model_Menu("9", "Quản lý Bàn", Model_Menu.MenuType.MENU));
         listMenu1.addItem(new Model_Menu("11", "Đăng xuất", Model_Menu.MenuType.MENU));
         listMenu1.addItem(new Model_Menu("", "\n ", Model_Menu.MenuType.TITLE));
         listMenu1.addItem(new Model_Menu("", "\n ", Model_Menu.MenuType.TITLE));

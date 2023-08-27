@@ -45,31 +45,27 @@ public class paneOfmenu extends JPanel {
 //        paneOfProduct1.setVisible(true);
 
     static ArrayList<menuCell> lstCell = new ArrayList<>();
-    static ChiTietDoUong drinkDetail = new ChiTietDoUong();
-    static ChiTietDoUongNoIMG drinkDetailNoIMG = new ChiTietDoUongNoIMG();
-    static HoaDon localHoaDon = new HoaDon();
-    static JTable localTbl = new JTable();
-    static JLabel localLblCheck = new JLabel();
     String path = "src\\main\\java\\com\\view\\icon\\menufhd.jpg";
     File file = new File(path);
     String absolutePath = file.getAbsolutePath();
     String dir = absolutePath;
     ImageIcon oriImgIcon = new ImageIcon(dir);
     Image image = oriImgIcon.getImage(); // transform it
-
-
+    static GridBagLayout gridBag = new GridBagLayout();
+    static GridBagConstraints c = new GridBagConstraints();
+    
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         g.drawImage(image, 0, 0, 650, 800, null);
     }
-
+    
     public paneOfmenu(ArrayList<ChiTietDoUong> lstMenu, byte[] img) {
+        lstCell.clear();
+        paneOfmenu.this.removeAll();
         int count = 0;
         ArrayList<Integer> lstFirstAppear = new ArrayList<>();
-        GridBagLayout gridBag = new GridBagLayout();
         this.setLayout(gridBag);
-        GridBagConstraints c = new GridBagConstraints();
         JLabel lbl = new JLabel();
         lbl.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         lbl.setForeground(new java.awt.Color(239, 204, 162));
@@ -82,17 +78,17 @@ public class paneOfmenu extends JPanel {
         c.gridy = 0;
         c.gridwidth = 3;
         this.add(lbl, c);
-
+        
         for (int i = 0; i < lstMenu.size(); i++) {
             if (i > 0) {
                 if (lstMenu.get(i).getLoaiDoUong().getId().equals(lstMenu.get(i - 1).getLoaiDoUong().getId())) {
-
+                    
                 } else {
                     lstFirstAppear.add(i);
                 }
             }
         }
-
+        
         for (int i = 1; i < Integer.valueOf(lstMenu.size() / 2) + 3 + lstFirstAppear.size(); i++) {
             for (int j = 0; j < 2; j++) {
                 if (i == 1 && j == 0) {
@@ -134,9 +130,11 @@ public class paneOfmenu extends JPanel {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-
+                
                 try {
+                    System.out.println(lstMenu.get(count).getTenDoUong());
                     menuCell cell = new menuCell(lstMenu.get(count).getTenDoUong(), lstMenu.get(count).getGiaBan());
+                    System.out.println("test lbl:"+cell.getLblNameDrink().getText());
                     lstCell.add(cell);
                     lstCell.get(count).setName(String.valueOf(i));
                     c.weighty = 1;
@@ -153,13 +151,15 @@ public class paneOfmenu extends JPanel {
                     e.printStackTrace();
                     break;
                 }
-
+                
             }
         }
+        this.repaint();
+        this.revalidate();
+        this.updateUI();
     }
-
-    public static void MoveToHDChiTiet(int count) {
-        //////lấy id sản phẩm rồi chuyển sang hóa đơn chi tiết;
+    
+    public void updateDetail(ArrayList<ChiTietDoUong> lstMenu) {
+        
     }
-
 }
