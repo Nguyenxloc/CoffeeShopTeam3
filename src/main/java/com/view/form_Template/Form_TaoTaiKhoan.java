@@ -105,7 +105,7 @@ public class Form_TaoTaiKhoan extends javax.swing.JPanel {
                     JOptionPane.showMessageDialog(this, "Lỗi trống dữ liệu");
                     return;
                 }
-                service.save(createAcount);
+//                service.save(createAcount);abc
                 JOptionPane.showMessageDialog(this, "Đăng ký tài khoản thành công");
                 clearForm();
             }
@@ -129,6 +129,18 @@ public class Form_TaoTaiKhoan extends javax.swing.JPanel {
         // Kiểm tra tên tài khoản đã tồn tại hay chưa
         if (isUsernameAlreadyExists(txtUsername.getText().trim())) {
             JOptionPane.showMessageDialog(this, "Tên tài khoản đã tồn tại");
+            return false;
+        }
+
+        //Validate độ dài của Username
+        if (!isValidUsernameLength(txtUsername.getText().trim())) {
+            JOptionPane.showMessageDialog(this, "Tên tài khoản phải có độ dài từ 4 đến 20 ký tự");
+            return false;
+        }
+        
+        //Validate tài khoản chỉ chứa số
+        if (doesUsernameContainNumbers(txtUsername.getText().trim())) {
+            JOptionPane.showMessageDialog(this, "Tên tài khoản không được chứa số");
             return false;
         }
 
@@ -167,6 +179,8 @@ public class Form_TaoTaiKhoan extends javax.swing.JPanel {
                 return false;
             }
         }
+
+        //Validate số điện thoại đã tồn tại
         String phoneNumber = txtSoDienThoai.getText().trim();
         if (isPhoneNumberExists(phoneNumber)) {
             JOptionPane.showMessageDialog(this, "Số điện thoại đã tồn tại, vui lòng nhập lại số điện thoại");
@@ -201,13 +215,6 @@ public class Form_TaoTaiKhoan extends javax.swing.JPanel {
         return password.matches(regex);
     }
 
-    // Regex ID Employee in Java, 
-    private boolean isValidEmployeeId(String employeeId) {
-//        String regex = "^[a-zA-Z][a-zA-Z0-9]*$";
-        String regex = "^NV[a-zA-Z0-9]*$";
-        return employeeId.matches(regex);
-    }
-
     // Regex Name Employee in Java
     private boolean isValidEmployeeName(String employeeName) {
         String vietnameseRegex = "^[\\p{Lu}][\\p{L}\\s]*$";
@@ -222,6 +229,20 @@ public class Form_TaoTaiKhoan extends javax.swing.JPanel {
     private boolean isUsernameAlreadyExists(String username) {
         boolean exists = service.checkUsernameExists(username);
         return exists;
+    }
+
+// Validate tên tài khoản có độ dài hợp lệ
+    private boolean isValidUsernameLength(String username) {
+        int minLength = 4; // Độ dài tối thiểu cho tên tài khoản
+        int maxLength = 20; // Độ dài tối đa cho tên tài khoản
+        int usernameLength = username.length();
+
+        return usernameLength >= minLength && usernameLength <= maxLength;
+    }
+
+// Validate tài khoản không chứa số
+    private boolean doesUsernameContainNumbers(String username) {
+        return username.matches(".*\\d.*");
     }
 
     // Chức năng Clear Form

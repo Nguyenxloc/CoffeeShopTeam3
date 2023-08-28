@@ -88,14 +88,14 @@ public class Form_KhuyenMai extends javax.swing.JPanel {
     // Chức năng load dữ liệu trạng thái khuyến mãi lên Combobox
     private void fillComboboxTrangThai() {
         DefaultComboBoxModel model = (DefaultComboBoxModel) cboStatus.getModel();
-        DefaultComboBoxModel comboBoxModel = (DefaultComboBoxModel) cboTrangThai.getModel();
+//        DefaultComboBoxModel comboBoxModel = (DefaultComboBoxModel) cboTrangThai.getModel();
         model.removeAllElements();
-        comboBoxModel.removeAllElements();
+//        comboBoxModel.removeAllElements();
         model.addElement("Tất cả");
         listSale = service.selectTrangThai();
         for (KhuyenMai km : listSale) {
             model.addElement(km.getTrangThai());
-            comboBoxModel.addElement(km.getTrangThai());
+//            comboBoxModel.addElement(km.getTrangThai());
         }
     }
 
@@ -107,7 +107,7 @@ public class Form_KhuyenMai extends javax.swing.JPanel {
             listHoaDon = hoaDonService.selectHoaDonBySale();
             String hoTenNV = "";
             for (HoaDon hd : listHoaDon) {
-                hoTenNV = hd.getNhanVien().getHo() + " " + hd.getNhanVien().getTenDem() + " " + hd.getNhanVien().getTen();
+                hoTenNV =  hd.getNhanVien().getTen();
                 model.addRow(new Object[]{
                     hd.getMa(),
                     hd.getNgayTao(),
@@ -137,9 +137,9 @@ public class Form_KhuyenMai extends javax.swing.JPanel {
             DefaultTableModel model = (DefaultTableModel) tblHoaDon.getModel();
             model.setRowCount(0);
             listHoaDon = hoaDonService.selectHoaDonByMaGiamGia(maKM);
-            String hoTenNV = "";
+            String hoTenNV =  "";
             for (HoaDon hd : listHoaDon) {
-                hoTenNV = hd.getNhanVien().getHo() + " " + hd.getNhanVien().getTenDem() + " " + hd.getNhanVien().getTen();
+                hoTenNV = hd.getNhanVien().getTen();
                 model.addRow(new Object[]{
                     hd.getMa(),
                     hd.getNgayTao(),
@@ -311,11 +311,11 @@ public class Form_KhuyenMai extends javax.swing.JPanel {
             return false;
         }
         if (txtNgayBatDau.getDate() == null) {
-            JOptionPane.showMessageDialog(this, "Vui lòng nhập vào ngày bắt đầu khuyến mại");
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn  ngày bắt đầu khuyến mại");
             return false;
         }
         if (txtNgayKetThuc.getDate() == null) {
-            JOptionPane.showMessageDialog(this, "Vui lòng nhập vào ngày kết thúc khuyến mại");
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn  ngày kết thúc khuyến mại");
             return false;
         }
 
@@ -553,6 +553,8 @@ public class Form_KhuyenMai extends javax.swing.JPanel {
         jPanel11.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(204, 204, 204), 2));
         jPanel11.setForeground(new java.awt.Color(255, 255, 255));
         jPanel11.setName(""); // NOI18N
+
+        cboTrangThai.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Đang hoạt động", "Ngừng hoạt động" }));
 
         jLabel41.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel41.setText("SALE");
@@ -821,12 +823,11 @@ public class Form_KhuyenMai extends javax.swing.JPanel {
                                     .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(jLabel56)
                                         .addComponent(cboStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel57, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(jPanel12Layout.createSequentialGroup()
-                                        .addComponent(txtTimHD, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(btnTimSp, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addComponent(jLabel57, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(jPanel12Layout.createSequentialGroup()
+                                    .addComponent(txtTimHD, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(btnTimSp, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addGap(0, 19, Short.MAX_VALUE))))
         );
         jPanel12Layout.setVerticalGroup(

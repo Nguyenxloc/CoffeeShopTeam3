@@ -11,6 +11,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
@@ -20,6 +21,7 @@ import model.ChamCong;
 import model.NhanVien;
 import service.ChamCongService;
 import service.NhanVienService;
+import service.TaoTaiKhoanService;
 
 /**
  *
@@ -29,8 +31,9 @@ public class Form_ChamCong extends javax.swing.JPanel implements Runnable {
 
     // Ngày giờ hiện tại
     Date now = new Date();
-    NhanVienService nhanVineService = new NhanVienService();
+    NhanVienService nhanVienService = new NhanVienService();
     ChamCongService chamCongService = new ChamCongService();
+    TaoTaiKhoanService createService = new TaoTaiKhoanService();
 //    CapBac capBacService = new 
 
     public Form_ChamCong() {
@@ -91,8 +94,8 @@ public class Form_ChamCong extends javax.swing.JPanel implements Runnable {
         String gioRa = String.format("%02d:%02d:%02d", hour, minute, second);
         txtGioRa.setText(gioRa);
     }
-    
-     private void setTimeGioVao() {
+
+    private void setTimeGioVao() {
         // Lấy ngày và thời gian hiện tại
         Date now = new Date();
         Calendar calendar = Calendar.getInstance();
@@ -101,14 +104,14 @@ public class Form_ChamCong extends javax.swing.JPanel implements Runnable {
         int minute = calendar.get(Calendar.MINUTE);
         int second = calendar.get(Calendar.SECOND);
 
-         String gioVao = String.format("%02d:%02d:%02d", hour, minute, second);
+        String gioVao = String.format("%02d:%02d:%02d", hour, minute, second);
         txtGioVao.setText(gioVao);
     }
 
     private void chamCongGioVao() {
         if (validateData()) {
             setTimeGioVao();
-            NhanVien nv = nhanVineService.selectByMa(txtMaNhanVien.getText().trim());
+            NhanVien nv = nhanVienService.selectByMa(txtMaNhanVien.getText().trim());
 
             lblHoTenNV.setText(nv.getHo() + " " + nv.getTenDem() + " " + nv.getTen());
             lblGioiTinh.setText(nv.getGioiTinh());
@@ -150,7 +153,7 @@ public class Form_ChamCong extends javax.swing.JPanel implements Runnable {
         if (validateData()) {
             //Lấy giờ hiện tại
             setTimeGioRa();
-            NhanVien nv = nhanVineService.selectByMa(txtMaNhanVien.getText().trim());
+            NhanVien nv = nhanVienService.selectByMa(txtMaNhanVien.getText().trim());
             lblHoTenNV.setText(nv.getHo() + " " + nv.getTenDem() + " " + nv.getTen());
             lblGioiTinh.setText(nv.getGioiTinh());
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
@@ -194,7 +197,7 @@ public class Form_ChamCong extends javax.swing.JPanel implements Runnable {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(now);
 
-        NhanVien nv = nhanVineService.selectByMa(txtMaNhanVien.getText().trim());
+        NhanVien nv = nhanVienService.selectByMa(txtMaNhanVien.getText().trim());
         if (nv == null) {
             JOptionPane.showMessageDialog(this, "Lỗi để trốn dữ liệu");
             return null;
@@ -227,7 +230,7 @@ public class Form_ChamCong extends javax.swing.JPanel implements Runnable {
         ChamCong chamCong = new ChamCong();
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(now);
-        NhanVien nv = nhanVineService.selectByMa(txtMaNhanVien.getText().trim());
+        NhanVien nv = nhanVienService.selectByMa(txtMaNhanVien.getText().trim());
         if (nv == null) {
             JOptionPane.showMessageDialog(this, "Lỗi để trốn dữ liệu");
             return null;
@@ -249,11 +252,44 @@ public class Form_ChamCong extends javax.swing.JPanel implements Runnable {
 
     // vALIDATE DỮ LIỆU
     private boolean validateData() {
+        String maNhanVien = txtMaNhanVien.getText().trim();
 
-        if (txtMaNhanVien.getText().trim().equals("")) {
+        if (maNhanVien.equals("")) {
             JOptionPane.showMessageDialog(this, "Vui lòng nhâp vào mã nhân viên");
             return false;
         }
+
+        // Kiểm tra mã nhân viên quá ngắn (giả sử quy định ít nhất 3 ký tự)
+        if (maNhanVien.length() < 3) {
+            JOptionPane.showMessageDialog(this, "Mã nhân viên quá ngắn");
+            return false;
+        }
+
+        // Kiểm tra mã nhân viên quá dài (giả sử nhiều nhất 10 ký tự)
+        if (maNhanVien.length() > 10) {
+            JOptionPane.showMessageDialog(this, "Mã nhân viên quá dài");
+            return false;
+        }
+
+        // Kiểm tra mã nhân viên có ký tự đặc biệt
+        if (!maNhanVien.matches("^[a-zA-Z0-9]+$")) {
+            JOptionPane.showMessageDialog(this, "Mã nhân viên không hợp lệ,vui lòng nhập lại mã nhân viên");
+            return false;
+        }
+
+        // Kiểm tra mã nhân viên tồn tại trên hệ thống (giả sử kiểm tra trong danh sách mã nhân viên)
+        int count = createService.selectById(maNhanVien);
+        if (count == 0) {
+            JOptionPane.showMessageDialog(this, "Nhân viên không tồn tại vui lòng nhập lại");
+            return false;
+        }
+
+        // Kiểm tra mã nhân viên có chứa khoảng trắng
+        if (maNhanVien.contains(" ")) {
+            JOptionPane.showMessageDialog(this, "Mã nhân viên không được chứa khoảng trắng");
+            return false;
+        }
+
         return true;
     }
 
@@ -268,7 +304,7 @@ public class Form_ChamCong extends javax.swing.JPanel implements Runnable {
         lblHinhAnh2.setIcon(null);
         lblHinhAnh2.setText("Ảnh");
         txtMaNhanVien.setText("");
-        
+
         txtGioVao.setText("00:00 AM");
         txtGioRa.setText("00:00 AM");
     }

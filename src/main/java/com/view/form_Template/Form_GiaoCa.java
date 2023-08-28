@@ -80,7 +80,8 @@ public class Form_GiaoCa extends javax.swing.JPanel {
         fillComboBoxNhanVien();
         fillComboBoxCaLamViec();
     }
-
+     
+    // Load dữ liệu table
     private void fillToTableGiaoCa(ArrayList<GiaoCa> listGiaoCa) {
         DefaultTableModel model = (DefaultTableModel) tblPhieuGiaoCa.getModel();
         model.setRowCount(0);
@@ -89,8 +90,8 @@ public class Form_GiaoCa extends javax.swing.JPanel {
         for (GiaoCa giaoCa : listGiaoCa) {
             NhanVien nguoiGiao = giaoCa.getNguoiGiao();
             NhanVien nguoiNhan = giaoCa.getNguoiNhan();
-            String hoTenNguoiGiao = nguoiGiao.getHo() + " " + nguoiGiao.getTenDem() + " " + nguoiGiao.getTen();
-            String hoTenNguoiNhan = nguoiNhan.getHo() + " " + nguoiNhan.getTenDem() + " " + nguoiNhan.getTen();
+            String hoTenNguoiGiao =  nguoiGiao.getTen();
+            String hoTenNguoiNhan =  nguoiNhan.getTen();
 
             BigDecimal tongTien = giaoCa.getTongCong();
             BigDecimal tongTienThucKiem = giaoCa.getThucKiem();
@@ -119,12 +120,12 @@ public class Form_GiaoCa extends javax.swing.JPanel {
 
     // Chức năng fill dữ liệu lên ComboxBox Ca làm việc
     private void fillComboBoxCaLamViec() {
-        DefaultComboBoxModel model = (DefaultComboBoxModel) cboCaLamViec.getModel();
-        model.removeAllElements();
-        listGiaoCa = giaoCaService.selectALL();
-        for (GiaoCa gc : listGiaoCa) {
-            model.addElement(gc.getCaLamViec());
-        }
+//        DefaultComboBoxModel model = (DefaultComboBoxModel) cboCaLamViec.getModel();
+//        model.removeAllElements();
+//        listGiaoCa = giaoCaService.selectALL();
+//        for (GiaoCa gc : listGiaoCa) {
+//            model.addElement(gc.getCaLamViec());
+//        }
         // Lấy ngày và thời gian hiện tại
         Date now = new Date();
         Calendar calendar = Calendar.getInstance();
@@ -143,8 +144,8 @@ public class Form_GiaoCa extends javax.swing.JPanel {
         }
 
         // Set giá trị cho cboCaLamViec
-        cboCaLamViecForm1.setSelectedItem(caLamViec);
         cboCaLamViec.setSelectedItem(caLamViec);
+        cboCaLamViecForm1.setSelectedItem(caLamViec);
 
         // Set giá trị cho txtNgayGiaoCaForm1
         txtNgayGiaoCa.setDate(now);
@@ -221,7 +222,7 @@ public class Form_GiaoCa extends javax.swing.JPanel {
         lblTongTien.setText("0.000.000 VND");
         lblGioKiemKe.setText("00:00");
         cboCaLamViec.setSelectedIndex(0);
-        txtNgayGiaoCa.setDate(null);
+        txtNgayGiaoCa.setDate(new Date());
         cboNguoiGiao.setSelectedIndex(0);
         cboNguoiNhan.setSelectedIndex(0);
         txtThucKiem.setText("");
