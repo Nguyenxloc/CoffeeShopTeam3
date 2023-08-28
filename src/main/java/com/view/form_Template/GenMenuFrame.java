@@ -184,7 +184,6 @@ public class GenMenuFrame extends javax.swing.JFrame {
     }
 
     private void setForm(JComponent com) {
-        System.out.println(LstChiTietDoUong_singleton.getInstance().lstChiTietDoUongs);
         panelMenuDisplay.removeAll();
         panelMenuDisplay.add(com);
         panelMenuDisplay.repaint();

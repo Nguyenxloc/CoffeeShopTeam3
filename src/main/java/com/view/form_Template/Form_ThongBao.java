@@ -6,8 +6,11 @@ package com.view.form_Template;
 
 import SingletonClass.LstChiTietDoUong_singleton;
 import SingletonClass.LstNews_singleton;
+import SingletonClass.panelNews_Singleton;
 import com.view.component.paneOfProduct;
 import com.view.component.NewsPanel;
+import java.awt.BorderLayout;
+import java.awt.GridBagLayout;
 import java.util.ArrayList;
 import model.News;
 
@@ -20,23 +23,23 @@ public class Form_ThongBao extends javax.swing.JPanel {
     /**
      * Creates new form Form_ThongBao
      */
-    private NewsPanel paneNews;
+    private NewsPanel newPanel;
     private ArrayList<News> lstNews;
     public Form_ThongBao() {
         initComponents();
         jScrollPane1.setBorder(null);
         this.setBorder(null);
+        this.setLayout(new GridBagLayout());
         reLoadProduct();
     }
     
     private void reLoadProduct() {
-        lstNews = LstNews_singleton.getInstance().lstNews;
-        paneNews = new NewsPanel(lstNews);
-        jScrollPane1.setViewportView(paneNews);
+        newPanel = panelNews_Singleton.getInstance().paneNews;
+        jScrollPane1.setViewportView(newPanel);
         jScrollPane1.getViewport().repaint();
         jScrollPane1.getViewport().revalidate();
     }
-    
+
 //gọi từ service list sản phầm theo order by desc để sql trả về danh sách từng loại đồ uống
 
     public void LoadlstProduct() {

@@ -44,9 +44,7 @@ public class Form_ThongKe extends javax.swing.JPanel {
 
     public Form_ThongKe() {
         initComponents();
-
         loadData();
-
         loadTongDoanhThu();
         loadTongHoaDon();
         loadTongSanPham();

@@ -367,7 +367,6 @@ public class Form_QLDoUong extends javax.swing.JPanel {
         jLabel9 = new javax.swing.JLabel();
         txtGiaBanDoUong = new javax.swing.JTextField();
         lblHinhAnh = new javax.swing.JLabel();
-        btnXoa = new javax.swing.JButton();
         btnXuatFileExcel = new javax.swing.JButton();
         lblUrl = new javax.swing.JLabel();
         btnClear = new javax.swing.JButton();
@@ -420,7 +419,7 @@ public class Form_QLDoUong extends javax.swing.JPanel {
             }
         });
 
-        btnSua.setText("Sửa");
+        btnSua.setText("Cập nhật");
         btnSua.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnSuaActionPerformed(evt);
@@ -435,13 +434,6 @@ public class Form_QLDoUong extends javax.swing.JPanel {
         lblHinhAnh.setBorder(javax.swing.BorderFactory.createEtchedBorder(new java.awt.Color(255, 204, 204), null));
         lblHinhAnh.setMaximumSize(new java.awt.Dimension(80, 40));
         lblHinhAnh.setMinimumSize(new java.awt.Dimension(80, 40));
-
-        btnXoa.setText("test");
-        btnXoa.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnXoaActionPerformed(evt);
-            }
-        });
 
         btnXuatFileExcel.setText("Xuất file excel");
         btnXuatFileExcel.addActionListener(new java.awt.event.ActionListener() {
@@ -470,6 +462,7 @@ public class Form_QLDoUong extends javax.swing.JPanel {
 
         jLabel1.setText("Trạng thái:");
 
+        cboStatus.setForeground(new java.awt.Color(153, 0, 0));
         cboStatus.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Đang  sử dụng", "Ngừng sử dụng" }));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -477,7 +470,7 @@ public class Form_QLDoUong extends javax.swing.JPanel {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(6, 172, Short.MAX_VALUE)
+                .addGap(6, 181, Short.MAX_VALUE)
                 .addComponent(btnChonAnh)
                 .addGap(178, 178, 178))
             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -501,30 +494,29 @@ public class Form_QLDoUong extends javax.swing.JPanel {
                                     .addComponent(cboStatus, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(txtTenDoUong)
                                     .addComponent(jScrollPane1)))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                            .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(btnThem, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(btnXuatFileExcel))
                                 .addGap(34, 34, 34)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(btnSua, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(btnClear))
-                                .addGap(37, 37, 37)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(btnPrinMenu)
-                                    .addComponent(btnXoa, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(btnClear)
+                                        .addGap(136, 136, 136))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(btnSua, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
+                                        .addComponent(btnPrinMenu))))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(143, 143, 143)
                         .addComponent(lblHinhAnh, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(32, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(lblUrl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
-        jPanel1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnClear, btnSua, btnThem, btnXuatFileExcel});
-
-        jPanel1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnPrinMenu, btnXoa});
+        jPanel1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnClear, btnPrinMenu, btnSua, btnThem, btnXuatFileExcel});
 
         jPanel1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {cboDanhMucDoUong, cboStatus, jScrollPane1, txtGiaBanDoUong, txtGiaNhapDoUong, txtTenDoUong});
 
@@ -565,20 +557,17 @@ public class Form_QLDoUong extends javax.swing.JPanel {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnThem, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnSua, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnXoa, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnPrinMenu))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnClear)
-                    .addComponent(btnXuatFileExcel)
-                    .addComponent(btnPrinMenu))
+                    .addComponent(btnXuatFileExcel))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanel1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {cboDanhMucDoUong, cboStatus, txtGiaBanDoUong, txtGiaNhapDoUong, txtTenDoUong});
 
-        jPanel1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnClear, btnSua, btnThem, btnXuatFileExcel});
-
-        jPanel1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnPrinMenu, btnXoa});
+        jPanel1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnClear, btnPrinMenu, btnSua, btnThem, btnXuatFileExcel});
 
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Tìm kiếm sản phẩm", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 14))); // NOI18N
@@ -902,17 +891,6 @@ public class Form_QLDoUong extends javax.swing.JPanel {
         imgBytes = null;
     }//GEN-LAST:event_btnSuaActionPerformed
 
-    private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
-//        int dialogButton = JOptionPane.YES_NO_OPTION;
-//        int dialogResult = JOptionPane.showConfirmDialog(null, "Bạn có chắc muốn xóa đồ uống này ?", "Warning", dialogButton);
-//        if (dialogResult == JOptionPane.YES_OPTION) {
-//            // Saving code here
-//            delete();
-//            loadData();
-//        }
-
-    }//GEN-LAST:event_btnXoaActionPerformed
-
     private void btnXuatFileExcelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXuatFileExcelActionPerformed
         // TODO add your handling code here:
         try {
@@ -970,7 +948,6 @@ public class Form_QLDoUong extends javax.swing.JPanel {
     private javax.swing.JButton btnSua;
     private javax.swing.JButton btnThem;
     private javax.swing.JButton btnTimKiem;
-    private javax.swing.JButton btnXoa;
     private javax.swing.JButton btnXuatFileExcel;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JComboBox<String> cboDanhMucDoUong;

@@ -132,9 +132,7 @@ public class paneOfmenu extends JPanel {
                 }
                 
                 try {
-                    System.out.println(lstMenu.get(count).getTenDoUong());
                     menuCell cell = new menuCell(lstMenu.get(count).getTenDoUong(), lstMenu.get(count).getGiaBan());
-                    System.out.println("test lbl:"+cell.getLblNameDrink().getText());
                     lstCell.add(cell);
                     lstCell.get(count).setName(String.valueOf(i));
                     c.weighty = 1;

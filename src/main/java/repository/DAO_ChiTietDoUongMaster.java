@@ -22,7 +22,7 @@ public class DAO_ChiTietDoUongMaster {
     final String UPDATE_SQL = "UPDATE dbo.ChiTietDoUong SET TenDoUong=?, GiaNhap=?,GiaBan=?,MoTa=?,HinhAnh=? WHERE Id=?";
     final String DELETE_SQL = "DELETE FROM [dbo].[ChiTietDoUong] WHERE [Id] = ?";
     final String SELECT_BY_SQL = "SELECT * FROM [dbo].[ChiTietDoUong] WHERE [Id] = ?";
-    final String SELECT_ALL_SQL = "SELECT * FROM [dbo].[ChiTietDoUong] ORDER BY IdLoaiDoUong;";
+    final String SELECT_ALL_SQL = "SELECT * FROM [dbo].[ChiTietDoUong] WHERE Status=1 ORDER BY IdLoaiDoUong;";
     final String SELECT_BY_UNIID = "SELECT * FROM [dbo].[ChiTietDoUong] WHERE [Id] = ?";
     final String SELECT_BY_MULIPLECONDITION = "DECLARE @tenDoUong AS NVARCHAR(50) = ?, @idLoaiDoUong AS uniqueidentifier =?,@giaBatDau as decimal(20, 0)=?,@giaKeThuc as decimal(20, 0)=?"
             + "SELECT*FROM dbo.ChiTietDoUong \n"
@@ -34,7 +34,6 @@ public class DAO_ChiTietDoUongMaster {
 
     public DAO_ChiTietDoUongMaster() {
     }
-
 
     public ArrayList<ChiTietDoUong> selectALl() {
         DBConnection1 dbConn = new DBConnection1();
@@ -51,7 +50,6 @@ public class DAO_ChiTietDoUongMaster {
         }
         return lstChiTietDoUong;
     }
-
 
     public ChiTietDoUong selectByID(String id) {
         DBConnection1 dbConn = new DBConnection1();
@@ -73,7 +71,6 @@ public class DAO_ChiTietDoUongMaster {
         return chiTietDoUong;
     }
 
-
     public void save(ChiTietDoUong chiTietDoUong) {
         DBConnection1 dbConn = new DBConnection1();
         try {
@@ -82,7 +79,6 @@ public class DAO_ChiTietDoUongMaster {
             e.printStackTrace();
         }
     }
-
 
     public void update(ChiTietDoUong chiTietDoUong) {
         DBConnection1 dbConn = new DBConnection1();
@@ -93,7 +89,6 @@ public class DAO_ChiTietDoUongMaster {
         }
     }
 
-
     public void delete(String id) {
         DBConnection1 dbConn = new DBConnection1();
         try {
@@ -102,7 +97,6 @@ public class DAO_ChiTietDoUongMaster {
             e.printStackTrace();
         }
     }
-
 
     public ArrayList<ChiTietDoUong> selectByFlexibleCondition(String tenDoUong, String idLoaiDoUong, double giaBatDau, double giaKetThuc) {
         DBConnection1 dbConn = new DBConnection1();

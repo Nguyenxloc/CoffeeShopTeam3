@@ -14,14 +14,12 @@ import com.view.form.QuanLyNhanVien;
 import com.view.form.TinhLuongNhanVien;
 import com.view.form.WalletForm;
 import com.view.form_Template.Container;
-import com.view.form_Template.FormLichHoc;
 import com.view.form_Template.Form_BanHang;
 import com.view.form_Template.Form_CapBac;
 import com.view.form_Template.Form_ChamCong;
 import com.view.form_Template.Form_GiaoCa;
 import com.view.form_Template.Form_KhuyenMai;
 import com.view.form_Template.Form_LoaiDoUong;
-import com.view.form_Template.Form_LopHoc;
 import com.view.form_Template.Form_QLBan;
 import com.view.form_Template.Form_QLDoUong;
 import com.view.form_Template.Form_QLHoaDon;
@@ -30,9 +28,12 @@ import com.view.form_Template.Form_TaoTaiKhoan;
 import com.view.form_Template.Form_ThongBao;
 import com.view.form_Template.Form_ThongKe;
 import java.awt.BorderLayout;
+import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import static java.awt.SystemColor.menu;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -73,6 +74,7 @@ public class MainTemplate extends javax.swing.JFrame {
         initComponents();
         Thread t1 = new Thread(
                 () -> {
+                    
                     formThongbao = new Form_ThongBao();
                     setForm(formThongbao);
                 }
@@ -173,7 +175,7 @@ public class MainTemplate extends javax.swing.JFrame {
 //        form_LoaiDoUong = new Form_LoaiDoUong();
 //        form_CapBac = new Form_CapBac();
 //        form_ThongKe = new Form_ThongKe();
-//        
+//      
         setBackground(new Color(0, 0, 0, 0));
         menuOfCB1.initMoving(MainTemplate.this);
         menuOfCB1.addEventMenuSelected(new EventMenuSelected() {
@@ -222,7 +224,6 @@ public class MainTemplate extends javax.swing.JFrame {
                             new LoginFrame().setVisible(true);
                         }
                     });
-
                     messageFrame.setButtonCancel(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {

@@ -5,6 +5,7 @@
 package Test;
 
 import com.view.form_Template.Form_QLDoUong;
+import com.view.form_Template.Form_QuanLyKho;
 import java.awt.BorderLayout;
 import javax.swing.JComponent;
 import javax.swing.border.Border;
@@ -21,8 +22,9 @@ public class testForm extends javax.swing.JFrame {
     public testForm() {
         initComponents();
         Form_QLDoUong formDoUong = new Form_QLDoUong();
+        Form_QuanLyKho form_QuanLyKho = new Form_QuanLyKho();
         displayPanel.setLayout(new java.awt.BorderLayout());
-        setForm(formDoUong);
+        setForm(form_QuanLyKho);
 
     }
 
