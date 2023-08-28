@@ -80,7 +80,7 @@ public class Form_GiaoCa extends javax.swing.JPanel {
         fillComboBoxNhanVien();
         fillComboBoxCaLamViec();
     }
-     
+
     // Load dữ liệu table
     private void fillToTableGiaoCa(ArrayList<GiaoCa> listGiaoCa) {
         DefaultTableModel model = (DefaultTableModel) tblPhieuGiaoCa.getModel();
@@ -90,8 +90,8 @@ public class Form_GiaoCa extends javax.swing.JPanel {
         for (GiaoCa giaoCa : listGiaoCa) {
             NhanVien nguoiGiao = giaoCa.getNguoiGiao();
             NhanVien nguoiNhan = giaoCa.getNguoiNhan();
-            String hoTenNguoiGiao =  nguoiGiao.getTen();
-            String hoTenNguoiNhan =  nguoiNhan.getTen();
+            String hoTenNguoiGiao = nguoiGiao.getTen();
+            String hoTenNguoiNhan = nguoiNhan.getTen();
 
             BigDecimal tongTien = giaoCa.getTongCong();
             BigDecimal tongTienThucKiem = giaoCa.getThucKiem();
@@ -115,7 +115,10 @@ public class Form_GiaoCa extends javax.swing.JPanel {
             model.addElement(nv.getTen());
             comboBoxModelNguoiGiao.addElement(nv.getTen());
             comboBoxModelNguoiNhan.addElement(nv.getTen());
+
+            System.out.println(nv.getTen());
         }
+
     }
 
     // Chức năng fill dữ liệu lên ComboxBox Ca làm việc
@@ -380,6 +383,8 @@ public class Form_GiaoCa extends javax.swing.JPanel {
         String gioKiemKe = lblGioKiemKe.getText().trim();
         String thucKiem = txtThucKiem.getText().trim();
         String trangThai = cboTrangThai.getSelectedItem().toString();
+        String nguoiGiao = cboNguoiGiao.getSelectedItem().toString();
+        String nguoiNhan = cboNguoiNhan.getSelectedItem().toString();
 
         // Kiểm tra ngày giao hợp lệ
         if (ngayGiaoCa == null) {
@@ -404,6 +409,16 @@ public class Form_GiaoCa extends javax.swing.JPanel {
             return false;
         }
 
+        if (gioKiemKe.equals("#getTimeNow")) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn vào nút giờ hiện tại");
+            return false;
+        }
+
+        if (nguoiGiao.equals(nguoiNhan)) {
+            JOptionPane.showMessageDialog(this, "Người giao ca phải khác với người nhận ca");
+            return false;
+        }
+
         // Kiểm tra thực kiểm hợp lệ
         if (thucKiem.isEmpty()) {
             JOptionPane.showMessageDialog(this, "Vui lòng nhập vào giá trị thực kiểm");
@@ -415,10 +430,10 @@ public class Form_GiaoCa extends javax.swing.JPanel {
         }
 
         // Kiểm tra trạng thái
-//        if (trangThai.equals("Không khớp")) {
-//            JOptionPane.showMessageDialog(this, "Vui lòng nhập vào ghi chú");
-//            return false;
-//        }
+        if (trangThai.equals("Không khớp")) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập vào ghi chú");
+            return false;
+        }
         // Kiểm tra định dạng và giá trị thực kiểm
         try {
 
@@ -617,8 +632,8 @@ public class Form_GiaoCa extends javax.swing.JPanel {
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
             Date ngayGiaoCa = giaoCa.getNgayGiaoCa();
             String ngayGiaoCaFormat = simpleDateFormat.format(ngayGiaoCa);
-            String nguoiGiao = giaoCa.getNguoiGiao().getHo() + " " + giaoCa.getNguoiGiao().getTenDem() + " " + giaoCa.getNguoiGiao().getTen();
-            String nguoiNhan = giaoCa.getNguoiNhan().getHo() + " " + giaoCa.getNguoiNhan().getTenDem() + " " + giaoCa.getNguoiNhan().getTen();
+            String nguoiGiao =  giaoCa.getNguoiGiao().getTen();
+            String nguoiNhan = giaoCa.getNguoiNhan().getTen();
             DecimalFormat decimalFormat = new DecimalFormat("#,### VND");
             String tongTien = decimalFormat.format(giaoCa.getTongCong());
             String tongTienThucKiem = decimalFormat.format(giaoCa.getThucKiem());
@@ -713,6 +728,7 @@ public class Form_GiaoCa extends javax.swing.JPanel {
                 tableContent.addCell(cellRight);
             }
 
+            // Thêm dòng trống
             PdfPCell cellEmpty = new PdfPCell(new Phrase(" ", contentFont));
             cellEmpty.setBorder(Rectangle.NO_BORDER);
             cellEmpty.setColspan(2);
@@ -720,26 +736,18 @@ public class Form_GiaoCa extends javax.swing.JPanel {
 
             // Chữ ký và tên người giao và người nhận ở trên cùng một dòng
             Paragraph kyNhan = new Paragraph("Ký nhận:", contentFont);
-            Paragraph nvNhanCa = new Paragraph("Nhân viên nhận ca: " + nguoiNhan, contentFont);
-
-            kyNhan.setAlignment(Element.ALIGN_LEFT);
+               kyNhan.setAlignment(Element.ALIGN_LEFT);
             PdfPCell cellKyNhan = new PdfPCell(kyNhan);
             cellKyNhan.setBorder(Rectangle.NO_BORDER);
             cellKyNhan.setColspan(2);
             tableContent.addCell(cellKyNhan);
 
-            PdfPCell cellNhanVien = new PdfPCell();
-            cellNhanVien.setBorder(Rectangle.NO_BORDER);
-            cellNhanVien.setColspan(2);
-            cellNhanVien.addElement(nvNhanCa);
-            tableContent.addCell(cellNhanVien);
-
-            // Thêm dòng trống
-            Paragraph emptyLine = new Paragraph(" ", contentFont);
-            PdfPCell cellEmptyLine = new PdfPCell(emptyLine);
-            cellEmptyLine.setBorder(Rectangle.NO_BORDER);
-            cellEmptyLine.setColspan(2);
-            tableContent.addCell(cellEmptyLine);
+            PdfPCell cellKetQuaLeft = new PdfPCell(new Phrase("Người giao: " + nguoiGiao , contentFont));
+            PdfPCell cellKetQuaRight = new PdfPCell(new Phrase("Người nhận: " + nguoiNhan, contentFont));
+            cellKetQuaLeft.setBorder(Rectangle.NO_BORDER);
+            cellKetQuaRight.setBorder(Rectangle.NO_BORDER);
+            tableContent.addCell(cellKetQuaLeft);
+            tableContent.addCell(cellKetQuaRight);
 
             document.add(tableContent);
 
@@ -1423,7 +1431,7 @@ public class Form_GiaoCa extends javax.swing.JPanel {
     // Sự kiện thay đổi trạng thái
     private void txtThucKiemFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtThucKiemFocusLost
         // TODO add your handling code here:
-        setTrangThaiByThucKiem();
+//        setTrangThaiByThucKiem();
     }//GEN-LAST:event_txtThucKiemFocusLost
 
     private void txtGhiChuKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtGhiChuKeyPressed

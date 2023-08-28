@@ -107,7 +107,7 @@ public class Form_KhuyenMai extends javax.swing.JPanel {
             listHoaDon = hoaDonService.selectHoaDonBySale();
             String hoTenNV = "";
             for (HoaDon hd : listHoaDon) {
-                hoTenNV =  hd.getNhanVien().getTen();
+                hoTenNV = hd.getNhanVien().getTen();
                 model.addRow(new Object[]{
                     hd.getMa(),
                     hd.getNgayTao(),
@@ -137,7 +137,7 @@ public class Form_KhuyenMai extends javax.swing.JPanel {
             DefaultTableModel model = (DefaultTableModel) tblHoaDon.getModel();
             model.setRowCount(0);
             listHoaDon = hoaDonService.selectHoaDonByMaGiamGia(maKM);
-            String hoTenNV =  "";
+            String hoTenNV = "";
             for (HoaDon hd : listHoaDon) {
                 hoTenNV = hd.getNhanVien().getTen();
                 model.addRow(new Object[]{
@@ -240,7 +240,7 @@ public class Form_KhuyenMai extends javax.swing.JPanel {
             return;
         }
 
-        if (validateFormUpdate()) {
+        if (validateForm()) {
             String maKM = tblKhuyenMai.getValueAt(row, 0).toString();
             KhuyenMai km = getFomr();
             if (km == null) {
@@ -310,6 +310,19 @@ public class Form_KhuyenMai extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "Vui lòng nhập giá trị khuyến mại");
             return false;
         }
+
+        // Validate giá trị khuyến mãi không hợp lệ
+        try {
+            Integer giaTriKM = Integer.parseInt(txtGiaTriKM.getText());
+            if (giaTriKM <= 0 || giaTriKM > 50) {
+                JOptionPane.showMessageDialog(this, "Giá trị Khuyến mãi không hợp lệ");
+                return false;
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Giá trị Khuyến mãi phải là số");
+            return false;
+        }
+
         if (txtNgayBatDau.getDate() == null) {
             JOptionPane.showMessageDialog(this, "Vui lòng chọn  ngày bắt đầu khuyến mại");
             return false;
@@ -326,6 +339,14 @@ public class Form_KhuyenMai extends javax.swing.JPanel {
 
         if (String.valueOf(txtNgayKetThuc.getDate()).equals("")) {
             JOptionPane.showMessageDialog(this, "Vui lòng nhập vào ngày kết thúc khuyến mại");
+            return false;
+        }
+
+        // Kiểm tra ngày kết thúc trước ngày bắt đầu
+        Date ngayBatDau = txtNgayBatDau.getDate();
+        Date ngayKetThuc = txtNgayKetThuc.getDate();
+        if (ngayKetThuc.before(ngayBatDau)) {
+            JOptionPane.showMessageDialog(this, "Ngày kết thúc không thể trước ngày bắt đầu");
             return false;
         }
 
@@ -346,22 +367,10 @@ public class Form_KhuyenMai extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "Tên khuyến mại không hợp lệ, vui lòng nhập lại");
             return false;
         }
-        // Validate giá trị khuyến mãi
-        try {
-            Integer giaTriKM = Integer.parseInt(txtGiaTriKM.getText());
-            if (giaTriKM > 50) {
-                JOptionPane.showMessageDialog(this, "Giá trị Khuyến mãi phải là phải nhỏ hơn 50");
-                return false;
-            }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Giá trị Khuyến mãi phải là số");
-            return false;
-        }
 
         // Tạo Regex hợp lệ cho ngày bắt đầu
         String dobRegex = "^(0[1-9]|[12][0-9]|3[01])-(0[1-9]|1[0-2])-(19|20)\\d{2}$";
 
-        Date ngayBatDau = txtNgayBatDau.getDate();
         String dob = new SimpleDateFormat("dd-MM-yyyy").format(ngayBatDau);
 
         if (!dob.matches(dobRegex)) {
@@ -369,7 +378,6 @@ public class Form_KhuyenMai extends javax.swing.JPanel {
             return false;
         }
 
-        Date ngayKetThuc = txtNgayKetThuc.getDate();
         String dobEnd = new SimpleDateFormat("dd-MM-yyyy").format(ngayKetThuc);
 
         if (!dobEnd.matches(dobRegex)) {
@@ -377,72 +385,18 @@ public class Form_KhuyenMai extends javax.swing.JPanel {
             return false;
         }
 
-        return true;
-    }
-
-    private boolean validateFormUpdate() {
-        // Validate để trống trường dữ liệu
-        if (txtMaKM.getText().trim().equals("")) {
-            JOptionPane.showMessageDialog(this, "Vui lòng nhập vào mã khuyến mại");
-            return false;
-        }
-
-        if (txtTenKM.getText().trim().equals("")) {
-            JOptionPane.showMessageDialog(this, "Vui lòng nhập vào tên khuyến mại");
-            return false;
-        }
-        if (txtGiaTriKM.getText().trim().equals("")) {
-            JOptionPane.showMessageDialog(this, "Vui lòng nhập giá trị khuyến mại");
-            return false;
-        }
-        if (txtNgayBatDau.getDate() == null) {
-            JOptionPane.showMessageDialog(this, "Vui lòng nhập vào ngày bắt đầu khuyến mại");
-            return false;
-        }
-        if (txtNgayKetThuc.getDate() == null) {
-            JOptionPane.showMessageDialog(this, "Vui lòng nhập vào ngày kết thúc khuyến mại");
-            return false;
-        }
-
-        // Validate Tên nhân viên đúng định dạng không chứa ký tự đặc biệt hoặc số
-        if (!isValidEmployeeName(txtTenKM.getText().trim())) {
-            JOptionPane.showMessageDialog(this, "Tên khuyến mại không hợp lệ, vui lòng nhập lại");
-            return false;
-        }
-
-        try {
-            Integer giaTriKM = Integer.parseInt(txtGiaTriKM.getText());
-            if (giaTriKM > 50) {
-                JOptionPane.showMessageDialog(this, "Giá trị Khuyến mãi phải là phải nhỏ hơn 50");
-                return false;
-            }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Giá trị Khuyến mãi phải là số");
-            return false;
-        }
-
-        // Tạo Regex hợp lệ cho ngày bắt đầu
-        String dobRegex = "^(0[1-9]|[12][0-9]|3[01])-(0[1-9]|1[0-2])-(19|20)\\d{2}$";
-
-        Date ngayBatDau = txtNgayBatDau.getDate();
-        String dob = new SimpleDateFormat("dd-MM-yyyy").format(ngayBatDau);
-
-        if (!dob.matches(dobRegex)) {
-            JOptionPane.showMessageDialog(this, "Ngày bắt đầu không hợp lệ");
-            return false;
-        }
-
-        Date ngayKetThuc = txtNgayKetThuc.getDate();
-        String dobEnd = new SimpleDateFormat("dd-MM-yyyy").format(ngayKetThuc);
-
-        if (!dobEnd.matches(dobRegex)) {
-            JOptionPane.showMessageDialog(this, "Ngày kết thúc không hợp lệ");
+        // Kiểm tra tên khuyến mãi không vượt quá kích thước giới hạn
+        String tenKhuyenMai = txtTenKM.getText().trim();
+        int maxTenKhuyenMaiLength = 50; // Giả sử giới hạn là 100 ký tự
+        if (tenKhuyenMai.length() > maxTenKhuyenMaiLength) {
+            JOptionPane.showMessageDialog(this, "Tên khuyến mãi vượt quá kích thước giới hạn");
             return false;
         }
 
         return true;
     }
 
+   
     // Regex ID Employee in Java, 
     private boolean isValidSaleId(String employeeId) {
         //        String regex = "^[a-zA-Z][a-zA-Z0-9]*$";

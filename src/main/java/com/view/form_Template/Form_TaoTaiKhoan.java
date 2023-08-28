@@ -45,28 +45,28 @@ public class Form_TaoTaiKhoan extends javax.swing.JPanel {
     // Chức năng lấy giá trị từ form 
     private TaiKhoan getFomr() {
 
-        String hoTen = txtHoTenNV.getText();
-        String[] hoTenArray = hoTen.split(" "); // Tách chuỗi thành mảng các từ
-        String ho = hoTenArray[0]; // Lấy Họ từ mảng
-        String tenDem = ""; // Khởi tạo Tên Đệm rỗng ban đầu
-        String ten = ""; // Khởi tạo Tên rỗng ban đầu
-
-        if (hoTenArray.length > 1) {
-            ten = hoTenArray[hoTenArray.length - 1]; // Lấy Tên từ mảng
-
-            // Lấy Tên Đệm (nếu có)
-            for (int i = 1; i < hoTenArray.length - 1; i++) {
-                tenDem += hoTenArray[i] + " ";
-            }
-            tenDem = tenDem.trim(); // Xóa khoảng trắng dư thừa
-        }
+        String hoTen = txtHoTenNV.getText().trim();
+//        String[] hoTenArray = hoTen.split(" "); // Tách chuỗi thành mảng các từ
+//        String ho = hoTenArray[0]; // Lấy Họ từ mảng
+//        String tenDem = ""; // Khởi tạo Tên Đệm rỗng ban đầu
+//        String ten = ""; // Khởi tạo Tên rỗng ban đầu
+//
+//        if (hoTenArray.length > 1) {
+//            ten = hoTenArray[hoTenArray.length - 1]; // Lấy Tên từ mảng
+//
+//            // Lấy Tên Đệm (nếu có)
+//            for (int i = 1; i < hoTenArray.length - 1; i++) {
+//                tenDem += hoTenArray[i] + " ";
+//            }
+//            tenDem = tenDem.trim(); // Xóa khoảng trắng dư thừa
+//        }
 
         String gioiTinh = "";
         TaiKhoan createAcount = new TaiKhoan();
-        createAcount.setTaiKhoan(txtUsername.getText());
-        createAcount.setHoNV(ho);
-        createAcount.setTenDemNV(tenDem);
-        createAcount.setTenNV(ten);
+//        createAcount.setTaiKhoan(txtUsername.getText());
+//        createAcount.setHoNV(ho);
+//        createAcount.setTenDemNV(tenDem);
+        createAcount.setTenNV(hoTen);
         if (rdoNam.isSelected()) {
             gioiTinh = "Nam";
         } else {
@@ -79,11 +79,11 @@ public class Form_TaoTaiKhoan extends javax.swing.JPanel {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        createAcount.setMaNV("''");
-
+      
         createAcount.setGioiTinh(gioiTinh);
         createAcount.setDiaChi(txtDiaChi.getText());
         createAcount.setSoDT(txtSoDienThoai.getText());
+        createAcount.setTaiKhoan(txtUsername.getText().trim());
         createAcount.setMatKhau(String.valueOf((txtPassword.getPassword())));
         int count = cboCapBac.getSelectedIndex();
         CapBac capBac = listCapBac.get(count);
@@ -105,7 +105,7 @@ public class Form_TaoTaiKhoan extends javax.swing.JPanel {
                     JOptionPane.showMessageDialog(this, "Lỗi trống dữ liệu");
                     return;
                 }
-//                service.save(createAcount);abc
+                service.save(createAcount);
                 JOptionPane.showMessageDialog(this, "Đăng ký tài khoản thành công");
                 clearForm();
             }

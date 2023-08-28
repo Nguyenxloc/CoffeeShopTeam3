@@ -61,10 +61,7 @@ public class TaoTaiKhoanService {
         ArrayList<String> listPhones = repositoryTK.getAllPhoneNumbers();
         return listPhones;
     }
-
-//    public void save(TaiKhoan acount) {
-//        repositoryTK.save(acount);
-//    }
+  
     // Hàm check Password đã Hash
 //    public boolean accountVerification(String pwdRaw, String pwdHash) {
 //        return Utilitys.checkPwd(pwdRaw, pwdHash);
