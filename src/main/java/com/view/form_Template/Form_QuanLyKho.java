@@ -163,6 +163,7 @@ public class Form_QuanLyKho extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel2 = new javax.swing.JPanel();
         jPanel437 = new javax.swing.JPanel();
         jLabel559 = new javax.swing.JLabel();
         jScrollPane30 = new javax.swing.JScrollPane();
@@ -228,13 +229,15 @@ public class Form_QuanLyKho extends javax.swing.JPanel {
         jLabel5 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         txtID = new javax.swing.JTextField();
-        jPanel1 = new javax.swing.JPanel();
         btnClear = new javax.swing.JButton();
         btnNhapKho = new javax.swing.JButton();
         btnSua = new javax.swing.JButton();
         btnXoa = new javax.swing.JButton();
 
+        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+
         jPanel437.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel437.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(153, 153, 153)));
         jPanel437.setForeground(new java.awt.Color(255, 255, 255));
         jPanel437.setMaximumSize(new java.awt.Dimension(1014, 600));
         jPanel437.setMinimumSize(new java.awt.Dimension(1014, 600));
@@ -244,7 +247,7 @@ public class Form_QuanLyKho extends javax.swing.JPanel {
         jLabel559.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel559.setForeground(new java.awt.Color(255, 0, 0));
         jLabel559.setText("KHO NGUYÊN LIỆU");
-        jPanel437.add(jLabel559, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 30, 173, 26));
+        jPanel437.add(jLabel559, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 30, 173, 26));
 
         tblTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -463,9 +466,9 @@ public class Form_QuanLyKho extends javax.swing.JPanel {
                 btnTKiemActionPerformed(evt);
             }
         });
-        jPanel438.add(btnTKiem, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 520, 101, -1));
+        jPanel438.add(btnTKiem, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 510, 101, -1));
 
-        jPanel437.add(jPanel438, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 80, 260, 560));
+        jPanel437.add(jPanel438, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 80, 260, 540));
 
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
         jPanel4.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -505,21 +508,6 @@ public class Form_QuanLyKho extends javax.swing.JPanel {
 
         jPanel437.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 100, 590, -1));
 
-        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 790, Short.MAX_VALUE)
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 40, Short.MAX_VALUE)
-        );
-
-        jPanel437.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 49, 790, 40));
-
         btnClear.setText("Làm mới");
         btnClear.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -552,20 +540,32 @@ public class Form_QuanLyKho extends javax.swing.JPanel {
         });
         jPanel437.add(btnXoa, new org.netbeans.lib.awtextra.AbsoluteConstraints(910, 280, -1, -1));
 
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(37, 37, 37)
+                .addComponent(jPanel437, javax.swing.GroupLayout.PREFERRED_SIZE, 997, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(111, Short.MAX_VALUE))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(39, 39, 39)
+                .addComponent(jPanel437, javax.swing.GroupLayout.PREFERRED_SIZE, 626, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(44, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel437, javax.swing.GroupLayout.PREFERRED_SIZE, 1111, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(28, Short.MAX_VALUE))
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel437, javax.swing.GroupLayout.PREFERRED_SIZE, 653, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 56, Short.MAX_VALUE))
+            .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -734,7 +734,7 @@ public class Form_QuanLyKho extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel437;
     private javax.swing.JPanel jPanel438;

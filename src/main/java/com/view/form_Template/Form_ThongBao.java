@@ -29,7 +29,6 @@ public class Form_ThongBao extends javax.swing.JPanel {
         initComponents();
         jScrollPane1.setBorder(null);
         this.setBorder(null);
-        this.setLayout(new GridBagLayout());
         reLoadProduct();
     }
     
