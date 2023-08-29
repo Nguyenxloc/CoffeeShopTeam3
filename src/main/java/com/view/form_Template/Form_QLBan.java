@@ -330,7 +330,9 @@ public class Form_QLBan extends javax.swing.JPanel {
     }//GEN-LAST:event_txtIdBanKeyReleased
 
     private void tblBanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblBanMouseClicked
-        
+        int row = tblBan.getSelectedRow();
+        txtIdBan.setText(tblBan.getValueAt(row, 0).toString());
+        txtTenBan.setText(tblBan.getValueAt(row, 1).toString());
     }//GEN-LAST:event_tblBanMouseClicked
 
 
