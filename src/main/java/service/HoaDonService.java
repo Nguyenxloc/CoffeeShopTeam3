@@ -13,29 +13,29 @@ import repository.DAO_HoaDon;
  * @author 84374
  */
 public class HoaDonService {
-
+    
     DAO_HoaDon dao_HoaDon = new DAO_HoaDon();
-
+    
     public HoaDon saveHoaDon(HoaDon hoaDon) {
         return dao_HoaDon.save(hoaDon);
     }
-
+    
     public ArrayList<HoaDon> getListHoaDon() {
         ArrayList<HoaDon> lstHoaDon = new ArrayList<>();
         lstHoaDon = dao_HoaDon.selectALLNow();
         return lstHoaDon;
     }
-
+    
     public ArrayList<HoaDon> getListHoaDonCho() {
         ArrayList<HoaDon> lstHoaDon = new ArrayList<>();
         lstHoaDon = dao_HoaDon.selectHoaDonChoNow();
         return lstHoaDon;
     }
-
+    
     public void updateHoaDon(HoaDon hoaDon) {
         dao_HoaDon.update(hoaDon);
     }
-
+    
     public void updateStt(int stt, String id) {
         dao_HoaDon.updateStt(stt, id);
     }
@@ -53,25 +53,34 @@ public class HoaDonService {
         lstHoaDonDangPhaChe = dao_HoaDon.selectHoaDonDangPhaCheNow();
         return lstHoaDonDangPhaChe;
     }
-
+    
     public void updateTTPhaChe(String id, int i) {
-         dao_HoaDon.updateTTPhaChe(id,i);
+        dao_HoaDon.updateTTPhaChe(id, i);
     }
-
+    
     public HoaDon getHoaDonByID(String LocalId) {
         return dao_HoaDon.selectByID(LocalId);
-
+        
     }
-
+    
     public void updateMoneyTake(String LocalId, double localMoneyTake) {
-          dao_HoaDon.UpdateMoneyTake(LocalId, localMoneyTake);
+        dao_HoaDon.UpdateMoneyTake(LocalId, localMoneyTake);
     }
-
+    
     public void updateSttCheckBill(int i, String LocalId) {
-          dao_HoaDon.updateSttCheckBill(i,LocalId);
+        dao_HoaDon.updateSttCheckBill(i, LocalId);
     }
-
-    public void updateDiscount(String maGiamGia,String id) {
-         dao_HoaDon.updateDiscount(maGiamGia,id);
+    
+    public void updateDiscount(String maGiamGia, String id) {
+        dao_HoaDon.updateDiscount(maGiamGia, id);
+    }
+    
+    public ArrayList<HoaDon> selectHoaDonBySale() {
+        return dao_HoaDon.selectHoaDonBySale();
+    }
+    
+    public ArrayList<HoaDon> selectHoaDonByMaGiamGia(String maGiamGia) {
+        return dao_HoaDon.selectHoaDonByMaGiamGia(maGiamGia);
+        
     }
 }

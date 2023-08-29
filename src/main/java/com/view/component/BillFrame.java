@@ -4,10 +4,13 @@
  */
 package com.view.component;
 
+import SingletonClass.LstChiTietDoUong_singleton;
+import SingletonClass.LstHoaDonChiTiet_singleton;
 import SingletonClass.LstHoaDonCho_SingLeTon;
 import SingletonClass.LstHoaDonDangPhaChe_singleton;
 import SingletonClass.LstHoaDon_singleton;
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -18,9 +21,11 @@ import model.GiamGia;
 import model.HoaDon;
 import model.HoaDonChiTiet;
 import model.KhuyenMai;
+import service.GiamGiaService;
 import service.HoaDonChiTietService;
 import service.HoaDonService;
 import service.SaleService;
+import viewModel.HoaDonChiTietNoIMG;
 
 /**
  *
@@ -34,7 +39,7 @@ public class BillFrame extends javax.swing.JFrame {
     private String LocalId;
     HoaDonService hoaDonService = new HoaDonService();
     HoaDonChiTietService hoaDonChiTietService = new HoaDonChiTietService();
-    SaleService saleService = new SaleService();
+    GiamGiaService giamGiaService = new GiamGiaService();
     double totalCheck = 0;
     double localMoneyTake = 0;
     double discountPer = 0;
@@ -58,12 +63,29 @@ public class BillFrame extends javax.swing.JFrame {
     public void loadData() {
         int stt = 0;
         double cellCheck = 0;
-        HoaDon hoaDon = hoaDonService.getHoaDonByID(LocalId);
+        int checkStage = 0;
+        HoaDon hoaDon = null;
+        DecimalFormat formatter = new DecimalFormat("###,###,###");
+        for (HoaDon hd : LstHoaDon_singleton.getInstance().lstHoaDon) {
+            if (hd.getId().equalsIgnoreCase(LocalId)) {
+                hoaDon = hd;
+                checkStage = 1;
+                break;
+            }
+        }
+
+        if (checkStage == 0) {
+            for (HoaDon hdCho : LstHoaDonCho_SingLeTon.getInstance().lstHoaDonCho) {
+                if (hdCho.getId().equalsIgnoreCase(LocalId)) {
+                    hoaDon = hdCho;
+                    break;
+                }
+            }
+        }
         String checkStt;
         DefaultTableModel model = new DefaultTableModel();
         model = (DefaultTableModel) tblDrinkDetail.getModel();
         model.setRowCount(0);
-        ArrayList<HoaDonChiTiet> lstHoaDonChiTiet = hoaDonChiTietService.getListHoaDonChiTietByID(LocalId);
         lblMaHD.setText(hoaDon.getMa());
         lblBan.setText(hoaDon.getBan().getTen());
         if (hoaDon.getTinhTrangThanhToan() == 0) {
@@ -74,15 +96,18 @@ public class BillFrame extends javax.swing.JFrame {
         lblCheckStt.setText(checkStt);
         lblDate.setText(String.valueOf(hoaDon.getNgayTao()));
         lblTime.setText(hoaDon.getThoiGian());
-        for (HoaDonChiTiet hoaDonChiTiet : lstHoaDonChiTiet) {
-            stt++;
-            cellCheck = Double.valueOf(hoaDonChiTiet.getSoLuong()) * Double.valueOf(hoaDonChiTiet.getChiTietDoUong().getGiaBan());
-            totalCheck += cellCheck;
-            model.addRow(new Object[]{stt, hoaDonChiTiet.getChiTietDoUong().getTenDoUong(), hoaDonChiTiet.getSoLuong(),
-                hoaDonChiTiet.getChiTietDoUong().getGiaBan(), cellCheck});
+        for (HoaDonChiTietNoIMG hoaDonChiTietNoIMG : LstHoaDonChiTiet_singleton.getInstance().lstHoaDonChiTietNoIMG) {
+            if (hoaDonChiTietNoIMG.getHoaDon().getId().equalsIgnoreCase(LocalId)) {
+                stt++;
+                cellCheck = Double.valueOf(hoaDonChiTietNoIMG.getSoLuong()) * Double.valueOf(hoaDonChiTietNoIMG.getChiTietDoUongNoIMG().getGiaBan());
+                totalCheck += cellCheck;
+                model.addRow(new Object[]{stt, hoaDonChiTietNoIMG.getChiTietDoUongNoIMG().getTenDoUong(), hoaDonChiTietNoIMG.getSoLuong(),
+                    formatter.format(hoaDonChiTietNoIMG.getChiTietDoUongNoIMG().getGiaBan()), formatter.format(cellCheck)});
+            }
         }
-        lblTotalCheck.setText(String.valueOf(totalCheck) + " VNĐ");
+        lblTotalCheck.setText(formatter.format(totalCheck)+ " VNĐ");
         if (hoaDon.getMaGiamGia().getMaKM() != null) {
+            System.out.println("test discount");
             txtDiscount.setText(String.valueOf(hoaDon.getMaGiamGia().getMaKM()));
             applyDiscount();
         } else {
@@ -98,17 +123,69 @@ public class BillFrame extends javax.swing.JFrame {
     }
 
     public void updateMoneyTake() {
+        int checkStage = 0;
         hoaDonService.updateMoneyTake(LocalId, localMoneyTake);
+        for (HoaDon hd : LstHoaDon_singleton.getInstance().lstHoaDon) {
+            if (hd.getId().equalsIgnoreCase(LocalId)) {
+                hd.setMoneyTake(BigDecimal.valueOf(localMoneyTake));
+                checkStage = 1;
+                break;
+            }
+        }
+
+        if (checkStage == 0) {
+            for (HoaDon hdCho : LstHoaDonCho_SingLeTon.getInstance().lstHoaDonCho) {
+                if (hdCho.getId().equalsIgnoreCase(LocalId)) {
+                    hdCho.setMoneyTake(BigDecimal.valueOf(localMoneyTake));
+                    break;
+                }
+            }
+        }
     }
 
     public void updateSttCheckBill() {
         hoaDonService.updateSttCheckBill(1, LocalId);
+        int checkStage = 0;
+        for (HoaDon hd : LstHoaDon_singleton.getInstance().lstHoaDon) {
+            if (hd.getId().equalsIgnoreCase(LocalId)) {
+                hd.setTinhTrangThanhToan(1);
+                checkStage = 1;
+                break;
+            }
+        }
+        if (checkStage == 0) {
+            for (HoaDon hdCho : LstHoaDonCho_SingLeTon.getInstance().lstHoaDonCho) {
+                if (hdCho.getId().equalsIgnoreCase(LocalId)) {
+                    hdCho.setTinhTrangThanhToan(1);
+                    break;
+                }
+            }
+        }
     }
 
     public void updateDiscount() {
         try {
             if (!txtDiscount.getText().strip().equals("")) {
                 hoaDonService.updateDiscount(txtDiscount.getText().strip(), LocalId);
+                int checkStage = 0;
+                for (HoaDon hd : LstHoaDon_singleton.getInstance().lstHoaDon) {
+                    if (hd.getId().equalsIgnoreCase(LocalId)) {
+                        GiamGia giamGia = giamGiaService.selectByID(txtDiscount.getText().strip());
+                        hd.setMaGiamGia(giamGia);
+                        checkStage = 1;
+                        break;
+                    }
+                }
+
+                if (checkStage == 0) {
+                    for (HoaDon hdCho : LstHoaDonCho_SingLeTon.getInstance().lstHoaDonCho) {
+                        if (hdCho.getId().equalsIgnoreCase(LocalId)) {
+                            GiamGia giamGia = giamGiaService.selectByID(txtDiscount.getText().strip());
+                            hdCho.setMaGiamGia(giamGia);
+                            break;
+                        }
+                    }
+                }
             } else {
                 hoaDonService.updateDiscount(null, LocalId);
             }
@@ -198,27 +275,35 @@ public class BillFrame extends javax.swing.JFrame {
         int checkHoaDon = 0;
         int checkHoaDonCho = 0;
         int checkHoaDonDangPhaChe = 0;
-        String maHd =  hoaDon.getMa();
-        Integer[] arr = {localTblHoaDon.getRowCount(),localTblHoaDonCho.getRowCount(),localTblHoaDonDangPhaChe.getRowCount()};
+        String maHd = hoaDon.getMa();
+        Integer[] arr = {localTblHoaDon.getRowCount(), localTblHoaDonCho.getRowCount(), localTblHoaDonDangPhaChe.getRowCount()};
         int max = Collections.max(Arrays.asList(arr));
-        System.out.println("max: "+ max);
+        System.out.println("max: " + max);
         for (int i = 0; i < max; i++) {
-
-            if (checkHoaDon == 0&&i<localTblHoaDon.getRowCount()) {
+            if (checkHoaDon == 0 && i < localTblHoaDon.getRowCount()) {
                 String maHDTblHoaDon = (String) localTblHoaDon.getValueAt(i, 1);
-                System.out.println("loop 1: "+maHDTblHoaDon);
-                System.out.println("id"+ LocalId);
+                System.out.println("loop 1: " + maHDTblHoaDon);
+                System.out.println("id" + LocalId);
                 if (maHDTblHoaDon.equalsIgnoreCase(maHd)) {
                     System.out.println("case 1");
                     localTblHoaDon.setValueAt("Đã TT", i, 3);
                     checkHoaDon = 1;
                 }
             }
-
-            if (checkHoaDonCho == 0 && i<localTblHoaDonCho.getRowCount()) {
+            if (checkHoaDonDangPhaChe == 0 && i <localTblHoaDonDangPhaChe.getRowCount()) {
+                String maHDTblHoaDonDangPhaChe = (String) localTblHoaDonDangPhaChe.getValueAt(i, 1);
+                System.out.println("loop 3:" + maHDTblHoaDonDangPhaChe);
+                System.out.println("id" + LocalId);
+                if (maHDTblHoaDonDangPhaChe.equalsIgnoreCase(maHd)) {
+                    System.out.println("case 3");
+                    localTblHoaDonDangPhaChe.setValueAt("Đã TT", i, 3);
+                    checkHoaDonDangPhaChe = 1;
+                }
+            }
+            if (checkHoaDonCho == 0 && i < localTblHoaDonCho.getRowCount()) {
                 String maHDTblHoaDonCho = (String) localTblHoaDonCho.getValueAt(i, 1);
-                System.out.println("loop2: "+maHDTblHoaDonCho);
-                System.out.println("id"+ LocalId);
+                System.out.println("loop2: " + maHDTblHoaDonCho);
+                System.out.println("id" + LocalId);
                 if (maHDTblHoaDonCho.equalsIgnoreCase(maHd)) {
                     System.out.println("case2");
                     localTblHoaDonCho.setValueAt("Đã TT", i, 3);
@@ -227,17 +312,8 @@ public class BillFrame extends javax.swing.JFrame {
                 }
             }
 
-            if (checkHoaDonDangPhaChe == 0 && i < localTblHoaDonDangPhaChe.getRowCount()) {  
-                String maHDTblHoaDonDangPhaChe = (String) localTblHoaDon.getValueAt(i, 1);
-                System.out.println("loop 3:"+maHDTblHoaDonDangPhaChe);
-                System.out.println("id"+ LocalId);
-                if (maHDTblHoaDonDangPhaChe.equalsIgnoreCase(maHd)) {
-                    System.out.println("case 3");
-                    localTblHoaDonDangPhaChe.setValueAt("Đã TT", i, 3);
-                    checkHoaDonDangPhaChe = 1;
-                }
-            }
             
+
             if (checkHoaDon == 1 && checkHoaDonCho == 1) {
                 break;
             }
@@ -245,23 +321,25 @@ public class BillFrame extends javax.swing.JFrame {
     }
 
     public void applyDiscount() {
-        KhuyenMai km = saleService.selectByID(txtDiscount.getText());
-        discountPer = Double.valueOf(km.getGiaTri()) / 100;
+        DecimalFormat formatter = new DecimalFormat("###,###,###");
+        GiamGia giamGia = giamGiaService.selectByID(txtDiscount.getText());
+        discountPer = Double.valueOf(giamGia.getGiaTri()) / 100;
         checkAfterDiscount = totalCheck - totalCheck * discountPer;
-        lblFinalCash.setText(String.valueOf(checkAfterDiscount) + " VNĐ");
+        lblFinalCash.setText(formatter.format(checkAfterDiscount) + " VNĐ");
     }
 
     public void calMoneyChange() {
+        DecimalFormat formatter = new DecimalFormat("###,###,###");
         if (checkAfterDiscount == 0) {
             double moneyTake = Double.valueOf(txtEnterMoney.getText());
             localMoneyTake = moneyTake;
             double moneyChange = moneyTake - totalCheck;
-            lblMoneyChange.setText(String.valueOf(moneyChange) + " VNĐ");
+            lblMoneyChange.setText(formatter.format(moneyChange) + " VNĐ");
         } else {
             double moneyTake = Double.valueOf(txtEnterMoney.getText());
             localMoneyTake = moneyTake;
             double moneyChange = moneyTake - totalCheck + totalCheck * discountPer;
-            lblMoneyChange.setText(String.valueOf(moneyChange) + " VNĐ");
+            lblMoneyChange.setText(formatter.format(moneyChange) + " VNĐ");
         }
     }
 
@@ -306,7 +384,7 @@ public class BillFrame extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel1.setText("COFFEE CODER");
+        jLabel1.setText("HÓA ĐƠN THANH TOÁN");
 
         jLabel2.setText("Bàn:");
 
@@ -321,10 +399,22 @@ public class BillFrame extends javax.swing.JFrame {
 
             },
             new String [] {
-                "STT", "Tên", "Số lượng", "Đơn giá", "Thành tiền"
+                "STT", "Tên", "SL", "Đơn giá", "Thành tiền"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane1.setViewportView(tblDrinkDetail);
+        if (tblDrinkDetail.getColumnModel().getColumnCount() > 0) {
+            tblDrinkDetail.getColumnModel().getColumn(0).setPreferredWidth(30);
+            tblDrinkDetail.getColumnModel().getColumn(2).setPreferredWidth(30);
+        }
 
         jLabel6.setText("Mã  HĐ:");
 
@@ -381,33 +471,29 @@ public class BillFrame extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                    .addGap(18, 18, 18)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addComponent(jLabel3)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(lblDate))
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addComponent(jLabel2)
-                            .addGap(18, 18, 18)
-                            .addComponent(lblBan)))
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                            .addComponent(jLabel5)
-                            .addGap(18, 18, 18))
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                            .addComponent(jLabel4)
-                            .addGap(32, 32, 32)))
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(lblTime)
-                        .addComponent(lblCheckStt))
-                    .addGap(0, 0, Short.MAX_VALUE))
-                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                    .addGap(99, 99, 99)
-                    .addComponent(jLabel1)))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(lblDate))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addGap(18, 18, 18)
+                        .addComponent(lblBan)))
+                .addGap(44, 44, 44)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel5)
+                        .addGap(18, 18, 18))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel4)
+                        .addGap(32, 32, 32)))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblTime)
+                    .addComponent(lblCheckStt))
+                .addGap(38, 38, 38))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(15, 15, 15)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -423,19 +509,22 @@ public class BillFrame extends javax.swing.JFrame {
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(jLabel6)
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                                .addComponent(jLabel12)
+                                                .addGap(24, 24, 24)
+                                                .addComponent(lblTotalCheck, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                                .addComponent(jLabel15)
+                                                .addGap(18, 18, 18)
+                                                .addComponent(lblMoneyChange, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addGap(133, 133, 133))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(jLabel1)
+                                            .addComponent(jLabel6))
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(lblMaHD))
-                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(jPanel1Layout.createSequentialGroup()
-                                            .addComponent(jLabel12)
-                                            .addGap(24, 24, 24)
-                                            .addComponent(lblTotalCheck, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGroup(jPanel1Layout.createSequentialGroup()
-                                            .addComponent(jLabel15)
-                                            .addGap(18, 18, 18)
-                                            .addComponent(lblMoneyChange, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addGap(133, 133, 133))))
+                                        .addComponent(lblMaHD)))
                                 .addGroup(jPanel1Layout.createSequentialGroup()
                                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -463,9 +552,9 @@ public class BillFrame extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
                     .addComponent(lblMaHD))
-                .addGap(3, 3, 3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(35, 35, 35)
+                .addGap(32, 32, 32)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(jLabel5)

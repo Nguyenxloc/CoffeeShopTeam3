@@ -20,8 +20,8 @@ import java.util.logging.Logger;
  */
 public class DAO_TaoTaiKhoan {
 
-    final String INSERT_SQL = "INSERT INTO NhanVien(Ma,Ho,TenDem,Ten,GioiTinh,NgaySinh,DiaChi,Sdt,MatKhau,IdCB)\n"
-            + "VALUES (?,?,?,?,?,?,?,?,?,?)";
+    final String INSERT_SQL = "INSERT INTO NhanVien(Ma, Ho,TenDem,Ten,GioiTinh,NgaySinh,DiaChi,Sdt,TaiKhoan,MatKhau,IdCB)\n"
+            + "VALUES (?,?,?,?,?,?,?,?,?,?,?)";
     final String SELECT_CAPBAC_SQL = "SELECT id, Ten FROM CapBac";
     final String SELECT_PHONE_SQL = "SELECT Sdt FROM NhanVien";
     final String SELECT_EMPLOYEE_BY_USERNAME = "SELECT Ten,MatKhau FROM NHANVIEN WHERE Ten LIKE ";
@@ -174,7 +174,6 @@ public class DAO_TaoTaiKhoan {
 //    }
     // Hàm thêm tài khoản
     public void save(TaiKhoan acount) {
-        String hashPasString = Utilitys.hashPassword(acount.getMatKhau());
         try {
             PreparedStatement ps = connection.prepareStatement(INSERT_SQL);
             ps.setString(1, acount.getMaNV());
@@ -185,12 +184,26 @@ public class DAO_TaoTaiKhoan {
             ps.setDate(6, new java.sql.Date(acount.getNgaySinh().getTime()));
             ps.setString(7, acount.getDiaChi());
             ps.setString(8, acount.getSoDT());
-            ps.setString(9, hashPasString);
-            ps.setString(10, acount.getCapBac().getIdCB());
+            ps.setString(9, acount.getTaiKhoan());
+            ps.setString(10, acount.getMatKhau());
+            ps.setString(11, acount.getCapBac().getIdCB());
             int resualt = ps.executeUpdate();
             System.out.println(resualt);
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    public boolean checkUsernameExists(String username) {
+        String query = "SELECT * FROM NhanVien WHERE TaiKhoan like ? ";
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(query);
+            preparedStatement.setString(1, username);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            return resultSet.next(); // Trả về true nếu có kết quả (tên tài khoản đã tồn tại)
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
         }
     }
 
