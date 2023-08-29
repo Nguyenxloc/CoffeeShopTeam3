@@ -116,19 +116,12 @@ public class Form_GiaoCa extends javax.swing.JPanel {
             comboBoxModelNguoiGiao.addElement(nv.getTen());
             comboBoxModelNguoiNhan.addElement(nv.getTen());
 
-            System.out.println(nv.getTen());
         }
 
     }
 
     // Chức năng fill dữ liệu lên ComboxBox Ca làm việc
     private void fillComboBoxCaLamViec() {
-//        DefaultComboBoxModel model = (DefaultComboBoxModel) cboCaLamViec.getModel();
-//        model.removeAllElements();
-//        listGiaoCa = giaoCaService.selectALL();
-//        for (GiaoCa gc : listGiaoCa) {
-//            model.addElement(gc.getCaLamViec());
-//        }
         // Lấy ngày và thời gian hiện tại
         Date now = new Date();
         Calendar calendar = Calendar.getInstance();
@@ -329,8 +322,9 @@ public class Form_GiaoCa extends javax.swing.JPanel {
         String tenNguoiNhan = cboNguoiNhan.getSelectedItem().toString();
 
         // Truy vấn cơ sở dữ liệu để lấy idNhanVien dựa vào tên người giao và tên người nhận
-        String idNhanVienGiao = "B9994504-EE0C-47E3-96EB-1EFD01397241";
-        String idNhanVienNhan = "226EEAF5-C082-477A-A701-598451CFBF47";
+        String idNhanVienGiao = nhanVienService.selectByTenNhanVien(tenNguoiGiao);
+
+        String idNhanVienNhan = nhanVienService.selectByTenNhanVien(tenNguoiNhan);
 
         nvGiaoCa = nhanVienService.selectByIDNhanVien(idNhanVienGiao);
         nvNhanCa = nhanVienService.selectByIDNhanVien(idNhanVienNhan);
@@ -424,16 +418,23 @@ public class Form_GiaoCa extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "Vui lòng nhập vào giá trị thực kiểm");
             return false;
         }
-        if (thucKiem.endsWith("#getTimeNow")) {
-            JOptionPane.showMessageDialog(this, "Vui lòng nhập vào giá trị thực kiểm");
-            return false;
-        }
 
         // Kiểm tra trạng thái
         if (trangThai.equals("Không khớp")) {
             JOptionPane.showMessageDialog(this, "Vui lòng nhập vào ghi chú");
+            if (txtGhiChu.getText().trim().length() < 2) {
+                JOptionPane.showMessageDialog(this, "Vui lòng nhập lại ghi chú,ghi chú quá ngắn");
+                return false;
+            }
+
+            if (txtGhiChu.getText().trim().length() > 100) {
+                JOptionPane.showMessageDialog(this, "Vui lòng nhập lại ghi chú,ghi chú quá dài");
+                return false;
+            }
             return false;
+
         }
+
         // Kiểm tra định dạng và giá trị thực kiểm
         try {
 
@@ -563,7 +564,6 @@ public class Form_GiaoCa extends javax.swing.JPanel {
             }
 
             try {
-//                
                 FileOutputStream fis = new FileOutputStream(file);
                 workbook.write(fis);
                 fis.close();
@@ -632,7 +632,7 @@ public class Form_GiaoCa extends javax.swing.JPanel {
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
             Date ngayGiaoCa = giaoCa.getNgayGiaoCa();
             String ngayGiaoCaFormat = simpleDateFormat.format(ngayGiaoCa);
-            String nguoiGiao =  giaoCa.getNguoiGiao().getTen();
+            String nguoiGiao = giaoCa.getNguoiGiao().getTen();
             String nguoiNhan = giaoCa.getNguoiNhan().getTen();
             DecimalFormat decimalFormat = new DecimalFormat("#,### VND");
             String tongTien = decimalFormat.format(giaoCa.getTongCong());
@@ -736,13 +736,13 @@ public class Form_GiaoCa extends javax.swing.JPanel {
 
             // Chữ ký và tên người giao và người nhận ở trên cùng một dòng
             Paragraph kyNhan = new Paragraph("Ký nhận:", contentFont);
-               kyNhan.setAlignment(Element.ALIGN_LEFT);
+            kyNhan.setAlignment(Element.ALIGN_LEFT);
             PdfPCell cellKyNhan = new PdfPCell(kyNhan);
             cellKyNhan.setBorder(Rectangle.NO_BORDER);
             cellKyNhan.setColspan(2);
             tableContent.addCell(cellKyNhan);
 
-            PdfPCell cellKetQuaLeft = new PdfPCell(new Phrase("Người giao: " + nguoiGiao , contentFont));
+            PdfPCell cellKetQuaLeft = new PdfPCell(new Phrase("Người giao: " + nguoiGiao, contentFont));
             PdfPCell cellKetQuaRight = new PdfPCell(new Phrase("Người nhận: " + nguoiNhan, contentFont));
             cellKetQuaLeft.setBorder(Rectangle.NO_BORDER);
             cellKetQuaRight.setBorder(Rectangle.NO_BORDER);
@@ -792,6 +792,7 @@ public class Form_GiaoCa extends javax.swing.JPanel {
         BigDecimal doanhThuTheoCa = giaoCaService.getTongDoanhThu(ngayGiaoCa, caLamViec);
         if (doanhThuTheoCa == null) {
             JOptionPane.showMessageDialog(this, "Ca làm việc của ngày này chưa có doanh thu");
+            showDetaileByRevenue();
             return;
         }
         DecimalFormat formatter = new DecimalFormat("#,###");
@@ -800,25 +801,32 @@ public class Form_GiaoCa extends javax.swing.JPanel {
         lblTongTien.setText(formattedAmount);
     }
 
+    // Chức năng showDetaile khi không có doanh thu
+    private void showDetaileByRevenue() {
+        lblDoanhThu.setText("0 VND");
+        lblTongTien.setText("0");
+    }
+
     // Chức năng thay đổi trạng thái khi nhập tiền thực kiểm
     private void setTrangThaiByThucKiem() {
+
         try {
             String tongTienString = lblTongTien.getText().replace(",", "");
-            String tongTienTKString = txtThucKiem.getText().replace(",", "");
+            String thucKiemString = txtThucKiem.getText().replace(",", "");
             BigDecimal tongTien = new BigDecimal(tongTienString);
-            BigDecimal tongTienTK = new BigDecimal(tongTienTKString);
+            BigDecimal thucKiem = new BigDecimal(thucKiemString);
 
-            if (tongTien.compareTo(tongTienTK) < 0) {
-                cboTrangThai.setSelectedItem("Không khớp");
-            } else if (tongTien.compareTo(tongTienTK) > 0) {
+            if (thucKiem.compareTo(tongTien) != 0) {
                 cboTrangThai.setSelectedItem("Không khớp");
             } else {
                 cboTrangThai.setSelectedItem("Khớp");
             }
+
         } catch (NumberFormatException ex) {
             ex.printStackTrace(System.out);
-            JOptionPane.showMessageDialog(this, "Giá trị tổng tiền hoặc tiền thực kiểm không hợp lệ.");
+            JOptionPane.showMessageDialog(this, "Giá trị thực kiểm không hợp lệ.");
         }
+
     }
 
 //    @SuppressWarnings("unchecked")
@@ -1431,7 +1439,7 @@ public class Form_GiaoCa extends javax.swing.JPanel {
     // Sự kiện thay đổi trạng thái
     private void txtThucKiemFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtThucKiemFocusLost
         // TODO add your handling code here:
-//        setTrangThaiByThucKiem();
+        setTrangThaiByThucKiem();
     }//GEN-LAST:event_txtThucKiemFocusLost
 
     private void txtGhiChuKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtGhiChuKeyPressed
@@ -1444,14 +1452,7 @@ public class Form_GiaoCa extends javax.swing.JPanel {
     }//GEN-LAST:event_txtGhiChuKeyTyped
 
     private void txtGhiChuFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtGhiChuFocusLost
-        // TODO add your handling code here:
-        if (!cboTrangThai.getSelectedItem().toString().equals("Khớp")) {
-            JOptionPane.showMessageDialog(this, "Vui lòng nhập vào ghi chú");
 
-            if (txtGhiChu.getText().trim().equals("") || txtGhiChu.getText().trim() == null) {
-                JOptionPane.showMessageDialog(this, "Vui lòng nhập vào ghi chú");
-            }
-        }
     }//GEN-LAST:event_txtGhiChuFocusLost
 
 

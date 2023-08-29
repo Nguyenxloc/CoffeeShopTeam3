@@ -74,6 +74,7 @@ public class DAO_GiaoCa {
                 giaoCa.setThucKiem(rs.getBigDecimal("SoTienThucKiem"));
                 giaoCa.setGioKiemKe(rs.getTime("GioKiemKe"));
                 giaoCa.setTrangThai(rs.getString("TrangThai"));
+                giaoCa.setGhiChu(rs.getString("GhiChu"));
                 listGiaoCa.add(giaoCa);
             }
         } catch (Exception e) {
