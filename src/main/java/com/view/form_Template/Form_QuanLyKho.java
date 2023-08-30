@@ -514,7 +514,7 @@ public class Form_QuanLyKho extends javax.swing.JPanel {
                 btnClearActionPerformed(evt);
             }
         });
-        jPanel437.add(btnClear, new org.netbeans.lib.awtextra.AbsoluteConstraints(720, 280, 83, -1));
+        jPanel437.add(btnClear, new org.netbeans.lib.awtextra.AbsoluteConstraints(680, 280, 90, -1));
 
         btnNhapKho.setText("Nhập Kho");
         btnNhapKho.addActionListener(new java.awt.event.ActionListener() {
@@ -522,7 +522,7 @@ public class Form_QuanLyKho extends javax.swing.JPanel {
                 btnNhapKhoActionPerformed(evt);
             }
         });
-        jPanel437.add(btnNhapKho, new org.netbeans.lib.awtextra.AbsoluteConstraints(620, 280, -1, -1));
+        jPanel437.add(btnNhapKho, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 280, -1, -1));
 
         btnSua.setText("Sửa");
         btnSua.addActionListener(new java.awt.event.ActionListener() {
@@ -530,7 +530,7 @@ public class Form_QuanLyKho extends javax.swing.JPanel {
                 btnSuaActionPerformed(evt);
             }
         });
-        jPanel437.add(btnSua, new org.netbeans.lib.awtextra.AbsoluteConstraints(820, 280, -1, -1));
+        jPanel437.add(btnSua, new org.netbeans.lib.awtextra.AbsoluteConstraints(790, 280, 90, -1));
 
         btnXoa.setText("Xóa");
         btnXoa.addActionListener(new java.awt.event.ActionListener() {
@@ -538,7 +538,7 @@ public class Form_QuanLyKho extends javax.swing.JPanel {
                 btnXoaActionPerformed(evt);
             }
         });
-        jPanel437.add(btnXoa, new org.netbeans.lib.awtextra.AbsoluteConstraints(910, 280, -1, -1));
+        jPanel437.add(btnXoa, new org.netbeans.lib.awtextra.AbsoluteConstraints(890, 280, 90, -1));
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
