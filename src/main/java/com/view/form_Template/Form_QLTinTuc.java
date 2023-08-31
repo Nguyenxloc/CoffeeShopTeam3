@@ -102,10 +102,11 @@ public class Form_QLTinTuc extends javax.swing.JPanel {
         }
     }
 
-    public void save(ChiTietDoUong chiTietDoUong) {
+    public void save(TinTuc tinTuc) {
 
         try {
-            chiTietDoUongService.saveChiTietDoUong(chiTietDoUong);
+//            chiTietDoUongService.saveChiTietDoUong(chiTietDoUong);
+               
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -706,11 +707,10 @@ public class Form_QLTinTuc extends javax.swing.JPanel {
         System.out.println(imgBytes);
 //       ChiTietDoUong chiTietDoUong = new ChiTietDoUong(null, tenDoUong, giaNhap, giaBan, moTa, imgBytes, loaiDoUong);
         NhanVien nv = lstNV.get(cboTenNV.getSelectedIndex());
-        
-        TinTuc tinTuc  =  new TinTuc(null,txtTieuDe.getText(),txtMoTa.getText(),nv,, imgBytes);
-          
+        Date date = (Date) dateSelect.getDate(); 
+        TinTuc tinTuc  =  new TinTuc(null,txtTieuDe.getText(),txtMoTa.getText(),txtNoiDung.getText(),nv,date,imgBytes);
 //        save(chiTietDoUong);
-        loadData();
+//        loadData();
         JOptionPane.showMessageDialog(this, "Thêm thành công !");
     }//GEN-LAST:event_btnThemActionPerformed
 
