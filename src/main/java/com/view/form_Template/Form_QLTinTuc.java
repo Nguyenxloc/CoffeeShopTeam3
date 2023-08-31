@@ -23,18 +23,24 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import model.NhanVien;
+import model.TinTuc;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.CreationHelper;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.bouncycastle.operator.AADProcessor;
+import service.NhanVienService;
 
 public class Form_QLTinTuc extends javax.swing.JPanel {
 
     ChiTietDoUongService chiTietDoUongService = new ChiTietDoUongService();
     ArrayList<LoaiDoUong> lstLoaiDoUong = new ArrayList<>();
     ArrayList<ChiTietDoUong> lstChiTietDoUong = new ArrayList<>();
+    ArrayList<NhanVien> lstNV;
+    NhanVienService nvService = new NhanVienService();
     int index = -1;
     byte[] imgBytes = new byte[5000];
     String url = null;
@@ -44,9 +50,7 @@ public class Form_QLTinTuc extends javax.swing.JPanel {
      */
     public Form_QLTinTuc() {
         initComponents();
-        loadDanhMucDoUong();
-        loadToCboTimKiemDanhMucDoUong();
-        loadData();
+        loadToCboNV(); 
     }
 
     public void loadDanhMucDoUong() {
@@ -124,7 +128,17 @@ public class Form_QLTinTuc extends javax.swing.JPanel {
             e.printStackTrace();
         }
     }
-
+    
+    public void loadToCboNV(){
+        lstNV = new ArrayList<NhanVien>();
+        lstNV = nvService.selectALl();
+        DefaultComboBoxModel model = new DefaultComboBoxModel(); 
+        model.removeAllElements();
+        for (NhanVien nv : lstNV) {
+            model.addElement(nv.getTen()+"-"+nv.getMa());
+        }
+    }
+    
     public void xuatFileExcel() throws FileNotFoundException, IOException {
         System.out.println(lstChiTietDoUong);
         XSSFWorkbook workbook = new XSSFWorkbook();
@@ -198,8 +212,8 @@ public class Form_QLTinTuc extends javax.swing.JPanel {
         lblUrl.setText("#url");
         txtTieuDe.setText("");
         cboTenNV.setSelectedIndex(0);
-        txtNgayTao.setText("");
-        taraNoiDung.setText("");
+        dateSelect.setSelectableDateRange(null, null);
+        txtNoiDung.setText("");
         index = -1;
         imgBytes = null;
         loadData();
@@ -314,11 +328,9 @@ public class Form_QLTinTuc extends javax.swing.JPanel {
         jLabel2 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        taraNoiDung = new javax.swing.JTextArea();
+        txtNoiDung = new javax.swing.JTextArea();
         txtTieuDe = new javax.swing.JTextField();
-        txtNgayTao = new javax.swing.JTextField();
         btnThem = new javax.swing.JButton();
         btnChonAnh = new javax.swing.JButton();
         cboTenNV = new javax.swing.JComboBox<>();
@@ -329,7 +341,9 @@ public class Form_QLTinTuc extends javax.swing.JPanel {
         btnClear = new javax.swing.JButton();
         jLabel11 = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        taraMota = new javax.swing.JTextArea();
+        txtMoTa = new javax.swing.JTextArea();
+        jLabel12 = new javax.swing.JLabel();
+        dateSelect = new com.toedter.calendar.JDateChooser();
         jPanel4 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         txtTimKiemTenDoUong = new javax.swing.JTextField();
@@ -355,12 +369,9 @@ public class Form_QLTinTuc extends javax.swing.JPanel {
         jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel8.setText("Ngày tạo:");
 
-        jLabel10.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel10.setText("Mô tả:");
-
-        taraNoiDung.setColumns(20);
-        taraNoiDung.setRows(5);
-        jScrollPane1.setViewportView(taraNoiDung);
+        txtNoiDung.setColumns(20);
+        txtNoiDung.setRows(5);
+        jScrollPane1.setViewportView(txtNoiDung);
 
         btnThem.setText("Thêm");
         btnThem.addActionListener(new java.awt.event.ActionListener() {
@@ -410,9 +421,14 @@ public class Form_QLTinTuc extends javax.swing.JPanel {
         jLabel11.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel11.setText("Nội dung:");
 
-        taraMota.setColumns(20);
-        taraMota.setRows(5);
-        jScrollPane3.setViewportView(taraMota);
+        txtMoTa.setColumns(20);
+        txtMoTa.setRows(5);
+        jScrollPane3.setViewportView(txtMoTa);
+
+        jLabel12.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jLabel12.setText("Mô tả:");
+
+        dateSelect.setDateFormatString("dd-MM-yyyy");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -434,17 +450,17 @@ public class Form_QLTinTuc extends javax.swing.JPanel {
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                 .addGroup(jPanel1Layout.createSequentialGroup()
                                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel7)
-                                            .addComponent(jLabel8))
+                                        .addComponent(jLabel7)
                                         .addGroup(jPanel1Layout.createSequentialGroup()
-                                            .addComponent(jLabel11)
+                                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                                .addComponent(jLabel8)
+                                                .addComponent(jLabel11))
                                             .addGap(28, 28, 28)))
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(cboTenNV, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(txtNgayTao, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(cboTenNV, javax.swing.GroupLayout.Alignment.TRAILING, 0, 275, Short.MAX_VALUE)
+                                        .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(dateSelect, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                                     .addComponent(jLabel2)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -456,7 +472,7 @@ public class Form_QLTinTuc extends javax.swing.JPanel {
                                     .addGap(37, 37, 37)
                                     .addComponent(btnXoa, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                    .addComponent(jLabel10)
+                                    .addComponent(jLabel12)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE))))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -466,6 +482,8 @@ public class Form_QLTinTuc extends javax.swing.JPanel {
         );
 
         jPanel1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {btnClear, btnSua, btnThem});
+
+        jPanel1Layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {cboTenNV, dateSelect});
 
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -485,30 +503,28 @@ public class Form_QLTinTuc extends javax.swing.JPanel {
                     .addComponent(cboTenNV, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel7))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel8)
-                    .addComponent(txtNgayTao, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(dateSelect, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel8))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(btnThem, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(btnSua, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(btnXoa, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addComponent(jLabel10)))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel11))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel12))
+                .addGap(21, 21, 21)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnThem, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnSua, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnXoa, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(btnClear)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(77, Short.MAX_VALUE))
         );
 
-        jPanel1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {cboTenNV, txtNgayTao, txtTieuDe});
+        jPanel1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {cboTenNV, dateSelect, txtTieuDe});
 
         jPanel1Layout.linkSize(javax.swing.SwingConstants.VERTICAL, new java.awt.Component[] {btnClear, btnSua, btnThem});
 
@@ -604,7 +620,7 @@ public class Form_QLTinTuc extends javax.swing.JPanel {
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addGap(19, 19, 19)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 451, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 529, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -645,32 +661,25 @@ public class Form_QLTinTuc extends javax.swing.JPanel {
             return;
         }
 
-        if (txtNgayTao.getText().equalsIgnoreCase("")) {
+        if (.getText().equalsIgnoreCase("")) {
             JOptionPane.showMessageDialog(this, "Vui lòng nhập ngày tạo tin tức");
             txtNgayTao.requestFocus();
             return;
         }
 
 
-        if (taraNoiDung.getText().equalsIgnoreCase("")) {
-            JOptionPane.showMessageDialog(this, "Vui lòng nhập nội dung sản phẩm");
-            taraNoiDung.requestFocus();
+        if (txtNoiDung.getText().equalsIgnoreCase("")) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập nội dung tin tức");
+            txtNoiDung.requestFocus();
             return;
         }
         
-        if (taraMota.getText().equalsIgnoreCase("")) {
-            JOptionPane.showMessageDialog(this, "Vui lòng nhập mô tả sản phẩm");
-            taraMota.requestFocus();
+        if (txtNoiDung.getText().equalsIgnoreCase("")) {
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập mô tả tin tức");
+            txtNoiDung.requestFocus();
             return;
         }
 
-        //Check trùng tên sản phẩm
-        for (int i = 0; i < chiTietDoUongService.getListChiTietDoUong().size(); i++) {
-            if (txtTieuDe.getText().equalsIgnoreCase(chiTietDoUongService.getListChiTietDoUong().get(i).getTenDoUong())) {
-                JOptionPane.showMessageDialog(this, "Tên tiêu đề đã tồn tại");
-                return;
-            }
-        }
 
         //Check giá nhập và giá bán phải là số
         try {
@@ -692,10 +701,14 @@ public class Form_QLTinTuc extends javax.swing.JPanel {
         LoaiDoUong loaiDoUong = lstLoaiDoUong.get(count);
         String tieuDe = txtTieuDe.getText();
 //        Date ngayTao = new Date(spd.parse(txtNgayTao.getText()).getTime());
-        String noiDung = taraNoiDung.getText();
-        String moTa = taraNoiDung.getText();
+        String noiDung = txtNoiDung.getText();
+        String moTa = txtNoiDung.getText();
         System.out.println(imgBytes);
-//        ChiTietDoUong chiTietDoUong = new ChiTietDoUong(null, tenDoUong, giaNhap, giaBan, moTa, imgBytes, loaiDoUong);
+//       ChiTietDoUong chiTietDoUong = new ChiTietDoUong(null, tenDoUong, giaNhap, giaBan, moTa, imgBytes, loaiDoUong);
+        NhanVien nv = lstNV.get(cboTenNV.getSelectedIndex());
+        
+        TinTuc tinTuc  =  new TinTuc(null,txtTieuDe.getText(),txtMoTa.getText(),nv,, imgBytes);
+          
 //        save(chiTietDoUong);
         loadData();
         JOptionPane.showMessageDialog(this, "Thêm thành công !");
@@ -714,15 +727,15 @@ public class Form_QLTinTuc extends javax.swing.JPanel {
             txtTieuDe.setText(tblDanhSachDoUong.getValueAt(index, 1).toString());
             cboTenNV.setSelectedItem(tblDanhSachDoUong.getValueAt(index, 2).toString());
             txtNgayTao.setText(tblDanhSachDoUong.getValueAt(index, 3).toString());
-            taraNoiDung.setText(tblDanhSachDoUong.getValueAt(index, 5).toString());
+            txtNoiDung.setText(tblDanhSachDoUong.getValueAt(index, 5).toString());
         } else {
             lblHinhAnh.setIcon(null);
             lblHinhAnh.setText("Ảnh");
             txtTieuDe.setText(tblDanhSachDoUong.getValueAt(index, 1).toString());
             cboTenNV.setSelectedItem(tblDanhSachDoUong.getValueAt(index, 2).toString());
             txtNgayTao.setText(tblDanhSachDoUong.getValueAt(index, 3).toString());
-            taraNoiDung.setText(tblDanhSachDoUong.getValueAt(index, 4).toString());
-            taraMota.setText(tblDanhSachDoUong.getValueAt(index, 5).toString());
+            txtNoiDung.setText(tblDanhSachDoUong.getValueAt(index, 4).toString());
+            txtNoiDung.setText(tblDanhSachDoUong.getValueAt(index, 5).toString());
         }
 
     }//GEN-LAST:event_tblDanhSachDoUongMouseClicked
@@ -744,15 +757,15 @@ public class Form_QLTinTuc extends javax.swing.JPanel {
             return;
         }
 
-        if (taraNoiDung.getText().equalsIgnoreCase("")) {
+        if (txtNoiDung.getText().equalsIgnoreCase("")) {
             JOptionPane.showMessageDialog(this, "Vui lòng nhập nội dung sản phẩm");
-            taraNoiDung.requestFocus();
+            txtNoiDung.requestFocus();
             return;
         }
 
-        if (taraMota.getText().equalsIgnoreCase("")) {
+        if (txtNoiDung.getText().equalsIgnoreCase("")) {
             JOptionPane.showMessageDialog(this, "Vui lòng nhập mô tả sản phẩm");
-            taraMota.requestFocus();
+            txtNoiDung.requestFocus();
             return;
         }
 
@@ -778,8 +791,8 @@ public class Form_QLTinTuc extends javax.swing.JPanel {
         String tenDoUong = txtTieuDe.getText();
         Double giaNhap = Double.parseDouble(txtNgayTao.getText());
 //        Date ngayTao = new Date(sdf.parse(txtNgayTao.getText()).getTime());
-        String noiDung = taraNoiDung.getText();
-        String moTa = taraMota.getText();
+        String noiDung = txtNoiDung.getText();
+        String moTa = txtNoiDung.getText();
         try {
             convertURLToBytes();
         } catch (Exception e) {
@@ -838,8 +851,9 @@ public class Form_QLTinTuc extends javax.swing.JPanel {
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JComboBox<String> cboTenNV;
     private javax.swing.JComboBox<String> cboTimKiemDanhMucDoUong;
-    private javax.swing.JLabel jLabel10;
+    private com.toedter.calendar.JDateChooser dateSelect;
     private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
@@ -853,10 +867,9 @@ public class Form_QLTinTuc extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JLabel lblHinhAnh;
     private javax.swing.JLabel lblUrl;
-    private javax.swing.JTextArea taraMota;
-    private javax.swing.JTextArea taraNoiDung;
     private javax.swing.JTable tblDanhSachDoUong;
-    private javax.swing.JTextField txtNgayTao;
+    private javax.swing.JTextArea txtMoTa;
+    private javax.swing.JTextArea txtNoiDung;
     private javax.swing.JTextField txtTieuDe;
     private javax.swing.JTextField txtTimKiemTenDoUong;
     // End of variables declaration//GEN-END:variables

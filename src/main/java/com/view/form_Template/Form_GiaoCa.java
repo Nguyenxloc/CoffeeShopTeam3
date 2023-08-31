@@ -47,7 +47,6 @@ import com.itextpdf.text.Element;
 import com.itextpdf.text.Font;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.pdf.PdfWriter;
-
 import java.io.FileOutputStream;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.*;
@@ -76,9 +75,13 @@ public class Form_GiaoCa extends javax.swing.JPanel {
     public Form_GiaoCa() {
         initComponents();
         listGiaoCa = giaoCaService.selectALL();
-        fillToTableGiaoCa(listGiaoCa);
-        fillComboBoxNhanVien();
-        fillComboBoxCaLamViec();
+        try {
+            fillToTableGiaoCa(listGiaoCa);
+            fillComboBoxNhanVien();
+            fillComboBoxCaLamViec();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void fillToTableGiaoCa(ArrayList<GiaoCa> listGiaoCa) {
@@ -89,14 +92,12 @@ public class Form_GiaoCa extends javax.swing.JPanel {
         for (GiaoCa giaoCa : listGiaoCa) {
             NhanVien nguoiGiao = giaoCa.getNguoiGiao();
             NhanVien nguoiNhan = giaoCa.getNguoiNhan();
-            String hoTenNguoiGiao = nguoiGiao.getHo() + " " + nguoiGiao.getTenDem() + " " + nguoiGiao.getTen();
-            String hoTenNguoiNhan = nguoiNhan.getHo() + " " + nguoiNhan.getTenDem() + " " + nguoiNhan.getTen();
-
+            String hoTenNguoiGiao =nguoiGiao.getTen();
+            String hoTenNguoiNhan =nguoiNhan.getTen();
             BigDecimal tongTien = giaoCa.getTongCong();
             BigDecimal tongTienThucKiem = giaoCa.getThucKiem();
             String tongTienFormat = decimalFormat.format(tongTien);
             String tongTienTKFormat = decimalFormat.format(tongTienThucKiem);
-
             model.addRow(new Object[]{giaoCa.getMaGiaoCa(), giaoCa.getCaLamViec(), giaoCa.getNgayGiaoCa(), hoTenNguoiGiao, hoTenNguoiNhan, tongTienFormat, tongTienTKFormat, giaoCa.getGioKiemKe(), giaoCa.getTrangThai(), giaoCa.getGhiChu()});
         }
     }
@@ -119,12 +120,12 @@ public class Form_GiaoCa extends javax.swing.JPanel {
 
     // Chức năng fill dữ liệu lên ComboxBox Ca làm việc
     private void fillComboBoxCaLamViec() {
-        DefaultComboBoxModel model = (DefaultComboBoxModel) cboCaLamViec.getModel();
-        model.removeAllElements();
-        listGiaoCa = giaoCaService.selectALL();
-        for (GiaoCa gc : listGiaoCa) {
-            model.addElement(gc.getCaLamViec());
-        }
+//        DefaultComboBoxModel model = (DefaultComboBoxModel) cboCaLamViec.getModel();
+//        model.removeAllElements();
+//        listGiaoCa = giaoCaService.selectALL();
+//        for (GiaoCa gc : listGiaoCa) {
+//            model.addElement(gc.getCaLamViec());
+//        }
         // Lấy ngày và thời gian hiện tại
         Date now = new Date();
         Calendar calendar = Calendar.getInstance();
@@ -590,12 +591,10 @@ public class Form_GiaoCa extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "Vui lòng chọn 1 phiếu muốn in ra trên table");
             return;
         }
-
-        String filePath = "E:\\File_PDF\\phieugiaoca.pdf"; // Đường dẫn đến file PDF bạn muốn tạo
+        String filePath = giaoCa.getMaGiaoCa()+".pdf"; // Đường dẫn đến file PDF bạn muốn tạo
         try {
             Document document = new Document();
             PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(filePath));
-
             // Sử dụng font Unicode để hỗ trợ tiếng Việt
             BaseFont unicodeFont = BaseFont.createFont("c:\\windows\\fonts\\arial.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
             Font titleFont = new Font(unicodeFont, 16, Font.BOLD);
@@ -616,8 +615,8 @@ public class Form_GiaoCa extends javax.swing.JPanel {
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
             Date ngayGiaoCa = giaoCa.getNgayGiaoCa();
             String ngayGiaoCaFormat = simpleDateFormat.format(ngayGiaoCa);
-            String nguoiGiao = giaoCa.getNguoiGiao().getHo() + " " + giaoCa.getNguoiGiao().getTenDem() + " " + giaoCa.getNguoiGiao().getTen();
-            String nguoiNhan = giaoCa.getNguoiNhan().getHo() + " " + giaoCa.getNguoiNhan().getTenDem() + " " + giaoCa.getNguoiNhan().getTen();
+            String nguoiGiao = giaoCa.getNguoiGiao().getTen();
+            String nguoiNhan = giaoCa.getNguoiNhan().getTen();
             DecimalFormat decimalFormat = new DecimalFormat("#,### VND");
             String tongTien = decimalFormat.format(giaoCa.getTongCong());
             String tongTienThucKiem = decimalFormat.format(giaoCa.getThucKiem());
@@ -649,7 +648,7 @@ public class Form_GiaoCa extends javax.swing.JPanel {
             tableContent.addCell(cellRight);
 
             cellLeft = new PdfPCell(new Phrase("Nhân viên giao ca: ", contentFont));
-            cellRight = new PdfPCell(new Phrase(giaoCa.getNguoiGiao().getHo() + " " + giaoCa.getNguoiGiao().getTenDem() + " " + giaoCa.getNguoiGiao().getTen(), contentFont));
+            cellRight = new PdfPCell(new Phrase(giaoCa.getNguoiGiao().getTen(), contentFont));
             tableContent.addCell(cellLeft);
             tableContent.addCell(cellRight);
 
@@ -819,7 +818,6 @@ public class Form_GiaoCa extends javax.swing.JPanel {
         jPanel1 = new javax.swing.JPanel();
         jPanel11 = new javax.swing.JPanel();
         cboTrangThai = new javax.swing.JComboBox<>();
-        cboCaLamViec = new javax.swing.JComboBox<>();
         jLabel41 = new javax.swing.JLabel();
         txtThucKiem = new javax.swing.JTextField();
         jLabel42 = new javax.swing.JLabel();
@@ -846,6 +844,7 @@ public class Form_GiaoCa extends javax.swing.JPanel {
         cboNguoiGiao = new javax.swing.JComboBox<>();
         cboNguoiNhan = new javax.swing.JComboBox<>();
         txtNgayGiaoCa = new com.toedter.calendar.JDateChooser();
+        cboCaLamViec = new javax.swing.JComboBox<>();
         jPanel12 = new javax.swing.JPanel();
         jLabel57 = new javax.swing.JLabel();
         btnTimKiem = new javax.swing.JButton();
@@ -880,8 +879,6 @@ public class Form_GiaoCa extends javax.swing.JPanel {
                 cboTrangThaiActionPerformed(evt);
             }
         });
-
-        cboCaLamViec.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Ca Sáng", "Ca Chiều", "Ca Tối" }));
 
         jLabel41.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel41.setText("PHIẾU GiAO CA");
@@ -1003,6 +1000,8 @@ public class Form_GiaoCa extends javax.swing.JPanel {
 
         txtNgayGiaoCa.setDateFormatString("dd-MM-yyyy");
 
+        cboCaLamViec.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Ca Sáng", "Ca Chiều", "Ca Tối" }));
+
         javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
         jPanel11.setLayout(jPanel11Layout);
         jPanel11Layout.setHorizontalGroup(
@@ -1040,20 +1039,19 @@ public class Form_GiaoCa extends javax.swing.JPanel {
                                 .addComponent(btnRefresh, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGap(18, 18, 18)
                                 .addComponent(btnXoa, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(cboCaLamViec, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(lblTongTien)
-                        .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtNgayGiaoCa, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 254, Short.MAX_VALUE)
-                            .addComponent(cboTrangThai, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(txtThucKiem)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel11Layout.createSequentialGroup()
-                                .addComponent(lblGioKiemKe, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btnGioHienTai, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(cboCaLamViec, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addComponent(cboNguoiGiao, javax.swing.GroupLayout.PREFERRED_SIZE, 254, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(cboNguoiNhan, javax.swing.GroupLayout.PREFERRED_SIZE, 254, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(txtNgayGiaoCa, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 254, Short.MAX_VALUE)
+                        .addComponent(cboTrangThai, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(txtThucKiem)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel11Layout.createSequentialGroup()
+                            .addComponent(lblGioKiemKe, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnGioHienTai, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(cboNguoiGiao, 0, 254, Short.MAX_VALUE)
+                        .addComponent(cboNguoiNhan, 0, 254, Short.MAX_VALUE)))
                 .addGap(15, 15, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel11Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -1069,11 +1067,11 @@ public class Form_GiaoCa extends javax.swing.JPanel {
                     .addComponent(lblMaPhieu))
                 .addGap(2, 2, 2)
                 .addComponent(jLabel41)
-                .addGap(18, 18, 18)
-                .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(cboCaLamViec, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel45))
-                .addGap(14, 14, 14)
+                .addGap(21, 21, 21)
+                .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel45)
+                    .addComponent(cboCaLamViec, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(11, 11, 11)
                 .addGroup(jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel47)
                     .addComponent(txtNgayGiaoCa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -1228,7 +1226,6 @@ public class Form_GiaoCa extends javax.swing.JPanel {
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(btnTimKiem, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnXuatFileExcel, javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel12Layout.createSequentialGroup()
                                 .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel11)
@@ -1248,8 +1245,13 @@ public class Form_GiaoCa extends javax.swing.JPanel {
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel12Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel57, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(179, 179, 179))
+                .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel12Layout.createSequentialGroup()
+                        .addComponent(jLabel57, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(179, 179, 179))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel12Layout.createSequentialGroup()
+                        .addComponent(btnXuatFileExcel)
+                        .addContainerGap())))
         );
         jPanel12Layout.setVerticalGroup(
             jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1274,9 +1276,7 @@ public class Form_GiaoCa extends javax.swing.JPanel {
                         .addComponent(jScrollPane10, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel12Layout.createSequentialGroup()
-                                .addGap(18, 18, 18)
-                                .addComponent(btnXuatFileExcel)
-                                .addGap(34, 34, 34)
+                                .addGap(79, 79, 79)
                                 .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(jLabel4)
                                     .addComponent(cboCaLamViecForm1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -1295,6 +1295,8 @@ public class Form_GiaoCa extends javax.swing.JPanel {
                                 .addContainerGap(60, Short.MAX_VALUE))))
                     .addGroup(jPanel12Layout.createSequentialGroup()
                         .addComponent(txtDenNgay, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(382, 382, 382)
+                        .addComponent(btnXuatFileExcel)
                         .addGap(0, 0, Short.MAX_VALUE))))
         );
 
@@ -1326,9 +1328,9 @@ public class Form_GiaoCa extends javax.swing.JPanel {
             .addGap(0, 1058, Short.MAX_VALUE)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
-                    .addGap(0, 27, Short.MAX_VALUE)
+                    .addGap(0, 29, Short.MAX_VALUE)
                     .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 27, Short.MAX_VALUE)))
+                    .addGap(0, 30, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

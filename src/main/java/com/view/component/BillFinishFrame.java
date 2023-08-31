@@ -303,7 +303,7 @@ public class BillFinishFrame extends javax.swing.JFrame {
             //Close the content stream
             cs.close();
             //Save the PDF
-            invc.save(hoaDon.getMa());
+            invc.save(hoaDon.getMa()+".pdf");
             JOptionPane.showMessageDialog(null, "In hóa đơn thành công");
         } catch (IOException e) {
             e.printStackTrace();

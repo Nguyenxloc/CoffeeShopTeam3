@@ -29,7 +29,7 @@ public class DAO_NhanVien {
     final String SELECT_BY_IDNV_SQL = " SELECT * FROM NhanVien WHERE Id = ?";
     final String SELECT_BY_MANV = " SELECT * FROM NhanVien WHERE Ma = ?";
     final String SELECT_ALL_SQL = "SELECT * FROM [dbo].[NhanVien];";
-    final String SELECT_CBONV_SQL = "  SELECT Id,Ho + ' ' + TenDem + ' ' + Ten AS HOTENNHANVIEN FROM NhanVien";
+    final String SELECT_CBONV_SQL = "  SELECT Id,Ten AS HOTENNHANVIEN FROM NhanVien";
     final String SELECT_BY_TenNV_SQL = " SELECT Id FROM NhanVien WHERE Ten like ?";
 
     public DAO_NhanVien() {
