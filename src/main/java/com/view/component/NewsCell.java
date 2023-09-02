@@ -13,6 +13,7 @@ import javax.swing.JLabel;
 import javax.swing.event.EventListenerList;
 import javax.swing.plaf.ComponentUI;
 import model.News;
+import model.TinTuc;
 
 /**
  *
@@ -28,15 +29,15 @@ public class NewsCell extends javax.swing.JPanel {
     private String localTitle = null;
     private static byte[] localImg = new byte[5000];
 
-    public NewsCell(News news) {
+    public NewsCell(TinTuc news) {
 //        String path = "C:\\Users\\84374\\Documents\\NetBeansProjects\\CoffeeShop\\src\\main\\java\\com\\view\\icon\\coffe.png";
 //        File file = new File(path);
 //        String absolutePath = file.getAbsolutePath();
 //        dir = absolutePath;
         localImg = news.getHinhAnh();
         initComponents();
-        lblTittle.setText("<html><p style=\"width:170px\">" + news.getTitle() + "</p></html>");
-        lblDes.setText("<html><p style=\"width:170px\">" + news.getDes() + "</p></html>");
+        lblTittle.setText("<html><p style=\"width:170px\">" + news.getTieuDe() + "</p></html>");
+        lblDes.setText("<html><p style=\"width:170px\">" + news.getMoTa() + "</p></html>");
         
     }
 

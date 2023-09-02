@@ -23,6 +23,7 @@ import com.view.form_Template.Form_LoaiDoUong;
 import com.view.form_Template.Form_QLBan;
 import com.view.form_Template.Form_QLDoUong;
 import com.view.form_Template.Form_QLHoaDon;
+import com.view.form_Template.Form_QLTinTuc;
 import com.view.form_Template.Form_QuanLyKho;
 import com.view.form_Template.Form_TaoTaiKhoan;
 import com.view.form_Template.Form_ThongBao;
@@ -67,6 +68,7 @@ public class MainTemplate extends javax.swing.JFrame {
     private Form_CapBac form_CapBac;
     private Form_QLBan form_QLBan;
     private Form_ThongKe form_ThongKe;
+    private Form_QLTinTuc form_tinTuc;
 //    private Form_QuanLyKho form_QuanLyKho;
 //    private Form_GiaoCa1 form_GiaoCa1;
 
@@ -116,6 +118,7 @@ public class MainTemplate extends javax.swing.JFrame {
         );
         Thread t9 = new Thread(
                 () -> {
+                    form_tinTuc = new Form_QLTinTuc();
                     form_QuanLyKho = new Form_QuanLyKho();
                 }
         );
@@ -204,15 +207,19 @@ public class MainTemplate extends javax.swing.JFrame {
                     setForm(luongNhanVien);
                 } else if (index == 9) {
                     setForm(form_ChamCong);
-                } else if (index == 11) {
+                } 
+                else if (index == 11) {
+                    setForm(form_tinTuc);
+                }
+                else if (index == 12) {
                     setForm(form_QuanLyKho);
-                } else if (index == 12) {
-                    setForm(form_LoaiDoUong);
                 } else if (index == 13) {
-                    setForm(form_CapBac);
+                    setForm(form_LoaiDoUong);
                 } else if (index == 14) {
-                    setForm(form_QLBan);
+                    setForm(form_CapBac);
                 } else if (index == 15) {
+                    setForm(form_QLBan);
+                } else if (index == 16) {
                     MessageFrame messageFrame = new MessageFrame();
                     messageFrame.show();
                     messageFrame.setMessage("Bạn có chắc chắn muốn đăng xuất không?");

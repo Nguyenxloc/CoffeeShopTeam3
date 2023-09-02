@@ -5,7 +5,9 @@
 package Test;
 
 import com.view.form_Template.Form_QLDoUong;
+import com.view.form_Template.Form_QLTinTuc;
 import com.view.form_Template.Form_QuanLyKho;
+import com.view.form_Template.Form_ThongBao;
 import java.awt.BorderLayout;
 import javax.swing.JComponent;
 import javax.swing.border.Border;
@@ -23,9 +25,10 @@ public class testForm extends javax.swing.JFrame {
         initComponents();
         Form_QLDoUong formDoUong = new Form_QLDoUong();
         Form_QuanLyKho form_QuanLyKho = new Form_QuanLyKho();
+        Form_QLTinTuc form_tinTuc = new Form_QLTinTuc();
+        Form_ThongBao form_thongBao = new Form_ThongBao();
         displayPanel.setLayout(new java.awt.BorderLayout());
-        setForm(form_QuanLyKho);
-
+        setForm(form_thongBao);
     }
 
     private void setForm(JComponent com) {
@@ -56,7 +59,7 @@ public class testForm extends javax.swing.JFrame {
         );
         displayPanelLayout.setVerticalGroup(
             displayPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 489, Short.MAX_VALUE)
+            .addGap(0, 732, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -72,8 +75,8 @@ public class testForm extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(displayPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(displayPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();

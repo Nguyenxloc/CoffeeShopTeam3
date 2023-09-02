@@ -27,6 +27,7 @@ import javax.swing.JTable;
 import javax.swing.ScrollPaneConstants;
 import model.HoaDon;
 import model.News;
+import model.TinTuc;
 import org.apache.poi.ss.formula.FormulaType;
 import viewModel.ChiTietDoUongNoIMG;
 
@@ -43,7 +44,7 @@ public class NewsPanel extends JPanel {
     static News localNews = new News();
 
 //    public panelOfNews(ArrayList<News> lstNews) {
-    public NewsPanel(ArrayList<News> lstNews) {
+    public NewsPanel(ArrayList<TinTuc> lstNews) {
         BoxLayout boxLayout = new BoxLayout(this, BoxLayout.Y_AXIS);
         this.setLayout(boxLayout);
         for (int i = 0; i < lstNews.size(); i++) {

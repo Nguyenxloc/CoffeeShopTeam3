@@ -7,6 +7,7 @@ package repository;
 import com.view.model.QuanLyKhuyenMai;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.Date;
 import model.ChiTietDoUong;
 import model.KhuyenMai;
 import model.LoaiDoUong;
@@ -21,10 +22,10 @@ import ultilities.DBConnection1;
 public class TinTucRepository {
 
     final String INSERT_SQL = "INSERT INTO dbo.tintuc(TieuDe,MoTa,NoiDung,IdNv,NgayTao,HinhAnh)VALUES(?,?,?,?,?,?)";
-    final String UPDATE_SQL = "UPDATE dbo.tintuc SET TieuDe=?, MoTa=?,NoiDung=?,IdNv=?,NgayTao=? ,HinhAnh=? WHERE Id=?";
+    final String UPDATE_SQL = "UPDATE dbo.tintuc SET TieuDe=?, MoTa=?, NoiDung=?, IdNv=?, NgayTao=? ,HinhAnh=? WHERE Id=?";
     final String DELETE_SQL = "DELETE FROM [dbo].[tintuc] WHERE [Id] = ?";
     final String SELECT_BY_SQL = "SELECT * FROM [dbo].[tintuc] WHERE [Id] = ?";
-    final String SELECT_ALL_SQL = "SELECT * FROM [dbo].[tintuc] ORDER BY IdLoaiDoUong;";
+    final String SELECT_ALL_SQL = "SELECT * FROM [dbo].[tintuc] ORDER BY NgayTao;";
     final String SELECT_BY_UNIID = "SELECT * FROM [dbo].[tintuc] WHERE [Id] = ?";
     final String SELECT_BY_MULIPLECONDITION = "DECLARE @tenDoUong AS NVARCHAR(50) = ?, @idLoaiDoUong AS uniqueidentifier =?,@giaBatDau as decimal(20, 0)=?,@giaKeThuc as decimal(20, 0)=?"
             + "SELECT*FROM dbo.ChiTietDoUong \n"
@@ -37,7 +38,6 @@ public class TinTucRepository {
     public TinTucRepository() {
     }
 
-
     public ArrayList<TinTuc> selectALl() {
         DBConnection1 dbConn = new DBConnection1();
         ArrayList<TinTuc> lstTinTuc = new ArrayList<>();
@@ -46,7 +46,7 @@ public class TinTucRepository {
             ResultSet rs = dbConn.getDataFromQuery(SELECT_ALL_SQL);
             while (rs.next()) {
                 NhanVien idNV = nhanVienRepository.timIDNhanVien(rs.getString("IdNv"));
-                lstTinTuc.add(new TinTuc("",rs.getString("TieuDe"), rs.getString("MoTa"), rs.getString("NoiDung"), idNV, rs.getDate("NgayTao"), rs.getBytes("HinhAnh")));
+                lstTinTuc.add(new TinTuc(rs.getString("Id"), rs.getString("TieuDe"), rs.getString("MoTa"), rs.getString("NoiDung"), idNV, rs.getDate("NgayTao"), rs.getBytes("HinhAnh")));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -54,47 +54,46 @@ public class TinTucRepository {
         return lstTinTuc;
     }
 
-
-    public ChiTietDoUong selectByID(String id) {
+    public TinTuc selectByID(String id) {
         DBConnection1 dbConn = new DBConnection1();
-        ChiTietDoUong chiTietDoUong = new ChiTietDoUong();
-        ArrayList<ChiTietDoUong> lstChiTietDoUong = new ArrayList<>();
-        DAO_LoaiDoUongMaster dAO_LoaiDoUong = new DAO_LoaiDoUongMaster();
+        TinTuc tinTuc = new TinTuc();
+        ArrayList<TinTuc> lstTinTucs = new ArrayList<>();
+        TinTucRepository dao_tinTuc = new TinTucRepository();
+        DAO_NhanVien dao_nv = new DAO_NhanVien();
         try {
             ResultSet rs = dbConn.getDataFromQuery(SELECT_BY_SQL, id);
             while (rs.next()) {
-                LoaiDoUong loaiDoUong = dAO_LoaiDoUong.selectByID(rs.getString("idLoaiDoUong"));
-                lstChiTietDoUong.add(new ChiTietDoUong(rs.getString("id"), rs.getString("TenDoUong"), rs.getDouble("GiaNhap"), rs.getDouble("GiaBan"), rs.getString("MoTa"), rs.getBytes("HinhAnh"), loaiDoUong));
-                chiTietDoUong = lstChiTietDoUong.get(0);
+                NhanVien nv = dao_nv.selectByID(rs.getString("Id"));
+                lstTinTucs.add(new TinTuc(rs.getString("Id"), rs.getNString("TieuDe"), rs.getNString("MoTa"), rs.getNString("NoiDung"), nv, rs.getDate("NgayTao"), rs.getBytes("HinhAnh")));
+                tinTuc = lstTinTucs.get(0);
                 break;
             }
 
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return chiTietDoUong;
+        return tinTuc;
     }
 
-
-    public void save(ChiTietDoUong chiTietDoUong) {
+    public void save(TinTuc tinTuc) {
         DBConnection1 dbConn = new DBConnection1();
         try {
-            dbConn.ExcuteSQL(INSERT_SQL, chiTietDoUong.getLoaiDoUong().getId(), chiTietDoUong.getTenDoUong(), chiTietDoUong.getGiaNhap(), chiTietDoUong.getGiaBan(), chiTietDoUong.getHinhAnh(), chiTietDoUong.getMoTa());
+            //"INSERT INTO dbo.tintuc(TieuDe,MoTa,NoiDung,IdNv,NgayTao,HinhAnh)VALUES(?,?,?,?,?,?)"
+            dbConn.ExcuteSQL(INSERT_SQL, tinTuc.getTieuDe(), tinTuc.getMoTa(), tinTuc.getNoiDung(), tinTuc.getNhanVien().getId(), tinTuc.getNgayTao(), tinTuc.getHinhAnh());
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-
-    public void update(ChiTietDoUong chiTietDoUong) {
+    public void update(TinTuc tinTuc) {
         DBConnection1 dbConn = new DBConnection1();
         try {
-            dbConn.ExcuteSQL(UPDATE_SQL, chiTietDoUong.getTenDoUong(), chiTietDoUong.getGiaNhap(), chiTietDoUong.getGiaBan(), chiTietDoUong.getMoTa(), chiTietDoUong.getHinhAnh(), chiTietDoUong.getId());
+            //"UPDATE dbo.tintuc SET TieuDe=?, MoTa=?,NoiDung=?,IdNv=?,NgayTao=? ,HinhAnh=? WHERE Id=?"
+            dbConn.ExcuteSQL(UPDATE_SQL, tinTuc.getTieuDe(), tinTuc.getMoTa(), tinTuc.getNoiDung(), tinTuc.getNhanVien().getId(), tinTuc.getNgayTao(), tinTuc.getHinhAnh(), tinTuc.getId());
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-
 
     public void delete(String id) {
         DBConnection1 dbConn = new DBConnection1();
@@ -104,7 +103,6 @@ public class TinTucRepository {
             e.printStackTrace();
         }
     }
-
 
     public ArrayList<ChiTietDoUong> selectByFlexibleCondition(String tenDoUong, String idLoaiDoUong, double giaBatDau, double giaKetThuc) {
         DBConnection1 dbConn = new DBConnection1();
@@ -122,7 +120,6 @@ public class TinTucRepository {
             e.printStackTrace();
         }
         return lstChiTietDoUong;
-
     }
 
 }
