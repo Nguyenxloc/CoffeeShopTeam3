@@ -20,8 +20,8 @@ import java.util.logging.Logger;
  */
 public class DAO_TaoTaiKhoan {
 
-    final String INSERT_SQL = "INSERT INTO NhanVien(Ma, Ho,TenDem,Ten,GioiTinh,NgaySinh,DiaChi,Sdt,TaiKhoan,MatKhau,IdCB)\n"
-            + "VALUES (?,?,?,?,?,?,?,?,?,?,?)";
+    final String INSERT_SQL = "INSERT INTO NhanVien(Ten,GioiTinh,NgaySinh,DiaChi,Sdt,TaiKhoan,MatKhau,IdCB,TrangThai)\n"
+            + "  VALUES (?,?,?,?,?,?,?,?,?)";
     final String SELECT_CAPBAC_SQL = "SELECT id, Ten FROM CapBac";
     final String SELECT_PHONE_SQL = "SELECT Sdt FROM NhanVien";
     final String SELECT_EMPLOYEE_BY_USERNAME = "SELECT Ten,MatKhau FROM NHANVIEN WHERE Ten LIKE ";
@@ -173,20 +173,18 @@ public class DAO_TaoTaiKhoan {
 //        }
 //    }
     // Hàm thêm tài khoản
-    public void save(TaiKhoan acount) {
+     public void save(TaiKhoan acount) {
         try {
             PreparedStatement ps = connection.prepareStatement(INSERT_SQL);
-            ps.setString(1, acount.getMaNV());
-            ps.setString(2, acount.getHoNV());
-            ps.setString(3, acount.getTenDemNV());
-            ps.setString(4, acount.getTenNV());
-            ps.setString(5, acount.getGioiTinh());
-            ps.setDate(6, new java.sql.Date(acount.getNgaySinh().getTime()));
-            ps.setString(7, acount.getDiaChi());
-            ps.setString(8, acount.getSoDT());
-            ps.setString(9, acount.getTaiKhoan());
-            ps.setString(10, acount.getMatKhau());
-            ps.setString(11, acount.getCapBac().getIdCB());
+            ps.setString(1, acount.getTenNV());
+            ps.setString(2, acount.getGioiTinh());
+            ps.setDate(3, new java.sql.Date(acount.getNgaySinh().getTime()));
+            ps.setString(4, acount.getDiaChi());
+            ps.setString(5, acount.getSoDT());
+            ps.setString(6, acount.getTaiKhoan());
+            ps.setString(7, acount.getMatKhau());
+            ps.setString(8, acount.getCapBac().getIdCB());
+            ps.setInt(9, 1);
             int resualt = ps.executeUpdate();
             System.out.println(resualt);
         } catch (Exception e) {

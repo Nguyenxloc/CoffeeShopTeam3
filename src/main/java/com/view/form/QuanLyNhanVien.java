@@ -69,7 +69,6 @@ public class QuanLyNhanVien extends javax.swing.JPanel {
     }
 
     private void loadData() {
-
         defaultTableModel = (DefaultTableModel) tblForm.getModel();
         defaultTableModel.setRowCount(0);
         listNhanVien = nhanVienDao.selectALl();
@@ -136,9 +135,8 @@ public class QuanLyNhanVien extends javax.swing.JPanel {
             convertURLToBytes();
         } catch (Exception e) {
             e.printStackTrace();
-            JOptionPane.showMessageDialog(this, "Lỗi nhập ảnh !");
         }
-        String ma = txtMa.getText();
+
         String ten = txtTen.getText();
         String gioiTinh;
         if (rdoNam.isSelected()) {
@@ -146,6 +144,7 @@ public class QuanLyNhanVien extends javax.swing.JPanel {
         } else {
             gioiTinh = "Nữ";
         }
+        String ma  = txtMa.getText();
         String ngaySinh = txtNgaySinh.getText();
         String diaChi = txtDiachi.getText();
         String sdt = txtSDT.getText();
@@ -162,7 +161,7 @@ public class QuanLyNhanVien extends javax.swing.JPanel {
             trangThai = 0;
         }
 
-        NhanVien nhanVien = new NhanVien(ma, ten, gioiTinh, ngaySinh, diaChi, sdt, taiKhoan, matKhau, capBac, trangThai, imgBytes);
+        NhanVien nhanVien = new NhanVien(ma,ten, gioiTinh, ngaySinh, diaChi, sdt, taiKhoan, matKhau, capBac, trangThai, imgBytes);
 
         try {
             nhanVienDao.addNew(nhanVien);
@@ -309,6 +308,8 @@ public class QuanLyNhanVien extends javax.swing.JPanel {
         jScrollPane1.setViewportView(tblForm);
 
         jLabel1.setText("Mã NV");
+
+        txtMa.setEnabled(false);
 
         jLabel2.setText("Tên");
 
@@ -552,11 +553,12 @@ public class QuanLyNhanVien extends javax.swing.JPanel {
                                         .addComponent(txtTK, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addComponent(jLabel3)))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabel4)
-                                    .addComponent(txtMK, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(cboVaitro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel9))))
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(jLabel4)
+                                        .addComponent(txtMK, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jLabel9)))))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -705,6 +707,7 @@ public class QuanLyNhanVien extends javax.swing.JPanel {
         txtSDT.setText("");
         txtTK.setText("");
         txtMK.setText("");
+        loadData();
         //txtTrangthai.setText("");
     }//GEN-LAST:event_jButton4ActionPerformed
 
@@ -747,14 +750,6 @@ public class QuanLyNhanVien extends javax.swing.JPanel {
 //        JOptionPane.showMessageDialog(this, nhanVienService.them(nhanVien));
 //        loadData();
         
-    if(txtMa.getText().equalsIgnoreCase("")){
-        JOptionPane.showMessageDialog(this, "Bạn chưa nhập mã");
-        return;
-    }
-    if(txtMa.getText().equalsIgnoreCase(txtMa.getText())){
-        JOptionPane.showMessageDialog(this, "Mã đã tồn tại");
-        return;
-    }
     if(txtTen.getText().equalsIgnoreCase("")){
         JOptionPane.showMessageDialog(this, "Bạn chưa nhập tên");
         return;

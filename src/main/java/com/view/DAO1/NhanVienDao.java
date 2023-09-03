@@ -16,7 +16,7 @@ import ultilities.DBConnection;
  */
 public class NhanVienDao {
 
-    final String INSERT_SQL = "INSERT INTO dbo.NhanVien(Ma,Ten,GioiTinh,NgaySinh,DiaChi,Sdt,TaiKhoan,MatKhau,IdCB,TrangThai,HinhAnh) values(?,?,?,?,?,?,?,?,?,?,?)";
+    final String INSERT_SQL = "INSERT INTO dbo.NhanVien(Ten,GioiTinh,NgaySinh,DiaChi,Sdt,TaiKhoan,MatKhau,IdCB,TrangThai,HinhAnh) values(?,?,?,?,?,?,?,?,?,?)";
     final String UPDATE_SQL = "UPDATE dbo.NhanVien set Ten=?,GioiTinh=?,NgaySinh=?,DiaChi=?,Sdt=?,TaiKhoan=?,MatKhau=?,IdCB=?,TrangThai=?,HinhAnh=? where Ma=?";
     final String DELETE_SQL = "DELETE FROM [dbo].[NhanVien] WHERE [ID] = ?";
     final String SELECT_BY_SQL = "SELECT * FROM [dbo].[NhanVien] WHERE [ID] = ?";
@@ -45,7 +45,7 @@ public class NhanVienDao {
     
     public void save(NhanVien nv) {
         DBConnection dbConn = new DBConnection();
-        dbConn.ExcuteDungna(INSERT_SQL, nv.getMa(), nv.getTen(), nv.getGioiTinh(), 
+        dbConn.ExcuteDungna(INSERT_SQL, nv.getTen(), nv.getGioiTinh(), 
                 nv.getNgaySinh(),nv.getDiaChi(),nv.getSdt(),nv.getTaiKhoan(),nv.getMatKhau(),nv.getCapBac().getId(),nv.getTrangThai(),nv.getImg());
     }
     
@@ -147,20 +147,19 @@ public class NhanVienDao {
     }
     
     public Boolean addNew(NhanVien nhanVien){
-        String sql = "insert into NhanVien(Ma,Ten,GioiTinh,NgaySinh,DiaChi,Sdt,TaiKhoan,MatKhau,IdCB,TrangThai,HinhAnh) values(?,?,?,?,?,?,?,?,?,?,?)";
+        String sql = "insert into NhanVien(Ten,GioiTinh,NgaySinh,DiaChi,Sdt,TaiKhoan,MatKhau,IdCB,TrangThai,HinhAnh) values(?,?,?,?,?,?,?,?,?,?)";
         try(Connection con = connection1.getConnection();
                 PreparedStatement st = con.prepareStatement(sql)) {
-                st.setObject(1, nhanVien.getMa());
-                st.setObject(2, nhanVien.getTen());
-                st.setObject(3, nhanVien.getGioiTinh());
-                st.setObject(4, nhanVien.getNgaySinh());
-                st.setObject(5, nhanVien.getDiaChi());
-                st.setObject(6, nhanVien.getSdt());
-                st.setObject(7, nhanVien.getTaiKhoan());
-                st.setObject(8, nhanVien.getMatKhau());
-                st.setObject(9, nhanVien.getCapBac().getId());
-                st.setObject(10, nhanVien.getTrangThai());
-                st.setObject(11, nhanVien.getImg());
+                st.setObject(1, nhanVien.getTen());
+                st.setObject(2, nhanVien.getGioiTinh());
+                st.setObject(3, nhanVien.getNgaySinh());
+                st.setObject(4, nhanVien.getDiaChi());
+                st.setObject(5, nhanVien.getSdt());
+                st.setObject(6, nhanVien.getTaiKhoan());
+                st.setObject(7, nhanVien.getMatKhau());
+                st.setObject(8, nhanVien.getCapBac().getId());
+                st.setObject(9, nhanVien.getTrangThai());
+                st.setObject(10, nhanVien.getImg());
                 int result = st.executeUpdate();
                 return result>0;
         } catch (Exception e) {

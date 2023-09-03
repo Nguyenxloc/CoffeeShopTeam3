@@ -63,7 +63,7 @@ public class DAO_HoaDon {
 //                GiamGia giamGia = dao_GiamGia.selectByID(rs.getString("MaGiamGia"));
                 KhachHang khachHang = null;
                 NhanVien nhanVien = dao_NhanVien.selectByID(rs.getString("IdNV"));
-                GiamGia giamGia = dao_GiamGia.selectByID(rs.getString("MaGiamGia"));;
+                GiamGia giamGia = dao_GiamGia.selectByID(rs.getString("MaGiamGia"));
                 lstHoaDon.add(new HoaDon(rs.getString("id"), ban, khachHang, nhanVien, rs.getString("Ma"), rs.getDate("NgayTao"),
                         rs.getString("ThoiGian"), rs.getInt("TinhTrangThanhToan"), rs.getInt("TrangThaiPhaChe"), giamGia, rs.getInt("Stt"), rs.getBigDecimal("SoTienNhanVao")));
             }

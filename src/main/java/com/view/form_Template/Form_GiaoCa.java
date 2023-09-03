@@ -788,6 +788,8 @@ public class Form_GiaoCa extends javax.swing.JPanel {
         String formattedAmount = formatter.format(doanhThuTheoCa);
         lblDoanhThu.setText(formattedAmount + " VND");
         lblTongTien.setText(formattedAmount);
+        
+        System.out.println(doanhThuTheoCa);
     }
 
     // Chức năng thay đổi trạng thái khi nhập tiền thực kiểm
