@@ -41,6 +41,7 @@ public class HoaDonChiTietNoIMGService {
 //    }
     public void updateHoaDon(HoaDonChiTietNoIMG hoaDonChiTiet) {
         dao_HoaDonChiTiet.update(hoaDonChiTiet);
+        
     }
 
     public void deleteChiTietDoUong(HoaDonChiTietNoIMG hoaDonChiTiet) {

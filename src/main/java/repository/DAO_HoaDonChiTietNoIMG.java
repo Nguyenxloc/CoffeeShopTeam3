@@ -22,8 +22,8 @@ import viewModel.HoaDonChiTietNoIMG;
 public class DAO_HoaDonChiTietNoIMG {
 
     final String INSERT_SQL = "INSERT INTO dbo.HoaDonChiTiet(IdHoaDon,IdChiTietDoUong,SoLuong)VALUES(?,?,?)";
-    final String UPDATE_SQL = "UPDATE dbo.HoaDonChiTiet SET SoLuong=? WHERE IdHoaDon=?,IdChiTietDoUong=?";
-    final String DELETE_SQL = "DELETE FROM [dbo].[HoaDonChiTiet] WHERE IdHoaDon=?,IdChiTietDoUong=?";
+    final String UPDATE_SQL = "UPDATE dbo.HoaDonChiTiet SET SoLuong=? WHERE IdHoaDon=? and IdChiTietDoUong=?";
+    final String DELETE_SQL = "DELETE FROM [dbo].[HoaDonChiTiet] WHERE IdHoaDon=? and IdChiTietDoUong=?";
     final String SELECT_BY_SQL = "SELECT * FROM [dbo].[HoaDonChiTiet] WHERE IdHoaDon=?";
     final String SELECT_ALL_SQL = "SELECT * FROM [dbo].[HoaDonChiTiet] where Ngay = ?;";
     final String SELECT_TOP1DESC = "SELECT TOP 1*FROM dbo.HoaDonChiTiet ORDER BY NUMORDER DESC ;";
@@ -36,7 +36,6 @@ public class DAO_HoaDonChiTietNoIMG {
         ArrayList<HoaDonChiTietNoIMG> lstHoaDonChiTiet = new ArrayList<>();
         DAO_HoaDon dao_HoaDon = new DAO_HoaDon();
         DAO_ChiTietDoUongNoImg dao_ChiTietDoUongNoIMG = new DAO_ChiTietDoUongNoImg();
-
         try {
             ResultSet rs = dbConn.getDataFromQuery(SELECT_ALL_SQL, sqlDateNow);
             while (rs.next()) {
@@ -115,7 +114,6 @@ public class DAO_HoaDonChiTietNoIMG {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
     public void delete(HoaDonChiTietNoIMG hoaDonChiTiet) {

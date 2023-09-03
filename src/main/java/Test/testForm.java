@@ -4,6 +4,7 @@
  */
 package Test;
 
+import com.view.form_Template.Form_BanHang;
 import com.view.form_Template.Form_QLDoUong;
 import com.view.form_Template.Form_QLTinTuc;
 import com.view.form_Template.Form_QuanLyKho;
@@ -27,8 +28,9 @@ public class testForm extends javax.swing.JFrame {
         Form_QuanLyKho form_QuanLyKho = new Form_QuanLyKho();
         Form_QLTinTuc form_tinTuc = new Form_QLTinTuc();
         Form_ThongBao form_thongBao = new Form_ThongBao();
+        Form_BanHang  form_banHang = new Form_BanHang();
         displayPanel.setLayout(new java.awt.BorderLayout());
-        setForm(form_thongBao);
+        setForm(form_banHang);
     }
 
     private void setForm(JComponent com) {

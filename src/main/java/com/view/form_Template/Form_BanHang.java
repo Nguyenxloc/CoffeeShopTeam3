@@ -13,6 +13,8 @@ import SingletonClass.LstHoaDonDangPhaChe_singleton;
 import SingletonClass.LstHoaDon_singleton;
 import com.view.component.BillFrame;
 import com.view.component.CreateBillPane;
+import com.view.component.EnterAmountFrame;
+import com.view.component.UpdateAmountFrame;
 import model.ChiTietDoUong;
 import com.view.component.paneOfProduct;
 import com.view.form_Template.Container.hoaDonModel;
@@ -39,6 +41,7 @@ import service.HoaDonChiTietNoIMGService;
 import service.HoaDonChiTietService;
 import service.HoaDonService;
 import service.SaleService;
+import viewModel.ChiTietDoUongNoIMG;
 import viewModel.HoaDonChiTietNoIMG;
 
 public class Form_BanHang extends javax.swing.JPanel {
@@ -46,6 +49,7 @@ public class Form_BanHang extends javax.swing.JPanel {
     private DefaultTableModel defaultTableModel = new DefaultTableModel();
     private paneOfProduct paneProduct;
     private ArrayList<ChiTietDoUong> lstChiTietDoUongs = new ArrayList<>();
+    private ArrayList<HoaDonChiTietNoIMG> lstDetailBillBuffer;
     private HoaDon localHoaDon = new HoaDon();
     private HoaDonService hoaDonService = new HoaDonService();
     private HoaDonChiTietService hoaDonChiTietService = new HoaDonChiTietService();
@@ -57,6 +61,7 @@ public class Form_BanHang extends javax.swing.JPanel {
     private int countHoaDonTbl = -1;
     private int countHoaDonChoTbl = -1;
     private int countHoaDonDangPhaCheTbl = -1;
+    private int countHoaDonChiTietTbl = -1;
     private String localID;
     private Date localDateNow;
     private DefaultTableModel modelHoaDonTbl = new DefaultTableModel();
@@ -87,7 +92,7 @@ public class Form_BanHang extends javax.swing.JPanel {
         );
         Thread t4 = new Thread(
                 () -> {
-                    loadHoaDonDangPhaChe();;
+                    loadHoaDonDangPhaChe();
                 }
         );
         Thread t5 = new Thread(
@@ -397,6 +402,7 @@ public class Form_BanHang extends javax.swing.JPanel {
     }
 
     public void showLstDrink() {
+        lstDetailBillBuffer = new ArrayList<>();
         double cellCheck = 0;
         double totalCheck = 0;
         int stt = 0;
@@ -411,9 +417,28 @@ public class Form_BanHang extends javax.swing.JPanel {
                 totalCheck += cellCheck;
                 model.addRow(new Object[]{stt, hdChiTiet.getChiTietDoUongNoIMG().getTenDoUong(), hdChiTiet.getSoLuong(),
                     formatter.format(hdChiTiet.getChiTietDoUongNoIMG().getGiaBan()), formatter.format(cellCheck)});
+                lstDetailBillBuffer.add(hdChiTiet);
             }
         }
-        lblTotalCash.setText(formatter.format(totalCheck)+"VNĐ");
+        lblTotalCash.setText(formatter.format(totalCheck) + "VNĐ");
+    }
+
+    public void updateDetailBill() {
+        HoaDonChiTietNoIMG hoaDonChiTietNoIMG = lstDetailBillBuffer.get(countHoaDonChiTietTbl);
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new UpdateAmountFrame(hoaDonChiTietNoIMG, tblDrinkDetail, lblTotalCash).setVisible(true);
+            }
+        });
+    }
+
+    public void deleteDrinkDetail() {
+        HoaDonChiTietNoIMG hoaDonChiTietNoIMG = lstDetailBillBuffer.get(countHoaDonChiTietTbl);
+        System.out.println(hoaDonChiTietNoIMG.getChiTietDoUongNoIMG().getTenDoUong());
+        hoaDonChiTietNoIMGService.deleteChiTietDoUong(hoaDonChiTietNoIMG);
+        LstHoaDonChiTiet_singleton.getInstance().lstHoaDonChiTietNoIMG.remove(hoaDonChiTietNoIMG);
+        showLstDrink();
+        JOptionPane.showMessageDialog(this,"Xoá đồ uống thành công !");
     }
 
     /**
@@ -604,6 +629,11 @@ public class Form_BanHang extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
+        tblDrinkDetail.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblDrinkDetailMouseClicked(evt);
+            }
+        });
         jScrollPane3.setViewportView(tblDrinkDetail);
 
         btnCheck.setText("Thanh toán");
@@ -636,8 +666,18 @@ public class Form_BanHang extends javax.swing.JPanel {
         jLabel11.setText("Thời gian:");
 
         btnDelete.setText("Xóa");
+        btnDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteActionPerformed(evt);
+            }
+        });
 
         btnUpdate.setText("Sửa");
+        btnUpdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdateActionPerformed(evt);
+            }
+        });
 
         jLabel14.setText("Tổng tiền: ");
 
@@ -884,12 +924,11 @@ public class Form_BanHang extends javax.swing.JPanel {
                 new CreateBillPane(tblHoaDon, tblDangPhaChe).setVisible(true);
             }
         });
-
-
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void tblHoaDonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblHoaDonMouseClicked
         // TODO add your handling code here:
+        countHoaDonChiTietTbl = -1;
         countHoaDonChoTbl = -1;
         showDetailHoaDonTab();
         showLstDrink();
@@ -916,17 +955,18 @@ public class Form_BanHang extends javax.swing.JPanel {
             e.printStackTrace();
             JOptionPane.showMessageDialog(this, "Vui lòng chọn hóa đơn chờ trước !");
         }
-
     }//GEN-LAST:event_btnUseActionPerformed
 
     private void tblHoaDonChoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblHoaDonChoMouseClicked
         // TODO add your handling code here:
+        countHoaDonChiTietTbl = -1;
         showDetailHoaDonTab_Waiting();
         showLstDrink();
     }//GEN-LAST:event_tblHoaDonChoMouseClicked
 
     private void tblDangPhaCheMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblDangPhaCheMouseClicked
         // TODO add your handling code here:
+        countHoaDonChiTietTbl=-1;
         showDetailHoaDonDangPhaCheTab();
         showLstDrink();
     }//GEN-LAST:event_tblDangPhaCheMouseClicked
@@ -951,6 +991,21 @@ public class Form_BanHang extends javax.swing.JPanel {
             }
         });
     }//GEN-LAST:event_btnCheckActionPerformed
+
+    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+        // TODO add your handling code here:
+        updateDetailBill();
+    }//GEN-LAST:event_btnUpdateActionPerformed
+
+    private void tblDrinkDetailMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblDrinkDetailMouseClicked
+        // TODO add your handling code here:
+        countHoaDonChiTietTbl = tblDrinkDetail.getSelectedRow();
+    }//GEN-LAST:event_tblDrinkDetailMouseClicked
+
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+
+        deleteDrinkDetail();
+    }//GEN-LAST:event_btnDeleteActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
