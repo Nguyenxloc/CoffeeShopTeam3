@@ -139,6 +139,11 @@ public class MainTemplate extends javax.swing.JFrame {
         );
         Thread t14 = new Thread(
                 () -> {
+                    form_QLBan = new Form_QLBan();
+                }
+        );
+        Thread t15 = new Thread(
+                () -> {
                     form_ThongKe = new Form_ThongKe();
                 }
         );
@@ -156,6 +161,7 @@ public class MainTemplate extends javax.swing.JFrame {
         t12.start();
         t13.start();
         t14.start();
+        t15.start();
         
 //        formThongbao = new Form_ThongBao();
 //        formBanHang = new Form_BanHang();
