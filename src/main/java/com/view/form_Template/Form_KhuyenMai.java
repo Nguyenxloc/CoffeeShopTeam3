@@ -107,7 +107,7 @@ public class Form_KhuyenMai extends javax.swing.JPanel {
             listHoaDon = hoaDonService.selectHoaDonBySale();
             String hoTenNV = "";
             for (HoaDon hd : listHoaDon) {
-                hoTenNV = hd.getNhanVien().getHo() + " " + hd.getNhanVien().getTenDem() + " " + hd.getNhanVien().getTen();
+                hoTenNV = hd.getNhanVien().getTen();
                 model.addRow(new Object[]{
                     hd.getMa(),
                     hd.getNgayTao(),
@@ -116,7 +116,6 @@ public class Form_KhuyenMai extends javax.swing.JPanel {
                     hoTenNV
                 });
                 ;
-
             }
         } catch (Exception e) {
             e.printStackTrace();

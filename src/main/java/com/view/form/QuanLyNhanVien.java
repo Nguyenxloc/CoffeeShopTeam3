@@ -97,8 +97,6 @@ public class QuanLyNhanVien extends javax.swing.JPanel {
         ImageIO.write(bImage, "jpg", bos);
         imgBytes = bos.toByteArray();
     }
-    //
-
 //    public void showDetail() {
 //        count = tblForm.getSelectedRow();
 //        txtMa.setText(listNhanVien.get(count).getMa());
@@ -226,13 +224,11 @@ public class QuanLyNhanVien extends javax.swing.JPanel {
     
     
     public void save(NhanVien nhanVien) {
-
         try {
             nhanVienService.saveNhanVien(nhanVien);
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
     public void update(NhanVien nhanVien) {

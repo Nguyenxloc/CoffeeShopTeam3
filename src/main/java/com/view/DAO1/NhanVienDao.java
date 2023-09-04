@@ -24,8 +24,6 @@ public class NhanVienDao {
     
     private DBConnection connection1 = new DBConnection();
     
-    
-    
     public ArrayList<NhanVien> selectALl() {
         DBConnection1 dbConn = new DBConnection1();
         ArrayList<NhanVien> listNhanVien = new ArrayList<>();

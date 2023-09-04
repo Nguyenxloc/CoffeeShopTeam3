@@ -9,6 +9,7 @@ import com.view.form_Template.Form_QLDoUong;
 import com.view.form_Template.Form_QLTinTuc;
 import com.view.form_Template.Form_QuanLyKho;
 import com.view.form_Template.Form_ThongBao;
+import com.view.form_Template.Form_ThongKe;
 import java.awt.BorderLayout;
 import javax.swing.JComponent;
 import javax.swing.border.Border;
@@ -29,8 +30,9 @@ public class testForm extends javax.swing.JFrame {
         Form_QLTinTuc form_tinTuc = new Form_QLTinTuc();
         Form_ThongBao form_thongBao = new Form_ThongBao();
         Form_BanHang  form_banHang = new Form_BanHang();
+        Form_ThongKe form_thongKe = new Form_ThongKe();
         displayPanel.setLayout(new java.awt.BorderLayout());
-        setForm(form_banHang);
+        setForm(form_thongKe);
     }
 
     private void setForm(JComponent com) {
