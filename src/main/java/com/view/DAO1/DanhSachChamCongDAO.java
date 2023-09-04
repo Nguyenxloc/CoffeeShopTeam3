@@ -8,6 +8,7 @@ import com.view.model.ChamCongK;
 import com.view.model.LuongK;
 import ultilities.DBConnection;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -38,7 +39,7 @@ public class DanhSachChamCongDAO {
         return list;
     }
 
-    public ArrayList<LuongK> getLuong(String ngayA, String ngayB) {
+    public ArrayList<LuongK> getLuong(Date ngayA, Date ngayB) {
         ArrayList<LuongK> listA = new ArrayList<>();
         String sql = "SELECT\n"
                 + "[IdNV],[NhanVien].Ten,\n"
