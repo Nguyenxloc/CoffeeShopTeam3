@@ -42,7 +42,7 @@ public class QuanLyNhanVien extends javax.swing.JPanel {
     private NhanVienDao nhanVienDao = new NhanVienDao();
     private NhanVienService nhanVienService = new NhanVienService();
     //
-     ArrayList<CapBac> listCapBac = new ArrayList<>();
+    ArrayList<CapBac> listCapBac = new ArrayList<>();
     //
     static String url = null;
     byte[] imgBytes = new byte[5000];
@@ -59,7 +59,7 @@ public class QuanLyNhanVien extends javax.swing.JPanel {
     }
 
     private void loadCbo() {
-         
+
         comboBoxModel = (DefaultComboBoxModel) cboVaitro.getModel();
         comboBoxModel.removeAllElements();
         listCapBac = nhanVienDao.getCboCapbac();
@@ -142,7 +142,7 @@ public class QuanLyNhanVien extends javax.swing.JPanel {
         } else {
             gioiTinh = "Nữ";
         }
-        String ma  = txtMa.getText();
+        String ma = txtMa.getText();
         String ngaySinh = txtNgaySinh.getText();
         String diaChi = txtDiachi.getText();
         String sdt = txtSDT.getText();
@@ -159,7 +159,7 @@ public class QuanLyNhanVien extends javax.swing.JPanel {
             trangThai = 0;
         }
 
-        NhanVien nhanVien = new NhanVien(ma,ten, gioiTinh, ngaySinh, diaChi, sdt, taiKhoan, matKhau, capBac, trangThai, imgBytes);
+        NhanVien nhanVien = new NhanVien(ma, ten, gioiTinh, ngaySinh, diaChi, sdt, taiKhoan, matKhau, capBac, trangThai, imgBytes);
 
         try {
             nhanVienDao.addNew(nhanVien);
@@ -221,8 +221,7 @@ public class QuanLyNhanVien extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, mes);
         }
     }
-    
-    
+
     public void save(NhanVien nhanVien) {
         try {
             nhanVienService.saveNhanVien(nhanVien);
@@ -588,10 +587,10 @@ public class QuanLyNhanVien extends javax.swing.JPanel {
 
     private void tblFormMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblFormMouseClicked
         // TODO add your handling code here:
-        
+
         lblURL.setText("#url");
         count = tblForm.getSelectedRow();
-        if (listNhanVien.get(count).getImg()!= null) {
+        if (listNhanVien.get(count).getImg() != null) {
             ImageIcon oriImgIcon = new ImageIcon(listNhanVien.get(count).getImg());
             Image image = oriImgIcon.getImage(); // transform it
             Image newimg = image.getScaledInstance(145, 140, java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
@@ -600,53 +599,49 @@ public class QuanLyNhanVien extends javax.swing.JPanel {
             lblAvatar.setIcon(imageIcon);
             txtMa.setText(tblForm.getValueAt(count, 0).toString());
             txtTen.setText(tblForm.getValueAt(count, 1).toString());
-            String gioiTinh= tblForm.getValueAt(count, 2).toString();
-            if(gioiTinh.equalsIgnoreCase("Nam")){
-            rdoNam.setSelected(true);
-             }else{
-            rdoNu.setSelected(true);
-             }
+            String gioiTinh = tblForm.getValueAt(count, 2).toString();
+            if (gioiTinh.equalsIgnoreCase("Nam")) {
+                rdoNam.setSelected(true);
+            } else {
+                rdoNu.setSelected(true);
+            }
             txtNgaySinh.setText(tblForm.getValueAt(count, 3).toString());
             txtDiachi.setText(tblForm.getValueAt(count, 4).toString());
             txtSDT.setText(tblForm.getValueAt(count, 5).toString());
-            txtTK.setText(tblForm.getValueAt(count, 6).toString());      
-            txtMK.setText(tblForm.getValueAt(count, 7).toString());      
+            txtTK.setText(tblForm.getValueAt(count, 6).toString());
+            txtMK.setText(tblForm.getValueAt(count, 7).toString());
             cboVaitro.setSelectedItem(tblForm.getValueAt(count, 8).toString());
-            String trangThai= tblForm.getValueAt(count, 9).toString();
-            if(trangThai.equalsIgnoreCase("Làm việc")){
-            rdoLamviec.setSelected(true);
-             }else{
-            rdoNghiviec.setSelected(true);
-             }
+            String trangThai = tblForm.getValueAt(count, 9).toString();
+            if (trangThai.equalsIgnoreCase("Làm việc")) {
+                rdoLamviec.setSelected(true);
+            } else {
+                rdoNghiviec.setSelected(true);
+            }
         } else {
             lblAvatar.setIcon(null);
             lblAvatar.setText("Ảnh");
             txtMa.setText(tblForm.getValueAt(count, 0).toString());
             txtTen.setText(tblForm.getValueAt(count, 1).toString());
-            String gioiTinh= tblForm.getValueAt(count, 2).toString();
-            if(gioiTinh.equalsIgnoreCase("Nam")){
-            rdoNam.setSelected(true);
-             }else{
-            rdoNu.setSelected(true);
-             }
+            String gioiTinh = tblForm.getValueAt(count, 2).toString();
+            if (gioiTinh.equalsIgnoreCase("Nam")) {
+                rdoNam.setSelected(true);
+            } else {
+                rdoNu.setSelected(true);
+            }
             txtNgaySinh.setText(tblForm.getValueAt(count, 3).toString());
             txtDiachi.setText(tblForm.getValueAt(count, 4).toString());
             txtSDT.setText(tblForm.getValueAt(count, 5).toString());
-            txtTK.setText(tblForm.getValueAt(count, 6).toString()); 
-            txtMK.setText(tblForm.getValueAt(count, 7).toString()); 
+            txtTK.setText(tblForm.getValueAt(count, 6).toString());
+            txtMK.setText(tblForm.getValueAt(count, 7).toString());
             cboVaitro.setSelectedItem(tblForm.getValueAt(count, 8).toString());
-            String trangThai= tblForm.getValueAt(count, 9).toString();
-            if(trangThai.equalsIgnoreCase("Làm việc")){
-            rdoLamviec.setSelected(true);
-             }else{
-            rdoNghiviec.setSelected(true);
-             }
+            String trangThai = tblForm.getValueAt(count, 9).toString();
+            if (trangThai.equalsIgnoreCase("Làm việc")) {
+                rdoLamviec.setSelected(true);
+            } else {
+                rdoNghiviec.setSelected(true);
+            }
         }
 
-        
-        
-        
-        
 //        int index = tblForm.getSelectedRow();
 //        NhanVien nhanVien = nhanVienDao.getList().get(index);
 //        String ma= tblForm.getValueAt(index, 0).toString();
@@ -709,7 +704,7 @@ public class QuanLyNhanVien extends javax.swing.JPanel {
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
         // TODO add your handling code here:
-        
+
 //        try {
 //            convertURLToBytes();
 //        } catch (Exception e) {
@@ -745,31 +740,30 @@ public class QuanLyNhanVien extends javax.swing.JPanel {
 ////        JOptionPane.showMessageDialog(this, "Sửa thành công !");
 //        JOptionPane.showMessageDialog(this, nhanVienService.them(nhanVien));
 //        loadData();
-        
-    if(txtTen.getText().equalsIgnoreCase("")){
-        JOptionPane.showMessageDialog(this, "Bạn chưa nhập tên");
-        return;
-    }
-    if(txtTK.getText().equalsIgnoreCase("")){
-        JOptionPane.showMessageDialog(this, "Bạn chưa nhập tài khoản");
-        return;
-    }
-    if(txtMK.getText().equalsIgnoreCase("")){
-        JOptionPane.showMessageDialog(this, "Bạn chưa nhập mật khẩu");
-        return;
-    }
-    if(txtNgaySinh.getText().equalsIgnoreCase("")){
-        JOptionPane.showMessageDialog(this, "Bạn chưa nhập ngày sinh");
-        return;
-    }
-    if(txtDiachi.getText().equalsIgnoreCase("")){
-        JOptionPane.showMessageDialog(this, "Bạn chưa nhập địa chỉ");
-        return;
-    }
-    if(txtSDT.getText().equalsIgnoreCase("")){
-        JOptionPane.showMessageDialog(this, "Bạn chưa nhập số điện thoại");
-        return;
-    }
+        if (txtTen.getText().equalsIgnoreCase("")) {
+            JOptionPane.showMessageDialog(this, "Bạn chưa nhập tên");
+            return;
+        }
+        if (txtTK.getText().equalsIgnoreCase("")) {
+            JOptionPane.showMessageDialog(this, "Bạn chưa nhập tài khoản");
+            return;
+        }
+        if (txtMK.getText().equalsIgnoreCase("")) {
+            JOptionPane.showMessageDialog(this, "Bạn chưa nhập mật khẩu");
+            return;
+        }
+        if (txtNgaySinh.getText().equalsIgnoreCase("")) {
+            JOptionPane.showMessageDialog(this, "Bạn chưa nhập ngày sinh");
+            return;
+        }
+        if (txtDiachi.getText().equalsIgnoreCase("")) {
+            JOptionPane.showMessageDialog(this, "Bạn chưa nhập địa chỉ");
+            return;
+        }
+        if (txtSDT.getText().equalsIgnoreCase("")) {
+            JOptionPane.showMessageDialog(this, "Bạn chưa nhập số điện thoại");
+            return;
+        }
         save();
     }//GEN-LAST:event_btnThemActionPerformed
 
@@ -814,9 +808,9 @@ public class QuanLyNhanVien extends javax.swing.JPanel {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         DefaultTableModel ob = (DefaultTableModel) tblForm.getModel();
-         TableRowSorter<DefaultTableModel> obj = new TableRowSorter<>(ob);
-         tblForm.setRowSorter(obj);
-         obj.setRowFilter(RowFilter.regexFilter(txtSearch.getText()));
+        TableRowSorter<DefaultTableModel> obj = new TableRowSorter<>(ob);
+        tblForm.setRowSorter(obj);
+        obj.setRowFilter(RowFilter.regexFilter(txtSearch.getText()));
     }//GEN-LAST:event_jButton2ActionPerformed
 
 

@@ -7,6 +7,7 @@ package DoUong_HoaDon_ThongKe_Service;
 import DoUong_HoaDon_ThongKe_Model.HoaDonChiTiet;
 import DoUong_HoaDon_ThongKe_Model.LichSuHoaDon;
 import DoUong_HoaDon_ThongKe_Repository.DAO_LichSuHoaDon;
+import java.sql.Date;
 import java.util.ArrayList;
 
 /**
@@ -29,7 +30,7 @@ public class LichSuHoaDonService {
         dAO_LichSuHoaDon.selectByMaHD(maHoaDon);
     }
     
-    public ArrayList<LichSuHoaDon> getByTime(String d1, String d2){
+    public ArrayList<LichSuHoaDon> getByTime(Date d1, Date d2){
         return dAO_LichSuHoaDon.getByTime(d1, d2);
     }
     

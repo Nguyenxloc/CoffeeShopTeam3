@@ -7,6 +7,7 @@ package com.view.form_Template;
 import DoUong_HoaDon_ThongKe_Model.HoaDonChiTiet;
 import DoUong_HoaDon_ThongKe_Model.LichSuHoaDon;
 import DoUong_HoaDon_ThongKe_Service.LichSuHoaDonService;
+import java.sql.Date;
 import java.util.ArrayList;
 import javax.swing.JTextField;
 import javax.swing.RowFilter;
@@ -57,7 +58,7 @@ public class Form_QLHoaDon extends javax.swing.JPanel {
     }
 
     // Load dữ liệu theo thời gian truyền vào
-    public void loadDataTheoTime(String d1, String d2) {
+    public void loadDataTheoTime(Date d1, Date d2) {
         try {
             model = (DefaultTableModel) tblLichSuHoaDon.getModel();
             model.setRowCount(0);
@@ -103,7 +104,7 @@ public class Form_QLHoaDon extends javax.swing.JPanel {
             e.printStackTrace();
         }
     }
-    
+
     // Load dữ liệu theo mã để tìm ra hóa đơn chi tiết của mã đó của mã đó
     public void loadDataHoaDon(String maHoaDon) {
         try {
@@ -136,7 +137,6 @@ public class Form_QLHoaDon extends javax.swing.JPanel {
         lblThucNhan.setText(tblLichSuHoaDon.getValueAt(index, 7).toString());
         lblTrangThai.setText(tblLichSuHoaDon.getValueAt(index, 8).toString());
     }
-
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -512,7 +512,7 @@ public class Form_QLHoaDon extends javax.swing.JPanel {
 
     private void tblLichSuHoaDonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblLichSuHoaDonMouseClicked
         // TODO add your handling code here:
-        
+
 //        if (evt.getClickCount() >= 1) {
         mouseClick();
         String maHoaDon = lblMaHD.getText();
@@ -522,8 +522,10 @@ public class Form_QLHoaDon extends javax.swing.JPanel {
     }//GEN-LAST:event_tblLichSuHoaDonMouseClicked
 
     private void btnTimKiemTheoNgayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTimKiemTheoNgayActionPerformed
-        String d1 = ((JTextField) dateNgayBatDau.getDateEditor().getUiComponent()).getText();
-        String d2 = ((JTextField) dateNgayKetThuc.getDateEditor().getUiComponent()).getText();
+//        String d1 = ((JTextField) dateNgayBatDau.getDateEditor().getUiComponent()).getText();
+//        String d2 = ((JTextField) dateNgayKetThuc.getDateEditor().getUiComponent()).getText();
+        Date d1 = new Date(dateNgayBatDau.getDate().getTime());
+        Date d2 = new Date(dateNgayKetThuc.getDate().getTime());
         loadDataTheoTime(d1, d2);
     }//GEN-LAST:event_btnTimKiemTheoNgayActionPerformed
 

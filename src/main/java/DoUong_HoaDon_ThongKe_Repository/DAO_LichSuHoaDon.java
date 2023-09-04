@@ -7,6 +7,7 @@ package DoUong_HoaDon_ThongKe_Repository;
 import DoUong_HoaDon_ThongKe_Model.HoaDonChiTiet;
 import DoUong_HoaDon_ThongKe_Model.LichSuHoaDon;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -82,7 +83,7 @@ public class DAO_LichSuHoaDon implements iLichSuHoaDon {
     DbConnection_Sang dbConnection;
 
     @Override
-    public ArrayList<LichSuHoaDon> getByTime(String d1, String d2) {
+    public ArrayList<LichSuHoaDon> getByTime(Date d1, Date d2) {
         ArrayList<LichSuHoaDon> lstLichSuHoaDon = new ArrayList<>();
         String sql = "select HoaDon.Ma, NhanVien.Ten, convert(varchar, hoadon.ngaytao, 105) as 'NgayTao', HoaDon.ThoiGian, sum(isnull(HoaDonChiTiet.SoLuong, 0)) as 'SoLuong', \n"
                 + "sum(isnull(ChiTietDoUong.GiaBan, 0) * isnull(HoaDonChiTiet.SoLuong, 0)) as 'TongTien', isnull(GiamGia.GiaTri, 0) as 'KhuyenMai', isnull(HoaDon.TinhTrangThanhToan, 0) as 'TinhTrangThanhToan' from HoaDon\n"
@@ -90,7 +91,7 @@ public class DAO_LichSuHoaDon implements iLichSuHoaDon {
                 + "left join NhanVien on HoaDon.IdNV = NhanVien.Id\n"
                 + "left join ChiTietDoUong on ChiTietDoUong.Id = HoaDonChiTiet.IdChiTietDoUong\n"
                 + "left join GiamGia on GiamGia.MaGiamGia = HoaDon.MaGiamGia\n"
-                + "where convert(varchar, HoaDon.NgayTao, 105) between ? and ?\n"
+                + "where HoaDon.NgayTao between ? and ?\n"
                 + "Group by HoaDon.Ma, NhanVien.Ten, convert(varchar, hoadon.ngaytao, 105), HoaDon.ThoiGian, GiamGia.GiaTri, HoaDon.TinhTrangThanhToan";
         try (Connection con = dbConnection.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setObject(1, d1);

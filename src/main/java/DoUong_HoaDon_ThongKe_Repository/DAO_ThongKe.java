@@ -68,12 +68,12 @@ public class DAO_ThongKe implements iThongKe {
     }
 
     @Override
-    public long getTongDonhThuTheoNgayChon(String d1, String d2) {
+    public long getTongDonhThuTheoNgayChon(Date d1, Date d2) {
         String sql = "select  sum((ChiTietDoUong.GiaBan * HoaDonChiTiet.SoLuong)*(1 - CAST(isnull(GiamGia.GiaTri, 0)  AS Float(30))/100)) as 'TongTien' from HoaDonChiTiet\n"
                 + "join ChiTietDoUong on HoaDonChiTiet.IdChiTietDoUong = ChiTietDoUong.Id\n"
                 + "join HoaDon on HoaDonChiTiet.IdHoaDon = HoaDon.Id\n"
                 + "left join GiamGia on GiamGia.MaGiamGia = HoaDon.MaGiamGia\n"
-                + "where convert(varchar, hoadon.NgayTao, 105) between ? and ?";
+                + "where hoadon.NgayTao between ? and ?";
         try (Connection con = dbConnection_Sang.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setObject(1, d1);
             ps.setObject(2, d2);
@@ -88,9 +88,9 @@ public class DAO_ThongKe implements iThongKe {
     }
 
     @Override
-    public int getTongHoaDonTheoNgayChon(String d1, String d2) {
+    public int getTongHoaDonTheoNgayChon(Date d1, Date d2) {
         String sql = "select count(HoaDon.Ma) from HoaDon\n"
-                + "where convert(varchar, hoadon.NgayTao, 105) between ? and ?";
+                + "where hoadon.NgayTao between ? and ?";
         try (Connection con = dbConnection_Sang.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setObject(1, d1);
             ps.setObject(2, d2);
@@ -105,10 +105,10 @@ public class DAO_ThongKe implements iThongKe {
     }
 
     @Override
-    public int getTongSanPhamTheoNgayChon(String d1, String d2) {
+    public int getTongSanPhamTheoNgayChon(Date d1, Date d2) {
         String sql = "select sum(HoaDonChiTiet.SoLuong) from HoaDonChiTiet "
                 + "join HoaDon on HoaDon.Id = HoaDonChiTiet.IdHoaDon\n"
-                + "where convert(varchar, hoadon.NgayTao, 105) between ? and ?";
+                + "where hoadon.NgayTao between ? and ?";
         try (Connection con = dbConnection_Sang.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setObject(1, d1);
             ps.setObject(2, d2);
@@ -145,12 +145,12 @@ public class DAO_ThongKe implements iThongKe {
     }
 
     @Override
-    public ArrayList<BieuDoThongKe> getBieuDoTheoNgay(String d1, String d2) {
+    public ArrayList<BieuDoThongKe> getBieuDoTheoNgay(Date d1, Date d2) {
         ArrayList<BieuDoThongKe> lstBieuDoThongKe = new ArrayList<>();
         String sql = "select ChiTietDoUong.TenDoUong, sum(HoaDonChiTiet.SoLuong) as 'SoLuong' from HoaDonChiTiet\n"
                 + "join ChiTietDoUong on ChiTietDoUong.Id = HoaDonChiTiet.IdChiTietDoUong\n"
                 + "join HoaDon on HoaDon.Id = HoaDonChiTiet.IdHoaDon \n"
-                + "where convert(varchar, hoadon.NgayTao, 105) between ? and ?\n"
+                + "where hoadon.NgayTao between ? and ?\n"
                 + "group by ChiTietDoUong.TenDoUong";
         try (Connection con = dbConnection_Sang.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setObject(1, d1);

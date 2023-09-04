@@ -5,6 +5,7 @@
 package DoUong_HoaDon_ThongKe_Repository;
 
 import DoUong_HoaDon_ThongKe_Model.BieuDoThongKe;
+import java.sql.Date;
 import java.util.ArrayList;
 
 /**
@@ -19,13 +20,13 @@ public interface iThongKe {
     
     int getTongSanPham();
     
-    long getTongDonhThuTheoNgayChon(String d1, String d2);
+    long getTongDonhThuTheoNgayChon(Date d1, Date d2);
     
-    int getTongHoaDonTheoNgayChon(String d1, String d2);
+    int getTongHoaDonTheoNgayChon(Date d1, Date d2);
     
-    int getTongSanPhamTheoNgayChon(String d1, String d2);
+    int getTongSanPhamTheoNgayChon(Date d1, Date d2);
     
     ArrayList<BieuDoThongKe> getBieuDo();
     
-    ArrayList<BieuDoThongKe> getBieuDoTheoNgay(String d1, String d2);
+    ArrayList<BieuDoThongKe> getBieuDoTheoNgay(Date d1, Date d2);
 }

@@ -6,6 +6,7 @@ package DoUong_HoaDon_ThongKe_Repository;
 
 import DoUong_HoaDon_ThongKe_Model.HoaDonChiTiet;
 import DoUong_HoaDon_ThongKe_Model.LichSuHoaDon;
+import java.sql.Date;
 import java.util.ArrayList;
 
 /**
@@ -20,7 +21,7 @@ public interface iLichSuHoaDon {
     
     void selectByMaHD(String maHoaDon);
     
-    ArrayList<LichSuHoaDon> getByTime(String d1, String d2);
+    ArrayList<LichSuHoaDon> getByTime(Date d1, Date d2);
     
     ArrayList<HoaDonChiTiet> loadDataByMa(String maHoaDon);
     

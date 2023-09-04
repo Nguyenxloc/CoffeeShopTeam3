@@ -66,17 +66,17 @@ public class Form_ThongKe extends javax.swing.JPanel {
         lblTongSanPham.setText(String.valueOf(tongSanPham));
     }
 
-    public void loadTongDoanhThuTheoNgay(String d1, String d2) {
+    public void loadTongDoanhThuTheoNgay(Date d1, Date d2) {
         long doanhThu1 = dAO_ThongKe.getTongDonhThuTheoNgayChon(d1, d2);
         lblTongDoanhThu.setText(String.valueOf(doanhThu1) + "đ");
     }
 
-    public void loadTongHoaDonTheoNgay(String d1, String d2) {
+    public void loadTongHoaDonTheoNgay(Date d1, Date d2) {
         int tongHHoaDon1 = dAO_ThongKe.getTongHoaDonTheoNgayChon(d1, d2);
         lblTongHoaDon.setText(String.valueOf(tongHHoaDon1));
     }
 
-    public void loadTongSanPhamTheoNgay(String d1, String d2) {
+    public void loadTongSanPhamTheoNgay(Date d1,Date d2) {
         int tongSanPham1 = dAO_ThongKe.getTongSanPhamTheoNgayChon(d1, d2);
         lblTongSanPham.setText(String.valueOf(tongSanPham1));
     }
@@ -93,7 +93,7 @@ public class Form_ThongKe extends javax.swing.JPanel {
         }
     }
 
-    public void loadBieuDoTheoNgay(String d1, String d2) {
+    public void loadBieuDoTheoNgay(Date d1, Date d2) {
         model = (DefaultTableModel) tblBieuDo.getModel();
         model.setRowCount(0);
         lstBieuDoThongKe = dAO_ThongKe.getBieuDoTheoNgay(d1, d2);
@@ -127,7 +127,7 @@ public class Form_ThongKe extends javax.swing.JPanel {
         frame.setVisible(true);
     }
     
-    public void bieuDoTheoNgay(String d1, String d2) {
+    public void bieuDoTheoNgay(Date d1, Date d2) {
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
         lstBieuDoThongKe = dAO_ThongKe.getBieuDoTheoNgay(d1, d2);
         for (BieuDoThongKe bieuDoThongKe : lstBieuDoThongKe) {
@@ -174,7 +174,7 @@ public class Form_ThongKe extends javax.swing.JPanel {
     }
 
     // Load dữ liệu theo thời gian truyền vào
-    public void loadDataTheoTime(String d1, String d2) {
+    public void loadDataTheoTime(Date d1, Date d2) {
         try {
             model = (DefaultTableModel) tblLichSuHoaDon.getModel();
             model.setRowCount(0);
@@ -299,8 +299,6 @@ public class Form_ThongKe extends javax.swing.JPanel {
         tbnXuatFileExcel = new javax.swing.JButton();
         btnTimKiemTheoNgay = new javax.swing.JButton();
         btnLoad = new javax.swing.JButton();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        jLabel7 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblLichSuHoaDon = new javax.swing.JTable();
         jScrollPane4 = new javax.swing.JScrollPane();
@@ -454,8 +452,6 @@ public class Form_ThongKe extends javax.swing.JPanel {
             }
         });
 
-        jLabel7.setText("Theo ca:");
-
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
@@ -471,10 +467,6 @@ public class Form_ThongKe extends javax.swing.JPanel {
                     .addComponent(dateNgayBatDau, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(btnTimKiemTheoNgay)
-                .addGap(56, 56, 56)
-                .addComponent(jLabel7)
-                .addGap(18, 18, 18)
-                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnLoad)
                 .addGap(18, 18, 18)
@@ -496,9 +488,7 @@ public class Form_ThongKe extends javax.swing.JPanel {
                             .addComponent(btnLoad)
                             .addComponent(tbnXuatFileExcel)
                             .addComponent(btnBieuDo)
-                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnTimKiemTheoNgay)
-                            .addComponent(jLabel7)))
+                            .addComponent(btnTimKiemTheoNgay)))
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addGap(23, 23, 23)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -604,8 +594,12 @@ public class Form_ThongKe extends javax.swing.JPanel {
     }//GEN-LAST:event_tbnXuatFileExcelActionPerformed
 
     private void btnTimKiemTheoNgayActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTimKiemTheoNgayActionPerformed
-        String d1 = ((JTextField) dateNgayBatDau.getDateEditor().getUiComponent()).getText();
-        String d2 = ((JTextField) dateNgayKetThuc.getDateEditor().getUiComponent()).getText();
+//        String d1 = ((JTextField) dateNgayBatDau.getDateEditor().getUiComponent()).getText();
+//        String d2 = ((JTextField) dateNgayKetThuc.getDateEditor().getUiComponent()).getText();
+        
+        Date d1 = new Date(dateNgayBatDau.getDate().getTime());
+        Date d2 = new Date(dateNgayKetThuc.getDate().getTime());
+        
         loadDataTheoTime(d1, d2);
         loadTongDoanhThuTheoNgay(d1, d2);
         loadTongHoaDonTheoNgay(d1, d2);
@@ -641,14 +635,12 @@ public class Form_ThongKe extends javax.swing.JPanel {
     private javax.swing.JButton btnTimKiemTheoNgay;
     private com.toedter.calendar.JDateChooser dateNgayBatDau;
     private com.toedter.calendar.JDateChooser dateNgayKetThuc;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
