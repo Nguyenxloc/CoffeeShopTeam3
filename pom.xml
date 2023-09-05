@@ -155,7 +155,7 @@
                     </descriptorRefs>
                     <archive>
                         <manifest>
-                            <mainClass>KaraokeApp.Application</mainClass>
+                            <mainClass>com.view.main.MainController</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

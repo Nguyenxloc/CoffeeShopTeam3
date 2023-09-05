@@ -73,6 +73,7 @@ public class MainOfNV extends javax.swing.JFrame {
         Thread t3 = new Thread(
                 () -> {
                     form_KhuyenMai = new Form_KhuyenMai();
+                    form_GiaoCa = new Form_GiaoCa();
                 }
         );
         Thread t4 = new Thread(
