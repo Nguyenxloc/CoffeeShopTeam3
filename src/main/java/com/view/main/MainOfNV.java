@@ -53,7 +53,7 @@ public class MainOfNV extends javax.swing.JFrame {
     private QuanLyNhanVien formQLNhanVien;
     private Form_QLHoaDon formQLHoaDon;
     private Form_ThongKe form_ThongKe;
-//    private Form_QuanLyKho form_QuanLyKho;
+    private Form_QuanLyKho form_QuanLyKho;
     private Form_GiaoCa form_GiaoCa;
 
     public MainOfNV() {
@@ -79,6 +79,7 @@ public class MainOfNV extends javax.swing.JFrame {
         Thread t4 = new Thread(
                 () -> {
                     form_TaoTaiKhoan = new Form_TaoTaiKhoan();
+                    form_QuanLyKho = new Form_QuanLyKho();
                 }
         );
         Thread t5 = new Thread(
@@ -120,7 +121,7 @@ public class MainOfNV extends javax.swing.JFrame {
                 if (index == 5) {
                     setForm(form_TaoTaiKhoan);
                 } else if (index == 6) {
-//                    setForm(form_QuanLyKho);
+                    setForm(form_QuanLyKho);
                 } else if (index == 0) {
                     setForm(formThongbao);
                 } else if (index == 1) {

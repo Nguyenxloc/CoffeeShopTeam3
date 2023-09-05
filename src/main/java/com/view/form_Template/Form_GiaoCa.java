@@ -363,12 +363,10 @@ public class Form_GiaoCa extends javax.swing.JPanel {
             ex.printStackTrace(System.out);
             JOptionPane.showMessageDialog(this, "Giá trị tổng tiền hoặc tiền thực kiểm không hợp lệ.");
         }
-
         Time gioKiemKe = Time.valueOf(lblGioKiemKe.getText());
         giaoCa.setGioKiemKe(gioKiemKe);
         giaoCa.setTrangThai(cboTrangThai.getSelectedItem().toString());
         giaoCa.setGhiChu(txtGhiChu.getText());
-
         return giaoCa;
     }
 
