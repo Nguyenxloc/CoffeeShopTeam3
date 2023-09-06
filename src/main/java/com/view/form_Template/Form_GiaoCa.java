@@ -540,7 +540,7 @@ public class Form_GiaoCa extends javax.swing.JPanel {
                 cell.setCellValue(listGiaoCa.get(i).getTrangThai());
             }
 
-            File file = new File("E:\\DemoExcel\\ds.xlsx");
+            File file = new File("giaoca.xlsx");
             if (!file.exists()) {
                 file.createNewFile();
             }
