@@ -65,7 +65,6 @@ public class Form_QLBan extends javax.swing.JPanel {
             return null;
         }
     }
-
     public void mouseClick() {
         int row = tblBan.getSelectedRow();
         txtIdBan.setText(tblBan.getValueAt(row, 0).toString());
@@ -73,8 +72,8 @@ public class Form_QLBan extends javax.swing.JPanel {
     }
 
     public void clear() {
-        txtIdBan.getText();
-        txtTenBan.getText();
+        txtIdBan.setText("");
+        txtTenBan.setText("");
     }
 
     /**
@@ -313,7 +312,7 @@ public class Form_QLBan extends javax.swing.JPanel {
     }//GEN-LAST:event_txtIdBanKeyReleased
 
     private void tblBanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblBanMouseClicked
-
+            mouseClick();
     }//GEN-LAST:event_tblBanMouseClicked
 
 

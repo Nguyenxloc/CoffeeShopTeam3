@@ -110,7 +110,7 @@ public class Form_ChamCong extends javax.swing.JPanel implements Runnable {
             setTimeGioVao();
             NhanVien nv = nhanVineService.selectByMa(txtMaNhanVien.getText().trim());
 
-            lblHoTenNV.setText(nv.getHo() + " " + nv.getTenDem() + " " + nv.getTen());
+            lblHoTenNV.setText(nv.getTen());
             lblGioiTinh.setText(nv.getGioiTinh());
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
             Date ngaySinh = nv.getDob();
@@ -151,7 +151,7 @@ public class Form_ChamCong extends javax.swing.JPanel implements Runnable {
             //Lấy giờ hiện tại
             setTimeGioRa();
             NhanVien nv = nhanVineService.selectByMa(txtMaNhanVien.getText().trim());
-            lblHoTenNV.setText(nv.getHo() + " " + nv.getTenDem() + " " + nv.getTen());
+            lblHoTenNV.setText(nv.getTen());
             lblGioiTinh.setText(nv.getGioiTinh());
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
             Date ngaySinh = nv.getDob();
@@ -536,8 +536,8 @@ public class Form_ChamCong extends javax.swing.JPanel implements Runnable {
                 .addContainerGap(135, Short.MAX_VALUE)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(40, 40, 40)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 399, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(118, 118, 118))
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 417, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(100, 100, 100))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
